@@ -29,7 +29,7 @@ export function MessageBubble({ message }: MessageBubbleProps) {
             </ul>
           </ThinkingBlock>
         )}
-        <div>{message.content}</div>
+        <div className={styles.agentContent}>{message.content}</div>
         <div className={styles.meta}>
           {message.timestamp && <span>{message.timestamp}</span>}
           <span className={styles.metaAction} role="button" aria-label="Copy message" tabIndex={0}>

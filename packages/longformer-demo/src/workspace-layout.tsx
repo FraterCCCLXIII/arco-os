@@ -39,6 +39,7 @@ import {
   LifePlanningWorkspace,
   PsycheWorkspace,
   SheetsWorkspace,
+  ExtensionsWorkspace,
   type AppsSubpage,
   type BlockFormat,
   type ChatMessage,
@@ -218,6 +219,7 @@ export interface WorkspaceLayoutViewModel {
   lifePlanningWorkspaceData: unknown;
   psycheWorkspaceData: unknown;
   sheetsWorkspaceData: unknown;
+  extensionsWorkspaceData: unknown;
   generatedSchema: unknown;
   threads: { id: string; starred?: boolean }[];
   activeThreadId: string;
@@ -915,6 +917,11 @@ export function buildWorkspaceLayout(
     case "sheets":
       sidebar = undefined;
       main = <SheetsWorkspace data={vm.sheetsWorkspaceData as never} />;
+      break;
+
+    case "extensions":
+      sidebar = undefined;
+      main = <ExtensionsWorkspace data={vm.extensionsWorkspaceData as never} />;
       break;
 
     case "desktop":

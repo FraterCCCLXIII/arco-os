@@ -42,7 +42,7 @@ import {
   countNoteWords,
   type NotesView,
 } from "longformer-ui";
-import { activeConversation, demoUsage, promptChips, assistantPromptChips, assistantConversationTabs, assistantConversationNavItems, chatConversationNavItems, chatConversationTabs } from "./mock-data/chat";
+import { demoUsage, promptChips, assistantPromptChips, assistantConversationTabs, assistantConversationNavItems, chatConversationNavItems, chatConversationTabs, chatTabConversations } from "./mock-data/chat";
 import { demoDiffHunks } from "./mock-data/context-drawer";
 import {
   buildNotesVault,
@@ -123,6 +123,7 @@ import { transcribeWorkspaceData } from "./mock-data/transcribe";
 import { lifePlanningWorkspaceData } from "./mock-data/life-planning";
 import { psycheWorkspaceData } from "./mock-data/psyche";
 import { sheetsWorkspaceData } from "./mock-data/sheets";
+import { extensionsWorkspaceData } from "./mock-data/extensions";
 import {
   musicFeatured,
   musicLibraryItems,
@@ -174,8 +175,7 @@ function LongformerApp() {
   const [chatTabs, setChatTabs] = useState(() => [...chatConversationTabs]);
   const [activeChatTabId, setActiveChatTabId] = useState(chatConversationTabs[0].id);
   const [chatTabMessages, setChatTabMessages] = useState<Record<string, ChatMessage[]>>(() => ({
-    [chatConversationTabs[0].id]: activeConversation,
-    ...Object.fromEntries(chatConversationTabs.slice(1).map((tab) => [tab.id, []])),
+    ...chatTabConversations,
   }));
   const [chatNavId, setChatNavId] = useState(chatConversationNavItems[0].id);
   const [activeThreadId, setActiveThreadId] = useState<string>(threads[0].id);
@@ -875,6 +875,7 @@ function LongformerApp() {
       lifePlanningWorkspaceData,
       psycheWorkspaceData,
       sheetsWorkspaceData,
+      extensionsWorkspaceData,
       generatedSchema,
       threads,
       activeThreadId,

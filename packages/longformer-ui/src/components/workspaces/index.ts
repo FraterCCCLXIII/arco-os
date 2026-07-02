@@ -32,3 +32,4 @@ export * from "./transcribe";
 export * from "./life-planning";
 export * from "./psyche";
 export * from "./sheets";
+export * from "./extensions";

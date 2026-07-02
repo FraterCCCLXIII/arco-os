@@ -1,4 +1,11 @@
-import type { ChatMessage, PromptChipItem, UsageStats } from "longformer-ui";
+import { ChatInlineSurface, type ChatMessage, type PromptChipItem, type UsageStats } from "longformer-ui";
+import {
+  officeSuiteCompareSchema,
+  officeSuiteListSchema,
+  pizzaOptionsSchema,
+  pizzaOrderFormSchema,
+  projectRiskCardsSchema,
+} from "./chat-ui-surfaces";
 
 export const demoUsage: UsageStats = {
   contextUsedK: 596.3,
@@ -41,15 +48,16 @@ export const assistantConversationNavItems = [
 
 export const chatConversationNavItems = assistantConversationNavItems;
 
-export const activeConversation: ChatMessage[] = [
+/** Project review thread — user asks for interactive risk cards mid-conversation. */
+export const reviewProjectConversation: ChatMessage[] = [
   {
-    id: "m1",
+    id: "c1-m1",
     role: "user",
     content: "Can you review the project and flag anything risky before we ship?",
     timestamp: "9:41 AM",
   },
   {
-    id: "m2",
+    id: "c1-m2",
     role: "agent",
     thinking: {
       label: "Thinking",
@@ -60,16 +68,161 @@ export const activeConversation: ChatMessage[] = [
       ],
     },
     content: (
-      <div>
-        <p>Here&rsquo;s a quick pass on the repo:</p>
-        <ul>
-          <li>Clear layering — core is headless, UI is presentation-only.</li>
-          <li>Tests pass for core (10/10 via vitest).</li>
-          <li>WebSocket gateway trusts message shape with no runtime validation.</li>
-        </ul>
-        <p>Want me to open a PR for the validation gap?</p>
-      </div>
+      <>
+        <p>
+          Here&rsquo;s a quick pass on the repo: clear layering between core and UI, tests pass for core (10/10 via
+          vitest), but the WebSocket gateway trusts message shape with no runtime validation.
+        </p>
+        <p>Want me to surface the risks as cards you can act on?</p>
+      </>
     ),
     timestamp: "9:41 AM",
   },
+  {
+    id: "c1-m3",
+    role: "user",
+    content: "Yes — show me the risks and suggested fixes as interactive cards I can work through.",
+    timestamp: "9:42 AM",
+  },
+  {
+    id: "c1-m4",
+    role: "agent",
+    thinking: {
+      label: "Generating UI",
+      steps: [
+        { id: "s1", text: "Build risk register from scan results" },
+        { id: "s2", text: "Attach pre-ship checklist and suggested patch" },
+      ],
+    },
+    content: (
+      <>
+        <p>
+          Built an interactive module from the scan — risk cards, a release checklist, and the gateway fix as a diff
+          you can apply.
+        </p>
+        <ChatInlineSurface label="Project review module" schema={projectRiskCardsSchema} />
+        <p>Want me to open a PR for the validation gap?</p>
+      </>
+    ),
+    timestamp: "9:42 AM",
+  },
 ];
+
+/** Office suite research — agent proactively shows listings, user requests comparison UI. */
+export const officeAppConversation: ChatMessage[] = [
+  {
+    id: "c2-m1",
+    role: "user",
+    content: "Research an office suite with docs, sheets, and a shared calendar for a 12-person team.",
+    timestamp: "10:05 AM",
+  },
+  {
+    id: "c2-m2",
+    role: "agent",
+    thinking: {
+      label: "Thinking",
+      steps: [
+        { id: "s1", text: "Filter suites by docs, sheets, calendar, and team size" },
+        { id: "s2", text: "Rank by feature fit and recent review scores" },
+      ],
+    },
+    content: (
+      <>
+        <p>
+          I narrowed it to three strong fits for a 12-person team. Here&rsquo;s a shortlist with pricing and feature
+          tags — Notion leads on flexible docs, Google on sheets, Microsoft on enterprise calendar.
+        </p>
+        <ChatInlineSurface label="Office suite shortlist" schema={officeSuiteListSchema} />
+      </>
+    ),
+    timestamp: "10:05 AM",
+  },
+  {
+    id: "c2-m3",
+    role: "user",
+    content: "Put the top options side by side so I can compare features and pick one.",
+    timestamp: "10:06 AM",
+  },
+  {
+    id: "c2-m4",
+    role: "agent",
+    thinking: {
+      label: "Generating UI",
+      steps: [
+        { id: "s1", text: "Build feature-fit scorecards for top three suites" },
+        { id: "s2", text: "Add selection tiles and rollout timeline" },
+      ],
+    },
+    content: (
+      <>
+        <p>Side-by-side comparison on the dimensions you asked for, plus a rollout timeline if you pick Notion.</p>
+        <ChatInlineSurface label="Comparison module" schema={officeSuiteCompareSchema} />
+      </>
+    ),
+    timestamp: "10:06 AM",
+  },
+];
+
+/** Pizza order — agent shows nearby picks, user asks for ETAs and customization form. */
+export const pizzaOrderConversation: ChatMessage[] = [
+  {
+    id: "c3-m1",
+    role: "user",
+    content: "Order me a pizza for tonight — something close by with good reviews.",
+    timestamp: "6:18 PM",
+  },
+  {
+    id: "c3-m2",
+    role: "agent",
+    thinking: {
+      label: "Thinking",
+      steps: [
+        { id: "s1", text: "Search delivery radius and filter by rating ≥ 4.5" },
+        { id: "s2", text: "Rank by ETA and menu match" },
+      ],
+    },
+    content: (
+      <>
+        <p>Found three highly-rated spots within 2 miles with delivery under 35 minutes. Tony&rsquo;s is the top pick.</p>
+        <ChatInlineSurface label="Nearby restaurants" schema={pizzaOptionsSchema} />
+      </>
+    ),
+    timestamp: "6:18 PM",
+  },
+  {
+    id: "c3-m3",
+    role: "user",
+    content: "Show delivery ETAs and let me customize the order before you place it.",
+    timestamp: "6:19 PM",
+  },
+  {
+    id: "c3-m4",
+    role: "agent",
+    thinking: {
+      label: "Generating UI",
+      steps: [
+        { id: "s1", text: "Fetch delivery windows for top two restaurants" },
+        { id: "s2", text: "Pre-fill order form from past preferences" },
+      ],
+    },
+    content: (
+      <>
+        <p>
+          Delivery windows for Tony&rsquo;s and Slice House, plus a customization form with your usual order pre-filled.
+          Confirm and I&rsquo;ll place it.
+        </p>
+        <ChatInlineSurface label="Order builder" schema={pizzaOrderFormSchema} />
+      </>
+    ),
+    timestamp: "6:19 PM",
+  },
+];
+
+/** @deprecated Use reviewProjectConversation — kept as alias for existing imports. */
+export const activeConversation = reviewProjectConversation;
+
+export const chatTabConversations: Record<string, ChatMessage[]> = {
+  c1: reviewProjectConversation,
+  c2: officeAppConversation,
+  c3: pizzaOrderConversation,
+};

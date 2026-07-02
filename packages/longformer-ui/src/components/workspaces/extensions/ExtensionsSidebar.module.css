@@ -1,0 +1,110 @@
+.sidebar {
+  flex-shrink: 0;
+  border-right: 1px solid var(--lf-border-subtle);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-1) var(--lf-space-2);
+}
+
+.brandIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.brandBody {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.brandName {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brandMeta {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-sunken);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.kbd {
+  margin-left: auto;
+  padding: 1px 5px;
+  border-radius: var(--lf-radius-sm);
+  border: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-1);
+  font-size: var(--lf-font-size-xs);
+  font-family: inherit;
+  color: var(--lf-text-tertiary);
+}
+
+.navItem {
+  font-size: var(--lf-font-size-sm);
+}
+
+.badge {
+  padding: 1px 6px;
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-accent-muted);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: var(--lf-accent);
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.footerLink {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2);
+  border: none;
+  border-radius: var(--lf-radius-md);
+  background: transparent;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.footerLink:hover {
+  background: var(--lf-surface-sunken);
+  color: var(--lf-text-primary);
+}
+
+@media (max-width: 960px) {
+  .sidebar {
+    display: none;
+  }
+}

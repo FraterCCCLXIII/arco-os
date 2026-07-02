@@ -1,6 +1,7 @@
 export * from "./types";
 export * from "./ThinkingBlock";
 export * from "./MessageBubble";
+export * from "./ChatInlineSurface";
 export * from "./PromptChips";
 export * from "./Composer";
 export * from "./ComposerStatusBar";

@@ -1,0 +1,41 @@
+.surface {
+  margin-top: var(--lf-space-3);
+  margin-bottom: var(--lf-space-2);
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-1);
+  overflow: hidden;
+}
+
+.surfacePlain {
+  margin-top: var(--lf-space-3);
+  margin-bottom: var(--lf-space-2);
+}
+
+.inner {
+  padding: var(--lf-space-4);
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2) var(--lf-space-4);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-sunken);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--lf-text-tertiary);
+}
+
+.labelIcon {
+  display: inline-flex;
+  color: var(--lf-accent);
+}
+
+/* Tighten generated blocks inside chat so they feel native to the thread. */
+.inner :global(.block:last-child) {
+  margin-bottom: 0;
+}
