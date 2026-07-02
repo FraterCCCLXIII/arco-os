@@ -1,0 +1,443 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-4);
+  padding: var(--lf-space-6);
+  min-height: 0;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-4);
+}
+
+.headerBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--lf-font-size-2xl);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  line-height: var(--lf-line-height-normal);
+  max-width: 560px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: var(--lf-space-1) var(--lf-space-2);
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-1);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}
+
+.filterChipActive {
+  border-color: var(--lf-accent);
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.metricCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.metricHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metricLabel {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.metricIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.metricValue {
+  font-size: var(--lf-font-size-xl);
+  font-weight: 700;
+}
+
+.metricChange {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-lg);
+  overflow: hidden;
+  background: var(--lf-surface-1);
+}
+
+.tableHead {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 1fr 0.7fr 0.6fr;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-2) var(--lf-space-4);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: var(--lf-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tableRow {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 1fr 0.7fr 0.6fr;
+  gap: var(--lf-space-3);
+  align-items: center;
+  padding: var(--lf-space-3) var(--lf-space-4);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  font-size: var(--lf-font-size-sm);
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableRow:hover {
+  background: var(--lf-surface-sunken);
+}
+
+.secretName {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.secretTitle {
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.secretMeta {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.maskedValue {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-secondary);
+  letter-spacing: 0.06em;
+}
+
+.rowActions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  justify-content: flex-end;
+}
+
+.kindPill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--lf-radius-sm);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  background: var(--lf-surface-sunken);
+  color: var(--lf-text-secondary);
+}
+
+.kindPassword {
+  background: color-mix(in srgb, var(--lf-accent) 12%, transparent);
+  color: var(--lf-accent);
+}
+
+.kindApiKey {
+  background: color-mix(in srgb, #10b981 14%, transparent);
+  color: #059669;
+}
+
+.kindSecretKey {
+  background: color-mix(in srgb, #f59e0b 14%, transparent);
+  color: #d97706;
+}
+
+.kindEnv {
+  background: color-mix(in srgb, #6366f1 14%, transparent);
+  color: #4f46e5;
+}
+
+.grantCount {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.envCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.envCardHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.envCardTitle {
+  margin: 0;
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+}
+
+.envCardDesc {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  line-height: 1.45;
+}
+
+.envCardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lf-space-2);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.grantCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.grantHead {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+}
+
+.agentAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+  flex-shrink: 0;
+}
+
+.agentInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.agentName {
+  margin: 0;
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+}
+
+.agentDesc {
+  margin: 2px 0 0;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.grantList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.grantRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-sunken);
+}
+
+.grantRowLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.grantRowName {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+}
+
+.grantRowMeta {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.toggleSwitch {
+  position: relative;
+  width: 40px;
+  height: 22px;
+  border: none;
+  border-radius: 999px;
+  background: var(--lf-border-subtle);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease;
+}
+
+.toggleSwitchOn {
+  background: var(--lf-accent);
+}
+
+.toggleKnob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.15s ease;
+}
+
+.toggleSwitchOn .toggleKnob {
+  transform: translateX(18px);
+}
+
+.auditRow {
+  display: grid;
+  grid-template-columns: 0.9fr 1fr 1fr 0.8fr;
+  gap: var(--lf-space-3);
+  align-items: center;
+  padding: var(--lf-space-3) var(--lf-space-4);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  font-size: var(--lf-font-size-sm);
+}
+
+.auditRow:last-child {
+  border-bottom: none;
+}
+
+.auditAction {
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.auditRead {
+  color: #059669;
+}
+
+.auditGrant {
+  color: var(--lf-accent);
+}
+
+.auditRevoke {
+  color: #dc2626;
+}
+
+.auditCreate {
+  color: #6366f1;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+}
+
+.twoCol {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--lf-space-4);
+}
+
+.auditTableHead,
+.auditTableRow {
+  grid-template-columns: 0.8fr 1fr 1fr 0.8fr 1fr;
+}
+
+@media (max-width: 900px) {
+  .tableHead,
+  .tableRow {
+    grid-template-columns: 1fr;
+  }
+
+  .tableHead {
+    display: none;
+  }
+
+  .auditTableHead,
+  .auditTableRow {
+    grid-template-columns: 1fr;
+  }
+}

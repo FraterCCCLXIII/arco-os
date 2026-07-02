@@ -1,5 +1,39 @@
 import type { GeneratedSurfaceSchema } from "longformer-ui";
 
+export const projectRiskPreviewSchema: GeneratedSurfaceSchema = {
+  id: "chat-project-risks-preview",
+  blocks: [
+    {
+      id: "prp1",
+      type: "cardGrid",
+      title: "Top risks flagged",
+      cards: [
+        {
+          id: "r1",
+          title: "Gateway validation",
+          description: "WebSocket accepts unbounded payloads with no runtime schema check.",
+          icon: "terminal",
+          badge: "High",
+        },
+        {
+          id: "r2",
+          title: "App.tsx coupling",
+          description: "Input, rendering, and HUD logic live in one 900-line file.",
+          icon: "code",
+          badge: "Medium",
+        },
+        {
+          id: "r3",
+          title: "Missing exhaustiveness",
+          description: "Dispatch switch can fall through silently on new action types.",
+          icon: "check",
+          badge: "Quick win",
+        },
+      ],
+    },
+  ],
+};
+
 export const projectRiskCardsSchema: GeneratedSurfaceSchema = {
   id: "chat-project-risks",
   blocks: [

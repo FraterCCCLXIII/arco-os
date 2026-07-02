@@ -11,18 +11,18 @@
 }
 
 .messagesInner {
-  max-width: 760px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.composerDockInner {
+  max-width: 960px;
   margin: 0 auto;
 }
 
 .composerDock {
   flex-shrink: 0;
   padding: var(--lf-space-4) var(--lf-space-6);
-}
-
-.composerDockInner {
-  max-width: 760px;
-  margin: 0 auto;
 }
 
 .emptyState {

@@ -35,7 +35,8 @@ export type WorkspaceId =
   | "life-planning"
   | "psyche"
   | "sheets"
-  | "extensions";
+  | "extensions"
+  | "passport";
 
 export interface WorkspaceNavItem {
   id: WorkspaceId;
@@ -69,6 +70,7 @@ export const WORKSPACES: WorkspaceNavItem[] = [
   { id: "notifications", label: "Notifications", icon: "bell" },
   { id: "apps", label: "Apps", icon: "app-window" },
   { id: "extensions", label: "Extensions", icon: "package" },
+  { id: "passport", label: "Passport", icon: "lock" },
   { id: "settings", label: "Settings", icon: "settings" },
   { id: "desktop", label: "Desktop", icon: "monitor" },
   { id: "server", label: "Server", icon: "terminal" },

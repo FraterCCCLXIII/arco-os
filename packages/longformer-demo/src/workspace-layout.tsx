@@ -40,6 +40,7 @@ import {
   PsycheWorkspace,
   SheetsWorkspace,
   ExtensionsWorkspace,
+  PassportWorkspace,
   type AppsSubpage,
   type BlockFormat,
   type ChatMessage,
@@ -220,6 +221,7 @@ export interface WorkspaceLayoutViewModel {
   psycheWorkspaceData: unknown;
   sheetsWorkspaceData: unknown;
   extensionsWorkspaceData: unknown;
+  passportWorkspaceData: unknown;
   generatedSchema: unknown;
   threads: { id: string; starred?: boolean }[];
   activeThreadId: string;
@@ -264,7 +266,15 @@ export function buildWorkspaceLayout(
             {
               id: "conversations",
               title: "Conversations",
-              items: vm.chatConversations.map((c) => ({ id: c.id, label: c.label, trailing: c.meta })),
+              items: vm.chatConversations.map((c) => ({
+                id: c.id,
+                label: c.label,
+                trailing: c.meta,
+                active: c.id === vm.activeChatTabId,
+                onClick: vm.chatTabs.some((tab) => tab.id === c.id)
+                  ? () => vm.setActiveChatTabId(c.id)
+                  : undefined,
+              })),
             },
           ]}
           footer={<SidebarUserFooter name="Paul Bloch" meta="Longformer · Plus" />}
@@ -922,6 +932,11 @@ export function buildWorkspaceLayout(
     case "extensions":
       sidebar = undefined;
       main = <ExtensionsWorkspace data={vm.extensionsWorkspaceData as never} />;
+      break;
+
+    case "passport":
+      sidebar = undefined;
+      main = <PassportWorkspace data={vm.passportWorkspaceData as never} />;
       break;
 
     case "desktop":

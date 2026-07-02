@@ -73,7 +73,7 @@ export function ChatWorkspace({
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
-  }, [messages.length]);
+  }, [messages.length, activeTabId]);
 
   const composerModeProps =
     navItems && activeNavId && onNavChange

@@ -124,6 +124,7 @@ import { lifePlanningWorkspaceData } from "./mock-data/life-planning";
 import { psycheWorkspaceData } from "./mock-data/psyche";
 import { sheetsWorkspaceData } from "./mock-data/sheets";
 import { extensionsWorkspaceData } from "./mock-data/extensions";
+import { passportWorkspaceData } from "./mock-data/passport";
 import {
   musicFeatured,
   musicLibraryItems,
@@ -162,7 +163,7 @@ const APP_WORKSPACE: Partial<Record<string, WorkspaceId>> = {
   github: "desktop",
   docker: "desktop",
   spotify: "music",
-  "1password": "desktop",
+  "1password": "passport",
   analytics: "generated",
 } as Partial<Record<string, WorkspaceId>>;
 
@@ -255,6 +256,20 @@ function LongformerApp() {
   useEffect(() => {
     savePinnedWorkspaceIds(pinnedWorkspaceIds);
   }, [pinnedWorkspaceIds]);
+
+  useEffect(() => {
+    setChatTabMessages((prev) => {
+      let changed = false;
+      const next = { ...prev };
+      for (const [tabId, conversation] of Object.entries(chatTabConversations)) {
+        if (!next[tabId]?.length) {
+          next[tabId] = conversation;
+          changed = true;
+        }
+      }
+      return changed ? next : prev;
+    });
+  }, []);
 
   useEffect(() => {
     if (workspaceId !== "desktop") {
@@ -876,6 +891,7 @@ function LongformerApp() {
       psycheWorkspaceData,
       sheetsWorkspaceData,
       extensionsWorkspaceData,
+      passportWorkspaceData,
       generatedSchema,
       threads,
       activeThreadId,

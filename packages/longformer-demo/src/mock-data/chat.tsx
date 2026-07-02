@@ -5,6 +5,7 @@ import {
   pizzaOptionsSchema,
   pizzaOrderFormSchema,
   projectRiskCardsSchema,
+  projectRiskPreviewSchema,
 } from "./chat-ui-surfaces";
 
 export const demoUsage: UsageStats = {
@@ -73,7 +74,8 @@ export const reviewProjectConversation: ChatMessage[] = [
           Here&rsquo;s a quick pass on the repo: clear layering between core and UI, tests pass for core (10/10 via
           vitest), but the WebSocket gateway trusts message shape with no runtime validation.
         </p>
-        <p>Want me to surface the risks as cards you can act on?</p>
+        <ChatInlineSurface label="Risk preview" schema={projectRiskPreviewSchema} />
+        <p>Want me to expand this into an interactive checklist with the suggested fix?</p>
       </>
     ),
     timestamp: "9:41 AM",

@@ -74,6 +74,7 @@ export const APP_ICON_HUE_BY_ID: Record<string, AppIconHue> = {
   psyche: "purple",
   sheets: "green",
   extensions: "violet",
+  passport: "amber",
   finder: "sky",
   browser: "blue",
   terminal: "graphite",

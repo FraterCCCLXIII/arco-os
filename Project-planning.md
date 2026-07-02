@@ -1,7 +1,7 @@
 # Longformer UI Experiments — Project Planning
 
 > Consolidated design notes from architecture review (July 2026).  
-> Covers how UI Experiments workspaces fit together, how AI + shared data should permeate the integrated experience, recommended tech stack, and **full runtime infrastructure** across Odysseus, OpenHands (agent-canvas), and OpenClaw OS.
+> Covers how UI Experiments workspaces fit together, how AI + shared data should permeate the integrated experience, recommended tech stack, **full runtime infrastructure** across Odysseus, OpenHands, and OpenClaw OS, **surgical single-product integration**, **OpenHands embed inside Longformer shell**, and **in-environment generated apps**.
 
 ---
 
@@ -34,8 +34,11 @@
 25. [Prerequisites checklist](#prerequisites-checklist)
 26. [Phased tech decisions](#phased-tech-decisions)
 27. [Hard recommendations](#hard-recommendations)
-28. [Key file references](#key-file-references)
-29. [Next steps](#next-steps)
+28. [Single integrated product (surgical integration)](#single-integrated-product-surgical-integration)
+29. [OpenHands inside the Longformer shell](#openhands-inside-the-longformer-shell)
+30. [Generated apps (create and use in-environment)](#generated-apps-create-and-use-in-environment)
+31. [Key file references](#key-file-references)
+32. [Next steps](#next-steps)
 
 ---
 
@@ -54,8 +57,9 @@ The integration story is already visible in the demo. The main product work is:
 2. **Split the god-object demo** (`App.tsx` ~1,100 lines)
 3. **Plug one agent runtime + one generated-UI pipeline** through the context panel
 4. **Introduce shared entity store + focus context** so AI and workspaces share data
+5. **Surgical integration** — one Longformer shell; OpenClaw plugin + OpenHands **library embed** + optional Odysseus bridge (not one monolithic codebase)
 
-**Longformer becomes the presentation OS.** OpenClaw / agent-canvas / OpenUI become **engines** plugged in per workspace. The **backend** is not one repo — it is a **composed platform**: OpenClaw Gateway (agent orchestration) + plugin persistence + optional OpenHands agent-server (coding sandbox) + optional Odysseus (productivity/RAG services). See [Full platform stack](#full-platform-stack-odysseus-openhands-openclaw).
+**Longformer becomes the presentation OS.** OpenClaw / agent-canvas / OpenUI become **engines** plugged in per workspace. Users **generate OpenUI apps in chat** and **run them inside** Apps + Desktop. The **backend** is not one repo — it is a **composed platform**: OpenClaw Gateway (agent orchestration) + plugin persistence + optional OpenHands agent-server (coding sandbox) + optional Odysseus (productivity/RAG services). See [Full platform stack](#full-platform-stack-odysseus-openhands-openclaw).
 
 ---
 
@@ -1266,10 +1270,224 @@ Agent tools bridge stacks (`call_odysseus_api`, MCP, `open_code_session`). **Not
 11. **Plan for multi-runtime dev:** Node (gateway/UI) + **uvx/Python** (OpenHands) + optional **Docker Compose** (Odysseus or agent-canvas sandbox)
 12. **Single-origin ingress** where possible when combining OpenHands with gateway UI
 13. **One LLM config story** for the main agent; document separate profiles only for Code workspace
+14. **Single product, composed runtime** — surgery on UI + plugin; don’t merge Odysseus/OpenHands/OpenClaw agent cores
+15. **Generated apps in-environment** — `app_create` → Apps + Desktop; inline openui-lang for ephemeral UI only
+16. **OpenHands = library embed** under Longformer shell for Code workspace; not a second standalone app
 
 ### Main risk
 
 **Product overlap without integration boundaries.** Longformer, OpenClaw OS, Odysseus, and agent-canvas each implement “AI workspace.” Win through **composition**: Longformer = shell, OpenClaw = agent + persistence, OpenUI = render pipeline, agent-canvas = code, Odysseus = optional domain services.
+
+---
+
+## Single integrated product (surgical integration)
+
+“Single app” means **one product surface for the user**, not one process, one repo, or one agent runtime merged into a monolith.
+
+### What “single app” can mean
+
+| Interpretation | Feasible? | User experience |
+|----------------|-----------|-----------------|
+| One shell, nav, assistant, branding | **Yes** | Always inside Longformer |
+| One URL / install (`openclaw plugins install` + bundled UI) | **Yes** | Gateway serves `/plugins/longformer` |
+| One git monorepo (`longformer-ui` + client + plugin) | **Yes** | Shared CI, shared types |
+| One backend process | **Partial** | Gateway + plugin always; agent-server/automation when Code is used |
+| One merged Python+Node agent core | **No** | Odysseus, OpenHands SDK, OpenClaw are separate loops — integrate, don’t fuse |
+
+### Target architecture after surgery
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  longformer-client — ONE React app                       │
+│  AppShell · workspaces · SurfaceManager · OpenUI chat   │
+└───────────────────────────┬─────────────────────────────┘
+                            │ same origin (goal)
+┌───────────────────────────▼─────────────────────────────┐
+│  OpenClaw Gateway + longformer-plugin                    │
+│  sessions · crons · app_create · SQLite · static UI      │
+└───────────────────────────┬─────────────────────────────┘
+                            │ when Code workspace open
+┌───────────────────────────▼─────────────────────────────┐
+│  agent-server + automation (OPTIONAL sidecar, uvx)       │
+└─────────────────────────────────────────────────────────┘
+                            │ optional
+┌───────────────────────────▼─────────────────────────────┐
+│  Odysseus (OPTIONAL — memory / email / RAG APIs)         │
+└─────────────────────────────────────────────────────────┘
+```
+
+### High-value surgery (do)
+
+| Step | Action |
+|------|--------|
+| 1 | Evolve `longformer-demo` → **`longformer-client`**; bundle static output into extended **claw-plugin** |
+| 2 | Replace claw-client chrome with **Longformer `AppShell`** + workspace registry; keep **OpenClawEngine** + OpenUI |
+| 3 | Embed **agent-canvas library** as Code workspace only — not full app routes/sidebar |
+| 4 | Extend plugin: **entity store**, **MemoryStore** (MVP), existing AppStore/artifacts/notifications |
+| 5 | Unify assistant message store; wire **WorkspaceFocus** on all workspaces |
+
+### Surgery to avoid
+
+- Merging Odysseus FastAPI into the gateway
+- Using OpenHands automations for personal “every morning” schedules (use OpenClaw crons)
+- Copy-pasting entire agent-canvas app (duplicate shell, two products in one bundle)
+- Presenting three schedulers as one without source badges and native APIs
+
+### Phased surgery (build order)
+
+| Phase | Deliverable | Risk |
+|-------|-------------|------|
+| **M1** | Longformer shell + OpenClaw Chat + plugin-served UI | Low |
+| **M2** | Apps + **generated apps** (see below) + crons + notifications | Low–medium |
+| **M3** | Workspace registry; split `App.tsx` | Medium |
+| **M4** | Code workspace via agent-canvas **lib** embed | Medium–high |
+| **M5** | Plugin memory + Psyche; optional Odysseus bridge | Medium |
+
+**Smallest honest “single app” milestone:** Longformer shell + OpenClaw-backed Chat/Apps/Crons + plugin UI at one URL — before Code or Odysseus.
+
+---
+
+## OpenHands inside the Longformer shell
+
+The **outer** UI is fully Longformer (nav, desktop, assistant, tokens). **OpenHands** appears only **inside** the Code (or Server) workspace as embedded capability — users do not launch agent-canvas as a separate product.
+
+### What stays Longformer-owned
+
+- `AppShell`, NavRail, Desktop / `SurfaceManager`, HoverAssistantBubble, ChatContextPanel
+- Primary agent on **OpenClaw gateway** + OpenUI (most of the OS)
+- Navigation, pinning, notifications, Apps marketplace chrome
+
+### What embeds from agent-canvas
+
+`@openhands/agent-canvas` publishes **library subpaths** (see `package.json` `exports`):
+
+| Import path | Use in Code workspace |
+|-------------|------------------------|
+| `@openhands/agent-canvas/conversation` | Coding agent transcript + tool cards |
+| `@openhands/agent-canvas/files` | File tree, diffs, editor |
+| `@openhands/agent-canvas/terminal` | xterm panel |
+| `@openhands/agent-canvas/browser` | Browser tool preview |
+| `@openhands/agent-canvas/settings` | LLM profile / agent-server settings (or wrap in Longformer Settings) |
+
+**Embedding helpers:**
+
+- `AgentServerUIProviders` / `AgentServerUIRoot` — CSS-scoped host wrapper (`data-agent-server-ui`) so HeroUI/Monaco don’t break Longformer layout
+- `@openhands/typescript-client` — typed agent-server REST (same rule as agent-canvas: no raw axios to `/api/*`)
+
+### What NOT to embed
+
+- agent-canvas **home**, full **sidebar**, **React Router** route tree, hosted-only flows
+- Duplicate chat for the main OS agent (Code session ≠ OpenClaw session unless explicitly linked)
+
+### Embedding patterns
+
+**Pattern A — Full-screen workspace (recommended first)**
+
+```
+AppShell
+  rail → "Code" selected
+  main → CodeWorkspace
+           ├─ conversation (lib)
+           ├─ files (lib)
+           └─ terminal (lib)
+  contextPanel → Longformer assistant (OpenClaw) OR collapsed
+```
+
+**Pattern B — Desktop window**
+
+- Same lib components via `buildWorkspaceWindowContent(appId: "code")`
+- `SurfaceManager` opens Code in a floating window; shell chrome unchanged
+
+### Backend for embed
+
+- **`openhands-agent-server`** via uvx (or Docker sandbox) — required when Code workspace is active
+- Optional **`openhands-automation`** for dev/repo automations (`/api/automation/*`)
+- **Ingress** (`scripts/ingress.mjs` or unified proxy) so REST + WebSocket share origin with UI
+- Session API key: same `X-Session-API-Key` story as agent-canvas (`backend registry` / env)
+
+### Theming
+
+- Longformer tokens (`--lf-*`) on shell; agent embed uses `--oh-*` / `AgentServerUIStyleOverrides` inside scoped root
+- Goal: cohesive enough on day one; full visual merge is optional later
+
+### Mental model
+
+```
+Your app (Longformer)
+  ├── Most workspaces → OpenClaw gateway
+  └── Code workspace  → agent-canvas UI chunks → agent-server
+```
+
+---
+
+## Generated apps (create and use in-environment)
+
+Users **generate apps from within** the OS (chat/assistant) and **use them inside** the same environment — Apps list, Desktop windows, refine-in-place — without exporting to another product.
+
+### Already real in OpenClaw OS (wire into Longformer)
+
+| Step | Mechanism |
+|------|-----------|
+| 1. User asks in chat | “Build me a morning dashboard” |
+| 2. Agent creates app | Plugin tool **`app_create`** (OpenUI app code; agent must read app skill) |
+| 3. Persist | **`AppStore`** (SQLite in claw-plugin) |
+| 4. Open / run | **Apps workspace** grid + **Desktop** window + home pins |
+| 5. Refine | Composer “Refine app … (id: …)” → **`app_update`** (small patches); **`linkedApp`** context on session |
+| 6. Keep fresh | **OpenClaw cron** → agent turn or script → SQLite snapshot → app **`Query("exec")`** reads DB |
+
+Plugin prompt (`claw-plugin`) explicitly steers: durable dashboards → **`app_create`**; quick answers → inline **openui-lang** in chat; recurring data → **cron + SQLite**.
+
+### Longformer workspace mapping
+
+| Surface | Generated apps role |
+|---------|---------------------|
+| **Chat / assistant** | Create, refine, inline preview |
+| **Apps workspace** | Installed + agent-generated apps (replace mock `installedApps`) |
+| **Desktop** | Launch app as window (`handleLaunchDesktopApp` → OpenUI app runtime) |
+| **Notifications** | App ready, cron completed, refine nudges |
+| **HoverAppTray / dock** | Running / pinned generated apps |
+
+Reference UI: openclaw-os `AppsView`, `AppDetail`, `renderer-actions` (`ContinueConversation`, `OpenUrl`).
+
+### Inline vs durable UI
+
+| Kind | API / format | Lifetime | Where it shows |
+|------|--------------|----------|----------------|
+| **Inline** | openui-lang in assistant message | Message-scoped | Chat bubble |
+| **App** | `app_create` / OpenUI app surface | **Persistent**, refinable | Apps, Desktop, notifications |
+| **Longformer blocks** | `GeneratedSurfaceSchema` | Static / design catalog | Design System workspace (not production agent path) |
+
+Production agent output → **OpenUI Lang**; Longformer **59 blocks** remain design-system / fallback catalog.
+
+### Demo vs product: two “app” concepts
+
+| Concept | Today in Longformer demo | Integrated product |
+|---------|--------------------------|-------------------|
+| **Agent-generated OpenUI app** | Mock in `mock-data/apps.ts` | **`AppStore`** via gateway tools |
+| **Manual Create app** | `CreateAppModal` → custom desktop window | Optional shortcut → chat, or same AppStore shape later |
+
+**Load-bearing path:** agent **`app_create`**, not the demo modal alone.
+
+### End-to-end flow (target)
+
+```
+Chat → agent app_create → AppStore
+  → Apps workspace lists app
+  → User opens on Desktop (SurfaceManager window)
+  → User: "Refine app …" → linkedApp + app_update
+  → Optional: cron refreshes app SQL → app Query reads live snapshot
+```
+
+### Wiring checklist (not in demo yet)
+
+- [ ] OpenClaw session suffix / prompt hook for Longformer client (like `:openclaw-os`)
+- [ ] List/get/run apps from plugin API in **AppsWorkspace**
+- [ ] **AppDetail**-equivalent renderer inside Desktop + full-screen Apps
+- [ ] `linkedApp` / `buildThreadContextPayload` from Longformer assistant
+- [ ] Optional: agent auto-opens new app in Desktop after create
+- [ ] Cron → notification → deep link to app
+
+**Recommended integration order:** Chat → OpenClaw → OpenUI apps → Apps + Desktop **before** Code workspace embed or Odysseus.
 
 ---
 
@@ -1288,6 +1506,15 @@ Agent tools bridge stacks (`call_odysseus_api`, MCP, `open_code_session`). **Not
 | `openclaw-os/packages/claw-client/src/lib/engines/openclaw/OpenClawEngine.ts` | Gateway engine |
 | `openclaw-os/packages/claw-client/src/lib/session-workspace.ts` | linkedApp / linkedArtifact |
 | `openclaw-os/packages/claw-client/src/components/chat/ChatAppContext.tsx` | Cross-route shared app data |
+| `openclaw-os/packages/claw-client/src/components/apps/AppsView.tsx` | Apps grid (reference for Longformer Apps workspace) |
+| `openclaw-os/packages/claw-client/src/components/apps/AppDetail.tsx` | Generated app runtime + refine |
+| `openclaw-os/packages/claw-plugin/src/app-store.ts` | Persistent OpenUI apps (SQLite) |
+| `openclaw-os/packages/claw-client/src/lib/renderer-actions.ts` | OpenUI app actions → chat continuations |
+| `agent-canvas/package.json` exports | Library subpaths: `/conversation`, `/files`, `/terminal`, … |
+| `agent-canvas/src/lib/index.ts` | `AgentServerUIProviders`, public embed API |
+| `agent-canvas/src/components/providers/` | Scoped CSS root for host embedding |
+| `packages/longformer-ui/src/components/workspaces/apps/CreateAppModal.tsx` | Demo-only manual app creator (not gateway-backed) |
+| `packages/longformer-ui/src/components/workspaces/desktop/DesktopWorkspace.tsx` | Launch apps as windows |
 | `openui/packages/react-headless/` | Chat store, streaming adapters |
 | `agent-canvas/config/defaults.json` | Version pins, ports, paths for OpenHands stack |
 | `agent-canvas/scripts/dev-with-automation.mjs` | Full dev stack launcher (ingress + uvx) |
@@ -1300,14 +1527,35 @@ Agent tools bridge stacks (`call_odysseus_api`, MCP, `open_code_session`). **Not
 
 ## Next steps
 
+### First integration milestone (single app MVP)
+
+- [ ] **`longformer-client`** served from plugin; OpenClaw gateway + LLM configured
+- [ ] Chat wired to **OpenClawEngine** + OpenUI renderer (replace static assistant)
+- [ ] **Apps workspace** reads real **AppStore**; open generated app in **Desktop** window
+- [ ] **Crons** + **Notifications** ported from claw-client patterns
+
+### Architecture & data
+
 - [ ] Workspace-by-workspace matrix (backend owner, merge candidate, rail vs desktop-only)
 - [ ] TypeScript interfaces for `EntityStore`, `WorkspaceFocusProvider`, agent message envelope
 - [ ] Entity types → minimal v1 schema mapping
-- [ ] Chat + OpenClaw session keys + OpenUI rendering through `ChatContextPanel`
 - [ ] ADR: build-vs-buy per workspace (real API v1 vs mock)
 - [ ] Dependency graph for first integrated prototype (Node + uvx + optional Docker)
 - [ ] Unified ingress design (gateway WS + agent-server REST on one origin)
+
+### Code workspace embed (M4)
+
+- [ ] Thin **`CodeWorkspace`** mounting `@openhands/agent-canvas/conversation` + `/files`
+- [ ] `AgentServerUIProviders` scoped inside Longformer `main` slot
+- [ ] Backend registry + session API key shared with agent-canvas ingress pattern
+
+### Automations & memory
+
 - [ ] Automations ownership matrix: which user phrases route to OpenClaw cron vs OpenHands automation vs Schedule entity
 - [ ] Memory backend ADR: plugin MemoryStore (MVP) vs Odysseus Chroma (phase 4)
 - [ ] Wire Psyche workspace to real API (plugin or Odysseus `/api/memory`)
+
+### Demo cleanup
+
 - [ ] Migrate demo from monolithic `App.tsx` to workspace registry + per-workspace stores
+- [ ] Mark `CreateAppModal` as demo shortcut vs document path to `app_create`

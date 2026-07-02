@@ -8,8 +8,9 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace=longformer-demo",
-    "build": "npm run build --workspace=longformer-ui && npm run build --workspace=longformer-demo",
-    "typecheck": "npm run typecheck --workspace=longformer-ui && npm run typecheck --workspace=longformer-demo",
+    "dev:www": "npm run dev --workspace=longformer-www",
+    "build": "npm run build --workspace=longformer-ui && npm run build --workspace=longformer-demo && npm run build --workspace=longformer-www",
+    "typecheck": "npm run typecheck --workspace=longformer-ui && npm run typecheck --workspace=longformer-demo && npm run typecheck --workspace=longformer-www",
     "lint": "npm run lint --workspace=longformer-demo"
   }
 }

@@ -1,0 +1,65 @@
+:root {
+  --lf-bg: #eeeee2;
+  --lf-surface: #fcfcf8;
+  --lf-surface-muted: #f4f3ea;
+  --lf-text: #32352e;
+  --lf-text-muted: #7a7768;
+  --lf-text-secondary: #5c5a4f;
+  --lf-accent: #434e3f;
+  --lf-accent-warm: #d06f25;
+  --lf-border: #dcd9cc;
+  --lf-shadow: 0 0 7.5rem rgba(50, 53, 46, 0.09);
+  --lf-shadow-lg: 0 24px 80px rgba(50, 53, 46, 0.18), 0 2px 8px rgba(50, 53, 46, 0.06);
+  --lf-font-sans: "Instrument Sans", system-ui, sans-serif;
+  --lf-font-serif: "DM Serif Display", Georgia, serif;
+  --lf-font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --lf-radius: 0.625rem;
+  --lf-radius-lg: 1rem;
+  --lf-max-width: 87.5rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--lf-bg);
+  color: var(--lf-text);
+  font-family: var(--lf-font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
