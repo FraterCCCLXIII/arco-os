@@ -79,6 +79,7 @@ function HomeItemView({
   onCloseFolder,
   onPointerDown,
   dragActive,
+  onAppLaunch,
 }: {
   item: PhoneHomeItem;
   location: PhoneHomeLocation;
@@ -89,6 +90,7 @@ function HomeItemView({
   onCloseFolder: () => void;
   onPointerDown: (event: ReactPointerEvent, location: PhoneHomeLocation, item: PhoneHomeItem) => void;
   dragActive: boolean;
+  onAppLaunch?: (appId: string) => void;
 }) {
   const key = locationKey(location);
   const isOpen =
@@ -156,8 +158,19 @@ function HomeItemView({
       >
         {item.folder.apps.map((app) => (
           <div key={app.id} className={styles.folderMiniApp}>
-            <AppIconView app={app} className={styles.folderMiniIcon} />
-            <div className={styles.folderMiniName}>{app.name}</div>
+            <button
+              type="button"
+              className={styles.folderMiniButton}
+              aria-label={app.name}
+              onClick={(event) => {
+                event.stopPropagation();
+                if (dragActive) return;
+                onAppLaunch?.(app.id);
+              }}
+            >
+              <AppIconView app={app} className={styles.folderMiniIcon} />
+              <div className={styles.folderMiniName}>{app.name}</div>
+            </button>
           </div>
         ))}
       </button>
@@ -177,7 +190,11 @@ export function PhoneHomeScreen({
   carrier = "No Service",
   wallpaperUrl,
   className,
+  fill = false,
+  hideStatusBar = false,
+  showHint = true,
   onLayoutChange,
+  onAppLaunch,
 }: PhoneHomeScreenProps) {
   const [layout, setLayout] = useState<PhoneHomeLayout>(
     () => layoutProp ?? createDefaultPhoneHomeLayout(pageCount),
@@ -304,6 +321,10 @@ export function PhoneHomeScreen({
         const current = dragRef.current;
         if (!current || ev.pointerId !== current.pointerId) return;
 
+        if (!current.active && current.item.type === "app") {
+          onAppLaunch?.(current.item.app.id);
+        }
+
         if (current.active) {
           ev.preventDefault();
           ev.stopPropagation();
@@ -322,7 +343,7 @@ export function PhoneHomeScreen({
       window.addEventListener("pointerup", onPointerUp);
       window.addEventListener("pointercancel", onPointerUp);
     },
-    [finishDrag, resolveDropTarget],
+    [finishDrag, onAppLaunch, resolveDropTarget],
   );
 
   const onPagesPointerDown = useCallback((event: ReactPointerEvent) => {
@@ -362,16 +383,18 @@ export function PhoneHomeScreen({
   return (
     <div
       ref={screenRef}
-      className={cx(styles.screen, className)}
+      className={cx(styles.screen, fill && styles.fill, className)}
       style={screenStyle}
     >
-      <div className={styles.status} aria-hidden="true">
-        <div className={styles.carrier}>{carrier}</div>
-        <div className={styles.clock}>{clock}</div>
-        <div className={styles.batteryMeter}>
-          <div className={styles.batteryMeterInner} />
+      {!hideStatusBar && (
+        <div className={styles.status} aria-hidden="true">
+          <div className={styles.carrier}>{carrier}</div>
+          <div className={styles.clock}>{clock}</div>
+          <div className={styles.batteryMeter}>
+            <div className={styles.batteryMeterInner} />
+          </div>
         </div>
-      </div>
+      )}
 
       <div
         className={styles.pages}
@@ -392,6 +415,7 @@ export function PhoneHomeScreen({
                 onCloseFolder={() => setOpenFolder(null)}
                 onPointerDown={onItemPointerDown}
                 dragActive={Boolean(dragState?.active)}
+                onAppLaunch={onAppLaunch}
               />
             ))}
           </div>
@@ -433,6 +457,7 @@ export function PhoneHomeScreen({
             onCloseFolder={() => setOpenFolder(null)}
             onPointerDown={onItemPointerDown}
             dragActive={Boolean(dragState?.active)}
+            onAppLaunch={onAppLaunch}
           />
         ))}
       </div>
@@ -447,7 +472,7 @@ export function PhoneHomeScreen({
         </div>
       )}
 
-      <div className={styles.hint}>Drag an icon onto another to create a folder</div>
+      {showHint && <div className={styles.hint}>Drag an icon onto another to create a folder</div>}
     </div>
   );
 }

@@ -140,14 +140,22 @@
 .content {
   flex: 1;
   min-height: 0;
-  overflow: auto;
-  padding: var(--lf-space-4);
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
   color: var(--lf-text-secondary);
   font-size: var(--lf-font-size-md);
 }
 
-.ios .content,
-.android .content {
+.contentLegacy {
+  overflow: auto;
+  padding: var(--lf-space-4);
+}
+
+.ios .contentLegacy,
+.android .contentLegacy {
   padding: var(--lf-space-5);
 }
 

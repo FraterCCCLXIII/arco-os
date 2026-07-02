@@ -3,8 +3,10 @@
   height: 100%;
   width: 100%;
   min-height: 0;
+  padding-top: var(--lf-status-bar-offset, 0px);
   background: var(--lf-surface-canvas);
   color: var(--lf-text-primary);
+  transition: padding-top var(--lf-duration-normal) var(--lf-ease);
 }
 
 .rail {

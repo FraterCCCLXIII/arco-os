@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, type ReactNode } from "react";
 import { cx } from "../../../utils/cx";
 import { Icon } from "../../../icons";
 import {
@@ -13,8 +13,9 @@ import {
 import type { ResizeEdge } from "../../../surface-manager/useWindowResize";
 import { WindowFrame } from "./WindowFrame";
 import { WidgetDesktopView, type WidgetTile } from "./WidgetDesktopView";
+import { MobileHomeScreen } from "./MobileHomeScreen";
 import { useWindowTransitions } from "./useWindowTransitions";
-import type { DesktopIconItem, DesktopShell } from "./types";
+import type { DesktopApp, DesktopIconItem, DesktopShell } from "./types";
 import styles from "./DesktopSurface.module.css";
 
 export interface DesktopSurfaceProps {
@@ -23,9 +24,11 @@ export interface DesktopSurfaceProps {
   policy?: WindowPolicy;
   wallpaperLabel?: string;
   icons: DesktopIconItem[];
+  apps?: DesktopApp[];
   windows: SurfaceWindow[];
   activeWindowId?: string;
   onSelectIcon: (iconId: string) => void;
+  onLaunchApp?: (appId: string) => void;
   onFocusWindow: (windowId: string) => void;
   onCloseWindow: (windowId: string) => void;
   onMinimizeWindow: (windowId: string) => void;
@@ -35,6 +38,7 @@ export interface DesktopSurfaceProps {
   onNextGlance?: () => void;
   onPrevGlance?: () => void;
   widgetTiles?: WidgetTile[];
+  renderWindowContent?: (window: SurfaceWindow) => ReactNode;
   className?: string;
 }
 
@@ -53,6 +57,7 @@ interface SurfaceWindowViewProps {
   onResize?: (rect: SurfaceRect) => void;
   inactiveGlance?: boolean;
   transitionClassName?: string;
+  renderWindowContent?: (window: SurfaceWindow) => ReactNode;
 }
 
 function SurfaceWindowView({
@@ -70,6 +75,7 @@ function SurfaceWindowView({
   onResize,
   inactiveGlance,
   transitionClassName,
+  renderWindowContent,
 }: SurfaceWindowViewProps) {
   const drag = useWindowDrag({
     rect: window.rect,
@@ -155,6 +161,9 @@ function SurfaceWindowView({
     sw: resizeSW.onPointerDown,
   };
 
+  const resolvedContent = renderWindowContent?.(window) ?? window.content;
+  const legacyContent = !renderWindowContent && !window.content;
+
   return (
     <WindowFrame
       shell={shell}
@@ -183,8 +192,9 @@ function SurfaceWindowView({
         pointerEvents: inactiveGlance ? "none" : undefined,
         opacity: inactiveGlance ? 0.55 : undefined,
       }}
+      legacyContent={legacyContent}
     >
-      {window.content ?? (
+      {resolvedContent ?? (
         <p>
           {window.title} is open. Wire this window to a real workspace view or agent-generated surface.
         </p>
@@ -200,9 +210,11 @@ export function DesktopSurface({
   policy,
   wallpaperLabel = "Longformer",
   icons,
+  apps = [],
   windows,
   activeWindowId,
   onSelectIcon,
+  onLaunchApp,
   onFocusWindow,
   onCloseWindow,
   onMinimizeWindow,
@@ -212,6 +224,7 @@ export function DesktopSurface({
   onNextGlance,
   onPrevGlance,
   widgetTiles = [],
+  renderWindowContent,
   className,
 }: DesktopSurfaceProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -222,6 +235,13 @@ export function DesktopSurface({
   const isMobile = shell === "ios" || shell === "android";
   const allowDrag = policy?.allowDrag ?? (formFactor === "desktop" || formFactor === "tablet");
   const allowResize = policy?.allowResize ?? (formFactor === "desktop" || formFactor === "tablet");
+  const hasVisibleBaseWindow = windows.some((window) => window.layer === "base");
+  const showMobileHome =
+    formFactor === "phone" &&
+    isMobile &&
+    !hasVisibleBaseWindow &&
+    apps.length > 0 &&
+    Boolean(onLaunchApp);
 
   const handleWatchSwipe = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
@@ -287,6 +307,10 @@ export function DesktopSurface({
         <WidgetDesktopView tiles={widgetTiles} className={styles.widgetBoard} />
       )}
 
+      {showMobileHome && (
+        <MobileHomeScreen shell={shell} apps={apps} onLaunchApp={onLaunchApp!} />
+      )}
+
       {formFactor !== "widget" &&
         displayWindows.map((window) => {
           const transition = getTransition(window.id);
@@ -316,6 +340,7 @@ export function DesktopSurface({
               onResize={onResizeWindow ? (rect) => onResizeWindow(window.id, rect) : undefined}
               inactiveGlance={formFactor === "watch" && window.id !== activeWindowId}
               transitionClassName={transitionClassName}
+              renderWindowContent={renderWindowContent}
             />
           );
         })}

@@ -1,87 +1,163 @@
-.card {
+.wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.popover {
+  position: fixed;
+  z-index: var(--lf-z-tooltip);
+  min-width: 220px;
+  max-width: 280px;
+  padding: var(--lf-space-1) 0;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(38, 38, 40, 0.96);
+  color: var(--lf-text-primary);
+  font-family: var(--lf-font-family);
+  font-size: 13px;
+  line-height: 1.35;
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.35),
+    0 12px 32px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - 4px)) scale(0.98);
+  transition:
+    opacity var(--lf-duration-fast) var(--lf-ease),
+    transform var(--lf-duration-fast) var(--lf-ease);
+  backdrop-filter: blur(24px) saturate(1.4);
+}
+
+.popoverVisible {
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 10px)) scale(1);
+}
+
+.popover::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  background: rgba(38, 38, 40, 0.96);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.menu {
   display: flex;
   flex-direction: column;
-  gap: var(--lf-space-2);
 }
 
-.header {
+.separator {
+  height: 1px;
+  margin: 4px 0;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.sectionLabel {
+  padding: 4px 14px 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.profileList {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.menuRow {
   display: flex;
   align-items: center;
-  gap: var(--lf-space-2);
-  min-width: 0;
+  gap: 0;
+  width: 100%;
+  min-height: 22px;
+  padding: 2px 10px 2px 6px;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.92);
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: left;
+  cursor: default;
 }
 
-.icon {
+.menuRow:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.menuRowDanger {
+  color: #ff6b6b;
+}
+
+.menuRowCheck {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 36px;
-  height: 36px;
-  border-radius: 9px;
+  width: 18px;
+  height: 18px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.menuRowLabel {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menuRowChevron {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding-left: var(--lf-space-3);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.menuHeaderLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  font-weight: 600;
+}
+
+.menuHeaderIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
   color: var(--lf-text-on-accent);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
-.meta {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
+.submenuWrap {
+  position: relative;
 }
 
-.title {
-  font-size: var(--lf-font-size-sm);
-  font-weight: 600;
-  line-height: var(--lf-line-height-tight);
-}
-
-.description {
-  font-size: var(--lf-font-size-xs);
-  color: var(--lf-text-secondary);
-  line-height: var(--lf-line-height-normal);
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.statusRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--lf-space-1);
-}
-
-.statusActive,
-.statusRunning {
-  display: inline-flex;
-  align-items: center;
-  padding: 2px var(--lf-space-2);
-  border-radius: var(--lf-radius-pill);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.statusActive {
-  background: var(--lf-accent-muted);
-  color: var(--lf-accent-hover);
-}
-
-.statusRunning {
-  background: var(--lf-surface-3);
-  color: var(--lf-text-secondary);
-}
-
-.windowTitle {
-  padding-top: var(--lf-space-1);
-  border-top: 1px solid var(--lf-border-subtle);
-  font-size: var(--lf-font-size-xs);
-  color: var(--lf-text-tertiary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.submenu {
+  position: absolute;
+  top: -4px;
+  left: calc(100% + 2px);
+  min-width: 180px;
+  padding: var(--lf-space-1) 0;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(38, 38, 40, 0.96);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.35),
+    0 8px 24px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(24px) saturate(1.4);
 }
 
 .toneAccent {
@@ -103,4 +179,16 @@
 .toneNeutral {
   background: var(--lf-surface-3);
   color: var(--lf-text-primary);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

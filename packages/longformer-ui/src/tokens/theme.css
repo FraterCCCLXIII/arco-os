@@ -245,6 +245,9 @@
   --lf-duration-fast: 120ms;
   --lf-duration-normal: 180ms;
 
+  /* Shell chrome offsets (set at runtime by HoverStatusBar / HoverAppTray) */
+  --lf-status-bar-offset: 0px;
+
   /* Z-index */
   --lf-z-dropdown: 100;
   --lf-z-overlay: 200;

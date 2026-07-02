@@ -21,6 +21,8 @@ export interface WindowFrameProps {
   children?: ReactNode;
   className?: string;
   style?: React.CSSProperties;
+  /** Use padded scrollable body for legacy placeholder content. */
+  legacyContent?: boolean;
 }
 
 const RESIZE_EDGES: ResizeEdge[] = ["n", "s", "e", "w", "ne", "nw", "se", "sw"];
@@ -42,6 +44,7 @@ export function WindowFrame({
   children,
   className,
   style,
+  legacyContent = false,
 }: WindowFrameProps) {
   const isMobile = shell === "ios" || shell === "android";
 
@@ -142,7 +145,7 @@ export function WindowFrame({
           )}
         </div>
       )}
-      <div className={styles.content}>{children}</div>
+      <div className={cx(styles.content, legacyContent && styles.contentLegacy)}>{children}</div>
       {allowResize &&
         onResizePointerDown &&
         RESIZE_EDGES.map((edge) => (

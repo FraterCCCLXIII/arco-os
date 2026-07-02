@@ -1,65 +1,45 @@
-import { SettingsWorkspace, type DesktopApp, type DesktopIconItem, type DesktopWindow } from "longformer-ui";
+import type { DesktopIconItem, DesktopWindow } from "longformer-ui";
 import { toSurfaceWindow, type OpenWindowInput, type SurfaceWindow } from "longformer-ui";
-import { createAppWindowContent } from "./app-window-content";
-import { settingsData } from "./settings";
-
-export const desktopApps: DesktopApp[] = [
-  { id: "finder", label: "Finder", icon: "folder", tone: "accent", pinned: true },
-  { id: "browser", label: "Browser", icon: "external-link", tone: "accent", pinned: true },
-  { id: "mail", label: "Mail", icon: "mail", tone: "warning", pinned: true },
-  { id: "terminal", label: "Terminal", icon: "terminal", tone: "neutral", pinned: true },
-  { id: "notes", label: "Notes", icon: "notebook", tone: "success", pinned: true },
-  { id: "longformer", label: "Longformer", icon: "sparkles", tone: "accent", pinned: true },
-  { id: "settings", label: "Settings", icon: "settings", tone: "neutral", pinned: true },
-];
+import { WORKSPACES, workspaceNavItem, type WorkspaceId } from "../workspace-config";
 
 export const desktopIcons: DesktopIconItem[] = [
-  { id: "icon-docs", label: "Documents", icon: "folder", appId: "finder" },
-  { id: "icon-readme", label: "README.md", icon: "file", appId: "notes" },
-  { id: "icon-screenshots", label: "Screenshots", icon: "image", appId: "finder" },
+  { id: "icon-chat", label: "Chat", icon: "chat", appId: "chat" },
+  { id: "icon-notes", label: "Notes", icon: "notebook", appId: "notes" },
+  { id: "icon-email", label: "Email", icon: "mail", appId: "email" },
+  { id: "icon-files", label: "Files", icon: "folder", appId: "files" },
 ];
-
-function contentForApp(appId: string): DesktopWindow["content"] {
-  if (appId === "settings") {
-    return <SettingsWorkspace data={settingsData} />;
-  }
-  return createAppWindowContent();
-}
 
 /** Legacy flat layout for components that still expect `DesktopWindow`. */
 export const initialDesktopWindows: DesktopWindow[] = [
   {
-    id: "win-finder",
-    appId: "finder",
-    title: "Documents",
-    icon: "folder",
+    id: "win-chat",
+    appId: "chat",
+    title: "Chat",
+    icon: "chat",
     x: 6,
     y: 8,
-    width: 46,
-    height: 56,
-    content: contentForApp("finder"),
-  },
-  {
-    id: "win-browser",
-    appId: "browser",
-    title: "Browser",
-    icon: "external-link",
-    x: 40,
-    y: 16,
     width: 48,
     height: 58,
-    content: contentForApp("browser"),
   },
   {
-    id: "win-terminal",
-    appId: "terminal",
-    title: "Terminal — zsh",
-    icon: "terminal",
-    x: 20,
-    y: 40,
-    width: 38,
-    height: 30,
-    content: contentForApp("terminal"),
+    id: "win-notes",
+    appId: "notes",
+    title: "Notes",
+    icon: "notebook",
+    x: 34,
+    y: 12,
+    width: 46,
+    height: 54,
+  },
+  {
+    id: "win-email",
+    appId: "email",
+    title: "Email",
+    icon: "mail",
+    x: 18,
+    y: 36,
+    width: 50,
+    height: 52,
   },
 ];
 
@@ -67,12 +47,17 @@ export const initialSurfaceWindows: SurfaceWindow[] = initialDesktopWindows.map(
   toSurfaceWindow(window, index + 1),
 );
 
-export function createWindowForApp(app: DesktopApp, _index: number): OpenWindowInput {
+export function createWindowForApp(app: { id: string; label: string; icon: OpenWindowInput["icon"] }, _index: number): OpenWindowInput {
   return {
     id: `win-${app.id}-${Date.now()}`,
     appId: app.id,
     title: app.label,
     icon: app.icon,
-    content: contentForApp(app.id),
   };
 }
+
+export function isDesktopLaunchableWorkspace(appId: string): appId is WorkspaceId {
+  return appId !== "desktop" && Boolean(workspaceNavItem(appId as WorkspaceId));
+}
+
+export { WORKSPACES };

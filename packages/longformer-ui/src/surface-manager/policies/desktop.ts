@@ -1,8 +1,8 @@
 import type { SurfaceRect, WindowPolicy } from "../types";
 import { clampRect } from "../geometry";
 
-export const PHONE_RECT: SurfaceRect = { x: 8, y: 12, width: 84, height: 76 };
-export const WATCH_RECT: SurfaceRect = { x: 10, y: 18, width: 80, height: 58 };
+export const PHONE_RECT: SurfaceRect = { x: 0, y: 0, width: 100, height: 100 };
+export const WATCH_RECT: SurfaceRect = { x: 0, y: 0, width: 100, height: 100 };
 
 export const desktopPolicy: WindowPolicy = {
   formFactor: "desktop",

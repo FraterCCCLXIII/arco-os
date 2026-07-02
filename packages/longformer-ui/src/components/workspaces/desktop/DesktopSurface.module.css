@@ -152,6 +152,10 @@
   filter: saturate(0.85);
 }
 
+.watch {
+  border-radius: 36px;
+}
+
 .widget .wallpaperLabel {
   opacity: 0.04;
 }

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { cx } from "../../../utils/cx";
 import { Icon } from "../../../icons";
 import { Tooltip } from "../../primitives/Tooltip";
-import { TrayAppHoverCard } from "./TrayAppHoverCard";
+import { TrayAppHoverCard, type TrayAppMenuActionHandlers } from "./TrayAppHoverCard";
 import type { FormFactor } from "../../../surface-manager";
 import type { DesktopApp, DesktopShell, DesktopWindow } from "./types";
 import styles from "./TaskTray.module.css";
@@ -15,12 +15,16 @@ export interface TaskTrayProps {
   activeWindowId?: string;
   onLaunchApp: (appId: string) => void;
   onFocusWindow: (windowId: string) => void;
+  onMinimizeWindow?: (windowId: string) => void;
+  onCloseWindow?: (windowId: string) => void;
   /** Opens the create-app flow — rendered as a trailing plus control in the dock. */
   onCreateApp?: () => void;
   onPopPhoneStack?: () => void;
   onMinimizeAll?: () => void;
   onNextGlance?: () => void;
   onPrevGlance?: () => void;
+  /** Phone launcher is visible — hide duplicate dock/shelf chrome. */
+  homeVisible?: boolean;
   /** Overlay mode for the global hover dock — drops full-bleed taskbar chrome. */
   floating?: boolean;
   className?: string;
@@ -34,6 +38,34 @@ const TONE_CLASS = {
   neutral: styles.toneNeutral,
 } as const;
 
+function trayMenuHandlers(
+  appId: string,
+  windows: DesktopWindow[],
+  onLaunchApp: (appId: string) => void,
+  onFocusWindow: (windowId: string) => void,
+  onMinimizeWindow?: (windowId: string) => void,
+  onCloseWindow?: (windowId: string) => void,
+): TrayAppMenuActionHandlers {
+  const appWindows = () => windows.filter((window) => window.appId === appId);
+  const openWindows = () => appWindows().filter((window) => !window.minimized);
+
+  return {
+    onNewWindow: () => onLaunchApp(appId),
+    onNewPrivateWindow: () => onLaunchApp(appId),
+    onShowAllWindows: () => {
+      const visible = openWindows();
+      if (visible[0]) onFocusWindow(visible[0].id);
+      else onLaunchApp(appId);
+    },
+    onHide: () => {
+      openWindows().forEach((window) => onMinimizeWindow?.(window.id));
+    },
+    onQuit: () => {
+      appWindows().forEach((window) => onCloseWindow?.(window.id));
+    },
+  };
+}
+
 /** Bottom dock / taskbar / navigation tray — shell-specific layout and chrome. */
 export function TaskTray({
   shell,
@@ -43,11 +75,14 @@ export function TaskTray({
   activeWindowId,
   onLaunchApp,
   onFocusWindow,
+  onMinimizeWindow,
+  onCloseWindow,
   onCreateApp,
   onPopPhoneStack,
   onMinimizeAll,
   onNextGlance,
   onPrevGlance,
+  homeVisible = false,
   floating = false,
   className,
 }: TaskTrayProps) {
@@ -78,6 +113,7 @@ export function TaskTray({
             <Icon name="layers" size={18} />
           </button>
         </div>
+        {!homeVisible && (
         <div className={styles.androidShelf}>
           {pinnedApps.slice(0, 5).map((app) => {
             const running = openAppIds.has(app.id);
@@ -90,6 +126,7 @@ export function TaskTray({
               active={active}
               windows={windows}
               activeWindowId={activeWindowId}
+              {...trayMenuHandlers(app.id, windows, onLaunchApp, onFocusWindow, onMinimizeWindow, onCloseWindow)}
             >
               <button
                 type="button"
@@ -104,6 +141,7 @@ export function TaskTray({
           })}
           <TrayCreateButton iconSize={18} onCreateApp={onCreateApp} />
         </div>
+        )}
       </footer>
     );
   }
@@ -111,6 +149,7 @@ export function TaskTray({
   if (shell === "ios") {
     return (
       <footer className={cx(styles.tray, styles.ios, floating && styles.floating, className)} role="contentinfo">
+        {!homeVisible && (
         <div className={styles.iosDock}>
           {pinnedApps.slice(0, 4).map((app) => {
             const running = openAppIds.has(app.id);
@@ -123,6 +162,7 @@ export function TaskTray({
               active={active}
               windows={windows}
               activeWindowId={activeWindowId}
+              {...trayMenuHandlers(app.id, windows, onLaunchApp, onFocusWindow, onMinimizeWindow, onCloseWindow)}
             >
               <button
                 type="button"
@@ -137,6 +177,7 @@ export function TaskTray({
           })}
           <TrayCreateButton iconSize={20} ios onCreateApp={onCreateApp} />
         </div>
+        )}
         {formFactor === "watch" && (
           <div className={styles.watchNav}>
             <button type="button" className={styles.androidNavButton} aria-label="Previous glance" onClick={onPrevGlance}>
@@ -147,7 +188,12 @@ export function TaskTray({
             </button>
           </div>
         )}
-        <div className={styles.homeIndicator} aria-hidden="true" />
+        <button
+          type="button"
+          className={styles.homeIndicator}
+          aria-label="Home"
+          onClick={formFactor === "phone" ? onMinimizeAll : undefined}
+        />
       </footer>
     );
   }
@@ -163,6 +209,8 @@ export function TaskTray({
         className={className}
         onLaunchApp={onLaunchApp}
         onFocusWindow={onFocusWindow}
+        onMinimizeWindow={onMinimizeWindow}
+        onCloseWindow={onCloseWindow}
         onCreateApp={onCreateApp}
       />
     );
@@ -183,6 +231,7 @@ export function TaskTray({
               active={active}
               windows={windows}
               activeWindowId={activeWindowId}
+              {...trayMenuHandlers(app.id, windows, onLaunchApp, onFocusWindow, onMinimizeWindow, onCloseWindow)}
             >
               <button
                 type="button"
@@ -216,6 +265,8 @@ interface WindowsTaskTrayProps {
   className?: string;
   onLaunchApp: (appId: string) => void;
   onFocusWindow: (windowId: string) => void;
+  onMinimizeWindow?: (windowId: string) => void;
+  onCloseWindow?: (windowId: string) => void;
   onCreateApp?: () => void;
 }
 
@@ -237,6 +288,8 @@ function WindowsTaskTray({
   className,
   onLaunchApp,
   onFocusWindow,
+  onMinimizeWindow,
+  onCloseWindow,
   onCreateApp,
 }: WindowsTaskTrayProps) {
   const [now, setNow] = useState(() => new Date());
@@ -267,6 +320,7 @@ function WindowsTaskTray({
                 active={active}
                 windows={windows}
                 activeWindowId={activeWindowId}
+                {...trayMenuHandlers(app.id, windows, onLaunchApp, onFocusWindow, onMinimizeWindow, onCloseWindow)}
               >
                 <button
                   type="button"

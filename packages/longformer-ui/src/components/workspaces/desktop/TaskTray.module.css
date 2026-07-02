@@ -262,8 +262,11 @@
 .homeIndicator {
   width: 120px;
   height: 4px;
+  padding: 0;
+  border: none;
   border-radius: var(--lf-radius-pill);
   background: var(--lf-desktop-home-indicator);
+  cursor: pointer;
 }
 
 /* Android */

@@ -5,7 +5,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cx } from "../../../utils/cx";
 import { useDismissLayer } from "../../../utils/useDismissLayer";
-import { StatusBar, type StatusBarProps } from "../../workspaces/desktop/StatusBar";
+import { getStatusBarHeight, StatusBar, type StatusBarProps } from "../../workspaces/desktop/StatusBar";
 import styles from "./HoverStatusBar.module.css";
 
 export interface HoverStatusBarProps extends StatusBarProps {
@@ -16,7 +16,7 @@ export interface HoverStatusBarProps extends StatusBarProps {
 }
 
 /** Top-edge hover reveal for the desktop StatusBar chrome. */
-export function HoverStatusBar({ enabled = true, className, onOpenChange, ...statusBarProps }: HoverStatusBarProps) {
+export function HoverStatusBar({ enabled = true, className, onOpenChange, shell, ...statusBarProps }: HoverStatusBarProps) {
   const [hovering, setHovering] = useState(false);
   const barRef = useRef<HTMLDivElement>(null);
 
@@ -34,13 +34,25 @@ export function HoverStatusBar({ enabled = true, className, onOpenChange, ...sta
     if (!enabled) setHovering(false);
   }, [enabled]);
 
+  useEffect(() => {
+    const root = document.querySelector(".lf-app-root") as HTMLElement | null;
+    if (!root) return;
+
+    const offset = enabled && hovering ? getStatusBarHeight(shell) : 0;
+    root.style.setProperty("--lf-status-bar-offset", `${offset}px`);
+
+    return () => {
+      root.style.removeProperty("--lf-status-bar-offset");
+    };
+  }, [enabled, hovering, shell]);
+
   if (!enabled) return null;
 
   return (
     <div className={cx(styles.wrapper, hovering && styles.wrapperOpen)} onMouseLeave={() => setHovering(false)}>
       <div className={styles.hoverZone} onMouseEnter={() => setHovering(true)} aria-hidden="true" />
       <div ref={barRef} className={cx(styles.barContainer, hovering && styles.barContainerOpen)}>
-        <StatusBar {...statusBarProps} className={cx(styles.bar, className)} />
+        <StatusBar shell={shell} {...statusBarProps} className={cx(styles.bar, className)} />
       </div>
     </div>
   );

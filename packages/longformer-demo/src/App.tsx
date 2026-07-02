@@ -1,24 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   AppShell,
   NavRail,
-  NavSidebar,
-  SidebarUserFooter,
-  ChatWorkspace,
-  NotesWorkspace,
-  EmailWorkspace,
-  GeneratedUIWorkspace,
-  TasksWorkspace,
-  NotificationsWorkspace,
-  MessagesWorkspace,
-  SlackWorkspace,
-  ContactsWorkspace,
-  AppsWorkspace,
-  MARKETPLACE_CATEGORIES,
-  CalendarWorkspace,
-  MiniCalendar,
-  FilesWorkspace,
-  EditorToolbar,
   ChatContextPanel,
   type ChatContextDrawerTab,
   DesktopWorkspace,
@@ -29,10 +12,7 @@ import {
   ThemeProvider,
   useTheme,
   IconButton,
-  Icon,
-  SettingsWorkspace,
-  WalletWorkspace,
-  BankCryptoWorkspace,
+  WorkspaceWindowShell,
   type ChatMessage,
   type TaskItem,
   type NotificationItem,
@@ -71,7 +51,6 @@ import { phoneContacts } from "./mock-data/contacts";
 import { calendarEvents } from "./mock-data/calendar";
 import { fileFolders } from "./mock-data/files";
 import { chatConversations, mailFolders, privatePages, recentPages, teamspacePages } from "./mock-data/sidebar";
-import { createWindowForApp, desktopApps, desktopIcons, initialSurfaceWindows } from "./mock-data/desktop";
 import { bankingWidgetTiles } from "./mock-data/banking-widgets";
 import { financeWidgetTiles } from "./mock-data/finance-widgets";
 import { fitnessWidgetTiles } from "./mock-data/fitness-widgets";
@@ -89,48 +68,10 @@ import {
 } from "./mock-data/custom-apps";
 import { settingsData } from "./mock-data/settings";
 import { walletExpenses } from "./mock-data/wallet";
+import { createWindowForApp, desktopIcons, initialSurfaceWindows, isDesktopLaunchableWorkspace } from "./mock-data/desktop";
+import { WORKSPACES, workspacesToDesktopApps, type WorkspaceId } from "./workspace-config";
+import { buildWorkspaceLayout, buildWorkspaceWindowContent } from "./workspace-layout";
 import { bankDashboardData, cryptoWalletData } from "./mock-data/bank-crypto";
-
-type WorkspaceId =
-  | "chat"
-  | "messages"
-  | "slack"
-  | "contacts"
-  | "notes"
-  | "email"
-  | "calendar"
-  | "files"
-  | "generated"
-  | "tasks"
-  | "notifications"
-  | "desktop"
-  | "apps"
-  | "settings"
-  | "wallet"
-  | "bank-crypto";
-
-const WORKSPACES: {
-  id: WorkspaceId;
-  label: string;
-  icon: "chat" | "users" | "contact" | "notebook" | "mail" | "calendar" | "folder" | "sparkles" | "check" | "bell" | "monitor" | "app-window" | "hash" | "settings" | "wallet" | "dollar-sign";
-}[] = [
-  { id: "chat", label: "Chat", icon: "chat" },
-  { id: "messages", label: "Messages", icon: "users" },
-  { id: "slack", label: "Groups", icon: "hash" },
-  { id: "contacts", label: "Contacts", icon: "contact" },
-  { id: "notes", label: "Notes", icon: "notebook" },
-  { id: "email", label: "Email", icon: "mail" },
-  { id: "calendar", label: "Calendar", icon: "calendar" },
-  { id: "files", label: "Files", icon: "folder" },
-  { id: "wallet", label: "Wallet", icon: "wallet" },
-  { id: "bank-crypto", label: "Bank / Crypto", icon: "dollar-sign" },
-  { id: "tasks", label: "Tasks", icon: "check" },
-  { id: "notifications", label: "Notifications", icon: "bell" },
-  { id: "apps", label: "Apps", icon: "app-window" },
-  { id: "settings", label: "Settings", icon: "settings" },
-  { id: "desktop", label: "Desktop", icon: "monitor" },
-  { id: "generated", label: "Generated UI", icon: "sparkles" },
-];
 
 interface DocFormatState {
   blockFormat: BlockFormat;
@@ -148,25 +89,8 @@ const MODEL_OPTIONS = [
 ];
 
 const APP_WORKSPACE: Partial<Record<string, WorkspaceId>> = {
-  finder: "files",
-  browser: "chat",
-  mail: "email",
-  notes: "notes",
-  longformer: "chat",
-  terminal: "desktop",
-  settings: "settings",
-  chat: "chat",
-  messages: "messages",
-  contacts: "contacts",
-  email: "email",
-  calendar: "calendar",
-  files: "files",
-  tasks: "tasks",
-  notifications: "notifications",
-  desktop: "desktop",
-  slack: "slack",
+  ...Object.fromEntries(WORKSPACES.map((workspace) => [workspace.id, workspace.id])),
   zoom: "contacts",
-  phone: "contacts",
   linear: "tasks",
   notion: "notes",
   figma: "generated",
@@ -175,7 +99,7 @@ const APP_WORKSPACE: Partial<Record<string, WorkspaceId>> = {
   spotify: "desktop",
   "1password": "desktop",
   analytics: "generated",
-};
+} as Partial<Record<string, WorkspaceId>>;
 
 function LongformerApp() {
   const { toggleTheme, theme } = useTheme();
@@ -250,7 +174,10 @@ function LongformerApp() {
   const [createAppOpen, setCreateAppOpen] = useState(false);
 
   const customDesktopApps = useMemo(() => customApps.map(toDesktopApp), [customApps]);
-  const allDesktopApps = useMemo(() => [...desktopApps, ...customDesktopApps], [customDesktopApps]);
+  const allDesktopApps = useMemo(
+    () => [...workspacesToDesktopApps(), ...customDesktopApps],
+    [customDesktopApps],
+  );
 
   const installedApps = useMemo(
     () => buildInstalledApps(installedAppIds, customApps),
@@ -472,6 +399,16 @@ function LongformerApp() {
   }
 
   function handleLaunchDesktopApp(appId: string) {
+    if (appId === "desktop") return;
+
+    const existing = surface.windows.find(
+      (window) => window.appId === appId && window.state !== "minimized" && window.layer === "base",
+    );
+    if (existing) {
+      surface.focus(existing.id);
+      return;
+    }
+
     const app = allDesktopApps.find((a) => a.id === appId);
     if (!app) return;
     const customApp = customApps.find((item) => item.id === appId);
@@ -479,6 +416,7 @@ function LongformerApp() {
       surface.open(createCustomAppWindow(customApp, surface.windows.length));
       return;
     }
+    if (!isDesktopLaunchableWorkspace(appId)) return;
     surface.openApp(app, createWindowForApp);
   }
 
@@ -577,330 +515,158 @@ function LongformerApp() {
     />
   );
 
-  let sidebar: React.ReactNode;
-  let main: React.ReactNode;
+  const workspaceViewModelBase = useMemo(
+    () => ({
+      setWorkspaceId,
+      messages,
+      composerValue,
+      setComposerValue,
+      handleSubmit,
+      promptChips,
+      model,
+      modelMenuItems,
+      demoUsage,
+      messageContacts,
+      activeContactId,
+      setActiveContactId,
+      directMessages,
+      messageComposerValue,
+      setMessageComposerValue,
+      handleSendMessage,
+      slackWorkspaces,
+      activeSlackWorkspaceId,
+      setActiveSlackWorkspaceId,
+      slackNavItems,
+      slackChannels,
+      slackDirectMessages,
+      activeSlackConversationId,
+      setActiveSlackConversationId,
+      activeSlackConversationTitle,
+      activeSlackConversationTopic,
+      slackMessages,
+      slackComposerValue,
+      setSlackComposerValue,
+      handleSlackSubmit,
+      activeSlackProfileMember,
+      setSlackProfileMemberId,
+      handleOpenSlackProfile,
+      phoneContacts,
+      activePhoneContactId,
+      setActivePhoneContactId,
+      contactSearch,
+      setContactSearch,
+      dialValue,
+      setDialValue,
+      appsSubpage,
+      setAppsSubpage,
+      marketplaceCategory,
+      setMarketplaceCategory,
+      installedApps,
+      marketplaceApps,
+      appSearch,
+      setAppSearch,
+      runningAppIds: new Set(surface.windows.filter((w) => w.state !== "minimized").map((w) => w.appId)),
+      handleTrayLaunchApp,
+      handleInstallApp,
+      recentPages,
+      privatePages,
+      teamspacePages,
+      activePageId,
+      setActivePageId,
+      notesBlocks,
+      docFormat,
+      handleBlockFormatChange,
+      handleToggleMark,
+      handleAlignChange,
+      docHistoryIndex,
+      docHistoryLength: docHistory.length,
+      handleDocUndo,
+      handleDocRedo,
+      tasks,
+      setTasks,
+      calendarMonth,
+      calendarYear,
+      handlePrevMonth,
+      handleNextMonth,
+      handleToday,
+      selectedDate,
+      setSelectedDate,
+      calendarEvents,
+      notifications,
+      setNotifications,
+      filesBreadcrumb,
+      currentFolder,
+      folders,
+      handleOpenFile,
+      handleToggleStarFile,
+      handleNewFile,
+      settingsData,
+      walletExpenses,
+      bankDashboardData,
+      cryptoWalletData,
+      generatedSchema,
+      threads,
+      activeThreadId,
+      setActiveThreadId,
+      starred,
+      setStarred,
+      activeThread,
+      mailFolders,
+      chatConversations,
+    }),
+    [
+      messages,
+      composerValue,
+      model,
+      modelMenuItems,
+      activeContactId,
+      directMessages,
+      messageComposerValue,
+      activeSlackWorkspaceId,
+      activeSlackConversationId,
+      activeSlackConversationTitle,
+      activeSlackConversationTopic,
+      slackMessages,
+      slackComposerValue,
+      activeSlackProfileMember,
+      activePhoneContactId,
+      contactSearch,
+      dialValue,
+      appsSubpage,
+      marketplaceCategory,
+      installedApps,
+      marketplaceApps,
+      appSearch,
+      surface.windows,
+      activePageId,
+      docFormat,
+      docHistoryIndex,
+      docHistory.length,
+      tasks,
+      calendarMonth,
+      calendarYear,
+      selectedDate,
+      notifications,
+      filesBreadcrumb,
+      currentFolder,
+      folders,
+      activeThreadId,
+      starred,
+      activeThread,
+    ],
+  );
 
-  if (workspaceId === "chat") {
-    sidebar = (
-      <NavSidebar
-        primaryAction={{ label: "New chat", icon: "plus", onClick: () => setMessages([]) }}
-        quickLinks={[
-          { id: "search", label: "Search", icon: "search" },
-          { id: "scheduled", label: "Scheduled", icon: "calendar" },
-          { id: "plugins", label: "Plugins", icon: "grid" },
-        ]}
-        sections={[
-          {
-            id: "conversations",
-            title: "Conversations",
-            items: chatConversations.map((c) => ({ id: c.id, label: c.label, trailing: c.meta })),
-          },
-        ]}
-        footer={<SidebarUserFooter name="Paul Bloch" meta="Longformer · Plus" />}
-      />
-    );
-    main = (
-      <ChatWorkspace
-        messages={messages}
-        composerValue={composerValue}
-        onComposerChange={setComposerValue}
-        onSubmit={handleSubmit}
-        promptChips={promptChips}
-        onPromptChipSelect={(item) => setComposerValue(item.label)}
-        model={model}
-        modelOptions={modelMenuItems}
-        usage={demoUsage}
-        thinkingLevel="High"
-      />
-    );
-  } else if (workspaceId === "messages") {
-    sidebar = undefined;
-    main = (
-      <MessagesWorkspace
-        contacts={messageContacts}
-        activeContactId={activeContactId}
-        onSelectContact={setActiveContactId}
-        messages={directMessages[activeContactId] ?? []}
-        composerValue={messageComposerValue}
-        onComposerChange={setMessageComposerValue}
-        onSubmit={handleSendMessage}
-      />
-    );
-  } else if (workspaceId === "slack") {
-    sidebar = undefined;
-    main = (
-      <SlackWorkspace
-        workspaces={slackWorkspaces}
-        activeWorkspaceId={activeSlackWorkspaceId}
-        onSelectWorkspace={setActiveSlackWorkspaceId}
-        workspaceName="All Hands"
-        navItems={slackNavItems}
-        channels={slackChannels}
-        directMessages={slackDirectMessages}
-        activeConversationId={activeSlackConversationId}
-        onSelectConversation={(id) => {
-          setActiveSlackConversationId(id);
-          setSlackProfileMemberId(null);
-        }}
-        conversationTitle={activeSlackConversationTitle}
-        conversationTopic={activeSlackConversationTopic}
-        messages={slackMessages[activeSlackConversationId] ?? []}
-        composerValue={slackComposerValue}
-        onComposerChange={setSlackComposerValue}
-        onSubmit={handleSlackSubmit}
-        unreadMentionCount={4}
-        profileMember={activeSlackProfileMember}
-        profileOpen={Boolean(activeSlackProfileMember)}
-        onProfileClose={() => setSlackProfileMemberId(null)}
-        onOpenProfile={handleOpenSlackProfile}
-        currentUser={{ name: "Paul Bloch", status: "online" }}
-      />
-    );
-  } else if (workspaceId === "contacts") {
-    sidebar = undefined;
-    main = (
-      <ContactsWorkspace
-        contacts={phoneContacts}
-        activeContactId={activePhoneContactId}
-        onSelectContact={setActivePhoneContactId}
-        searchQuery={contactSearch}
-        onSearchChange={setContactSearch}
-        dialValue={dialValue}
-        onDialChange={setDialValue}
-        onCall={() => undefined}
-        onMessageContact={() => setWorkspaceId("messages")}
-        onEmailContact={() => setWorkspaceId("email")}
-      />
-    );
-  } else if (workspaceId === "apps") {
-    sidebar = (
-      <NavSidebar
-        primaryAction={{
-          label: "Browse marketplace",
-          icon: "sparkles",
-          onClick: () => {
-            setAppsSubpage("marketplace");
-            setMarketplaceCategory("featured");
-          },
-        }}
-        quickLinks={[
-          {
-            id: "installed",
-            label: "My apps",
-            icon: "grid",
-            active: appsSubpage === "installed",
-            onClick: () => setAppsSubpage("installed"),
-          },
-          {
-            id: "marketplace",
-            label: "Marketplace",
-            icon: "sparkles",
-            active: appsSubpage === "marketplace",
-            onClick: () => {
-              setAppsSubpage("marketplace");
-              setMarketplaceCategory("featured");
-            },
-          },
-        ]}
-        sections={
-          appsSubpage === "marketplace"
-            ? [
-                {
-                  id: "categories",
-                  title: "Categories",
-                  items: MARKETPLACE_CATEGORIES.map((category) => ({
-                    id: category.id,
-                    label: category.label,
-                    leading: <Icon name="layers" size={14} />,
-                    active: marketplaceCategory === category.id,
-                    onClick: () => setMarketplaceCategory(category.id),
-                  })),
-                },
-              ]
-            : [
-                {
-                  id: "collections",
-                  title: "Collections",
-                  items: [
-                    {
-                      id: "recent",
-                      label: "Recently used",
-                      leading: <Icon name="refresh" size={14} />,
-                    },
-                    {
-                      id: "pinned",
-                      label: "Pinned to dock",
-                      leading: <Icon name="star" size={14} />,
-                    },
-                  ],
-                },
-              ]
-        }
-        footer={<SidebarUserFooter name="Paul Bloch" meta="Longformer · Plus" />}
-      />
-    );
-    main = (
-      <AppsWorkspace
-        subpage={appsSubpage}
-        marketplaceCategory={marketplaceCategory}
-        installedApps={installedApps}
-        marketplaceApps={marketplaceApps}
-        searchQuery={appSearch}
-        onSearchChange={setAppSearch}
-        runningAppIds={new Set(surface.windows.filter((w) => w.state !== "minimized").map((w) => w.appId))}
-        onLaunchApp={handleTrayLaunchApp}
-        onInstallApp={handleInstallApp}
-        onNavigateSubpage={setAppsSubpage}
-      />
-    );
-  } else if (workspaceId === "notes") {
-    sidebar = (
-      <NavSidebar
-        primaryAction={{ label: "New page", icon: "plus" }}
-        quickLinks={[
-          { id: "search", label: "Search", icon: "search" },
-          { id: "home", label: "Home", icon: "grid" },
-        ]}
-        sections={[
-          {
-            id: "recents",
-            title: "Recents",
-            items: recentPages.map((page) => ({
-              id: page.id,
-              label: page.label,
-              leading: <Icon name="notebook" size={14} />,
-              trailing: page.meta,
-              active: page.id === activePageId,
-              onClick: () => setActivePageId(page.id),
-            })),
-          },
-          {
-            id: "private",
-            title: "Private",
-            items: privatePages.map((page) => ({
-              id: page.id,
-              label: page.label,
-              leading: <Icon name="notebook" size={14} />,
-              active: page.id === activePageId,
-              onClick: () => setActivePageId(page.id),
-            })),
-          },
-          {
-            id: "teamspaces",
-            title: "Teamspaces",
-            items: teamspacePages.map((page) => ({
-              id: page.id,
-              label: page.label,
-              leading: <Icon name="folder" size={14} />,
-              active: page.id === activePageId,
-              onClick: () => setActivePageId(page.id),
-            })),
-          },
-        ]}
-        footer={<SidebarUserFooter name="Paul Bloch" meta="Longformer · Plus" />}
-      />
-    );
-    main = (
-      <NotesWorkspace
-        breadcrumb={[{ label: "Longformer" }, { label: "Brainstorming" }, { label: "Addressing User Feedback" }]}
-        title="Addressing User Feedback"
-        collaborators={[{ name: "Paul Bloch" }, { name: "Dana Cho" }, { name: "Marcus Webb" }]}
-        blocks={notesBlocks}
-        toolbar={
-          <EditorToolbar
-            blockFormat={docFormat.blockFormat}
-            onBlockFormatChange={handleBlockFormatChange}
-            activeMarks={docFormat.marks}
-            onToggleMark={handleToggleMark}
-            onInsertLink={() => undefined}
-            align={docFormat.align}
-            onAlignChange={handleAlignChange}
-            canUndo={docHistoryIndex > 0}
-            canRedo={docHistoryIndex < docHistory.length - 1}
-            onUndo={handleDocUndo}
-            onRedo={handleDocRedo}
-          />
-        }
-      />
-    );
-  } else if (workspaceId === "tasks") {
-    sidebar = undefined;
-    main = (
-      <TasksWorkspace
-        tasks={tasks}
-        onToggleComplete={(id) =>
-          setTasks((prev) =>
-            prev.map((task) =>
-              task.id === id
-                ? { ...task, status: task.status === "completed" ? "pending" : "completed" }
-                : task
-            )
-          )
-        }
-        calendar={
-          <MiniCalendar
-            month={calendarMonth}
-            year={calendarYear}
-            onPrevMonth={handlePrevMonth}
-            onNextMonth={handleNextMonth}
-            onToday={handleToday}
-            selectedDate={selectedDate}
-            onSelectDate={setSelectedDate}
-            highlightedDates={tasks.map((task) => task.dueDateISO).filter((iso): iso is string => Boolean(iso))}
-          />
-        }
-      />
-    );
-  } else if (workspaceId === "notifications") {
-    sidebar = undefined;
-    main = (
-      <NotificationsWorkspace
-        notifications={notifications}
-        onMarkAsRead={(id) =>
-          setNotifications((prev) => prev.map((item) => (item.id === id ? { ...item, read: true } : item)))
-        }
-        onMarkAllAsRead={() => setNotifications((prev) => prev.map((item) => ({ ...item, read: true })))}
-      />
-    );
-  } else if (workspaceId === "calendar") {
-    sidebar = undefined;
-    main = (
-      <CalendarWorkspace
-        month={calendarMonth}
-        year={calendarYear}
-        events={calendarEvents}
-        onPrevMonth={handlePrevMonth}
-        onNextMonth={handleNextMonth}
-        onToday={handleToday}
-        selectedDate={selectedDate}
-        onSelectDate={setSelectedDate}
-        onNewEvent={() => undefined}
-      />
-    );
-  } else if (workspaceId === "files") {
-    sidebar = undefined;
-    main = (
-      <FilesWorkspace
-        breadcrumb={filesBreadcrumb}
-        files={currentFolder.items}
-        folders={folders}
-        onOpenFile={handleOpenFile}
-        onToggleStar={handleToggleStarFile}
-        onNewFile={handleNewFile}
-      />
-    );
-  } else if (workspaceId === "settings") {
-    sidebar = undefined;
-    main = <SettingsWorkspace data={settingsData} />;
-  } else if (workspaceId === "wallet") {
-    sidebar = undefined;
-    main = <WalletWorkspace expenses={walletExpenses} />;
-  } else if (workspaceId === "bank-crypto") {
-    sidebar = undefined;
-    main = <BankCryptoWorkspace bank={bankDashboardData} crypto={cryptoWalletData} />;
-  } else if (workspaceId === "desktop") {
-    sidebar = undefined;
-    main = (
+  const renderDesktopWindowContent = useCallback(
+    (window: import("longformer-ui").SurfaceWindow) => {
+      const content = buildWorkspaceWindowContent(window.appId, workspaceViewModelBase);
+      if (!content) return null;
+      return <WorkspaceWindowShell>{content}</WorkspaceWindowShell>;
+    },
+    [workspaceViewModelBase],
+  );
+
+  const renderDesktopWorkspace = useCallback(
+    () => (
       <DesktopWorkspace
         shell={surface.shell}
         onShellChange={surface.setShell}
@@ -928,47 +694,30 @@ function LongformerApp() {
         onPrevGlance={surface.prevGlance}
         widgetTiles={[...bankingWidgetTiles, ...financeWidgetTiles, ...fitnessWidgetTiles, ...widgetDashboardTiles]}
         onCreateApp={openCreateAppModal}
+        renderWindowContent={renderDesktopWindowContent}
       />
-    );
-  } else if (workspaceId === "email") {
-    sidebar = (
-      <NavSidebar
-        sections={[
-          {
-            id: "folders",
-            title: "Mailboxes",
-            items: mailFolders.map((folder) => ({
-              id: folder.id,
-              label: folder.label,
-              leading: <Icon name={folder.icon} size={15} />,
-              active: folder.id === "inbox",
-            })),
-          },
-        ]}
-        footer={<SidebarUserFooter name="Paul Bloch" meta="paul@longformer.dev" />}
-      />
-    );
-    main = (
-      <EmailWorkspace
-        threads={threads.map((t) => ({ ...t, starred: starred.has(t.id) }))}
-        activeThreadId={activeThreadId}
-        onSelectThread={setActiveThreadId}
-        onToggleStar={(id) =>
-          setStarred((prev) => {
-            const next = new Set(prev);
-            if (next.has(id)) next.delete(id);
-            else next.add(id);
-            return next;
-          })
-        }
-        activeSubject={activeThread?.subject}
-        activeMessages={activeThread?.messages ?? []}
-      />
-    );
-  } else {
-    sidebar = undefined;
-    main = <GeneratedUIWorkspace schema={generatedSchema} />;
-  }
+    ),
+    [
+      allDesktopApps,
+      renderDesktopWindowContent,
+      surface.activeWindowId,
+      surface.formFactor,
+      surface.legacyWindows,
+      surface.policy,
+      surface.renderableWindows,
+      surface.shell,
+    ],
+  );
+
+  const { sidebar, main } = buildWorkspaceLayout(
+    {
+      ...workspaceViewModelBase,
+      workspaceId,
+      renderDesktopWorkspace,
+    },
+    { includeSidebar: true },
+  );
+
 
   const isChatWorkspace = workspaceId === "chat";
   const contextPanelOpen = isChatWorkspace || assistantOpen;

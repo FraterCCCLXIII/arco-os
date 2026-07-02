@@ -1,12 +1,4 @@
 .sidebar {
-  --bc-surface: #ffffff;
-  --bc-border: rgba(15, 23, 42, 0.08);
-  --bc-text: #1a1d26;
-  --bc-text-muted: #6b7280;
-  --bc-accent: #5266d4;
-  --bc-accent-soft: rgba(82, 102, 212, 0.1);
-  --bc-bg: #f6f7f9;
-
   flex-shrink: 0;
   width: 220px;
   padding: var(--lf-space-4) var(--lf-space-3);
@@ -45,7 +37,7 @@
 .viewBtnActive {
   background: var(--bc-surface);
   color: var(--bc-text);
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  box-shadow: var(--lf-shadow-sm);
 }
 
 .accountPicker {

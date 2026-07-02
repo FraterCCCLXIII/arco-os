@@ -8,6 +8,7 @@ export * from "./messages";
 export * from "./contacts";
 export * from "./apps";
 export * from "./calendar";
+export * from "./schedule";
 export * from "./files";
 export * from "./desktop";
 export * from "./settings";

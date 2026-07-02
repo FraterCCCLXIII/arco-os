@@ -1,0 +1,97 @@
+.workspace {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: var(--lf-space-3);
+}
+
+.container {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--lf-radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--lf-border-default);
+  background: var(--lf-surface-1);
+  box-shadow: var(--lf-shadow-md);
+}
+
+.header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-4);
+  padding: var(--lf-space-4) var(--lf-space-5);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+}
+
+.eyebrow {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--lf-font-size-lg);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.updatesDot {
+  width: 7px;
+  height: 7px;
+  margin-left: var(--lf-space-1);
+  border-radius: 50%;
+  background: var(--lf-accent);
+}
+
+.toolbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  padding: 0 var(--lf-space-5);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  min-height: 44px;
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.content {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}

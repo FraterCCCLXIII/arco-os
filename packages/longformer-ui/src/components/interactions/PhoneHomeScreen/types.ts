@@ -40,5 +40,12 @@ export interface PhoneHomeScreenProps {
   carrier?: string;
   wallpaperUrl?: string;
   className?: string;
+  /** Fill the parent container instead of using fixed phone dimensions. */
+  fill?: boolean;
+  /** Hide the built-in status row (use when an outer status bar is present). */
+  hideStatusBar?: boolean;
+  /** Show the drag-to-folder hint footer. */
+  showHint?: boolean;
   onLayoutChange?: (layout: PhoneHomeLayout) => void;
+  onAppLaunch?: (appId: string) => void;
 }

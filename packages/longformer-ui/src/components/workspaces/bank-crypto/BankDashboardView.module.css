@@ -1,13 +1,4 @@
 .dashboard {
-  --bc-bg: #f6f7f9;
-  --bc-surface: #ffffff;
-  --bc-border: rgba(15, 23, 42, 0.08);
-  --bc-text: #1a1d26;
-  --bc-text-muted: #6b7280;
-  --bc-accent: #5266d4;
-  --bc-accent-soft: rgba(82, 102, 212, 0.1);
-  --bc-success: #16a34a;
-
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -133,7 +124,7 @@
 .quickActionPrimary {
   border-color: var(--bc-accent);
   background: var(--bc-accent);
-  color: #fff;
+  color: var(--lf-text-on-accent);
 }
 
 .grid {

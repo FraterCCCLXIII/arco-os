@@ -21,6 +21,19 @@ function formatDate(date: Date): string {
   return date.toLocaleDateString([], { weekday: "short", month: "short", day: "numeric" });
 }
 
+/** Pixel heights for each shell — kept in sync with `StatusBar.module.css`. */
+export const STATUS_BAR_HEIGHT: Record<DesktopShell, number> = {
+  macos: 28,
+  windows: 32,
+  ios: 24,
+  android: 24,
+  chromeos: 28,
+};
+
+export function getStatusBarHeight(shell: DesktopShell): number {
+  return STATUS_BAR_HEIGHT[shell];
+}
+
 /** Top status / menu bar — adapts layout per shell (macOS menu bar, iOS status bar, etc.). */
 export function StatusBar({ shell, status, className }: StatusBarProps) {
   const [now, setNow] = useState(() => new Date());

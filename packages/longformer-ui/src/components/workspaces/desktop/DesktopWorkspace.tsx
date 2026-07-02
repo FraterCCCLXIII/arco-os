@@ -6,6 +6,7 @@ import { ShellPicker } from "./ShellPicker";
 import { FormFactorPicker } from "./FormFactorPicker";
 import type { FormFactor, SurfaceRect, SurfaceWindow, WindowPolicy } from "../../../surface-manager";
 import { toSurfaceWindow } from "../../../surface-manager";
+import { FORM_FACTOR_FRAME, formFactorUsesFixedFrame } from "./formFactorFrame";
 import type { DesktopApp, DesktopIconItem, DesktopShell, DesktopStatus, DesktopWindow } from "./types";
 import type { WidgetTile } from "./widget-types";
 import styles from "./DesktopWorkspace.module.css";
@@ -38,6 +39,7 @@ export interface DesktopWorkspaceProps {
   onPrevGlance?: () => void;
   widgetTiles?: WidgetTile[];
   onCreateApp?: () => void;
+  renderWindowContent?: (window: SurfaceWindow) => ReactNode;
   /** Optional slot rendered above the desktop surface, e.g. shell picker controls. */
   header?: ReactNode;
 }
@@ -74,6 +76,7 @@ export function DesktopWorkspace({
   onPrevGlance,
   widgetTiles,
   onCreateApp,
+  renderWindowContent,
   header,
 }: DesktopWorkspaceProps) {
   const displayWindows =
@@ -88,6 +91,13 @@ export function DesktopWorkspace({
   };
 
   const trayWindows = windows;
+  const isMobileShell = shell === "ios" || shell === "android";
+  const homeVisible =
+    formFactor === "phone" &&
+    isMobileShell &&
+    !displayWindows.some((window) => window.layer === "base");
+  const frame = FORM_FACTOR_FRAME[formFactor];
+  const fixedFrame = formFactorUsesFixedFrame(formFactor);
 
   return (
     <div className={styles.workspace}>
@@ -103,41 +113,60 @@ export function DesktopWorkspace({
           )}
         </div>
       )}
-      <div className={styles.desktop}>
-        <StatusBar shell={shell} status={mergedStatus} />
-        <DesktopSurface
-          shell={shell}
-          formFactor={formFactor}
-          policy={policy}
-          wallpaperLabel={wallpaperLabel}
-          icons={desktopIcons}
-          windows={displayWindows}
-          activeWindowId={activeWindowId}
-          onSelectIcon={onSelectDesktopIcon}
-          onFocusWindow={onFocusWindow}
-          onCloseWindow={onCloseWindow}
-          onMinimizeWindow={onMinimizeWindow}
-          onMaximizeWindow={onMaximizeWindow}
-          onMoveWindow={onMoveWindow}
-          onResizeWindow={onResizeWindow}
-          onNextGlance={onNextGlance}
-          onPrevGlance={onPrevGlance}
-          widgetTiles={widgetTiles}
-        />
-        <TaskTray
-          shell={shell}
-          formFactor={formFactor}
-          apps={apps}
-          windows={trayWindows}
-          activeWindowId={activeWindowId}
-          onLaunchApp={onLaunchApp}
-          onFocusWindow={onFocusWindow}
-          onCreateApp={onCreateApp}
-          onPopPhoneStack={onPopPhoneStack}
-          onMinimizeAll={onMinimizeAll}
-          onNextGlance={onNextGlance}
-          onPrevGlance={onPrevGlance}
-        />
+      <div className={styles.deviceStage}>
+        <div
+          className={styles.deviceScreen}
+          data-form-factor={formFactor}
+          style={
+            fixedFrame
+              ? {
+                  width: frame.width,
+                  height: frame.height,
+                }
+              : undefined
+          }
+        >
+          <StatusBar shell={shell} status={mergedStatus} />
+          <DesktopSurface
+            shell={shell}
+            formFactor={formFactor}
+            policy={policy}
+            wallpaperLabel={wallpaperLabel}
+            icons={desktopIcons}
+            apps={apps}
+            windows={displayWindows}
+            activeWindowId={activeWindowId}
+            onSelectIcon={onSelectDesktopIcon}
+            onLaunchApp={onLaunchApp}
+            onFocusWindow={onFocusWindow}
+            onCloseWindow={onCloseWindow}
+            onMinimizeWindow={onMinimizeWindow}
+            onMaximizeWindow={onMaximizeWindow}
+            onMoveWindow={onMoveWindow}
+            onResizeWindow={onResizeWindow}
+            onNextGlance={onNextGlance}
+            onPrevGlance={onPrevGlance}
+            widgetTiles={widgetTiles}
+            renderWindowContent={renderWindowContent}
+          />
+          <TaskTray
+            shell={shell}
+            formFactor={formFactor}
+            apps={apps}
+            windows={trayWindows}
+            activeWindowId={activeWindowId}
+            onLaunchApp={onLaunchApp}
+            onFocusWindow={onFocusWindow}
+            onMinimizeWindow={onMinimizeWindow}
+            onCloseWindow={onCloseWindow}
+            onCreateApp={onCreateApp}
+            onPopPhoneStack={onPopPhoneStack}
+            onMinimizeAll={onMinimizeAll}
+            onNextGlance={onNextGlance}
+            onPrevGlance={onPrevGlance}
+            homeVisible={homeVisible}
+          />
+        </div>
       </div>
     </div>
   );

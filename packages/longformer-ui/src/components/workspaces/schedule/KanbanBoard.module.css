@@ -1,0 +1,93 @@
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(220px, 1fr));
+  gap: var(--lf-space-3);
+  height: 100%;
+  min-height: 0;
+  padding: var(--lf-space-3);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-radius: var(--lf-radius-lg);
+  border: 1px solid var(--lf-border-default);
+  background: var(--lf-surface-sunken);
+}
+
+.columnHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-3) var(--lf-space-4);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.columnScroll {
+  flex: 1;
+  min-height: 0;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-3);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--lf-space-2);
+  width: 100%;
+  padding: var(--lf-space-3);
+  border: 1px solid var(--lf-border-default);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-1);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.card:hover {
+  border-color: var(--lf-border-strong);
+  box-shadow: var(--lf-shadow-sm);
+}
+
+.projectRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.projectDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.projectName {
+  font-size: 10px;
+  color: var(--lf-text-tertiary);
+}
+
+.cardTitle {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  line-height: 1.35;
+}
+
+.cardMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
