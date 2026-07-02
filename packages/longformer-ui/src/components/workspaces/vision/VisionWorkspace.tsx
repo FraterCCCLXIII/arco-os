@@ -70,15 +70,14 @@ export function VisionWorkspace({
 
   return (
     <div className={styles.workspace}>
-      <VisionTopBar
-        user={user}
-        activeSection={activeSection}
-        onSectionChange={handleSectionChange}
-        searchQuery={searchQuery}
-        onSearchChange={handleSearchChange}
-      />
-
       <div className={styles.browse}>
+        <VisionTopBar
+          user={user}
+          activeSection={activeSection}
+          onSectionChange={handleSectionChange}
+          searchQuery={searchQuery}
+          onSearchChange={handleSearchChange}
+        />
         <VisionHero featured={featured} />
         <VisionContentRows rows={rows} />
       </div>

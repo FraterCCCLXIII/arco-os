@@ -78,7 +78,11 @@
 .sectionItems {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: var(--lf-space-1);
+}
+
+.navListItem {
+  font-size: var(--lf-font-size-sm);
 }
 
 .footer {

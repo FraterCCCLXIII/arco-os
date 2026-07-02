@@ -179,8 +179,10 @@ export function NavRail({
     >
       {(brand || collapseToggle) && (
         <div className={styles.brandRow}>
-          {brand && <div className={styles.brand}>{brand}</div>}
-          {collapseToggle}
+          <div className={styles.brandHost}>
+            {brand && <div className={styles.brand}>{brand}</div>}
+            {collapseToggle}
+          </div>
         </div>
       )}
       <div className={styles.items}>

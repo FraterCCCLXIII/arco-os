@@ -39,7 +39,6 @@ export function PassportSidebar({ data, view, onViewChange }: PassportSidebarPro
             trailing: item.badge ? <span className={styles.badge}>{item.badge}</span> : undefined,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
       ]}

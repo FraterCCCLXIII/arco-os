@@ -57,7 +57,6 @@ export function FinanceSidebar({ data, view, onViewChange }: FinanceSidebarProps
             leading: <Icon name={item.icon} size={16} />,
             trailing: item.hasChildren ? <Icon name="chevron-down" size={14} /> : undefined,
             active: item.active,
-            className: styles.navListItem,
           })),
         },
       ]}

@@ -50,7 +50,6 @@ export function TicketsSidebar({ data, view, onViewChange }: TicketsSidebarProps
             trailing: item.badge ? <span className={styles.badge}>{item.badge}</span> : undefined,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
         {
@@ -61,7 +60,6 @@ export function TicketsSidebar({ data, view, onViewChange }: TicketsSidebarProps
             leading: <Icon name={item.icon} size={16} />,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
         {
@@ -72,7 +70,6 @@ export function TicketsSidebar({ data, view, onViewChange }: TicketsSidebarProps
             label: item.label,
             leading: <Icon name={item.icon} size={16} />,
             trailing: item.badge ? <span className={styles.badge}>{item.badge}</span> : undefined,
-            className: styles.navItem,
           })),
         },
         {

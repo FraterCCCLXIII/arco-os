@@ -54,10 +54,6 @@
   overflow: hidden;
 }
 
-.navItem {
-  font-size: var(--lf-font-size-sm);
-}
-
 .aiBadge {
   display: inline-flex;
   align-items: center;

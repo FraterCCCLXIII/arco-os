@@ -29,7 +29,6 @@ export const ListItem = forwardRef<HTMLButtonElement, ListItemProps>(function Li
       aria-current={active ? "true" : undefined}
       {...rest}
     >
-      <span className={styles.indicator} aria-hidden="true" />
       {leading && <span className={styles.leading}>{leading}</span>}
       <span className={styles.body}>
         <span className={styles.label}>{label}</span>

@@ -152,12 +152,6 @@
   flex-shrink: 0;
 }
 
-.navListItem,
-.channelListItem,
-.dmListItem {
-  font-size: var(--lf-font-size-sm);
-}
-
 .unreadListItem {
   color: var(--lf-text-primary);
   font-weight: 600;

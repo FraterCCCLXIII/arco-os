@@ -33,7 +33,6 @@ export function OrchestratorSidebar({ data, view, onViewChange }: OrchestratorSi
             leading: <Icon name={item.icon} size={16} />,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
       ]}

@@ -38,7 +38,6 @@ export function PsycheSidebar({ data, view, onViewChange }: PsycheSidebarProps) 
             leading: <Icon name={item.icon} size={16} />,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
         {
@@ -50,7 +49,6 @@ export function PsycheSidebar({ data, view, onViewChange }: PsycheSidebarProps) 
             leading: <Icon name={item.icon} size={16} />,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
         {
@@ -66,7 +64,6 @@ export function PsycheSidebar({ data, view, onViewChange }: PsycheSidebarProps) 
               ) : undefined,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
       ]}

@@ -212,7 +212,6 @@ export function SlackSidebar({
         leading: <Icon name={NAV_ICON[item.icon]} size={15} />,
         trailing: item.badgeCount ? <CountBadge count={item.badgeCount} /> : undefined,
         active: item.active,
-        className: styles.navListItem,
       })),
     },
     ...(unreadMentionCount > 0

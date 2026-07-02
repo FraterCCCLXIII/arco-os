@@ -65,10 +65,6 @@
   color: var(--lf-text-tertiary);
 }
 
-.navItem {
-  font-size: var(--lf-font-size-sm);
-}
-
 .badge {
   padding: 1px 6px;
   border-radius: var(--lf-radius-sm);

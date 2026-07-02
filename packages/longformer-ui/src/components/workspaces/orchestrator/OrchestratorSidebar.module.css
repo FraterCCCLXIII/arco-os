@@ -25,10 +25,6 @@
   color: var(--lf-accent);
 }
 
-.navItem {
-  font-size: var(--lf-font-size-sm);
-}
-
 .footer {
   display: flex;
   flex-direction: column;

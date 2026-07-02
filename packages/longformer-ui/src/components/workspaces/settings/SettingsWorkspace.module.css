@@ -64,16 +64,8 @@
 
 .navListItem,
 .contentListItem {
+  font-size: var(--lf-font-size-sm);
   border-radius: var(--lf-radius-md);
-}
-
-.navListItem > span:first-child,
-.subNavItem > span:first-child {
-  display: none;
-}
-
-.navListItem {
-  padding-left: var(--lf-space-2);
 }
 
 .contentListItem {
@@ -91,7 +83,7 @@
 }
 
 .subNavItem {
-  padding-left: calc(var(--lf-space-1) + 16px + var(--lf-space-2));
+  padding-left: calc(var(--lf-space-2) + 15px + var(--lf-space-2));
 }
 
 .promoBadge {

@@ -23,15 +23,25 @@
 .brandRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--lf-space-1);
+  justify-content: center;
   width: 100%;
   margin-bottom: var(--lf-space-4);
   flex-shrink: 0;
 }
 
-.collapsed .brandRow {
-  flex-direction: column;
+.brandHost {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-1);
+  width: 100%;
+  min-width: 0;
+}
+
+.collapsed .brandHost {
+  position: relative;
+  width: 32px;
+  height: 32px;
   justify-content: center;
 }
 
@@ -47,6 +57,12 @@
   font-weight: 700;
   font-size: var(--lf-font-size-sm);
   flex-shrink: 0;
+  transition: opacity var(--lf-duration-fast) var(--lf-ease);
+}
+
+.collapsed .brandHost:hover .brand,
+.collapsed .brandHost:focus-within .brand {
+  opacity: 0;
 }
 
 .items {
@@ -324,10 +340,25 @@
   color: var(--lf-text-tertiary);
   cursor: pointer;
   flex-shrink: 0;
+  transition:
+    opacity var(--lf-duration-fast) var(--lf-ease),
+    background var(--lf-duration-fast) var(--lf-ease),
+    color var(--lf-duration-fast) var(--lf-ease);
 }
 
 .collapsed .toggleButton {
-  margin-left: 0;
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+}
+
+.collapsed .brandHost:hover .toggleButton,
+.collapsed .brandHost:focus-within .toggleButton,
+.collapsed .toggleButton:focus-visible {
+  opacity: 1;
+  background: var(--lf-surface-2);
+  color: var(--lf-text-primary);
 }
 
 .toggleButton:hover {

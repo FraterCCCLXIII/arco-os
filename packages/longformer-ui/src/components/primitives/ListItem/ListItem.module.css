@@ -4,7 +4,7 @@
   align-items: center;
   gap: var(--lf-space-2);
   width: 100%;
-  padding: var(--lf-space-2) var(--lf-space-2) var(--lf-space-2) var(--lf-space-1);
+  padding: var(--lf-space-2);
   border-radius: var(--lf-radius-md);
   background: transparent;
   border: none;
@@ -31,10 +31,6 @@
 
 .active:hover {
   background: var(--lf-surface-3);
-}
-
-.active .indicator {
-  background: var(--lf-accent);
 }
 
 .leading {
@@ -81,16 +77,4 @@
   gap: var(--lf-space-1);
   font-size: var(--lf-font-size-xs);
   color: var(--lf-text-tertiary);
-}
-
-.indicator {
-  position: absolute;
-  left: 2px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 4px;
-  height: 4px;
-  border-radius: var(--lf-radius-pill);
-  background: transparent;
-  pointer-events: none;
 }

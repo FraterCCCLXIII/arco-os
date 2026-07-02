@@ -53,7 +53,6 @@ export function ServerSidebar({ data, view, onViewChange }: ServerSidebarProps) 
             trailing: item.badge ? <span className={styles.badge}>{item.badge}</span> : undefined,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
         {
@@ -65,7 +64,6 @@ export function ServerSidebar({ data, view, onViewChange }: ServerSidebarProps) 
             leading: <Icon name={item.icon} size={16} />,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
       ]}

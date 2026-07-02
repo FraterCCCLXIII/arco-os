@@ -112,6 +112,7 @@ export function NavSidebar({
               {quickLinks.map((link) => (
                 <ListItem
                   key={link.id}
+                  className={styles.navListItem}
                   leading={<Icon name={link.icon} size={15} />}
                   label={link.label}
                   active={link.active}
@@ -133,7 +134,7 @@ export function NavSidebar({
                 {section.items?.map((item) => (
                   <ListItem
                     key={item.id}
-                    className={item.className}
+                    className={cx(styles.navListItem, item.className)}
                     leading={item.leading}
                     label={item.label}
                     description={item.description}

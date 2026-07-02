@@ -49,10 +49,6 @@
   color: var(--lf-text-primary);
 }
 
-.navListItem {
-  font-size: var(--lf-font-size-sm);
-}
-
 @media (max-width: 960px) {
   .sidebar {
     display: none;

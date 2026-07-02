@@ -38,7 +38,6 @@ export function LifePlanningSidebar({ data, view, onViewChange }: LifePlanningSi
             leading: <Icon name={item.icon} size={16} />,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
         {
@@ -50,7 +49,6 @@ export function LifePlanningSidebar({ data, view, onViewChange }: LifePlanningSi
             leading: <Icon name={item.icon} size={16} />,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
         {
@@ -69,7 +67,6 @@ export function LifePlanningSidebar({ data, view, onViewChange }: LifePlanningSi
               ) : undefined,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
       ]}

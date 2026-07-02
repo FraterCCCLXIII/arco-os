@@ -49,7 +49,6 @@ export function TranscribeSidebar({ data, view, onViewChange }: TranscribeSideba
             trailing: item.badge ? <span className={styles.badge}>{item.badge}</span> : undefined,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
         {
@@ -60,7 +59,6 @@ export function TranscribeSidebar({ data, view, onViewChange }: TranscribeSideba
             leading: <Icon name={item.icon} size={16} />,
             active: view === item.view,
             onClick: () => onViewChange(item.view),
-            className: styles.navItem,
           })),
         },
         {
@@ -77,7 +75,6 @@ export function TranscribeSidebar({ data, view, onViewChange }: TranscribeSideba
                 title={source.provider}
               />
             ),
-            className: styles.navItem,
           })),
         },
         {
