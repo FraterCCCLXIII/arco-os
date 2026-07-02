@@ -70,7 +70,7 @@
 
 .divider {
   height: 1px;
-  background: var(--lf-border-subtle);
+  background: var(--lf-divider);
 }
 
 .planUsageButton {
@@ -106,14 +106,18 @@
 .trigger {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  padding: 0;
+  gap: var(--lf-space-2);
+  min-height: 20px;
+  padding: 0 var(--lf-space-1);
   border: none;
   background: transparent;
   cursor: pointer;
-  border-radius: var(--lf-radius-pill);
+  border-radius: var(--lf-radius-md);
+  font-family: var(--lf-font-family);
+}
+
+.trigger:hover .triggerLabel {
+  color: var(--lf-text-secondary);
 }
 
 .triggerDot {
@@ -129,4 +133,18 @@
 
 .triggerDotDanger {
   background: var(--lf-danger);
+}
+
+.triggerLabel {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  white-space: nowrap;
+}
+
+.triggerLabelWarning {
+  color: var(--lf-warning);
+}
+
+.triggerLabelDanger {
+  color: var(--lf-danger);
 }

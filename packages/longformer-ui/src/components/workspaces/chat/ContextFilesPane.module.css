@@ -8,7 +8,6 @@
 
 .treeResizable {
   flex-shrink: 0;
-  border-right: 1px solid var(--lf-border-subtle);
 }
 
 .treePane {
@@ -27,7 +26,7 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--lf-text-tertiary);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .treeScroll {
@@ -92,7 +91,7 @@
   align-items: center;
   gap: var(--lf-space-2);
   padding: var(--lf-space-2) var(--lf-space-3);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   font-size: var(--lf-font-size-sm);
   color: var(--lf-text-primary);
 }

@@ -1,6 +1,6 @@
 .divider {
   border: none;
-  background: var(--lf-border-subtle);
+  background: var(--lf-divider);
   flex-shrink: 0;
 }
 

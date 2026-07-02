@@ -15,7 +15,7 @@
   gap: var(--lf-space-2);
   height: 44px;
   padding: 0 var(--lf-space-2) 0 var(--lf-space-4);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .headerTitle {
@@ -50,7 +50,7 @@
 
 .composerDock {
   flex-shrink: 0;
-  padding: var(--lf-space-3);
+  padding: 0 var(--lf-space-3) var(--lf-space-3);
 }
 
 .emptyState {
@@ -74,7 +74,8 @@
   display: flex;
   flex-direction: column;
   gap: var(--lf-space-3);
-  --lf-prompt-fade-color: var(--lf-surface-1);
+  min-width: 0;
+  width: 100%;
 }
 
 .panelChromeless {
@@ -100,22 +101,8 @@
   gap: var(--lf-space-3);
 }
 
-.panelChromeless .emptyBody {
-  --lf-prompt-fade-color: var(--lf-surface-canvas);
-}
-
 .composerChromeless {
   border-radius: 24px;
   padding: var(--lf-space-3) var(--lf-space-4);
 }
 
-.panelChromeless :global(.lf-scrollbar) {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.panelChromeless :global(.lf-scrollbar)::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
-}

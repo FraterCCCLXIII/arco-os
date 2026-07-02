@@ -236,7 +236,7 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  min-height: 36px;
+  height: 28px;
   padding: 0 var(--lf-space-3);
   border: none;
   border-radius: var(--lf-radius-pill);
@@ -245,8 +245,20 @@
   color: inherit;
   font-size: var(--lf-font-size-sm);
   font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
   cursor: pointer;
+  flex-shrink: 0;
+}
+
+.body > .glassBtn {
+  width: 100%;
+}
+
+.footer .glassBtn,
+.footerActions .glassBtn {
   flex: 1;
+  min-width: 0;
 }
 
 .glassBtnPrimary {
@@ -364,7 +376,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 36px;
+  height: 28px;
   padding: 0 var(--lf-space-3);
   border: none;
   border-radius: var(--lf-radius-pill);
@@ -372,7 +384,10 @@
   color: #fff;
   font-size: var(--lf-font-size-sm);
   font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .spacer {

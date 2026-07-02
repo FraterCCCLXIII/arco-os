@@ -43,10 +43,6 @@ export interface MusicTopBarProps {
 export function MusicTopBar({ searchQuery, onSearchChange, user }: MusicTopBarProps) {
   return (
     <header className={styles.topBar}>
-      <div className={styles.logo} aria-hidden="true">
-        ♫
-      </div>
-
       <div className={styles.navCluster}>
         <button type="button" className={styles.navBtn} aria-label="Home">
           <Icon name="home" size={18} />
@@ -149,7 +145,7 @@ export function MusicLibrarySidebar({
         </button>
       </div>
 
-      <div className={styles.libraryList}>
+      <div className={cx(styles.libraryList, styles.scrollable)}>
         {filteredItems.map((item) => (
           <button
             key={item.id}
@@ -188,7 +184,7 @@ export function MusicHomeContent({
 }: MusicHomeContentProps) {
   return (
     <main className={styles.mainPane}>
-      <div className={styles.mainScroll}>
+      <div className={cx(styles.mainScroll, styles.scrollable)}>
         <div className={styles.contentFilters}>
           {CONTENT_FILTERS.map((filter) => (
             <button
@@ -272,7 +268,7 @@ export function MusicNowPlayingPanel({ nowPlaying }: MusicNowPlayingPanelProps) 
   return (
     <aside className={styles.nowPlayingPane} aria-label="Now playing">
       <div className={styles.nowPlayingHeader}>{queueTitle ?? track.title}</div>
-      <div className={styles.nowPlayingScroll}>
+      <div className={cx(styles.nowPlayingScroll, styles.scrollable)}>
         <div className={styles.nowPlayingArt}>
           <span className={artClass(track.albumArtTone, "full")} aria-hidden="true" />
           <button type="button" className={styles.videoSwitch}>

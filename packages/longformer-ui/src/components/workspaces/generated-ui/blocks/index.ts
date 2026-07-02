@@ -26,6 +26,7 @@ export * from "./VpnConnectionCardsBlock";
 export * from "./CalendarScheduleCardsBlock";
 export * from "./BatteryStatusCardsBlock";
 export * from "./MusicPlayerCardsBlock";
+export * from "./VideoPlayerCardsBlock";
 export * from "./NewsFeedCardsBlock";
 export * from "./TaskChecklistCardsBlock";
 export * from "./TranslationCardsBlock";

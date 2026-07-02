@@ -164,7 +164,7 @@
   flex-direction: column;
   gap: var(--lf-space-3);
   padding: var(--lf-space-3) var(--lf-space-5) var(--lf-space-4);
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: 1px solid var(--lf-divider);
   background: rgba(255, 255, 255, 0.12);
 }
 

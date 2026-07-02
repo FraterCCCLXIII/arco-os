@@ -29,7 +29,6 @@ export interface ChatWorkspaceProps {
   model?: string;
   modelOptions?: MenuItemDescriptor[];
   usage?: UsageStats;
-  thinkingLevel?: string;
   onPlanUsageClick?: () => void;
   disabled?: boolean;
   navItems?: TabItem[];
@@ -61,7 +60,6 @@ export function ChatWorkspace({
   model,
   modelOptions,
   usage,
-  thinkingLevel,
   onPlanUsageClick,
   disabled = false,
   navItems,
@@ -108,7 +106,6 @@ export function ChatWorkspace({
               model={model}
               modelOptions={modelOptions}
               usage={usage}
-              thinkingLevel={thinkingLevel}
               onPlanUsageClick={onPlanUsageClick}
               {...composerModeProps}
             />
@@ -141,7 +138,6 @@ export function ChatWorkspace({
             model={model}
             modelOptions={modelOptions}
             usage={usage}
-            thinkingLevel={thinkingLevel}
             onPlanUsageClick={onPlanUsageClick}
             {...composerModeProps}
           />

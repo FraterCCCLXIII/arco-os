@@ -1,8 +1,11 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 import { createPortal } from "react-dom";
 import { cx } from "../../../utils/cx";
 import { getPortalContainer } from "../../../utils/getPortalContainer";
 import { Icon } from "../../../icons";
+import { Input } from "../../primitives/Input";
+import { Menu, type MenuItemDescriptor } from "../../primitives/Menu";
+import { ScrollArea } from "../../primitives/ScrollArea";
 import { Tooltip } from "../../primitives/Tooltip";
 import type { NavRailItem } from "./NavRail";
 import styles from "./NavRailOverflowCard.module.css";
@@ -24,6 +27,9 @@ export interface NavRailOverflowCardProps {
   expanded: boolean;
   onSelect: (id: string) => void;
   onMoveToRail: (id: string) => void;
+  onRowPointerDown?: (item: NavRailItem) => (event: ReactPointerEvent<HTMLElement>) => void;
+  shouldSuppressRowClick?: () => boolean;
+  draggingItemId?: string | null;
 }
 
 /** Click-triggered overflow menu for workspace apps not pinned to the rail. */
@@ -33,13 +39,39 @@ export function NavRailOverflowCard({
   expanded,
   onSelect,
   onMoveToRail,
+  onRowPointerDown,
+  shouldSuppressRowClick,
+  draggingItemId = null,
 }: NavRailOverflowCardProps) {
   const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [panelStyle, setPanelStyle] = useState<{ top: number; left: number }>();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const overflowActive = items.some((item) => item.id === activeId);
+  const wasDraggingRef = useRef(false);
+
+  useEffect(() => {
+    if (draggingItemId) {
+      wasDraggingRef.current = true;
+      return;
+    }
+
+    if (wasDraggingRef.current) {
+      wasDraggingRef.current = false;
+      setOpen(false);
+    }
+  }, [draggingItemId]);
+
+  const filteredItems = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return items;
+    return items.filter(
+      (item) => item.label.toLowerCase().includes(query) || item.id.toLowerCase().includes(query),
+    );
+  }, [items, searchQuery]);
 
   useEffect(() => {
     if (!open) return;
@@ -82,12 +114,27 @@ export function NavRailOverflowCard({
     };
   }, [open]);
 
+  useLayoutEffect(() => {
+    if (!open) return;
+    searchInputRef.current?.focus({ preventScroll: true });
+    searchInputRef.current?.select();
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) setSearchQuery("");
+  }, [open]);
+
   function handleToggle() {
     setOpen((value) => !value);
   }
 
   function handleSelect(id: string) {
     onSelect(id);
+    setOpen(false);
+  }
+
+  function handleDock(id: string) {
+    onMoveToRail(id);
     setOpen(false);
   }
 
@@ -131,37 +178,76 @@ export function NavRailOverflowCard({
         }}
       >
         <div className={styles.header}>
-          <div className={styles.title}>More apps</div>
-          <div className={styles.hint}>Pin apps to the sidebar or open them here.</div>
+          <Input
+            ref={searchInputRef}
+            className={styles.searchInput}
+            type="search"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+            placeholder="Search apps"
+            aria-label="Search apps"
+            autoFocus
+            startSlot={<Icon name="search" size={14} />}
+          />
         </div>
-        <div className={styles.list}>
+        <ScrollArea className={styles.list}>
           {items.length === 0 ? (
             <div className={styles.empty}>All apps are on the sidebar.</div>
+          ) : filteredItems.length === 0 ? (
+            <div className={styles.empty}>No apps match your search.</div>
           ) : (
-            items.map((item) => (
-              <div key={item.id} className={styles.row}>
+            filteredItems.map((item) => (
+              <div
+                key={item.id}
+                className={cx(
+                  styles.row,
+                  item.id === activeId && styles.rowActive,
+                  draggingItemId === item.id && styles.rowDragging,
+                )}
+              >
                 <button
                   type="button"
-                  className={cx(styles.rowMain, item.id === activeId && styles.rowActive)}
-                  onClick={() => handleSelect(item.id)}
+                  className={styles.rowMain}
+                  onPointerDown={onRowPointerDown?.(item)}
+                  onClick={() => {
+                    if (shouldSuppressRowClick?.()) return;
+                    handleSelect(item.id);
+                  }}
                 >
                   <span className={styles.rowIcon}>
                     <Icon name={item.icon} size={18} />
                   </span>
                   <span className={styles.rowLabel}>{item.label}</span>
                 </button>
-                <button
-                  type="button"
-                  className={styles.pinButton}
-                  aria-label={`Pin ${item.label} to sidebar`}
-                  onClick={() => onMoveToRail(item.id)}
-                >
-                  <Icon name="panel-right" size={14} />
-                </button>
+                <Menu
+                  trigger={
+                    <button
+                      type="button"
+                      className={styles.rowMenuButton}
+                      aria-label={`${item.label} options`}
+                      onPointerDown={(event) => event.stopPropagation()}
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      <Icon name="more-vertical" size={14} />
+                    </button>
+                  }
+                  items={
+                    [
+                      {
+                        id: "add-to-nav",
+                        label: "Add to nav",
+                        icon: "panel-right",
+                        onSelect: () => handleDock(item.id),
+                      },
+                    ] satisfies MenuItemDescriptor[]
+                  }
+                  align="end"
+                  aria-label={`${item.label} options`}
+                />
               </div>
             ))
           )}
-        </div>
+        </ScrollArea>
       </div>
     ) : null;
 

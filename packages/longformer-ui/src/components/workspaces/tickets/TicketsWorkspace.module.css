@@ -12,6 +12,16 @@
   min-height: 0;
 }
 
+.sidebarResizable {
+  flex-shrink: 0;
+}
+
+@media (max-width: 960px) {
+  .sidebarResizable {
+    display: none;
+  }
+}
+
 .placeholder {
   padding: var(--lf-space-8);
   max-width: 640px;

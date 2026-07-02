@@ -4,6 +4,8 @@
   align-items: center;
   gap: var(--lf-space-2);
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
   padding: var(--lf-space-2);
   border-radius: var(--lf-radius-md);
   background: transparent;

@@ -1,7 +1,7 @@
 .workspace {
   --settings-content-bg: var(--lf-surface-1);
   --settings-link: #00a8fc;
-  --settings-divider: var(--lf-border-subtle);
+  --settings-divider: var(--lf-divider);
 
   display: flex;
   min-height: 0;
@@ -16,8 +16,11 @@
 }
 
 .sidebar {
+  height: 100%;
+}
+
+.sidebarResizable {
   flex-shrink: 0;
-  border-right: 1px solid var(--settings-divider);
 }
 
 .profile {
@@ -314,10 +317,9 @@
     flex-direction: column;
   }
 
-  .sidebar {
-    width: 100%;
+  .sidebarResizable {
+    width: 100% !important;
     max-height: 40%;
-    border-right: none;
     border-bottom: 1px solid var(--settings-divider);
   }
 

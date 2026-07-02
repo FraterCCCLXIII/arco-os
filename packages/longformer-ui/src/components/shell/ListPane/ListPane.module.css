@@ -13,7 +13,7 @@
   gap: var(--lf-space-2);
   min-height: 48px;
   padding: var(--lf-space-2) var(--lf-space-4);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   background: var(--lf-surface-1);
 }
 
@@ -31,7 +31,7 @@
   flex-direction: column;
   gap: var(--lf-space-2);
   padding: var(--lf-space-2) var(--lf-space-3);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   background: var(--lf-surface-1);
 }
 

@@ -3,9 +3,9 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  border: 1px solid var(--lf-app-icon-border);
+  border: 1px solid var(--lf-app-icon-solid-border);
   color: var(--lf-text-on-accent);
-  box-shadow: var(--lf-app-icon-shadow);
+  box-shadow: var(--lf-app-icon-solid-shadow);
   transition:
     transform var(--lf-duration-fast) var(--lf-ease),
     box-shadow var(--lf-duration-fast) var(--lf-ease),
@@ -14,6 +14,11 @@
 
 .tileLight {
   color: rgba(20, 20, 24, 0.92);
+}
+
+.tileGradient {
+  border-color: var(--lf-app-icon-border);
+  box-shadow: var(--lf-app-icon-shadow);
 }
 
 .xs {
@@ -65,67 +70,131 @@
 }
 
 .hueBlue {
-  background: linear-gradient(155deg, var(--lf-app-hue-blue-from), var(--lf-app-hue-blue-to));
+  background: var(--lf-app-hue-blue-solid);
 }
 
 .hueIndigo {
-  background: linear-gradient(155deg, var(--lf-app-hue-indigo-from), var(--lf-app-hue-indigo-to));
+  background: var(--lf-app-hue-indigo-solid);
 }
 
 .hueViolet {
-  background: linear-gradient(155deg, var(--lf-app-hue-violet-from), var(--lf-app-hue-violet-to));
+  background: var(--lf-app-hue-violet-solid);
 }
 
 .huePurple {
-  background: linear-gradient(155deg, var(--lf-app-hue-purple-from), var(--lf-app-hue-purple-to));
+  background: var(--lf-app-hue-purple-solid);
 }
 
 .hueTeal {
-  background: linear-gradient(155deg, var(--lf-app-hue-teal-from), var(--lf-app-hue-teal-to));
+  background: var(--lf-app-hue-teal-solid);
 }
 
 .hueGreen {
-  background: linear-gradient(155deg, var(--lf-app-hue-green-from), var(--lf-app-hue-green-to));
+  background: var(--lf-app-hue-green-solid);
 }
 
 .hueLime {
-  background: linear-gradient(155deg, var(--lf-app-hue-lime-from), var(--lf-app-hue-lime-to));
+  background: var(--lf-app-hue-lime-solid);
 }
 
 .hueAmber {
-  background: linear-gradient(155deg, var(--lf-app-hue-amber-from), var(--lf-app-hue-amber-to));
+  background: var(--lf-app-hue-amber-solid);
 }
 
 .hueOrange {
-  background: linear-gradient(155deg, var(--lf-app-hue-orange-from), var(--lf-app-hue-orange-to));
+  background: var(--lf-app-hue-orange-solid);
 }
 
 .hueRose {
-  background: linear-gradient(155deg, var(--lf-app-hue-rose-from), var(--lf-app-hue-rose-to));
+  background: var(--lf-app-hue-rose-solid);
 }
 
 .hueCyan {
-  background: linear-gradient(155deg, var(--lf-app-hue-cyan-from), var(--lf-app-hue-cyan-to));
+  background: var(--lf-app-hue-cyan-solid);
 }
 
 .hueSky {
-  background: linear-gradient(155deg, var(--lf-app-hue-sky-from), var(--lf-app-hue-sky-to));
+  background: var(--lf-app-hue-sky-solid);
 }
 
 .hueGold {
-  background: linear-gradient(155deg, var(--lf-app-hue-gold-from), var(--lf-app-hue-gold-to));
+  background: var(--lf-app-hue-gold-solid);
 }
 
 .hueEmerald {
-  background: linear-gradient(155deg, var(--lf-app-hue-emerald-from), var(--lf-app-hue-emerald-to));
+  background: var(--lf-app-hue-emerald-solid);
 }
 
 .hueSlate {
+  background: var(--lf-app-hue-slate-solid);
+}
+
+.hueGraphite {
+  background: var(--lf-app-hue-graphite-solid);
+}
+
+.tileGradient.hueBlue {
+  background: linear-gradient(155deg, var(--lf-app-hue-blue-from), var(--lf-app-hue-blue-to));
+}
+
+.tileGradient.hueIndigo {
+  background: linear-gradient(155deg, var(--lf-app-hue-indigo-from), var(--lf-app-hue-indigo-to));
+}
+
+.tileGradient.hueViolet {
+  background: linear-gradient(155deg, var(--lf-app-hue-violet-from), var(--lf-app-hue-violet-to));
+}
+
+.tileGradient.huePurple {
+  background: linear-gradient(155deg, var(--lf-app-hue-purple-from), var(--lf-app-hue-purple-to));
+}
+
+.tileGradient.hueTeal {
+  background: linear-gradient(155deg, var(--lf-app-hue-teal-from), var(--lf-app-hue-teal-to));
+}
+
+.tileGradient.hueGreen {
+  background: linear-gradient(155deg, var(--lf-app-hue-green-from), var(--lf-app-hue-green-to));
+}
+
+.tileGradient.hueLime {
+  background: linear-gradient(155deg, var(--lf-app-hue-lime-from), var(--lf-app-hue-lime-to));
+}
+
+.tileGradient.hueAmber {
+  background: linear-gradient(155deg, var(--lf-app-hue-amber-from), var(--lf-app-hue-amber-to));
+}
+
+.tileGradient.hueOrange {
+  background: linear-gradient(155deg, var(--lf-app-hue-orange-from), var(--lf-app-hue-orange-to));
+}
+
+.tileGradient.hueRose {
+  background: linear-gradient(155deg, var(--lf-app-hue-rose-from), var(--lf-app-hue-rose-to));
+}
+
+.tileGradient.hueCyan {
+  background: linear-gradient(155deg, var(--lf-app-hue-cyan-from), var(--lf-app-hue-cyan-to));
+}
+
+.tileGradient.hueSky {
+  background: linear-gradient(155deg, var(--lf-app-hue-sky-from), var(--lf-app-hue-sky-to));
+}
+
+.tileGradient.hueGold {
+  background: linear-gradient(155deg, var(--lf-app-hue-gold-from), var(--lf-app-hue-gold-to));
+}
+
+.tileGradient.hueEmerald {
+  background: linear-gradient(155deg, var(--lf-app-hue-emerald-from), var(--lf-app-hue-emerald-to));
+}
+
+.tileGradient.hueSlate {
   background: linear-gradient(155deg, var(--lf-app-hue-slate-from), var(--lf-app-hue-slate-to));
   color: var(--lf-text-primary);
 }
 
-.hueGraphite {
+.tileGradient.hueGraphite {
   background: linear-gradient(155deg, var(--lf-app-hue-graphite-from), var(--lf-app-hue-graphite-to));
   color: var(--lf-text-primary);
 }

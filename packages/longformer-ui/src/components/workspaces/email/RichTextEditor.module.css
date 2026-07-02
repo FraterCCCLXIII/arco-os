@@ -1,0 +1,101 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--lf-border-default);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-1);
+  overflow: hidden;
+}
+
+.editor {
+  min-height: 120px;
+  max-height: 280px;
+  overflow-y: auto;
+  padding: var(--lf-space-3) var(--lf-space-4);
+  color: var(--lf-text-primary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-base);
+  line-height: var(--lf-line-height-normal);
+  outline: none;
+}
+
+.editor:empty::before {
+  content: attr(data-placeholder);
+  color: var(--lf-text-tertiary);
+  pointer-events: none;
+}
+
+.editor p,
+.editor h1,
+.editor h2,
+.editor h3,
+.editor blockquote,
+.editor ul,
+.editor ol {
+  margin: 0 0 var(--lf-space-2);
+}
+
+.editor p:last-child,
+.editor h1:last-child,
+.editor h2:last-child,
+.editor h3:last-child,
+.editor blockquote:last-child,
+.editor ul:last-child,
+.editor ol:last-child {
+  margin-bottom: 0;
+}
+
+.editor h1 {
+  font-size: var(--lf-font-size-xl);
+  font-weight: 700;
+}
+
+.editor h2 {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 700;
+}
+
+.editor h3 {
+  font-size: var(--lf-font-size-base);
+  font-weight: 600;
+}
+
+.editor ul,
+.editor ol {
+  padding-left: var(--lf-space-5);
+}
+
+.editor blockquote {
+  padding-left: var(--lf-space-3);
+  border-left: 3px solid var(--lf-divider);
+  color: var(--lf-text-secondary);
+}
+
+.editor code {
+  padding: 1px 4px;
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-surface-3);
+  font-family: var(--lf-font-mono);
+  font-size: 0.92em;
+}
+
+.editor a {
+  color: var(--lf-accent);
+  text-decoration: underline;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-top: 1px solid var(--lf-divider);
+  background: var(--lf-surface-2);
+}
+
+.footerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+}

@@ -33,6 +33,7 @@ export const color = {
   surfaceOverlay: "var(--lf-surface-overlay)",
   surfaceSunken: "var(--lf-surface-sunken)",
   borderSubtle: "var(--lf-border-subtle)",
+  divider: "var(--lf-divider)",
   borderDefault: "var(--lf-border-default)",
   borderStrong: "var(--lf-border-strong)",
   textPrimary: "var(--lf-text-primary)",

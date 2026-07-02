@@ -1,7 +1,16 @@
-import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type MutableRefObject,
+  type PointerEvent as ReactPointerEvent,
+} from "react";
 import type { IconName } from "../../../icons";
 
-const HOLD_MS = 180;
+const HOLD_MS = 480;
+const PENDING_VISUAL_MS = 360;
+const UNDOCK_THRESHOLD_PX = 48;
 
 interface PendingDrag {
   index: number;
@@ -19,12 +28,15 @@ export interface NavRailDragState {
   ghostY: number;
   label: string;
   icon: IconName;
+  isUndocking: boolean;
 }
 
 export interface UseNavRailReorderOptions {
   enabled: boolean;
   itemCount: number;
+  railBoundsRef: MutableRefObject<HTMLElement | null>;
   onReorder?: (fromIndex: number, toIndex: number) => void;
+  onUndock?: (fromIndex: number) => void;
 }
 
 function resolveDropIndex(clientY: number, refs: (HTMLElement | null)[]): number {
@@ -40,13 +52,26 @@ function resolveDropIndex(clientY: number, refs: (HTMLElement | null)[]): number
   return Math.max(0, refs.length - 1);
 }
 
-/** Hold-and-drag reordering for pinned NavRail workspace tabs. */
-export function useNavRailReorder({ enabled, itemCount, onReorder }: UseNavRailReorderOptions) {
+function isUndocking(pointerX: number, railBounds: HTMLElement | null): boolean {
+  if (!railBounds) return false;
+  const rect = railBounds.getBoundingClientRect();
+  return pointerX > rect.right + UNDOCK_THRESHOLD_PX;
+}
+
+/** Hold-and-drag reordering for pinned NavRail workspace tabs; pull right to de-dock. */
+export function useNavRailReorder({
+  enabled,
+  itemCount,
+  railBoundsRef,
+  onReorder,
+  onUndock,
+}: UseNavRailReorderOptions) {
   const [dragState, setDragState] = useState<NavRailDragState | null>(null);
   const [pendingIndex, setPendingIndex] = useState<number | null>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const pendingRef = useRef<PendingDrag | null>(null);
   const holdTimerRef = useRef<number | null>(null);
+  const pendingVisualTimerRef = useRef<number | null>(null);
   const dragRef = useRef<NavRailDragState | null>(null);
   const didDragRef = useRef(false);
 
@@ -59,6 +84,10 @@ export function useNavRailReorder({ enabled, itemCount, onReorder }: UseNavRailR
       window.clearTimeout(holdTimerRef.current);
       holdTimerRef.current = null;
     }
+    if (pendingVisualTimerRef.current !== null) {
+      window.clearTimeout(pendingVisualTimerRef.current);
+      pendingVisualTimerRef.current = null;
+    }
   }, []);
 
   const cancelPending = useCallback(() => {
@@ -69,7 +98,10 @@ export function useNavRailReorder({ enabled, itemCount, onReorder }: UseNavRailR
 
   const finishDrag = useCallback(
     (state: NavRailDragState) => {
-      if (state.fromIndex !== state.dropIndex) {
+      if (state.isUndocking) {
+        didDragRef.current = true;
+        onUndock?.(state.fromIndex);
+      } else if (state.fromIndex !== state.dropIndex) {
         didDragRef.current = true;
         onReorder?.(state.fromIndex, state.dropIndex);
       }
@@ -78,12 +110,13 @@ export function useNavRailReorder({ enabled, itemCount, onReorder }: UseNavRailR
       dragRef.current = null;
       document.body.style.userSelect = "";
     },
-    [onReorder],
+    [onReorder, onUndock],
   );
 
   const createItemPointerDown = useCallback(
     (index: number, label: string, icon: IconName) => (event: ReactPointerEvent<HTMLElement>) => {
-      if (!enabled || !onReorder || event.button !== 0 || itemCount <= 1) return;
+      if (!enabled || event.button !== 0 || itemCount <= 1) return;
+      if (!onReorder && !onUndock) return;
 
       cancelPending();
       didDragRef.current = false;
@@ -98,7 +131,13 @@ export function useNavRailReorder({ enabled, itemCount, onReorder }: UseNavRailR
         startY: event.clientY,
         captureTarget,
       };
-      setPendingIndex(index);
+
+      pendingVisualTimerRef.current = window.setTimeout(() => {
+        const pending = pendingRef.current;
+        if (!pending || pending.index !== index) return;
+        setPendingIndex(index);
+        pendingVisualTimerRef.current = null;
+      }, PENDING_VISUAL_MS);
 
       function onPointerMove(ev: PointerEvent) {
         const pending = pendingRef.current;
@@ -109,12 +148,14 @@ export function useNavRailReorder({ enabled, itemCount, onReorder }: UseNavRailR
 
           ev.preventDefault();
 
-          const dropIndex = resolveDropIndex(ev.clientY, itemRefs.current);
+          const undocking = isUndocking(ev.clientX, railBoundsRef.current);
+          const dropIndex = undocking ? active.fromIndex : resolveDropIndex(ev.clientY, itemRefs.current);
           const next: NavRailDragState = {
             ...active,
             dropIndex,
             ghostX: ev.clientX,
             ghostY: ev.clientY,
+            isUndocking: undocking,
           };
 
           dragRef.current = next;
@@ -162,6 +203,7 @@ export function useNavRailReorder({ enabled, itemCount, onReorder }: UseNavRailR
           ghostY: pending.startY,
           label,
           icon,
+          isUndocking: false,
         };
 
         pendingRef.current = null;
@@ -174,7 +216,7 @@ export function useNavRailReorder({ enabled, itemCount, onReorder }: UseNavRailR
       window.addEventListener("pointerup", onPointerUp);
       window.addEventListener("pointercancel", onPointerUp);
     },
-    [cancelPending, enabled, finishDrag, itemCount, onReorder],
+    [cancelPending, enabled, finishDrag, itemCount, onReorder, onUndock, railBoundsRef],
   );
 
   const shouldSuppressClick = useCallback(() => {

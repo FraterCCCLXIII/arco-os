@@ -70,6 +70,7 @@ function AppIconView({
         icon={app.icon}
         hue={phoneAppHue(app)}
         size="xl"
+        surface="solid"
         className={cx(styles.appIcon, dragging && styles.dragging, className)}
       />
     );

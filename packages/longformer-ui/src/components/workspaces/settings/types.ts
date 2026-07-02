@@ -16,6 +16,7 @@ export type SettingsSectionId =
   | "gift-inventory"
   | "billing"
   | "appearance"
+  | "wallpaper"
   | "accessibility"
   | "voice-video"
   | "text-images"
@@ -104,8 +105,16 @@ export interface SettingsUserProfile {
   editProfilesLabel?: string;
 }
 
+export interface SettingsWallpaperPreset {
+  id: string;
+  label: string;
+  url: string;
+  credit?: string;
+}
+
 export interface SettingsWorkspaceData {
   user: SettingsUserProfile;
   nav: SettingsNavGroup[];
   sections: SettingsContentSection[];
+  wallpaperPresets?: SettingsWallpaperPreset[];
 }

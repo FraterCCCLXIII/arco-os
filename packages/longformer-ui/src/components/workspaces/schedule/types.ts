@@ -1,6 +1,12 @@
 import type { CalendarEvent, CalendarEventTone } from "../calendar/types";
-import { toISODate } from "../calendar/types";
+import {
+  addDaysISO,
+  formatMinutesToLabel,
+  parseTimeLabelToMinutes,
+} from "../calendar/types";
 import type { TaskItem, TaskPriority, TaskStatus } from "../tasks/types";
+
+export { addDaysISO, formatMinutesToLabel, parseTimeLabelToMinutes };
 
 export type ScheduleView = "week" | "month" | "list" | "board";
 export type ScheduleStatusFilter = "all" | "backlog" | "active" | "closed";
@@ -54,25 +60,6 @@ export const SCHEDULE_VIEW_LABEL: Record<ScheduleView, string> = {
   board: "Board",
 };
 
-export function parseTimeLabelToMinutes(label: string): number {
-  const match = label.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
-  if (!match) return 0;
-  let hours = Number(match[1]);
-  const minutes = Number(match[2]);
-  const meridiem = match[3].toUpperCase();
-  if (meridiem === "PM" && hours !== 12) hours += 12;
-  if (meridiem === "AM" && hours === 12) hours = 0;
-  return hours * 60 + minutes;
-}
-
-export function formatMinutesToLabel(totalMinutes: number): string {
-  const hours24 = Math.floor(totalMinutes / 60);
-  const minutes = totalMinutes % 60;
-  const meridiem = hours24 >= 12 ? "PM" : "AM";
-  const hours12 = hours24 % 12 === 0 ? 12 : hours24 % 12;
-  return `${hours12}:${String(minutes).padStart(2, "0")} ${meridiem}`;
-}
-
 export function formatTimeRange(startMinutes?: number, endMinutes?: number): string | undefined {
   if (startMinutes == null) return undefined;
   if (endMinutes == null) return formatMinutesToLabel(startMinutes);
@@ -85,12 +72,6 @@ export function getWeekStart(date: Date, weekStartsOnMonday = true): Date {
   const offset = weekStartsOnMonday ? (day === 0 ? -6 : 1 - day) : -day;
   copy.setDate(copy.getDate() + offset);
   return copy;
-}
-
-export function addDaysISO(iso: string, days: number): string {
-  const [year, month, day] = iso.split("-").map(Number);
-  const date = new Date(year, month - 1, day + days);
-  return toISODate(date);
 }
 
 export function scheduleItemToCalendarEvent(item: ScheduleItem): CalendarEvent {

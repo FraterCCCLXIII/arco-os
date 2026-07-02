@@ -113,7 +113,7 @@ export function ChatContextPanel({
             handleClassName={styles.drawerResizeHandle}
             handleLabel="Resize context drawer"
           >
-            <ChatContextDrawer {...drawerProps} showLeadingBorder={false} />
+            <ChatContextDrawer {...drawerProps} />
           </ResizablePane>
         ) : (
           <div className={styles.drawerFull}>

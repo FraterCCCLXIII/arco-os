@@ -1,0 +1,182 @@
+.grid {
+  --week-time-gutter: 56px;
+
+  display: grid;
+  grid-template-columns: var(--week-time-gutter) repeat(7, minmax(0, 1fr));
+  height: 100%;
+  min-height: 0;
+  overflow-y: auto;
+  align-content: start;
+}
+
+.stickyHead {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--lf-surface-1);
+}
+
+.headerRow {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  border-bottom: 1px solid var(--lf-divider);
+}
+
+.timeGutter {
+  border-right: 1px solid var(--lf-divider);
+}
+
+.dayHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--lf-space-2) var(--lf-space-1);
+  border-right: 1px solid var(--lf-divider);
+}
+
+.dayHeader:last-child {
+  border-right: none;
+}
+
+.dayHeaderToday .dayNumber {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent);
+}
+
+.dayLabel {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--lf-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dayNumber {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.allDayRow {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  border-bottom: 1px solid var(--lf-divider);
+}
+
+.allDayLabel {
+  padding: var(--lf-space-2) var(--lf-space-1);
+  font-size: 10px;
+  color: var(--lf-text-tertiary);
+  text-align: right;
+  border-right: 1px solid var(--lf-divider);
+}
+
+.allDayColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  padding: var(--lf-space-1);
+  border-right: 1px solid var(--lf-divider);
+}
+
+.allDayColumn:last-child {
+  border-right: none;
+}
+
+.body {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-content: start;
+}
+
+.timeColumn {
+  min-height: calc(var(--hour-span, 24) * 56px);
+  border-right: 1px solid var(--lf-divider);
+}
+
+.timeLabel {
+  flex-shrink: 0;
+  height: 56px;
+  padding: 0 var(--lf-space-1);
+  font-size: 10px;
+  color: var(--lf-text-tertiary);
+  text-align: right;
+  transform: translateY(-8px);
+}
+
+.dayColumns {
+  position: relative;
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  min-width: 0;
+  min-height: calc(var(--hour-span, 24) * 56px);
+}
+
+.dayColumn {
+  position: relative;
+  border-right: 1px solid var(--lf-divider);
+}
+
+.dayColumn:last-child {
+  border-right: none;
+}
+
+.hourCell {
+  flex-shrink: 0;
+  height: 56px;
+  border-bottom: 1px solid var(--lf-divider);
+}
+
+.itemSlot {
+  position: absolute;
+  z-index: 1;
+  min-height: 28px;
+}
+
+.nowLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  height: 2px;
+  background: var(--lf-accent);
+  pointer-events: none;
+}
+
+.nowLine::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--lf-accent);
+}
+
+.nowBadge {
+  position: absolute;
+  left: -52px;
+  top: -10px;
+  padding: 2px 6px;
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent);
+  font-size: 10px;
+  font-weight: 600;
+}

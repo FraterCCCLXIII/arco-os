@@ -35,7 +35,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--lf-space-5);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .underlineTab {

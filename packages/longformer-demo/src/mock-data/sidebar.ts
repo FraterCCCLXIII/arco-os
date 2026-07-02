@@ -1,5 +1,5 @@
 export const chatConversations = [
-  { id: "c1", label: "Can you review the project?", meta: "2m" },
+  { id: "c1", label: "Plan the summer picnic", meta: "2m" },
   { id: "c2", label: "Research an office app", meta: "5d" },
   { id: "c3", label: "Order me a pizza", meta: "5d" },
   { id: "c4", label: "Find a local acupuncturist", meta: "5d" },
@@ -14,9 +14,9 @@ export const mailFolders = [
 ];
 
 export const recentPages = [
-  { id: "p1", label: "Addressing User Feedback", meta: "2h" },
-  { id: "p2", label: "06-26-2026 Weekly Demos", meta: "1d" },
-  { id: "p3", label: "Agent Canvas Comparison", meta: "3d" },
+  { id: "p1", label: "Picnic Planning Notes", meta: "2h" },
+  { id: "p2", label: "06-26-2026 Community Forum", meta: "1d" },
+  { id: "p3", label: "Vendor Layout Study", meta: "3d" },
 ];
 
 export const privatePages = [
@@ -27,5 +27,5 @@ export const privatePages = [
 
 export const teamspacePages = [
   { id: "p7", label: "Company Handbook" },
-  { id: "p8", label: "Agent Team Wiki" },
+  { id: "p8", label: "Volunteer Team Wiki" },
 ];

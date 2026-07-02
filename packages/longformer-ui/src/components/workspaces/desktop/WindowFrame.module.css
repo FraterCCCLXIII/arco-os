@@ -41,7 +41,7 @@
   height: 32px;
   padding: 0 var(--lf-space-2);
   background: var(--lf-surface-2);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .titleBarDraggable {
@@ -166,7 +166,7 @@
   justify-content: space-between;
   height: 44px;
   padding: 0 var(--lf-space-3);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .ios .mobileTitleBar {

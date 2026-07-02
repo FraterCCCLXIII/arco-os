@@ -120,7 +120,13 @@ function TrayAppMenuPanel({
       <MenuRow
         label={
             <span className={styles.menuHeaderLabel}>
-            <AppIconTile appId={app.id} icon={app.icon} size="xs" className={styles.menuHeaderIcon} />
+            <AppIconTile
+              appId={app.id}
+              icon={app.icon}
+              size="xs"
+              surface="solid"
+              className={styles.menuHeaderIcon}
+            />
             {app.label}
           </span>
         }

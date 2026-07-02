@@ -217,7 +217,7 @@ export function ComponentsPanel() {
           {category.id === "data-display" && (
             <Card padding="md" className={styles.patternCard}>
               <div className={styles.componentRow}>
-                <Avatar name="Paul Bloch" status="online" />
+                <Avatar name="Alex Morgan" status="online" />
                 <ListItem leading={<Icon name="folder" size={15} />} label="List item" description="Secondary line" />
               </div>
               <Divider />

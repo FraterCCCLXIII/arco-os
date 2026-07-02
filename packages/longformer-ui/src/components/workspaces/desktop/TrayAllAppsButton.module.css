@@ -1,0 +1,199 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.panel {
+  position: fixed;
+  z-index: var(--lf-z-overlay);
+  width: 260px;
+  max-height: min(420px, calc(100vh - 24px));
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--lf-radius-lg);
+  border: 1px solid var(--lf-border-default);
+  background: var(--lf-surface-overlay);
+  box-shadow: var(--lf-shadow-lg);
+  overflow: hidden;
+}
+
+.header {
+  flex-shrink: 0;
+  padding: var(--lf-space-3) var(--lf-space-3) var(--lf-space-2);
+  border-bottom: 1px solid var(--lf-divider);
+}
+
+.searchInput {
+  font-size: var(--lf-font-size-sm);
+}
+
+.list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--lf-space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.empty {
+  padding: var(--lf-space-4) var(--lf-space-3);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.rowMain {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  flex: 1;
+  min-width: 0;
+  min-height: 36px;
+  padding: 0 var(--lf-space-2);
+  border: none;
+  border-radius: var(--lf-radius-md);
+  background: transparent;
+  color: var(--lf-text-secondary);
+  cursor: grab;
+  text-align: left;
+  touch-action: none;
+}
+
+.rowMain:hover {
+  background: var(--lf-surface-2);
+  color: var(--lf-text-primary);
+}
+
+.rowMain:active {
+  cursor: grabbing;
+}
+
+.rowDragging {
+  opacity: 0;
+}
+
+.rowActive {
+  background: var(--lf-accent-muted);
+  color: var(--lf-text-primary);
+}
+
+.rowIcon {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.rowLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--lf-font-size-sm);
+}
+
+.pinButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--lf-text-tertiary);
+  cursor: pointer;
+}
+
+.pinButton:hover {
+  background: var(--lf-surface-3);
+  color: var(--lf-accent);
+}
+
+.allAppsButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  background: transparent;
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+  transition:
+    background var(--lf-duration-fast) var(--lf-ease),
+    color var(--lf-duration-fast) var(--lf-ease),
+    transform var(--lf-duration-fast) var(--lf-ease);
+}
+
+.allAppsButton:hover {
+  color: var(--lf-text-primary);
+}
+
+.allAppsButtonOpen {
+  color: var(--lf-accent);
+}
+
+.allAppsButtonDock {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}
+
+.allAppsButtonDock:hover {
+  transform: translateY(-2px);
+}
+
+.allAppsButtonTaskbar {
+  width: 44px;
+  height: 40px;
+  border-radius: var(--lf-radius-sm);
+}
+
+.allAppsButtonTaskbar:hover {
+  background: var(--lf-desktop-chrome-hover);
+}
+
+.allAppsButtonStart {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--lf-radius-sm);
+}
+
+.allAppsButtonStart:hover {
+  background: var(--lf-desktop-chrome-hover);
+}
+
+.startMark {
+  width: 14px;
+  height: 14px;
+  border-radius: 1px;
+  background:
+    linear-gradient(to right, #0078d4 0 50%, #50a0e8 50% 100%) top / 100% 50% no-repeat,
+    linear-gradient(to right, #0078d4 0 50%, #50a0e8 50% 100%) bottom / 100% 50% no-repeat;
+}
+
+.allAppsCount {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent);
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 14px;
+  text-align: center;
+}

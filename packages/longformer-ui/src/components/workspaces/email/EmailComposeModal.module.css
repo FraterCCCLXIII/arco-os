@@ -1,0 +1,38 @@
+.modal {
+  max-width: 720px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.fieldRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+}
+
+.fieldLabel {
+  width: 56px;
+  flex-shrink: 0;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  color: var(--lf-text-tertiary);
+}
+
+.fieldInput {
+  flex: 1;
+  min-width: 0;
+}
+
+.editor {
+  margin-top: var(--lf-space-1);
+}
+
+.footerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}

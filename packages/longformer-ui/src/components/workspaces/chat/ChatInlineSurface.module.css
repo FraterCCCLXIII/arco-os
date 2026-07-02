@@ -21,7 +21,7 @@
   align-items: center;
   gap: var(--lf-space-2);
   padding: var(--lf-space-2) var(--lf-space-4);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   background: var(--lf-surface-sunken);
   font-size: var(--lf-font-size-xs);
   font-weight: 600;

@@ -1,9 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { cx } from "../../../utils/cx";
+import { getPortalContainer } from "../../../utils/getPortalContainer";
 import { AppIconTile } from "../../../app-tones/AppIconTile";
 import { Icon } from "../../../icons";
 import { Tooltip } from "../../primitives/Tooltip";
+import { TrayAllAppsButton } from "./TrayAllAppsButton";
 import { TrayAppHoverCard, type TrayAppMenuActionHandlers } from "./TrayAppHoverCard";
+import { TrayScaleFit } from "./TrayScaleFit";
+import { useTrayPinDrag } from "./useTrayPinDrag";
+import { getTrayPinShift, getTrayReorderShift, useTrayReorder } from "./useTrayReorder";
 import type { FormFactor } from "../../../surface-manager";
 import type { DesktopApp, DesktopShell, DesktopWindow } from "./types";
 import styles from "./TaskTray.module.css";
@@ -12,6 +18,8 @@ export interface TaskTrayProps {
   shell: DesktopShell;
   formFactor?: FormFactor;
   apps: DesktopApp[];
+  /** Apps removed from the tray — shown in the all-apps launcher. */
+  overflowApps?: DesktopApp[];
   windows: DesktopWindow[];
   activeWindowId?: string;
   onLaunchApp: (appId: string) => void;
@@ -20,6 +28,12 @@ export interface TaskTrayProps {
   onCloseWindow?: (windowId: string) => void;
   /** Opens the create-app flow — rendered as a trailing plus control in the dock. */
   onCreateApp?: () => void;
+  /** Reorder pinned tray icons after hold-and-drag. */
+  onReorder?: (fromIndex: number, toIndex: number) => void;
+  /** Pull an icon off the tray into the all-apps launcher. */
+  onUndock?: (fromIndex: number) => void;
+  /** Pin an overflow app back onto the tray. */
+  onMoveToTray?: (id: string, index?: number) => void;
   onPopPhoneStack?: () => void;
   onMinimizeAll?: () => void;
   onNextGlance?: () => void;
@@ -64,6 +78,7 @@ export function TaskTray({
   shell,
   formFactor = "desktop",
   apps,
+  overflowApps = [],
   windows,
   activeWindowId,
   onLaunchApp,
@@ -71,6 +86,9 @@ export function TaskTray({
   onMinimizeWindow,
   onCloseWindow,
   onCreateApp,
+  onReorder,
+  onUndock,
+  onMoveToTray,
   onPopPhoneStack,
   onMinimizeAll,
   onNextGlance,
@@ -81,13 +99,19 @@ export function TaskTray({
 }: TaskTrayProps) {
   const openAppIds = new Set(windows.filter((w) => !w.minimized).map((w) => w.appId));
   const pinnedApps = apps.filter((app) => app.pinned !== false);
+  const trayItemCount =
+    pinnedApps.length + (onCreateApp ? 1 : 0) + (onMoveToTray || overflowApps.length > 0 ? 1 : 0);
   const isPhone = formFactor === "phone";
   const showAppDock = !isPhone && !homeVisible;
   const showPhoneHomeButton = isPhone && !homeVisible && Boolean(onMinimizeAll);
+  const activeAppId = windows.find((window) => window.id === activeWindowId)?.appId;
 
   if (shell === "android") {
     return (
-      <footer className={cx(styles.tray, styles.android, floating && styles.floating, className)} role="contentinfo">
+      <footer
+        className={cx(styles.tray, styles.android, floating && styles.floating, className)}
+        role="contentinfo"
+      >
         <div className={styles.androidNav}>
           <button
             type="button"
@@ -126,11 +150,11 @@ export function TaskTray({
             >
               <button
                 type="button"
-                className={cx(styles.trayIcon, running && styles.trayIconActive)}
+                className={styles.trayIcon}
                 aria-label={app.label}
                 onClick={() => onLaunchApp(app.id)}
               >
-                <AppIconTile appId={app.id} icon={app.icon} size="dock" />
+                <AppIconTile appId={app.id} icon={app.icon} size="dock" surface="solid" />
               </button>
             </TrayAppHoverCard>
             );
@@ -144,7 +168,10 @@ export function TaskTray({
 
   if (shell === "ios") {
     return (
-      <footer className={cx(styles.tray, styles.ios, floating && styles.floating, className)} role="contentinfo">
+      <footer
+        className={cx(styles.tray, styles.ios, floating && styles.floating, className)}
+        role="contentinfo"
+      >
         {showAppDock && (
         <div className={styles.iosDock}>
           {pinnedApps.slice(0, 4).map((app) => {
@@ -162,11 +189,11 @@ export function TaskTray({
             >
               <button
                 type="button"
-                className={cx(styles.trayIcon, styles.iosIcon, running && styles.trayIconActive)}
+                className={cx(styles.trayIcon, styles.iosIcon)}
                 aria-label={app.label}
                 onClick={() => onLaunchApp(app.id)}
               >
-                <AppIconTile appId={app.id} icon={app.icon} size="dockMac" />
+                <AppIconTile appId={app.id} icon={app.icon} size="dockMac" surface="solid" />
               </button>
             </TrayAppHoverCard>
             );
@@ -208,8 +235,10 @@ export function TaskTray({
     return (
       <WindowsTaskTray
         apps={pinnedApps}
+        overflowApps={overflowApps}
         windows={windows}
         activeWindowId={activeWindowId}
+        activeAppId={activeAppId}
         openAppIds={openAppIds}
         floating={floating}
         className={className}
@@ -218,53 +247,298 @@ export function TaskTray({
         onMinimizeWindow={onMinimizeWindow}
         onCloseWindow={onCloseWindow}
         onCreateApp={onCreateApp}
+        onReorder={onReorder}
+        onUndock={onUndock}
+        onMoveToTray={onMoveToTray}
       />
     );
   }
 
   // macOS dock + Chrome OS shelf share a centered icon row
   return (
-    <footer className={cx(styles.tray, styles[shell], floating && styles.floating, className)} role="contentinfo">
-      <div className={shell === "macos" ? styles.macosDock : styles.chromeShelf}>
-        {pinnedApps.map((app) => {
-          const running = openAppIds.has(app.id);
-          const active = windows.some((w) => w.appId === app.id && w.id === activeWindowId);
-          return (
-            <TrayAppHoverCard
-              key={app.id}
-              app={app}
-              running={running}
-              active={active}
-              windows={windows}
-              activeWindowId={activeWindowId}
-              {...trayMenuHandlers(app.id, windows, onLaunchApp, onFocusWindow, onMinimizeWindow, onCloseWindow)}
-            >
-              <button
-                type="button"
-                className={cx(
-                  styles.trayIcon,
-                  shell === "macos" && styles.macosIcon,
-                  running && styles.trayIconActive,
-                )}
-                aria-label={app.label}
-                onClick={() => onLaunchApp(app.id)}
-              >
-                <AppIconTile appId={app.id} icon={app.icon} size={shell === "macos" ? "dockMac" : "dock"} />
-                {running && shell === "macos" && <span className={styles.dockDot} aria-hidden="true" />}
-              </button>
-            </TrayAppHoverCard>
-          );
-        })}
-        <TrayCreateButton iconSize={shell === "macos" ? 22 : 18} macos={shell === "macos"} onCreateApp={onCreateApp} />
-      </div>
+    <footer
+      className={cx(styles.tray, styles[shell], floating && styles.floating, className)}
+      role="contentinfo"
+    >
+      <TrayScaleFit itemCount={trayItemCount}>
+        <ReorderableTrayDock
+          shell={shell}
+          apps={pinnedApps}
+          overflowApps={overflowApps}
+          windows={windows}
+          activeWindowId={activeWindowId}
+          activeAppId={activeAppId}
+          openAppIds={openAppIds}
+          onLaunchApp={onLaunchApp}
+          onFocusWindow={onFocusWindow}
+          onMinimizeWindow={onMinimizeWindow}
+          onCloseWindow={onCloseWindow}
+          onCreateApp={onCreateApp}
+          onReorder={onReorder}
+          onUndock={onUndock}
+          onMoveToTray={onMoveToTray}
+          dockClassName={shell === "macos" ? styles.macosDock : styles.chromeShelf}
+        />
+      </TrayScaleFit>
     </footer>
+  );
+}
+
+interface ReorderableTrayDockProps {
+  shell: "macos" | "chromeos" | "windows";
+  apps: DesktopApp[];
+  overflowApps: DesktopApp[];
+  windows: DesktopWindow[];
+  activeWindowId?: string;
+  activeAppId?: string;
+  openAppIds: Set<string>;
+  onLaunchApp: (appId: string) => void;
+  onFocusWindow: (windowId: string) => void;
+  onMinimizeWindow?: (windowId: string) => void;
+  onCloseWindow?: (windowId: string) => void;
+  onCreateApp?: () => void;
+  onReorder?: (fromIndex: number, toIndex: number) => void;
+  onUndock?: (fromIndex: number) => void;
+  onMoveToTray?: (id: string, index?: number) => void;
+  dockClassName: string;
+}
+
+function ReorderableTrayDock({
+  shell,
+  apps,
+  overflowApps,
+  windows,
+  activeWindowId,
+  activeAppId,
+  openAppIds,
+  onLaunchApp,
+  onFocusWindow,
+  onMinimizeWindow,
+  onCloseWindow,
+  onCreateApp,
+  onReorder,
+  onUndock,
+  onMoveToTray,
+  dockClassName,
+}: ReorderableTrayDockProps) {
+  const trayBoundsRef = useRef<HTMLDivElement>(null);
+  const canCustomize = Boolean(onUndock && onMoveToTray);
+  const canReorder = Boolean(onReorder && apps.length > 1);
+  const showAllApps = Boolean(onMoveToTray);
+  const isMacos = shell === "macos";
+  const isWindows = shell === "windows";
+
+  const { dragState, pendingIndex, itemRefs, createItemPointerDown, shouldSuppressClick } = useTrayReorder({
+    enabled: canReorder || canCustomize,
+    itemCount: apps.length,
+    trayBoundsRef,
+    onReorder,
+    onUndock,
+  });
+
+  const { pinDrag, pinDropIndex, createOverflowDragStart, shouldSuppressOverflowClick } = useTrayPinDrag({
+    enabled: canCustomize,
+    itemCount: apps.length,
+    itemRefs,
+    onPin: onMoveToTray,
+  });
+
+  const overflowItems = overflowApps.map((app) => ({
+    id: app.id,
+    label: app.label,
+    icon: app.icon,
+  }));
+
+  const isDragging = Boolean(dragState || pinDrag);
+  const [slotStride, setSlotStride] = useState(0);
+
+  useLayoutEffect(() => {
+    if (!isDragging) {
+      setSlotStride(0);
+      return;
+    }
+
+    const slots = itemRefs.current.filter((slot): slot is HTMLDivElement => Boolean(slot));
+    if (slots.length >= 2) {
+      setSlotStride(slots[1]!.getBoundingClientRect().left - slots[0]!.getBoundingClientRect().left);
+      return;
+    }
+
+    if (slots.length === 1) {
+      const rect = slots[0]!.getBoundingClientRect();
+      const parent = slots[0]!.parentElement;
+      const gap = parent ? Number.parseFloat(getComputedStyle(parent).columnGap || getComputedStyle(parent).gap) || 8 : 8;
+      setSlotStride(rect.width + gap);
+    }
+  }, [isDragging, dragState?.dropIndex, dragState?.fromIndex, pinDropIndex, apps.length]);
+
+  function getItemShift(index: number): number {
+    if (dragState && !dragState.isUndocking) {
+      return getTrayReorderShift(index, dragState.fromIndex, dragState.dropIndex);
+    }
+
+    if (pinDrag) {
+      return getTrayPinShift(index, pinDropIndex);
+    }
+
+    return 0;
+  }
+
+  function renderAppIcon(app: DesktopApp, index: number) {
+    const running = openAppIds.has(app.id);
+    const active = windows.some((w) => w.appId === app.id && w.id === activeWindowId);
+    const isPendingHold = pendingIndex === index;
+    const isDraggingSource = dragState?.fromIndex === index;
+    const isUndockingSource = isDraggingSource && dragState?.isUndocking;
+    const shift = getItemShift(index);
+    const itemPointerDown =
+      canReorder || canCustomize ? createItemPointerDown(index, app.id, app.label, app.icon) : undefined;
+
+    const iconButton = isWindows ? (
+      <button
+        type="button"
+        className={cx(
+          styles.taskButton,
+          "lf-focusable",
+        )}
+        aria-label={app.label}
+        aria-pressed={active}
+        onPointerDown={itemPointerDown}
+        onClick={() => {
+          if (shouldSuppressClick()) return;
+          const win = windows.find((w) => w.appId === app.id && !w.minimized);
+          if (win) onFocusWindow(win.id);
+          else onLaunchApp(app.id);
+        }}
+      >
+        <AppIconTile appId={app.id} icon={app.icon} size="taskbar" surface="solid" />
+      </button>
+    ) : (
+      <button
+        type="button"
+        className={cx(
+          styles.trayIcon,
+          isMacos && styles.macosIcon,
+        )}
+        aria-label={app.label}
+        onPointerDown={itemPointerDown}
+        onClick={() => {
+          if (shouldSuppressClick()) return;
+          onLaunchApp(app.id);
+        }}
+      >
+        <AppIconTile
+          appId={app.id}
+          icon={app.icon}
+          size={isMacos ? "dockMac" : "dock"}
+          surface="solid"
+        />
+        {running && isMacos && <span className={styles.dockDot} aria-hidden="true" />}
+      </button>
+    );
+
+    const slot = (
+      <div
+        ref={(element) => {
+          itemRefs.current[index] = element;
+        }}
+        className={cx(
+          styles.itemSlot,
+          (canReorder || canCustomize) && styles.itemSlotReorderable,
+          isPendingHold && styles.itemSlotPending,
+          isDraggingSource && styles.itemSlotDragging,
+          isUndockingSource && styles.itemSlotUndocking,
+          isDragging && !isDraggingSource && styles.itemSlotShifting,
+        )}
+        style={
+          shift !== 0 && slotStride > 0
+            ? { transform: `translateX(${shift * slotStride}px)` }
+            : undefined
+        }
+      >
+        <TrayAppHoverCard
+          app={app}
+          running={running}
+          active={active}
+          windows={windows}
+          activeWindowId={activeWindowId}
+          {...trayMenuHandlers(app.id, windows, onLaunchApp, onFocusWindow, onMinimizeWindow, onCloseWindow)}
+        >
+          {iconButton}
+        </TrayAppHoverCard>
+      </div>
+    );
+
+    return <div key={app.id}>{slot}</div>;
+  }
+
+  return (
+    <>
+      <div
+        ref={trayBoundsRef}
+        className={cx(
+          dockClassName,
+          dragState?.isUndocking && styles.dockUndocking,
+          dragState && styles.dockReordering,
+          pinDrag && styles.dockReordering,
+        )}
+      >
+        {dragState?.isUndocking ? <span className={styles.undockHint} aria-hidden="true" /> : null}
+        {showAllApps && onMoveToTray && (
+          <>
+            <TrayAllAppsButton
+              items={overflowItems}
+              activeAppId={activeAppId}
+              variant={isWindows ? "taskbar" : "dock"}
+              onSelect={onLaunchApp}
+              onMoveToTray={(id) => onMoveToTray(id)}
+              onRowPointerDown={createOverflowDragStart}
+              shouldSuppressRowClick={shouldSuppressOverflowClick}
+              draggingItemId={pinDrag?.id ?? null}
+            />
+            <span className={cx(styles.trayDivider, isWindows && styles.trayDividerWindows)} aria-hidden="true" />
+          </>
+        )}
+        {apps.map((app, index) => renderAppIcon(app, index))}
+        <TrayCreateButton
+          iconSize={isMacos ? 22 : isWindows ? 14 : 18}
+          macos={isMacos}
+          windows={isWindows}
+          onCreateApp={onCreateApp}
+        />
+      </div>
+
+      {dragState || pinDrag
+        ? createPortal(
+            <div
+              className={cx(styles.dragGhost, dragState?.isUndocking && styles.dragGhostUndocking)}
+              style={{
+                left: (dragState ?? pinDrag)!.ghostX,
+                top: (dragState ?? pinDrag)!.ghostY,
+              }}
+              aria-hidden="true"
+            >
+              <AppIconTile
+                appId={dragState?.appId ?? pinDrag!.id}
+                icon={(dragState ?? pinDrag)!.icon}
+                size={isMacos ? "dockMac" : isWindows ? "taskbar" : "dock"}
+                surface="solid"
+                className={styles.dragGhostIcon}
+              />
+            </div>,
+            getPortalContainer(),
+          )
+        : null}
+    </>
   );
 }
 
 interface WindowsTaskTrayProps {
   apps: DesktopApp[];
+  overflowApps: DesktopApp[];
   windows: DesktopWindow[];
   activeWindowId?: string;
+  activeAppId?: string;
   openAppIds: Set<string>;
   floating?: boolean;
   className?: string;
@@ -273,6 +547,9 @@ interface WindowsTaskTrayProps {
   onMinimizeWindow?: (windowId: string) => void;
   onCloseWindow?: (windowId: string) => void;
   onCreateApp?: () => void;
+  onReorder?: (fromIndex: number, toIndex: number) => void;
+  onUndock?: (fromIndex: number) => void;
+  onMoveToTray?: (id: string, index?: number) => void;
 }
 
 function formatWindowsTrayClock(date: Date): string {
@@ -286,8 +563,10 @@ function formatWindowsTrayDate(date: Date): string {
 /** Windows 11–style taskbar — centered pinned apps, accent running pills, tray clock. */
 function WindowsTaskTray({
   apps,
+  overflowApps,
   windows,
   activeWindowId,
+  activeAppId,
   openAppIds,
   floating,
   className,
@@ -296,8 +575,16 @@ function WindowsTaskTray({
   onMinimizeWindow,
   onCloseWindow,
   onCreateApp,
+  onReorder,
+  onUndock,
+  onMoveToTray,
 }: WindowsTaskTrayProps) {
   const [now, setNow] = useState(() => new Date());
+  const overflowItems = overflowApps.map((app) => ({
+    id: app.id,
+    label: app.label,
+    icon: app.icon,
+  }));
 
   useEffect(() => {
     const timer = window.setInterval(() => setNow(new Date()), 30_000);
@@ -306,50 +593,43 @@ function WindowsTaskTray({
 
   return (
     <footer className={cx(styles.tray, styles.windows, floating && styles.floating, className)} role="contentinfo">
-      <Tooltip label="Start">
-        <button type="button" className={cx(styles.startButton, "lf-focusable")} aria-label="Start">
-          <span className={styles.startMark} aria-hidden="true" />
-        </button>
-      </Tooltip>
+      {onMoveToTray ? (
+        <TrayAllAppsButton
+          items={overflowItems}
+          activeAppId={activeAppId}
+          variant="start"
+          onSelect={onLaunchApp}
+          onMoveToTray={(id) => onMoveToTray(id)}
+        />
+      ) : (
+        <Tooltip label="Start">
+          <button type="button" className={cx(styles.startButton, "lf-focusable")} aria-label="Start">
+            <span className={styles.startMark} aria-hidden="true" />
+          </button>
+        </Tooltip>
+      )}
 
       <div className={styles.taskList}>
-        <div className={styles.taskListInner}>
-          {apps.map((app) => {
-            const running = openAppIds.has(app.id);
-            const active = windows.some((w) => w.appId === app.id && w.id === activeWindowId);
-            return (
-              <TrayAppHoverCard
-                key={app.id}
-                app={app}
-                running={running}
-                active={active}
-                windows={windows}
-                activeWindowId={activeWindowId}
-                {...trayMenuHandlers(app.id, windows, onLaunchApp, onFocusWindow, onMinimizeWindow, onCloseWindow)}
-              >
-                <button
-                  type="button"
-                  className={cx(
-                    styles.taskButton,
-                    "lf-focusable",
-                    running && styles.taskButtonRunning,
-                    active && styles.taskButtonActive,
-                  )}
-                  aria-label={app.label}
-                  aria-pressed={active}
-                  onClick={() => {
-                    const win = windows.find((w) => w.appId === app.id && !w.minimized);
-                    if (win) onFocusWindow(win.id);
-                    else onLaunchApp(app.id);
-                  }}
-                >
-                  <AppIconTile appId={app.id} icon={app.icon} size="taskbar" />
-                </button>
-              </TrayAppHoverCard>
-            );
-          })}
-          <TrayCreateButton iconSize={14} windows onCreateApp={onCreateApp} />
-        </div>
+        <TrayScaleFit itemCount={apps.length + (onCreateApp ? 1 : 0)}>
+          <ReorderableTrayDock
+            shell="windows"
+            apps={apps}
+            overflowApps={overflowApps}
+            windows={windows}
+            activeWindowId={activeWindowId}
+            activeAppId={activeAppId}
+            openAppIds={openAppIds}
+            onLaunchApp={onLaunchApp}
+            onFocusWindow={onFocusWindow}
+            onMinimizeWindow={onMinimizeWindow}
+            onCloseWindow={onCloseWindow}
+            onCreateApp={onCreateApp}
+            onReorder={onReorder}
+            onUndock={onUndock}
+            onMoveToTray={onMoveToTray}
+            dockClassName={styles.taskListInner}
+          />
+        </TrayScaleFit>
       </div>
 
       <div className={styles.systemTray}>

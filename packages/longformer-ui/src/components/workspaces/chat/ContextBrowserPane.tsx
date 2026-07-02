@@ -16,9 +16,9 @@ export interface ContextBrowserPaneProps {
 }
 
 const DEFAULT_QUICK_LINKS: ContextBrowserQuickLink[] = [
-  { label: "Longformer docs", url: "https://docs.longformer.dev" },
-  { label: "Design tokens", url: "https://docs.longformer.dev/tokens" },
-  { label: "Component gallery", url: "https://docs.longformer.dev/components" },
+  { label: "Longformer docs", url: "https://docs.meridian.dev" },
+  { label: "Design tokens", url: "https://docs.meridian.dev/tokens" },
+  { label: "Component gallery", url: "https://docs.meridian.dev/components" },
 ];
 
 /** Compact browser surface for the chat context drawer — toolbar plus a new-tab style page. */

@@ -9,11 +9,11 @@
   display: grid;
   grid-template-columns: 56px repeat(6, minmax(0, 1fr));
   flex-shrink: 0;
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .timeGutter {
-  border-right: 1px solid var(--lf-border-subtle);
+  border-right: 1px solid var(--lf-divider);
 }
 
 .dayHeader {
@@ -22,7 +22,7 @@
   align-items: center;
   gap: 2px;
   padding: var(--lf-space-2) var(--lf-space-1);
-  border-right: 1px solid var(--lf-border-subtle);
+  border-right: 1px solid var(--lf-divider);
 }
 
 .dayHeader:last-child {
@@ -63,7 +63,7 @@
 .timeColumn {
   flex-shrink: 0;
   width: 56px;
-  border-right: 1px solid var(--lf-border-subtle);
+  border-right: 1px solid var(--lf-divider);
 }
 
 .timeLabel {
@@ -85,7 +85,7 @@
 
 .dayColumn {
   position: relative;
-  border-right: 1px solid var(--lf-border-subtle);
+  border-right: 1px solid var(--lf-divider);
 }
 
 .dayColumn:last-child {
@@ -94,7 +94,7 @@
 
 .hourCell {
   height: 56px;
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .itemSlot {

@@ -179,7 +179,7 @@
 .progressTrack {
   height: 4px;
   border-radius: var(--lf-radius-full);
-  background: var(--lf-border-subtle);
+  background: var(--lf-divider);
   overflow: hidden;
 }
 

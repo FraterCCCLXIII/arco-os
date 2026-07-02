@@ -6,7 +6,7 @@ import type {
 } from "longformer-ui";
 
 export const visionUser: VisionUser = {
-  name: "Paul Bloch",
+  name: "Alex Morgan",
 };
 
 export const visionFeatured: VisionFeaturedContent = {

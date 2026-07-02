@@ -17,7 +17,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
   return (
     <div className={cx(styles.wrapper, invalid && styles.invalid, wrapperClassName)}>
       {startSlot && <span className={styles.icon}>{startSlot}</span>}
-      <input ref={ref} className={cx("lf-focusable", styles.input, className)} {...rest} />
+      <input ref={ref} className={cx(styles.input, className)} {...rest} />
       {endSlot && <span className={styles.icon}>{endSlot}</span>}
     </div>
   );

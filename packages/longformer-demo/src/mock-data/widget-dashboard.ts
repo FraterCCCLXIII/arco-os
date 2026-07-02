@@ -1205,7 +1205,7 @@ export const widgetDashboardTiles: WidgetTile[] = [
   {
     id: "glass-wifi",
     colSpan: 2,
-    content: { type: "glassWidget", props: { variant: "wifi", network: "kawsar's_wifi", enabled: true } },
+    content: { type: "glassWidget", props: { variant: "wifi", network: "guest_wifi_5g", enabled: true } },
   },
   {
     id: "glass-habits",
@@ -1661,7 +1661,7 @@ export const widgetDashboardTiles: WidgetTile[] = [
       type: "creatorWidget",
       props: {
         variant: "coachingSlot",
-        coachName: "Marcus Webb",
+        coachName: "Jordan Hayes",
         verified: true,
         specialty: "Executive coaching",
         slotTime: "3:00",

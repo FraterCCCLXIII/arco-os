@@ -27,6 +27,7 @@ export type WorkspaceId =
   | "camera"
   | "weather"
   | "calculator"
+  | "browser"
   | "phone"
   | "server"
   | "orchestrator"
@@ -65,6 +66,7 @@ export const WORKSPACES: WorkspaceNavItem[] = [
   { id: "camera", label: "Camera", icon: "image" },
   { id: "weather", label: "Weather", icon: "sun" },
   { id: "calculator", label: "Calculator", icon: "grid" },
+  { id: "browser", label: "Browser", icon: "external-link" },
   { id: "phone", label: "Phone", icon: "phone-call" },
   { id: "tasks", label: "Tasks", icon: "check" },
   { id: "notifications", label: "Notifications", icon: "bell" },
@@ -159,9 +161,18 @@ export function splitWorkspacesByPinned(
   return { pinned, overflow, pinnedIds: normalizedPinned };
 }
 
-export function moveWorkspaceToRail(pinnedIds: WorkspaceId[], id: WorkspaceId): WorkspaceId[] {
+export function moveWorkspaceToRail(
+  pinnedIds: WorkspaceId[],
+  id: WorkspaceId,
+  index?: number,
+): WorkspaceId[] {
   if (pinnedIds.includes(id)) return pinnedIds;
-  return [...pinnedIds, id];
+
+  const next = [...pinnedIds];
+  const insertAt =
+    index === undefined ? next.length : Math.max(0, Math.min(index, next.length));
+  next.splice(insertAt, 0, id);
+  return next;
 }
 
 export function moveWorkspaceToOverflow(pinnedIds: WorkspaceId[], id: WorkspaceId): WorkspaceId[] {
@@ -185,6 +196,91 @@ export function reorderPinnedWorkspaces(
   }
 
   const next = [...pinnedIds];
+  const [moved] = next.splice(fromIndex, 1);
+  const insertAt = fromIndex < toIndex ? toIndex - 1 : toIndex;
+  next.splice(insertAt, 0, moved);
+  return next;
+}
+
+/** Default apps shown in the bottom tray dock; all known apps start pinned. */
+export const DEFAULT_TRAY_PINNED_IDS: string[] = WORKSPACES.map((workspace) => workspace.id);
+
+const TRAY_PINNED_STORAGE_KEY = "longformer-tray-pinned";
+
+export function loadTrayPinnedIds(allKnownIds: string[] = DEFAULT_TRAY_PINNED_IDS): string[] {
+  if (typeof window === "undefined") return normalizeTrayPinnedIds(DEFAULT_TRAY_PINNED_IDS, allKnownIds);
+
+  try {
+    const raw = window.localStorage.getItem(TRAY_PINNED_STORAGE_KEY);
+    if (!raw) return normalizeTrayPinnedIds(DEFAULT_TRAY_PINNED_IDS, allKnownIds);
+
+    const parsed: unknown = JSON.parse(raw);
+    if (!Array.isArray(parsed) || !parsed.every((id) => typeof id === "string")) {
+      return normalizeTrayPinnedIds(DEFAULT_TRAY_PINNED_IDS, allKnownIds);
+    }
+
+    return normalizeTrayPinnedIds(parsed, allKnownIds);
+  } catch {
+    return normalizeTrayPinnedIds(DEFAULT_TRAY_PINNED_IDS, allKnownIds);
+  }
+}
+
+export function saveTrayPinnedIds(ids: string[]): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(TRAY_PINNED_STORAGE_KEY, JSON.stringify(ids));
+}
+
+/** Keep stored order while appending any newly installed apps. */
+export function normalizeTrayPinnedIds(stored: string[], allKnownIds: string[]): string[] {
+  const known = new Set(allKnownIds);
+  const normalized = stored.filter((id) => known.has(id));
+  for (const id of allKnownIds) {
+    if (!normalized.includes(id)) normalized.push(id);
+  }
+  return normalized;
+}
+
+export function splitAppsByTrayPinned(
+  trayPinnedIds: string[],
+  apps: DesktopApp[],
+): { pinned: DesktopApp[]; overflow: DesktopApp[] } {
+  const pinnedSet = new Set(trayPinnedIds);
+  const orderMap = new Map(trayPinnedIds.map((id, index) => [id, index]));
+
+  const pinned = apps
+    .filter((app) => pinnedSet.has(app.id))
+    .sort((left, right) => (orderMap.get(left.id) ?? 0) - (orderMap.get(right.id) ?? 0));
+  const overflow = apps.filter((app) => !pinnedSet.has(app.id));
+
+  return { pinned, overflow };
+}
+
+export function moveAppToTray(trayPinnedIds: string[], id: string, index?: number): string[] {
+  if (trayPinnedIds.includes(id)) return trayPinnedIds;
+
+  const next = [...trayPinnedIds];
+  const insertAt = index === undefined ? next.length : Math.max(0, Math.min(index, next.length));
+  next.splice(insertAt, 0, id);
+  return next;
+}
+
+export function removeAppFromTray(trayPinnedIds: string[], id: string): string[] {
+  if (trayPinnedIds.length <= 1 || !trayPinnedIds.includes(id)) return trayPinnedIds;
+  return trayPinnedIds.filter((pinnedId) => pinnedId !== id);
+}
+
+export function reorderTrayPinnedIds(trayPinnedIds: string[], fromIndex: number, toIndex: number): string[] {
+  if (
+    fromIndex === toIndex ||
+    fromIndex < 0 ||
+    toIndex < 0 ||
+    fromIndex >= trayPinnedIds.length ||
+    toIndex >= trayPinnedIds.length
+  ) {
+    return trayPinnedIds;
+  }
+
+  const next = [...trayPinnedIds];
   const [moved] = next.splice(fromIndex, 1);
   const insertAt = fromIndex < toIndex ? toIndex - 1 : toIndex;
   next.splice(insertAt, 0, moved);

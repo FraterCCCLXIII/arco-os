@@ -3,8 +3,8 @@ import { Icon } from "../../../icons";
 import { cx } from "../../../utils/cx";
 import { Avatar } from "../../primitives/Avatar";
 import { Button } from "../../primitives/Button";
-import { Chip } from "../../primitives/Chip";
 import { IconButton } from "../../primitives/IconButton";
+import { SidebarPane } from "../../shell/NavSidebar";
 import { FormulaBar } from "./FormulaBar";
 import { SheetGridView } from "./SheetGridView";
 import { SheetsSidebar } from "./SheetsSidebar";
@@ -224,13 +224,15 @@ export function SheetsWorkspace({
   return (
     <div className={cx(styles.workspace, className)} aria-label="Sheets">
       {showSidebar && (
-        <SheetsSidebar
-          workbooks={data.workbooks}
-          activeWorkbookId={activeWorkbook?.id ?? ""}
-          location={location}
-          onLocationChange={handleLocationChange}
-          onSelectWorkbook={handleActiveWorkbookChange}
-        />
+        <SidebarPane handleLabel="Resize sheets sidebar" className={styles.sidebarResizable} defaultWidth={240} maxWidth={300}>
+          <SheetsSidebar
+            workbooks={data.workbooks}
+            activeWorkbookId={activeWorkbook?.id ?? ""}
+            location={location}
+            onLocationChange={handleLocationChange}
+            onSelectWorkbook={handleActiveWorkbookChange}
+          />
+        </SidebarPane>
       )}
 
       <div className={styles.main}>
@@ -306,21 +308,28 @@ export function SheetsWorkspace({
       </div>
 
       <footer className={styles.sheetTabs}>
-        <IconButton icon="plus" label="Add sheet" variant="ghost" />
-        <button type="button" className={cx("lf-focusable", styles.allSheetsButton)} aria-label="All sheets">
-          <Icon name="layers" size={15} />
-        </button>
-        <div className={styles.tabList} role="tablist" aria-label="Sheet tabs">
-          {(activeWorkbook?.sheets ?? []).map((sheet: Sheet) => (
-            <Chip
-              key={sheet.id}
-              active={sheet.id === activeSheetId}
-              onClick={() => handleActiveSheetChange(sheet.id)}
-              className={styles.sheetTab}
-            >
-              {sheet.name}
-            </Chip>
-          ))}
+        <div className={styles.sheetTabControls}>
+          <IconButton icon="plus" label="Add sheet" variant="ghost" />
+          <button type="button" className={cx("lf-focusable", styles.allSheetsButton)} aria-label="All sheets">
+            <Icon name="layers" size={15} />
+          </button>
+        </div>
+        <div className={cx("lf-scrollbar-hidden", styles.tabList)} role="tablist" aria-label="Sheet tabs">
+          {(activeWorkbook?.sheets ?? []).map((sheet: Sheet) => {
+            const active = sheet.id === activeSheetId;
+            return (
+              <button
+                key={sheet.id}
+                type="button"
+                role="tab"
+                aria-selected={active}
+                className={cx("lf-focusable", styles.sheetTab, active && styles.sheetTabActive)}
+                onClick={() => handleActiveSheetChange(sheet.id)}
+              >
+                <span className={styles.sheetTabLabel}>{sheet.name}</span>
+              </button>
+            );
+          })}
         </div>
         <div className={styles.sheetSummary}>
           {selectedCell ? formatCellDisplay(selectedCell) : "Select a cell"}

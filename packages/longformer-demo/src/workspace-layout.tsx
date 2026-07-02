@@ -31,6 +31,7 @@ import {
   CameraWorkspace,
   WeatherWorkspace,
   CalculatorWorkspace,
+  BrowserWorkspace,
   PhoneWorkspace,
   ServerWorkspace,
   OrchestratorWorkspace,
@@ -59,6 +60,7 @@ import {
 } from "longformer-ui";
 import type { WorkspaceId } from "./workspace-config";
 import type { SocialNetworkId } from "longformer-ui";
+import { primaryUser, teamMembers } from "./demo-personas";
 
 export interface WorkspaceLayoutOptions {
   /** Include workspace sidebars (false for desktop window embedding). */
@@ -163,12 +165,22 @@ export interface WorkspaceLayoutViewModel {
   setTasks: React.Dispatch<React.SetStateAction<TaskItem[]>>;
   calendarMonth: number;
   calendarYear: number;
+  calendarView: import("longformer-ui").CalendarView;
+  setCalendarView: (view: import("longformer-ui").CalendarView) => void;
   handlePrevMonth: () => void;
   handleNextMonth: () => void;
+  handlePrevDay: () => void;
+  handleNextDay: () => void;
+  handlePrevYear: () => void;
+  handleNextYear: () => void;
   handleToday: () => void;
+  handleCalendarMonthChange: (month: number, year: number) => void;
   selectedDate?: string;
   setSelectedDate: (date?: string) => void;
   calendarEvents: unknown[];
+  calendarSources: unknown[];
+  enabledCalendarSourceIds: string[];
+  handleToggleCalendarSource: (sourceId: string) => void;
   scheduleItems: ScheduleItem[];
   setScheduleItems: React.Dispatch<React.SetStateAction<ScheduleItem[]>>;
   scheduleProjects: ScheduleProject[];
@@ -192,6 +204,8 @@ export interface WorkspaceLayoutViewModel {
   handleToggleStarFile: (id: string) => void;
   handleNewFile: () => void;
   settingsData: unknown;
+  desktopWallpaperUrl: string;
+  setDesktopWallpaperUrl: (url: string) => void;
   walletExpenses: unknown[];
   bankDashboardData: unknown;
   cryptoWalletData: unknown;
@@ -230,6 +244,10 @@ export interface WorkspaceLayoutViewModel {
   setStarred: React.Dispatch<React.SetStateAction<Set<string>>>;
   activeThread?: { subject?: string; messages?: unknown[] };
   mailFolders: { id: string; label: string; icon: string }[];
+  emailComposeOpen: boolean;
+  setEmailComposeOpen: (open: boolean) => void;
+  handleSendEmailReply: (content: { plain: string; html: string }) => void;
+  handleSendEmail: (draft: import("longformer-ui").EmailDraft) => void;
   chatConversations: { id: string; label: string; meta?: string }[];
   chatTabs: ConversationTabItem[];
   activeChatTabId: string;
@@ -277,7 +295,7 @@ export function buildWorkspaceLayout(
               })),
             },
           ]}
-          footer={<SidebarUserFooter name="Paul Bloch" meta="Longformer · Plus" />}
+          footer={<SidebarUserFooter name={primaryUser.name} meta="Longformer · Plus" />}
         />
       ) : undefined;
       main = (
@@ -296,7 +314,6 @@ export function buildWorkspaceLayout(
           model={vm.model}
           modelOptions={vm.modelMenuItems}
           usage={vm.demoUsage}
-          thinkingLevel="High"
           projectLabel="Longformer"
           navItems={vm.chatNavItems}
           activeNavId={vm.chatNavId}
@@ -347,7 +364,7 @@ export function buildWorkspaceLayout(
           profileOpen={Boolean(vm.activeSlackProfileMember)}
           onProfileClose={() => vm.setSlackProfileMemberId(null)}
           onOpenProfile={vm.handleOpenSlackProfile}
-          currentUser={{ name: "Paul Bloch", status: "online" }}
+          currentUser={{ name: primaryUser.name, status: "online" }}
         />
       );
       break;
@@ -373,7 +390,7 @@ export function buildWorkspaceLayout(
           onComposerSubmit={vm.handleSocialSubmit}
           feedTab={vm.socialFeedTab}
           onFeedTabChange={vm.setSocialFeedTab}
-          currentUser={{ name: "Paul Bloch", handle: "@paulblochxp" }}
+          currentUser={{ name: primaryUser.name, handle: primaryUser.handle }}
         />
       );
       break;
@@ -460,7 +477,7 @@ export function buildWorkspaceLayout(
                   },
                 ]
           }
-          footer={<SidebarUserFooter name="Paul Bloch" meta="Longformer · Plus" />}
+          footer={<SidebarUserFooter name={primaryUser.name} meta="Longformer · Plus" />}
         />
       ) : undefined;
       main = (
@@ -558,7 +575,7 @@ export function buildWorkspaceLayout(
               })),
             },
           ]}
-          footer={<SidebarUserFooter name="Paul Bloch" meta="Longformer · Plus" />}
+          footer={<SidebarUserFooter name={primaryUser.name} meta="Longformer · Plus" />}
         />
       ) : undefined;
       main = (
@@ -570,7 +587,7 @@ export function buildWorkspaceLayout(
           ]}
           title={vm.activeNote.title}
           tags={vm.activeNote.tags}
-          collaborators={[{ name: "Paul Bloch" }, { name: "Dana Cho" }, { name: "Marcus Webb" }]}
+          collaborators={[{ name: primaryUser.name }, { name: teamMembers.riley.name }, { name: teamMembers.jordan.name }]}
           blocks={vm.activeNote.blocks}
           graphNodes={vm.notesGraphNodes}
           graphEdges={vm.notesGraphEdges}
@@ -650,12 +667,25 @@ export function buildWorkspaceLayout(
         <CalendarWorkspace
           month={vm.calendarMonth}
           year={vm.calendarYear}
+          view={vm.calendarView}
+          onViewChange={vm.setCalendarView}
+          weekStartISO={vm.weekStartISO}
           events={vm.calendarEvents as never}
           onPrevMonth={vm.handlePrevMonth}
           onNextMonth={vm.handleNextMonth}
+          onPrevWeek={vm.handlePrevWeek}
+          onNextWeek={vm.handleNextWeek}
+          onPrevDay={vm.handlePrevDay}
+          onNextDay={vm.handleNextDay}
+          onPrevYear={vm.handlePrevYear}
+          onNextYear={vm.handleNextYear}
           onToday={vm.handleToday}
+          onMonthChange={vm.handleCalendarMonthChange}
           selectedDate={vm.selectedDate}
           onSelectDate={vm.setSelectedDate}
+          sources={vm.calendarSources as never}
+          enabledSourceIds={vm.enabledCalendarSourceIds}
+          onToggleSource={vm.handleToggleCalendarSource}
           onNewEvent={() => undefined}
         />
       );
@@ -742,7 +772,7 @@ export function buildWorkspaceLayout(
               })),
             },
           ]}
-          footer={<SidebarUserFooter name="Paul Bloch" meta="Visual Designer · Longformer" />}
+          footer={<SidebarUserFooter name={primaryUser.name} meta="Visual Designer · Longformer" />}
         />
       ) : undefined;
       main = (
@@ -799,7 +829,13 @@ export function buildWorkspaceLayout(
 
     case "settings":
       sidebar = undefined;
-      main = <SettingsWorkspace data={vm.settingsData as never} />;
+      main = (
+        <SettingsWorkspace
+          data={vm.settingsData as never}
+          desktopWallpaperUrl={vm.desktopWallpaperUrl}
+          onDesktopWallpaperChange={vm.setDesktopWallpaperUrl}
+        />
+      );
       break;
 
     case "wallet":
@@ -878,6 +914,11 @@ export function buildWorkspaceLayout(
     case "calculator":
       sidebar = undefined;
       main = <CalculatorWorkspace />;
+      break;
+
+    case "browser":
+      sidebar = undefined;
+      main = <BrowserWorkspace />;
       break;
 
     case "phone":
@@ -959,7 +1000,7 @@ export function buildWorkspaceLayout(
               })),
             },
           ]}
-          footer={<SidebarUserFooter name="Paul Bloch" meta="paul@longformer.dev" />}
+          footer={<SidebarUserFooter name={primaryUser.name} meta={primaryUser.email} />}
         />
       ) : undefined;
       main = (
@@ -977,6 +1018,10 @@ export function buildWorkspaceLayout(
           }
           activeSubject={vm.activeThread?.subject}
           activeMessages={vm.activeThread?.messages as never}
+          composeOpen={vm.emailComposeOpen}
+          onComposeOpenChange={vm.setEmailComposeOpen}
+          onSendReply={vm.handleSendEmailReply}
+          onSendEmail={vm.handleSendEmail}
         />
       );
       break;

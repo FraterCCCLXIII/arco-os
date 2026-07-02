@@ -3,6 +3,7 @@ import { Icon } from "../../../icons";
 import { IconButton } from "../../primitives/IconButton";
 import { ScrollArea } from "../../primitives/ScrollArea";
 import { ResizablePane } from "../../primitives/ResizablePane";
+import { SidebarPane } from "../../shell/NavSidebar";
 import { EmptyState } from "../../primitives/EmptyState";
 import {
   SlackComposer,
@@ -44,6 +45,9 @@ export interface SlackWorkspaceProps {
   onOpenProfile?: (memberId: string) => void;
   currentUser: { name: string; avatarSrc?: string; status?: "online" | "away" | "offline" };
   disabled?: boolean;
+  sidebarWidth?: number;
+  defaultSidebarWidth?: number;
+  onSidebarWidthChange?: (width: number) => void;
   profilePaneWidth?: number;
   defaultProfilePaneWidth?: number;
   onProfilePaneWidthChange?: (width: number) => void;
@@ -76,6 +80,9 @@ export function SlackWorkspace({
   onOpenProfile,
   currentUser,
   disabled = false,
+  sidebarWidth,
+  defaultSidebarWidth = 260,
+  onSidebarWidthChange,
   profilePaneWidth,
   defaultProfilePaneWidth = 320,
   onProfilePaneWidthChange,
@@ -102,16 +109,27 @@ export function SlackWorkspace({
         onSelectWorkspace={onSelectWorkspace}
       />
 
-      <SlackSidebar
-        workspaceName={workspaceName}
-        navItems={navItems}
-        channels={channels}
-        directMessages={directMessages}
-        activeConversationId={activeConversationId}
-        onSelectConversation={onSelectConversation}
-        unreadMentionCount={unreadMentionCount}
-        currentUser={currentUser}
-      />
+      <SidebarPane
+        width={sidebarWidth}
+        defaultWidth={defaultSidebarWidth}
+        onWidthChange={onSidebarWidthChange}
+        minWidth={220}
+        maxWidth={360}
+        className={styles.sidebarResizable}
+        paneClassName={styles.sidebarPane}
+        handleLabel="Resize channels sidebar"
+      >
+        <SlackSidebar
+          workspaceName={workspaceName}
+          navItems={navItems}
+          channels={channels}
+          directMessages={directMessages}
+          activeConversationId={activeConversationId}
+          onSelectConversation={onSelectConversation}
+          unreadMentionCount={unreadMentionCount}
+          currentUser={currentUser}
+        />
+      </SidebarPane>
 
       <div className={styles.main}>
         {!hasConversation ? (

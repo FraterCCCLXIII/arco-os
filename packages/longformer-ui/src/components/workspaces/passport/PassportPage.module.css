@@ -126,7 +126,7 @@
   grid-template-columns: 1.4fr 0.8fr 1fr 0.7fr 0.6fr;
   gap: var(--lf-space-3);
   padding: var(--lf-space-2) var(--lf-space-4);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   font-size: var(--lf-font-size-xs);
   font-weight: 600;
   color: var(--lf-text-tertiary);
@@ -140,7 +140,7 @@
   gap: var(--lf-space-3);
   align-items: center;
   padding: var(--lf-space-3) var(--lf-space-4);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   font-size: var(--lf-font-size-sm);
 }
 
@@ -340,7 +340,7 @@
   height: 22px;
   border: none;
   border-radius: 999px;
-  background: var(--lf-border-subtle);
+  background: var(--lf-divider);
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.15s ease;
@@ -371,7 +371,7 @@
   gap: var(--lf-space-3);
   align-items: center;
   padding: var(--lf-space-3) var(--lf-space-4);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   font-size: var(--lf-font-size-sm);
 }
 

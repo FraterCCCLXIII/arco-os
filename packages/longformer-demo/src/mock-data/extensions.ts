@@ -2,7 +2,7 @@ import type { ExtensionsWorkspaceData } from "longformer-ui";
 
 export const extensionsWorkspaceData: ExtensionsWorkspaceData = {
   workspaceName: "Extensions",
-  userName: "Paul Bloch",
+  userName: "Alex Morgan",
   navItems: [
     { id: "agent-skills", label: "Agent Skills", icon: "sparkles", view: "agent-skills", badge: "6" },
     { id: "plugins", label: "Plugins", icon: "package", view: "plugins", badge: "12" },
@@ -54,7 +54,7 @@ export const extensionsWorkspaceData: ExtensionsWorkspaceData = {
       id: "skill-deploy",
       name: "Deploy Checklist",
       description: "Pre-flight checks for staging and production deployments across Vercel and Docker.",
-      author: "Paul Bloch",
+      author: "Alex Morgan",
       enabled: true,
       tags: ["devops", "server"],
       triggerCount: 18,
@@ -64,7 +64,7 @@ export const extensionsWorkspaceData: ExtensionsWorkspaceData = {
       id: "skill-docs",
       name: "Literate Documentation",
       description: "Write PBRT-style literate code with concise explainer docs woven into every module.",
-      author: "Paul Bloch",
+      author: "Alex Morgan",
       enabled: false,
       tags: ["docs", "quality"],
       triggerCount: 7,

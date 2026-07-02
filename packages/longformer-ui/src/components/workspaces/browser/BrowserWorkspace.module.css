@@ -1,0 +1,13 @@
+.workspace {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--lf-surface-1);
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+  background: var(--lf-surface-canvas);
+}

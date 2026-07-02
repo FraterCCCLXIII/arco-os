@@ -102,6 +102,8 @@ import {
   Wallet,
   PanelRight,
   Heart,
+  RotateCw,
+  PictureInPicture2,
   type LucideIcon,
 } from "lucide-react";
 
@@ -214,7 +216,9 @@ export type IconName =
   | "shopping-cart"
   | "wallet"
   | "panel-right"
-  | "heart";
+  | "heart"
+  | "replay"
+  | "picture-in-picture";
 
 const icons: Record<IconName, LucideIcon> = {
   "chevron-down": ChevronDown,
@@ -321,6 +325,8 @@ const icons: Record<IconName, LucideIcon> = {
   wallet: Wallet,
   "panel-right": PanelRight,
   heart: Heart,
+  replay: RotateCw,
+  "picture-in-picture": PictureInPicture2,
 };
 
 /** Icons that read better filled (e.g. an active "starred" state) than stroked. */

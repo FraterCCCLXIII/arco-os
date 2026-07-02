@@ -158,6 +158,29 @@ export const CARD_FAMILY_SAMPLES: Record<CardFamilyId, GeneratedBlock[]> = {
         },
       ],
     },
+    {
+      id: "ds-video-player",
+      type: "videoPlayerCards",
+      title: "Video player",
+      cards: [
+        {
+          id: "vp1",
+          elapsed: "1:43",
+          duration: "1:43",
+          progress: 100,
+          ended: true,
+          imageTone: "neutral",
+        },
+        {
+          id: "vp2",
+          elapsed: "0:42",
+          duration: "1:43",
+          progress: 41,
+          ended: false,
+          imageTone: "accent",
+        },
+      ],
+    },
   ],
   device: [
     {

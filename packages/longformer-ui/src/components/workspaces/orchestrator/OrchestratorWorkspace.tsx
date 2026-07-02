@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ScrollArea } from "../../primitives/ScrollArea";
+import { SidebarPane } from "../../shell/NavSidebar";
 import { DashboardView } from "./DashboardView";
 import { OrchestratorSidebar } from "./OrchestratorSidebar";
 import type { OrchestratorView, OrchestratorWorkspaceData } from "./types";
@@ -93,7 +94,9 @@ export function OrchestratorWorkspace({
 
   return (
     <div className={styles.workspace}>
-      <OrchestratorSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      <SidebarPane handleLabel="Resize orchestrator sidebar" className={styles.sidebarResizable}>
+        <OrchestratorSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      </SidebarPane>
       <ScrollArea className={styles.main}>{renderMain()}</ScrollArea>
     </div>
   );

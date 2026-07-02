@@ -8,7 +8,7 @@
 .header {
   flex-shrink: 0;
   padding: var(--lf-space-4) var(--lf-space-5);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .subject {
@@ -69,8 +69,69 @@
   line-height: var(--lf-line-height-normal);
 }
 
+.messageContent p,
+.messageContent h1,
+.messageContent h2,
+.messageContent h3,
+.messageContent blockquote,
+.messageContent ul,
+.messageContent ol {
+  margin: 0 0 var(--lf-space-2);
+}
+
+.messageContent p:last-child,
+.messageContent h1:last-child,
+.messageContent h2:last-child,
+.messageContent h3:last-child,
+.messageContent blockquote:last-child,
+.messageContent ul:last-child,
+.messageContent ol:last-child {
+  margin-bottom: 0;
+}
+
+.messageContent h1 {
+  font-size: var(--lf-font-size-xl);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+}
+
+.messageContent h2 {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+}
+
+.messageContent h3 {
+  font-size: var(--lf-font-size-base);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.messageContent ul,
+.messageContent ol {
+  padding-left: var(--lf-space-5);
+}
+
+.messageContent blockquote {
+  padding-left: var(--lf-space-3);
+  border-left: 3px solid var(--lf-divider);
+}
+
+.messageContent code {
+  padding: 1px 4px;
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-surface-3);
+  font-family: var(--lf-font-mono);
+  font-size: 0.92em;
+}
+
+.messageContent a {
+  color: var(--lf-accent);
+  text-decoration: underline;
+}
+
 .replyBar {
   flex-shrink: 0;
   padding: var(--lf-space-3) var(--lf-space-5) var(--lf-space-4);
-  border-top: 1px solid var(--lf-border-subtle);
+  border-top: 1px solid var(--lf-divider);
 }

@@ -6,7 +6,7 @@
   width: 100%;
   padding: var(--lf-space-2) var(--lf-space-4);
   border: none;
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   background: transparent;
   text-align: left;
   cursor: pointer;

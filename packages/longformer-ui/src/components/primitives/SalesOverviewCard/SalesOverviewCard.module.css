@@ -77,7 +77,7 @@
 
 .divider {
   width: 1px;
-  background: var(--lf-border-subtle);
+  background: var(--lf-divider);
 }
 
 .ratioBar {

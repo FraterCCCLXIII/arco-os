@@ -10,11 +10,13 @@
 .macos {
   position: relative;
   z-index: 2;
+  width: 100%;
   padding: var(--lf-space-2) var(--lf-space-4) var(--lf-space-3);
   background: transparent;
 }
 
 .macosDock {
+  position: relative;
   display: flex;
   align-items: flex-end;
   gap: var(--lf-space-2);
@@ -94,15 +96,11 @@
   justify-content: center;
   flex: 1;
   min-width: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-
-.taskList::-webkit-scrollbar {
-  display: none;
+  overflow: hidden;
 }
 
 .taskListInner {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 2px;
@@ -130,31 +128,6 @@
 
 .taskButton:hover {
   background: var(--lf-desktop-chrome-hover);
-}
-
-.taskButtonRunning::after {
-  content: "";
-  position: absolute;
-  bottom: 6px;
-  left: 50%;
-  width: 4px;
-  height: 3px;
-  border-radius: var(--lf-radius-pill);
-  background: var(--lf-desktop-chrome-indicator);
-  transform: translateX(-50%);
-  transition:
-    width var(--lf-duration-fast) var(--lf-ease),
-    background var(--lf-duration-fast) var(--lf-ease);
-}
-
-.taskButtonActive {
-  background: var(--lf-desktop-chrome-active);
-  color: var(--lf-text-primary);
-}
-
-.taskButtonActive::after {
-  width: 18px;
-  background: var(--lf-accent);
 }
 
 .windowsIcon {
@@ -292,7 +265,7 @@
   background: var(--lf-desktop-android-tray-bg);
   -webkit-backdrop-filter: blur(20px) saturate(1.2);
   backdrop-filter: blur(20px) saturate(1.2);
-  border-top: 1px solid var(--lf-border-subtle);
+  border-top: 1px solid var(--lf-divider);
 }
 
 .androidShelf {
@@ -309,7 +282,7 @@
   justify-content: space-around;
   width: 100%;
   height: 40px;
-  border-top: 1px solid var(--lf-border-subtle);
+  border-top: 1px solid var(--lf-divider);
 }
 
 .androidNavButton {
@@ -326,14 +299,16 @@
 
 /* Chrome OS shelf */
 .chromeos {
+  width: 100%;
   padding: var(--lf-space-4) var(--lf-space-3);
   background: var(--lf-desktop-chromeos-tray-bg);
   -webkit-backdrop-filter: blur(20px) saturate(1.2);
   backdrop-filter: blur(20px) saturate(1.2);
-  border-top: 1px solid var(--lf-border-subtle);
+  border-top: 1px solid var(--lf-divider);
 }
 
 .chromeShelf {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--lf-space-1);
@@ -380,10 +355,6 @@
 
 .trayIcon:hover {
   transform: translateY(-2px);
-}
-
-.trayIconActive {
-  box-shadow: 0 0 0 2px var(--lf-accent-border);
 }
 
 .toneAccent {
@@ -460,4 +431,84 @@
   border-color: var(--lf-accent-border);
   color: var(--lf-accent);
   background: var(--lf-surface-2);
+}
+
+/* Tray reorder / drag */
+.itemSlot {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.itemSlotReorderable {
+  touch-action: none;
+}
+
+.itemSlotPending .trayIcon,
+.itemSlotPending .taskButton {
+  transform: scale(0.92);
+}
+
+.itemSlotDragging {
+  opacity: 0;
+  z-index: 2;
+}
+
+.itemSlotShifting {
+  transition: transform var(--lf-duration-normal) var(--lf-ease);
+}
+
+.dockReordering .trayIcon:hover,
+.dockReordering .taskButton:hover {
+  transform: none;
+}
+
+.itemSlotUndocking {
+  opacity: 0;
+}
+
+.dockReordering {
+  cursor: grabbing;
+}
+
+.dockReordering .trayIcon,
+.dockReordering .taskButton {
+  cursor: grabbing;
+}
+
+.dragGhost {
+  position: fixed;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.42));
+}
+
+.dragGhostIcon {
+  flex-shrink: 0;
+}
+
+.dragGhostUndocking {
+  opacity: 0.72;
+  transform: translate(-50%, -50%) scale(0.9);
+}
+
+.undockHint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--lf-danger) 12%, transparent);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--lf-duration-fast) var(--lf-ease);
+}
+
+.dockUndocking .undockHint {
+  opacity: 1;
 }

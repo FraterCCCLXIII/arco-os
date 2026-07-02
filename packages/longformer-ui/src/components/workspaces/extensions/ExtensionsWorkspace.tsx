@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ScrollArea } from "../../primitives/ScrollArea";
+import { SidebarPane } from "../../shell/NavSidebar";
 import { AgentSkillsView } from "./AgentSkillsView";
 import { AppTemplatesView } from "./AppTemplatesView";
 import { ExtensionsSidebar } from "./ExtensionsSidebar";
@@ -47,7 +48,9 @@ export function ExtensionsWorkspace({
 
   return (
     <div className={styles.workspace} aria-label="Extensions">
-      <ExtensionsSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      <SidebarPane handleLabel="Resize extensions sidebar" className={styles.sidebarResizable}>
+        <ExtensionsSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      </SidebarPane>
       <ScrollArea className={styles.main}>{renderMain()}</ScrollArea>
     </div>
   );

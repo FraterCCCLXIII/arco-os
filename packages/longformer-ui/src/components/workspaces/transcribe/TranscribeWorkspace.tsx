@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ScrollArea } from "../../primitives/ScrollArea";
+import { SidebarPane } from "../../shell/NavSidebar";
 import { TranscribeSidebar } from "./TranscribeSidebar";
 import { TranscriptionsListView } from "./TranscriptionsListView";
 import type { TranscribeView, TranscribeWorkspaceData } from "./types";
@@ -75,7 +76,9 @@ export function TranscribeWorkspace({
 
   return (
     <div className={styles.workspace}>
-      <TranscribeSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      <SidebarPane handleLabel="Resize transcribe sidebar" className={styles.sidebarResizable}>
+        <TranscribeSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      </SidebarPane>
       <ScrollArea className={styles.main}>{renderMain()}</ScrollArea>
     </div>
   );

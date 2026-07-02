@@ -1,12 +1,17 @@
-import type { ReactNode } from "react";
+import { useMemo, type ReactNode } from "react";
 import { cx } from "../../../utils/cx";
 import { Icon } from "../../../icons";
 import { Textarea } from "../../primitives/Textarea";
 import { IconButton } from "../../primitives/IconButton";
 import { Menu, type MenuItemDescriptor } from "../../primitives/Menu";
-import { Tabs, type TabItem } from "../../primitives/Tabs";
+import type { TabItem } from "../../primitives/Tabs";
 import { ComposerStatusBar } from "./ComposerStatusBar";
+import {
+  ComposerFormattingToggle,
+  ComposerFormattingToolbar,
+} from "./ComposerFormattingToolbar";
 import type { UsageStats } from "./UsagePopover";
+import { useComposerFormattingToolbar } from "./useComposerFormattingToolbar";
 import styles from "./Composer.module.css";
 
 export interface ComposerProps {
@@ -25,7 +30,6 @@ export interface ComposerProps {
   footer?: ReactNode;
   /** When set, renders a status bar with usage popover below the input. */
   usage?: UsageStats;
-  thinkingLevel?: string;
   onPlanUsageClick?: () => void;
   className?: string;
   /** Styles the input surface card (border, radius, padding). */
@@ -46,11 +50,13 @@ export function Composer({
   onNavChange,
   footer,
   usage,
-  thinkingLevel,
   onPlanUsageClick,
   className,
   surfaceClassName,
 }: ComposerProps) {
+  const { visible: formattingToolbarVisible, toggle: toggleFormattingToolbar } =
+    useComposerFormattingToolbar();
+
   function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
@@ -58,11 +64,25 @@ export function Composer({
     }
   }
 
-  const showModeTabs = navItems && navItems.length > 0 && activeNavId && onNavChange;
+  const showModeMenu = navItems && navItems.length > 0 && activeNavId && onNavChange;
+  const activeModeLabel = navItems?.find((item) => item.id === activeNavId)?.label;
+  const modeMenuItems = useMemo<MenuItemDescriptor[]>(
+    () =>
+      navItems?.map((item) => ({
+        id: item.id,
+        label: item.label,
+        onSelect: () => onNavChange?.(item.id),
+      })) ?? [],
+    [navItems, onNavChange],
+  );
 
   return (
     <div className={cx(styles.stack, className)}>
       <div className={cx(styles.composer, surfaceClassName)}>
+        <ComposerFormattingToolbar
+          visible={formattingToolbarVisible}
+          className={styles.formattingToolbar}
+        />
         <div className={styles.textareaRow}>
           <Textarea
             className={styles.textarea}
@@ -77,22 +97,30 @@ export function Composer({
         </div>
         <div className={styles.controls}>
           <div className={styles.controlsLeft}>
-            {showModeTabs ? (
-              <Tabs
-                className={styles.modeTabs}
-                items={navItems}
-                value={activeNavId}
-                onChange={onNavChange}
+            <IconButton icon="plus" label="Attach file" size="sm" />
+            <ComposerFormattingToggle
+              visible={formattingToolbarVisible}
+              onToggle={toggleFormattingToolbar}
+            />
+            {showModeMenu ? (
+              <Menu
+                align="start"
+                trigger={
+                  <button type="button" className={styles.modeTrigger}>
+                    <span className={styles.modeLabel}>{activeModeLabel}</span>
+                    <Icon name="chevron-down" size={13} />
+                  </button>
+                }
+                items={modeMenuItems}
                 aria-label="Conversation mode"
               />
             ) : null}
-            <IconButton icon="attach" label="Attach file" size="sm" />
             {model && modelOptions && (
               <Menu
                 align="start"
                 trigger={
                   <button type="button" className={styles.modelTrigger}>
-                    {model}
+                    <span className={styles.modelLabel}>{model}</span>
                     <Icon name="chevron-down" size={13} />
                   </button>
                 }
@@ -116,12 +144,7 @@ export function Composer({
         {footer}
       </div>
       {usage && (
-        <ComposerStatusBar
-          model={model}
-          thinkingLevel={thinkingLevel}
-          usage={usage}
-          onPlanUsageClick={onPlanUsageClick}
-        />
+        <ComposerStatusBar usage={usage} onPlanUsageClick={onPlanUsageClick} />
       )}
     </div>
   );

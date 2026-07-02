@@ -13,7 +13,7 @@
   font-size: var(--lf-font-size-xs);
   font-family: var(--lf-font-mono, ui-monospace, monospace);
   color: var(--lf-text-secondary);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

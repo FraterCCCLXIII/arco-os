@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { Navigate, Route, Routes } from "react-router-dom";
 import {
   AppShell,
   NavRail,
@@ -33,15 +34,21 @@ import {
   type ScheduleItem,
   type ScheduleStatusFilter,
   type ScheduleView,
+  type CalendarView,
   addDaysISO,
-  getWeekStart,
+  getWeekStartSunday,
+  parseISODate,
   toISODate,
   useSurfaceManager,
   buildNotesGraph,
   countBacklinks,
   countNoteWords,
   type NotesView,
+  type EmailDetailMessage,
+  type EmailDraft,
+  DEFAULT_DESKTOP_WALLPAPER_URL,
 } from "longformer-ui";
+import { primaryUser } from "./demo-personas";
 import { demoUsage, promptChips, assistantPromptChips, assistantConversationTabs, assistantConversationNavItems, chatConversationNavItems, chatConversationTabs, chatTabConversations } from "./mock-data/chat";
 import { demoDiffHunks } from "./mock-data/context-drawer";
 import {
@@ -81,7 +88,7 @@ import {
   twitterNavItems,
 } from "./mock-data/social";
 import { phoneContacts } from "./mock-data/contacts";
-import { calendarEvents } from "./mock-data/calendar";
+import { calendarEvents, calendarSources } from "./mock-data/calendar";
 import { scheduleItems, scheduleProjects, weekStartISO as initialWeekStartISO } from "./mock-data/schedule";
 import { fileFolders } from "./mock-data/files";
 import { chatConversations, mailFolders } from "./mock-data/sidebar";
@@ -106,14 +113,22 @@ import { createWindowForApp, desktopIcons, initialSurfaceWindows, isDesktopLaunc
 import {
   WORKSPACES,
   loadPinnedWorkspaceIds,
+  loadTrayPinnedIds,
+  moveAppToTray,
   moveWorkspaceToOverflow,
   moveWorkspaceToRail,
+  normalizeTrayPinnedIds,
+  removeAppFromTray,
+  reorderTrayPinnedIds,
   reorderPinnedWorkspaces,
   savePinnedWorkspaceIds,
+  saveTrayPinnedIds,
+  splitAppsByTrayPinned,
   splitWorkspacesByPinned,
   workspacesToDesktopApps,
   type WorkspaceId,
 } from "./workspace-config";
+import { useWorkspaceNavigation } from "./useWorkspaceNavigation";
 import { buildWorkspaceLayout, buildWorkspaceWindowContent } from "./workspace-layout";
 import { bankDashboardData, cryptoWalletData } from "./mock-data/bank-crypto";
 import { serverWorkspaceData } from "./mock-data/server";
@@ -147,6 +162,19 @@ interface DocFormatState {
 
 const initialDocFormat: DocFormatState = { blockFormat: "paragraph", marks: [], align: "left" };
 
+const DESKTOP_WALLPAPER_STORAGE_KEY = "longformer-desktop-wallpaper";
+
+function loadDesktopWallpaperUrl(): string {
+  if (typeof window === "undefined") return DEFAULT_DESKTOP_WALLPAPER_URL;
+
+  try {
+    const saved = window.localStorage.getItem(DESKTOP_WALLPAPER_STORAGE_KEY);
+    return saved ?? DEFAULT_DESKTOP_WALLPAPER_URL;
+  } catch {
+    return DEFAULT_DESKTOP_WALLPAPER_URL;
+  }
+}
+
 const MODEL_OPTIONS = [
   { id: "gpt-5.5", label: "GPT-5.5 Medium" },
   { id: "claude-4.6", label: "Claude 4.6 Sonnet" },
@@ -169,7 +197,7 @@ const APP_WORKSPACE: Partial<Record<string, WorkspaceId>> = {
 
 function LongformerApp() {
   const { setTheme, theme } = useTheme();
-  const [workspaceId, setWorkspaceId] = useState<WorkspaceId>("chat");
+  const { workspaceId, setWorkspaceId } = useWorkspaceNavigation();
 
   const [composerValue, setComposerValue] = useState("");
   const [model, setModel] = useState("Sonnet 5");
@@ -183,6 +211,9 @@ function LongformerApp() {
   const [starred, setStarred] = useState<Set<string>>(
     () => new Set(threads.filter((t) => t.starred).map((t) => t.id))
   );
+  const [threadReplies, setThreadReplies] = useState<Record<string, EmailDetailMessage[]>>({});
+  const [emailComposeOpen, setEmailComposeOpen] = useState(false);
+  const [sentThreads, setSentThreads] = useState(threads);
   const [tasks, setTasks] = useState<TaskItem[]>(initialTasks);
   const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
   const [activePageId, setActivePageId] = useState<string>(defaultNoteId);
@@ -212,7 +243,11 @@ function LongformerApp() {
   const today = useMemo(() => new Date(), []);
   const [calendarMonth, setCalendarMonth] = useState(today.getMonth());
   const [calendarYear, setCalendarYear] = useState(today.getFullYear());
+  const [calendarView, setCalendarView] = useState<CalendarView>("month");
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
+  const [enabledCalendarSourceIds, setEnabledCalendarSourceIds] = useState(() =>
+    calendarSources.map((source) => source.id),
+  );
   const [weekStartISO, setWeekStartISO] = useState(initialWeekStartISO);
   const [scheduleView, setScheduleView] = useState<ScheduleView>("week");
   const [scheduleStatusFilter, setScheduleStatusFilter] = useState<ScheduleStatusFilter>("all");
@@ -251,6 +286,16 @@ function LongformerApp() {
   });
   const [navRailExpanded, setNavRailExpanded] = useState(false);
   const [desktopFullscreen, setDesktopFullscreen] = useState(false);
+  const [desktopWallpaperUrl, setDesktopWallpaperUrlState] = useState(loadDesktopWallpaperUrl);
+
+  const setDesktopWallpaperUrl = useCallback((url: string) => {
+    setDesktopWallpaperUrlState(url);
+    try {
+      window.localStorage.setItem(DESKTOP_WALLPAPER_STORAGE_KEY, url);
+    } catch {
+      /* ignore storage failures */
+    }
+  }, []);
   const [pinnedWorkspaceIds, setPinnedWorkspaceIds] = useState<WorkspaceId[]>(() => loadPinnedWorkspaceIds());
 
   useEffect(() => {
@@ -294,6 +339,22 @@ function LongformerApp() {
     () => [...workspacesToDesktopApps(), ...customDesktopApps],
     [customDesktopApps],
   );
+  const allAppIds = useMemo(() => allDesktopApps.map((app) => app.id), [allDesktopApps]);
+
+  const [trayPinnedIds, setTrayPinnedIds] = useState<string[]>(() => loadTrayPinnedIds(allAppIds));
+
+  useEffect(() => {
+    setTrayPinnedIds((prev) => normalizeTrayPinnedIds(prev, allAppIds));
+  }, [allAppIds]);
+
+  useEffect(() => {
+    saveTrayPinnedIds(trayPinnedIds);
+  }, [trayPinnedIds]);
+
+  const { pinned: trayPinnedApps, overflow: trayOverflowApps } = useMemo(
+    () => splitAppsByTrayPinned(trayPinnedIds, allDesktopApps),
+    [trayPinnedIds, allDesktopApps],
+  );
 
   const installedApps = useMemo(
     () => buildInstalledApps(installedAppIds, customApps),
@@ -301,7 +362,67 @@ function LongformerApp() {
   );
   const marketplaceApps = useMemo(() => buildMarketplaceApps(installedAppIds), [installedAppIds]);
 
-  const activeThread = threadMessages[activeThreadId];
+  const activeThread = useMemo(() => {
+    const base = threadMessages[activeThreadId];
+    const replies = threadReplies[activeThreadId] ?? [];
+    if (base) {
+      return {
+        ...base,
+        messages: [...base.messages, ...replies],
+      };
+    }
+    if (replies.length > 0) {
+      const thread = sentThreads.find((item) => item.id === activeThreadId);
+      return {
+        subject: thread?.subject ?? "Message",
+        messages: replies,
+      };
+    }
+    return undefined;
+  }, [activeThreadId, threadReplies, sentThreads]);
+
+  const handleSendEmailReply = useCallback(
+    (content: { plain: string; html: string }) => {
+      const reply: EmailDetailMessage = {
+        id: `reply-${Date.now()}`,
+        senderName: primaryUser.name,
+        timestamp: "Just now",
+        body: <div dangerouslySetInnerHTML={{ __html: content.html }} />,
+      };
+      setThreadReplies((prev) => ({
+        ...prev,
+        [activeThreadId]: [...(prev[activeThreadId] ?? []), reply],
+      }));
+    },
+    [activeThreadId],
+  );
+
+  const handleSendEmail = useCallback((draft: EmailDraft) => {
+    const preview = draft.body.plain.slice(0, 80);
+    const id = `sent-${Date.now()}`;
+    setSentThreads((prev) => [
+      {
+        id,
+        senderName: primaryUser.name,
+        subject: draft.subject,
+        preview: preview.length < draft.body.plain.length ? `${preview}…` : preview,
+        timestamp: "Just now",
+      },
+      ...prev,
+    ]);
+    setActiveThreadId(id);
+    setThreadReplies((prev) => ({
+      ...prev,
+      [id]: [
+        {
+          id: `${id}-m1`,
+          senderName: primaryUser.name,
+          timestamp: "Just now",
+          body: <div dangerouslySetInnerHTML={{ __html: draft.body.html }} />,
+        },
+      ],
+    }));
+  }, []);
 
   const handleNoteSelect = useCallback((noteId: string) => {
     setActivePageId(noteId);
@@ -476,7 +597,7 @@ function LongformerApp() {
     const newMessage: SlackMessage = {
       id: `slack-${Date.now()}`,
       senderId: "me",
-      senderName: "Paul Bloch",
+      senderName: primaryUser.name,
       content: slackComposerValue,
       timestamp: "Just now",
     };
@@ -497,8 +618,8 @@ function LongformerApp() {
     const newPost: SocialPost = {
       id: `social-${Date.now()}`,
       authorId: "me",
-      authorName: "Paul Bloch",
-      authorHandle: "@paulblochxp",
+      authorName: primaryUser.name,
+      authorHandle: primaryUser.handle,
       timestamp: "Just now",
       content: socialComposerValue.trim(),
       stats: { replies: 0, reposts: 0, likes: 0, views: 0 },
@@ -561,11 +682,56 @@ function LongformerApp() {
     }
   }
 
+  function handlePrevDay() {
+    const focus = selectedDate ?? toISODate(today);
+    const next = addDaysISO(focus, -1);
+    setSelectedDate(next);
+    const date = parseISODate(next);
+    setCalendarMonth(date.getMonth());
+    setCalendarYear(date.getFullYear());
+  }
+
+  function handleNextDay() {
+    const focus = selectedDate ?? toISODate(today);
+    const next = addDaysISO(focus, 1);
+    setSelectedDate(next);
+    const date = parseISODate(next);
+    setCalendarMonth(date.getMonth());
+    setCalendarYear(date.getFullYear());
+  }
+
+  function handlePrevYear() {
+    setCalendarYear((year) => year - 1);
+  }
+
+  function handleNextYear() {
+    setCalendarYear((year) => year + 1);
+  }
+
+  function handleCalendarViewChange(view: CalendarView) {
+    setCalendarView(view);
+    if (view === "week") {
+      const focus = selectedDate ?? toISODate(today);
+      setWeekStartISO(toISODate(getWeekStartSunday(parseISODate(focus))));
+    }
+  }
+
   function handleToday() {
     setCalendarMonth(today.getMonth());
     setCalendarYear(today.getFullYear());
     setSelectedDate(undefined);
-    setWeekStartISO(toISODate(getWeekStart(new Date())));
+    setWeekStartISO(toISODate(getWeekStartSunday(today)));
+  }
+
+  function handleCalendarMonthChange(month: number, year: number) {
+    setCalendarMonth(month);
+    setCalendarYear(year);
+  }
+
+  function handleToggleCalendarSource(sourceId: string) {
+    setEnabledCalendarSourceIds((prev) =>
+      prev.includes(sourceId) ? prev.filter((id) => id !== sourceId) : [...prev, sourceId],
+    );
   }
 
   function handlePrevWeek() {
@@ -598,7 +764,7 @@ function LongformerApp() {
       name: "Untitled document",
       kind: "doc",
       sizeLabel: "0 KB",
-      owner: { name: "Paul Bloch" },
+      owner: { name: primaryUser.name },
       modifiedLabel: "Just now",
     };
     setFolders((prev) => ({
@@ -675,6 +841,7 @@ function LongformerApp() {
     const app = createCustomApp(payload);
     setCustomApps((prev) => [...prev, app]);
     setInstalledAppIds((prev) => new Set([...prev, app.id]));
+    setTrayPinnedIds((prev) => moveAppToTray(prev, app.id));
     setCreateAppOpen(false);
 
     if (workspaceId !== "desktop") {
@@ -704,7 +871,9 @@ function LongformerApp() {
       overflowItems={overflowWorkspaces}
       activeId={workspaceId}
       onSelect={(id) => setWorkspaceId(id as WorkspaceId)}
-      onMoveToRail={(id) => setPinnedWorkspaceIds((prev) => moveWorkspaceToRail(prev, id as WorkspaceId))}
+      onMoveToRail={(id, index) =>
+        setPinnedWorkspaceIds((prev) => moveWorkspaceToRail(prev, id as WorkspaceId, index))
+      }
       onMoveToOverflow={(id) => setPinnedWorkspaceIds((prev) => moveWorkspaceToOverflow(prev, id as WorkspaceId))}
       onReorder={(fromIndex, toIndex) =>
         setPinnedWorkspaceIds((prev) => reorderPinnedWorkspaces(prev, fromIndex, toIndex))
@@ -714,7 +883,7 @@ function LongformerApp() {
       brand="L"
       footer={
         <SidebarUserFooterMenu
-          name="Paul Bloch"
+          name={primaryUser.name}
           meta="Longformer · Plus"
           compact={!navRailExpanded}
           theme={theme}
@@ -833,12 +1002,22 @@ function LongformerApp() {
       setTasks,
       calendarMonth,
       calendarYear,
+      calendarView,
+      setCalendarView: handleCalendarViewChange,
       handlePrevMonth,
       handleNextMonth,
+      handlePrevDay,
+      handleNextDay,
+      handlePrevYear,
+      handleNextYear,
       handleToday,
+      handleCalendarMonthChange,
       selectedDate,
       setSelectedDate,
       calendarEvents,
+      calendarSources,
+      enabledCalendarSourceIds,
+      handleToggleCalendarSource,
       scheduleItems: scheduleItemsState,
       setScheduleItems: setScheduleItemsState,
       scheduleProjects,
@@ -862,6 +1041,8 @@ function LongformerApp() {
       handleToggleStarFile,
       handleNewFile,
       settingsData,
+      desktopWallpaperUrl,
+      setDesktopWallpaperUrl,
       walletExpenses,
       bankDashboardData,
       cryptoWalletData,
@@ -893,12 +1074,16 @@ function LongformerApp() {
       extensionsWorkspaceData,
       passportWorkspaceData,
       generatedSchema,
-      threads,
+      threads: sentThreads,
       activeThreadId,
       setActiveThreadId,
       starred,
       setStarred,
       activeThread,
+      emailComposeOpen,
+      setEmailComposeOpen,
+      handleSendEmailReply,
+      handleSendEmail,
       mailFolders,
       chatConversations,
       chatTabs,
@@ -968,7 +1153,13 @@ function LongformerApp() {
       activeThreadId,
       starred,
       activeThread,
+      sentThreads,
+      emailComposeOpen,
+      handleSendEmailReply,
+      handleSendEmail,
       chatNavId,
+      desktopWallpaperUrl,
+      setDesktopWallpaperUrl,
     ],
   );
 
@@ -1009,9 +1200,22 @@ function LongformerApp() {
         onPrevGlance={surface.prevGlance}
         widgetTiles={[...bankingWidgetTiles, ...financeWidgetTiles, ...fitnessWidgetTiles, ...widgetDashboardTiles]}
         onCreateApp={openCreateAppModal}
+        trayApps={trayPinnedApps}
+        trayOverflowApps={trayOverflowApps}
+        onTrayReorder={(fromIndex, toIndex) =>
+          setTrayPinnedIds((prev) => reorderTrayPinnedIds(prev, fromIndex, toIndex))
+        }
+        onTrayUndock={(fromIndex) =>
+          setTrayPinnedIds((prev) => {
+            const id = prev[fromIndex];
+            return id ? removeAppFromTray(prev, id) : prev;
+          })
+        }
+        onMoveToTray={(id, index) => setTrayPinnedIds((prev) => moveAppToTray(prev, id, index))}
         renderWindowContent={renderDesktopWindowContent}
         fullscreen={desktopFullscreen}
         onFullscreenChange={setDesktopFullscreen}
+        wallpaperUrl={desktopWallpaperUrl}
       />
     ),
     [
@@ -1024,6 +1228,9 @@ function LongformerApp() {
       surface.policy,
       surface.renderableWindows,
       surface.shell,
+      desktopWallpaperUrl,
+      trayPinnedApps,
+      trayOverflowApps,
     ],
   );
 
@@ -1124,7 +1331,8 @@ function LongformerApp() {
         enabled={workspaceId !== "desktop"}
         shell={surface.shell}
         formFactor={surface.formFactor}
-        apps={allDesktopApps}
+        apps={trayPinnedApps}
+        overflowApps={trayOverflowApps}
         windows={surface.legacyWindows}
         activeWindowId={surface.activeWindowId}
         onLaunchApp={handleTrayLaunchApp}
@@ -1134,6 +1342,16 @@ function LongformerApp() {
         onNextGlance={surface.nextGlance}
         onPrevGlance={surface.prevGlance}
         onCreateApp={openCreateAppModal}
+        onReorder={(fromIndex, toIndex) =>
+          setTrayPinnedIds((prev) => reorderTrayPinnedIds(prev, fromIndex, toIndex))
+        }
+        onUndock={(fromIndex) =>
+          setTrayPinnedIds((prev) => {
+            const id = prev[fromIndex];
+            return id ? removeAppFromTray(prev, id) : prev;
+          })
+        }
+        onMoveToTray={(id, index) => setTrayPinnedIds((prev) => moveAppToTray(prev, id, index))}
         onOpenChange={setAppDrawerOpen}
       />
       <CreateAppModal open={createAppOpen} onClose={() => setCreateAppOpen(false)} onCreate={handleCreateApp} />
@@ -1158,7 +1376,11 @@ function LongformerApp() {
 export default function App() {
   return (
     <ThemeProvider defaultTheme="dark" className="lf-app-root">
-      <LongformerApp />
+      <Routes>
+        <Route path="/" element={<Navigate to="/chat" replace />} />
+        <Route path="/:workspaceId" element={<LongformerApp />} />
+        <Route path="*" element={<Navigate to="/chat" replace />} />
+      </Routes>
     </ThemeProvider>
   );
 }

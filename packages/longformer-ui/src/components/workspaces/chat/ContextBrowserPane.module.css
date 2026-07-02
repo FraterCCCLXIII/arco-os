@@ -9,7 +9,7 @@
 
 .toolbar {
   flex-shrink: 0;
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .page {

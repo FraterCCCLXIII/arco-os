@@ -8,6 +8,16 @@
   font-family: var(--lf-font-family);
   font-size: var(--lf-font-size-base);
   line-height: var(--lf-line-height-normal);
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+}
+
+.textarea:focus,
+.textarea:focus-visible {
+  outline: none;
+  box-shadow: none;
+  border: none;
 }
 
 .textarea::placeholder {

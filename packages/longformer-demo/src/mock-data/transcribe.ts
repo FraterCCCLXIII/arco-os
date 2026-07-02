@@ -2,8 +2,8 @@ import type { TranscribeWorkspaceData } from "longformer-ui";
 
 export const transcribeWorkspaceData: TranscribeWorkspaceData = {
   productName: "Transcribe",
-  userName: "Paul Bloch",
-  userEmail: "paul@longformer.dev",
+  userName: "Alex Morgan",
+  userEmail: "alex@meridian.dev",
   navItems: [
     { id: "library", label: "Library", icon: "notebook", view: "library" },
     { id: "in-progress", label: "In Progress", icon: "loader", view: "in-progress", badge: "3" },
@@ -182,7 +182,7 @@ export const transcribeWorkspaceData: TranscribeWorkspaceData = {
     },
     {
       id: "tr-012",
-      title: "Weekly Sync — Design Team",
+      title: "Weekly Sync — Product Team",
       sourceType: "meeting",
       sourceLabel: "Zoom",
       status: "ready",

@@ -1,5 +1,6 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { Icon } from "../../../icons";
+import { Button } from "../../primitives/Button";
 import { Chip } from "../../primitives/Chip";
 import { Input } from "../../primitives/Input";
 import { ScrollArea } from "../../primitives/ScrollArea";
@@ -8,6 +9,8 @@ import { CountBadge } from "../../primitives/Badge";
 import { EmptyState } from "../../primitives/EmptyState";
 import { ListPane } from "../../shell/ListPane";
 import listPaneStyles from "../../shell/ListPane/ListPane.module.css";
+import { EmailComposeModal, type EmailDraft } from "./EmailComposeModal";
+import type { EmailBodyContent } from "./EmailReplyComposer";
 import { MailListItem } from "./MailListItem";
 import { ReadingPane } from "./ReadingPane";
 import type { EmailDetailMessage, EmailThread } from "./types";
@@ -30,6 +33,10 @@ export interface EmailWorkspaceProps {
   listPaneWidth?: number;
   defaultListPaneWidth?: number;
   onListPaneWidthChange?: (width: number) => void;
+  composeOpen?: boolean;
+  onComposeOpenChange?: (open: boolean) => void;
+  onSendReply?: (content: EmailBodyContent) => void;
+  onSendEmail?: (draft: EmailDraft) => void;
 }
 
 /** Inbox list + reading pane, combining the Notion-inbox and Slack-thread patterns. */
@@ -48,14 +55,21 @@ export function EmailWorkspace({
   listPaneWidth,
   defaultListPaneWidth = 360,
   onListPaneWidthChange,
+  composeOpen: composeOpenProp,
+  onComposeOpenChange,
+  onSendReply,
+  onSendEmail,
 }: EmailWorkspaceProps) {
   const [internalSearch, setInternalSearch] = useState("");
   const [internalFilter, setInternalFilter] = useState<EmailInboxFilter>("all");
+  const [internalComposeOpen, setInternalComposeOpen] = useState(false);
 
   const searchQuery = searchQueryProp ?? internalSearch;
   const setSearchQuery = onSearchChange ?? setInternalSearch;
   const inboxFilter = inboxFilterProp ?? internalFilter;
   const setInboxFilter = onInboxFilterChange ?? setInternalFilter;
+  const composeOpen = composeOpenProp ?? internalComposeOpen;
+  const setComposeOpen = onComposeOpenChange ?? setInternalComposeOpen;
 
   const unreadCount = threads.filter((thread) => thread.unread).length;
   const starredCount = threads.filter((thread) => thread.starred).length;
@@ -78,6 +92,11 @@ export function EmailWorkspace({
 
   return (
     <div className={styles.workspace}>
+      <EmailComposeModal
+        open={composeOpen}
+        onClose={() => setComposeOpen(false)}
+        onSend={onSendEmail}
+      />
       <ResizablePane
         width={listPaneWidth}
         defaultWidth={defaultListPaneWidth}
@@ -97,6 +116,11 @@ export function EmailWorkspace({
               Inbox
               <CountBadge count={unreadCount} />
             </>
+          }
+          headerActions={
+            <Button variant="primary" size="sm" onClick={() => setComposeOpen(true)}>
+              Compose
+            </Button>
           }
           toolbar={
             <>
@@ -149,7 +173,12 @@ export function EmailWorkspace({
         </ListPane>
       </ResizablePane>
       <div className={styles.detail}>
-        <ReadingPane subject={activeSubject} messages={activeMessages} replyBar={replyBar} />
+        <ReadingPane
+          subject={activeSubject}
+          messages={activeMessages}
+          replyBar={replyBar}
+          onSendReply={onSendReply}
+        />
       </div>
     </div>
   );

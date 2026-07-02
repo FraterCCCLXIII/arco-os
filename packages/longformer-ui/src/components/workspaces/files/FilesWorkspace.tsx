@@ -1,9 +1,10 @@
-import { useMemo, useState, type ReactNode } from "react";
+import { useMemo, useState } from "react";
 import { cx } from "../../../utils/cx";
 import { Icon } from "../../../icons";
-import { TopBar, type BreadcrumbItem } from "../../shell/TopBar";
+import type { BreadcrumbItem } from "../../shell/TopBar";
 import { ScrollArea } from "../../primitives/ScrollArea";
 import { ResizablePane } from "../../primitives/ResizablePane";
+import { SidebarPane } from "../../shell/NavSidebar";
 import { EmptyState } from "../../primitives/EmptyState";
 import { FilesSidebar } from "./FilesSidebar";
 import { FilesToolbar } from "./FilesToolbar";
@@ -27,7 +28,6 @@ export interface FilesWorkspaceProps {
   onOpenFile: (file: FileItem) => void;
   onToggleStar?: (id: string) => void;
   onNewFile?: () => void;
-  actions?: ReactNode;
   /** Optional folder graph for sidebar views like Recent and Starred. */
   folders?: Record<string, FileFolderNode>;
   location?: FilesLocation;
@@ -66,7 +66,6 @@ export function FilesWorkspace({
   onOpenFile,
   onToggleStar,
   onNewFile,
-  actions,
   folders,
   location: locationProp,
   onLocationChange,
@@ -133,7 +132,6 @@ export function FilesWorkspace({
   );
 
   const pageTitle = location === "drive" ? undefined : LOCATION_LABELS[location];
-  const showBreadcrumb = location === "drive";
   const suggestedFolders = location === "home" ? files.filter((file) => file.kind === "folder") : [];
 
   const emptyCopy =
@@ -148,19 +146,12 @@ export function FilesWorkspace({
   return (
     <div className={styles.workspace}>
       {showSidebar && (
-        <FilesSidebar location={location} onLocationChange={setLocation} onNewFile={onNewFile} />
+        <SidebarPane handleLabel="Resize files sidebar" className={styles.sidebarResizable} defaultWidth={260} maxWidth={320}>
+          <FilesSidebar location={location} onLocationChange={setLocation} onNewFile={onNewFile} />
+        </SidebarPane>
       )}
 
       <div className={styles.browser}>
-        {showBreadcrumb ? (
-          <TopBar breadcrumb={breadcrumb} actions={actions} />
-        ) : (
-          <TopBar
-            breadcrumb={[{ label: LOCATION_LABELS[location] }]}
-            actions={actions}
-          />
-        )}
-
         <FilesToolbar
           title={pageTitle}
           searchQuery={searchQuery}

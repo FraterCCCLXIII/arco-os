@@ -16,11 +16,11 @@ export const demoUsage: UsageStats = {
 };
 
 export const promptChips: PromptChipItem[] = [
-  { id: "standup", label: "Standup digest", icon: "sparkles" },
-  { id: "ship-report", label: "Ship report", icon: "check" },
-  { id: "ci-watchdog", label: "CI watchdog", icon: "terminal" },
-  { id: "dep-audit", label: "Dependency audit", icon: "folder" },
-  { id: "pr-review", label: "PR review digest", icon: "code" },
+  { id: "volunteer-digest", label: "Volunteer digest", icon: "sparkles" },
+  { id: "event-report", label: "Event report", icon: "check" },
+  { id: "supply-check", label: "Supply check", icon: "terminal" },
+  { id: "vendor-audit", label: "Vendor audit", icon: "folder" },
+  { id: "schedule-review", label: "Schedule review", icon: "code" },
 ];
 
 export const assistantPromptChips: PromptChipItem[] = [
@@ -31,7 +31,7 @@ export const assistantPromptChips: PromptChipItem[] = [
 ];
 
 export const chatConversationTabs = [
-  { id: "c1", label: "Can you review the project?", swatch: "var(--lf-accent)", closable: true },
+  { id: "c1", label: "Plan the summer picnic", swatch: "var(--lf-accent)", closable: true },
   { id: "c2", label: "Research an office app", icon: "sparkles" as const, closable: true },
   { id: "c3", label: "Order me a pizza", icon: "sparkles" as const, closable: true },
 ];
@@ -49,12 +49,12 @@ export const assistantConversationNavItems = [
 
 export const chatConversationNavItems = assistantConversationNavItems;
 
-/** Project review thread — user asks for interactive risk cards mid-conversation. */
+/** Event planning thread — user asks for interactive risk cards mid-conversation. */
 export const reviewProjectConversation: ChatMessage[] = [
   {
     id: "c1-m1",
     role: "user",
-    content: "Can you review the project and flag anything risky before we ship?",
+    content: "Can you help plan the Meridian summer picnic and flag anything we might forget?",
     timestamp: "9:41 AM",
   },
   {
@@ -63,19 +63,19 @@ export const reviewProjectConversation: ChatMessage[] = [
     thinking: {
       label: "Thinking",
       steps: [
-        { id: "s1", text: "Scan repo structure, docs, and key source areas" },
-        { id: "s2", text: "Read the README and spot-check app/package entry points" },
-        { id: "s3", text: "Check for uncommitted changes and test coverage" },
+        { id: "s1", text: "Review venue details, catering notes, and volunteer sign-ups" },
+        { id: "s2", text: "Check permit deadlines and weather backup options" },
+        { id: "s3", text: "Compare headcount against supply and staffing plans" },
       ],
     },
     content: (
       <>
         <p>
-          Here&rsquo;s a quick pass on the repo: clear layering between core and UI, tests pass for core (10/10 via
-          vitest), but the WebSocket gateway trusts message shape with no runtime validation.
+          Here&rsquo;s a quick pass on the picnic plan: pavilion rental is confirmed, catering is booked for 120
+          guests, but there&rsquo;s no rain backup location and the permit paperwork is still pending.
         </p>
         <ChatInlineSurface label="Risk preview" schema={projectRiskPreviewSchema} />
-        <p>Want me to expand this into an interactive checklist with the suggested fix?</p>
+        <p>Want me to expand this into an interactive checklist with suggested fixes?</p>
       </>
     ),
     timestamp: "9:41 AM",
@@ -92,18 +92,18 @@ export const reviewProjectConversation: ChatMessage[] = [
     thinking: {
       label: "Generating UI",
       steps: [
-        { id: "s1", text: "Build risk register from scan results" },
-        { id: "s2", text: "Attach pre-ship checklist and suggested patch" },
+        { id: "s1", text: "Build risk register from event details" },
+        { id: "s2", text: "Attach pre-event checklist and vendor follow-ups" },
       ],
     },
     content: (
       <>
         <p>
-          Built an interactive module from the scan — risk cards, a release checklist, and the gateway fix as a diff
-          you can apply.
+          Built an interactive module from the plan — risk cards, a pre-event checklist, and vendor follow-ups you
+          can track.
         </p>
-        <ChatInlineSurface label="Project review module" schema={projectRiskCardsSchema} />
-        <p>Want me to open a PR for the validation gap?</p>
+        <ChatInlineSurface label="Event planning module" schema={projectRiskCardsSchema} />
+        <p>Want me to draft reminder emails for volunteers with open shifts?</p>
       </>
     ),
     timestamp: "9:42 AM",
@@ -132,7 +132,7 @@ export const officeAppConversation: ChatMessage[] = [
       <>
         <p>
           I narrowed it to three strong fits for a 12-person team. Here&rsquo;s a shortlist with pricing and feature
-          tags — Notion leads on flexible docs, Google on sheets, Microsoft on enterprise calendar.
+          tags — Lark Suite leads on flexible docs, Harbor Office on spreadsheets, Summit 365 on shared calendars.
         </p>
         <ChatInlineSurface label="Office suite shortlist" schema={officeSuiteListSchema} />
       </>
@@ -157,7 +157,7 @@ export const officeAppConversation: ChatMessage[] = [
     },
     content: (
       <>
-        <p>Side-by-side comparison on the dimensions you asked for, plus a rollout timeline if you pick Notion.</p>
+        <p>Side-by-side comparison on the dimensions you asked for, plus a rollout timeline if you pick Lark Suite.</p>
         <ChatInlineSurface label="Comparison module" schema={officeSuiteCompareSchema} />
       </>
     ),

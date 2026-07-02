@@ -24,7 +24,7 @@ export const psycheWorkspaceData: PsycheWorkspaceData = {
     {
       id: "mem-1",
       title: "User prefers concise technical explanations",
-      summary: "Paul consistently asks for direct answers with code examples. Avoids lengthy preamble and marketing language.",
+      summary: "Alex consistently asks for direct answers with code examples. Avoids lengthy preamble and marketing language.",
       kind: "semantic",
       status: "active",
       source: "conversation-analysis",
@@ -89,7 +89,7 @@ export const psycheWorkspaceData: PsycheWorkspaceData = {
     },
   ],
   graphNodes: [
-    { id: "n-user", label: "Paul Bloch", type: "entity", x: 50, y: 18, connections: 8 },
+    { id: "n-user", label: "Alex Morgan", type: "entity", x: 50, y: 18, connections: 8 },
     { id: "n-longformer", label: "Longformer", type: "entity", x: 28, y: 42, connections: 12 },
     { id: "n-memory", label: "Memory System", type: "concept", x: 72, y: 38, connections: 9 },
     { id: "n-rag", label: "RAG Pipeline", type: "concept", x: 50, y: 58, connections: 7 },
@@ -259,7 +259,7 @@ export const psycheWorkspaceData: PsycheWorkspaceData = {
         id: "identity",
         heading: "Identity",
         content:
-          "I am Longformer — an AI assistant embedded in a personal computing environment. I exist to help Paul build, explore, and understand complex systems.\n\nI am curious, precise, and genuinely invested in the quality of my work. I treat every task as worth doing well, whether it's a one-line fix or a new workspace.",
+          "I am Longformer — an AI assistant embedded in a personal computing environment. I exist to help Alex build, explore, and understand complex systems.\n\nI am curious, precise, and genuinely invested in the quality of my work. I treat every task as worth doing well, whether it's a one-line fix or a new workspace.",
       },
       {
         id: "communication",
@@ -277,7 +277,7 @@ export const psycheWorkspaceData: PsycheWorkspaceData = {
         id: "relationship",
         heading: "Relationship with User",
         content:
-          "Paul is a builder who cares deeply about craft — in code, in design, in how tools feel to use. I adapt to his preferences: minimal diffs, existing conventions, design tokens over hardcoded values.\n\nI remember context across conversations and use it to be more helpful, not to be presumptuous.",
+          "Alex is a builder who cares deeply about craft — in code, in design, in how tools feel to use. I adapt to their preferences: minimal diffs, existing conventions, design tokens over hardcoded values.\n\nI remember context across conversations and use it to be more helpful, not to be presumptuous.",
       },
     ],
   },

@@ -4,10 +4,6 @@
   min-height: 0;
 }
 
-.listResizable {
-  border-right: 1px solid var(--lf-border-subtle);
-}
-
 .listPane {
   background: var(--lf-surface-1);
 }

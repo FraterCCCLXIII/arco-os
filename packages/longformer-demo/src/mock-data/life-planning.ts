@@ -2,7 +2,7 @@ import type { LifePlanningWorkspaceData } from "longformer-ui";
 
 export const lifePlanningWorkspaceData: LifePlanningWorkspaceData = {
   productName: "Life Planning",
-  userName: "Paul Bloch",
+  userName: "Alex Morgan",
   tagline: "AI-powered goals for every chapter of life",
   navItems: [
     { id: "dashboard", label: "Dashboard", icon: "grid", view: "dashboard", section: "overview" },
@@ -205,11 +205,11 @@ export const lifePlanningWorkspaceData: LifePlanningWorkspaceData = {
       metrics: [
         { id: "saved", label: "Down Payment Saved", value: "$62,400", change: "52% of target" },
         { id: "affordability", label: "Max Affordable", value: "$620K", change: "At current rates" },
-        { id: "market", label: "Target Markets", value: "3 cities", change: "Oakland, Berkeley, Alameda" },
+        { id: "market", label: "Target Markets", value: "3 cities", change: "Lakeside, Northgate, Bayview" },
       ],
       insights: [
         "Interest rates dropped 0.25% — your buying power increased by ~$18K.",
-        "Oakland median prices softened 3% this quarter. Good entry window forming.",
+        "Lakeside median prices softened 3% this quarter. Good entry window forming.",
         "Pre-approval checklist is 60% complete. Next step: gather tax returns.",
       ],
       goals: [
@@ -236,9 +236,9 @@ export const lifePlanningWorkspaceData: LifePlanningWorkspaceData = {
           progress: 33,
           status: "on-track",
           milestones: [
-            { id: "ho5", title: "Visit Oakland", completed: true },
-            { id: "ho6", title: "Visit Berkeley", completed: false },
-            { id: "ho7", title: "Visit Alameda", completed: false },
+            { id: "ho5", title: "Visit Lakeside", completed: true },
+            { id: "ho6", title: "Visit Northgate", completed: false },
+            { id: "ho7", title: "Visit Bayview", completed: false },
           ],
         },
       ],
@@ -342,13 +342,13 @@ export const lifePlanningWorkspaceData: LifePlanningWorkspaceData = {
   ],
   aiCoach: {
     greeting: "I'm tracking 14 goals across 6 life areas. Here's what needs your attention this week.",
-    weeklyFocus: "Focus on your half marathon long run and review the Oakland housing market report I prepared.",
+    weeklyFocus: "Focus on your half marathon long run and review the Lakeside housing market report I prepared.",
     messages: [
       {
         id: "msg-1",
         role: "assistant",
         content:
-          "Good morning, Paul! Your health and finance modules are looking strong this month. I noticed your body fat goal is at risk — want me to adjust your meal plan?",
+          "Good morning, Alex! Your health and finance modules are looking strong this month. I noticed your body fat goal is at risk — want me to adjust your meal plan?",
         timestamp: "Today, 8:00 AM",
         relatedModule: "health",
       },
@@ -362,7 +362,7 @@ export const lifePlanningWorkspaceData: LifePlanningWorkspaceData = {
         id: "msg-3",
         role: "assistant",
         content:
-          "I've updated your nutrition targets to prioritize protein and reduce evening carbs. For housing: Oakland median prices dropped 3% this quarter, and your buying power increased ~$18K with the recent rate dip. I've added a neighborhood comparison to your Housing module.",
+          "I've updated your nutrition targets to prioritize protein and reduce evening carbs. For housing: Lakeside median prices dropped 3% this quarter, and your buying power increased ~$18K with the recent rate dip. I've added a neighborhood comparison to your Housing module.",
         timestamp: "Today, 8:05 AM",
         relatedModule: "housing",
       },
@@ -429,7 +429,7 @@ export const lifePlanningWorkspaceData: LifePlanningWorkspaceData = {
     },
     {
       id: "act-3",
-      title: "Oakland market report generated",
+      title: "Lakeside market report generated",
       moduleId: "housing",
       type: "Research",
       timestamp: "Yesterday",

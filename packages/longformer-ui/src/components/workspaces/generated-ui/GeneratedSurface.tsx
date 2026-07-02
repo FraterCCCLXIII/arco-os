@@ -27,6 +27,7 @@ import {
   CalendarScheduleCardsBlock,
   BatteryStatusCardsBlock,
   MusicPlayerCardsBlock,
+  VideoPlayerCardsBlock,
   NewsFeedCardsBlock,
   TaskChecklistCardsBlock,
   TranslationCardsBlock,
@@ -129,6 +130,8 @@ export function GeneratedSurface({ schema }: GeneratedSurfaceProps) {
             return <BatteryStatusCardsBlock key={block.id} block={block} />;
           case "musicPlayerCards":
             return <MusicPlayerCardsBlock key={block.id} block={block} />;
+          case "videoPlayerCards":
+            return <VideoPlayerCardsBlock key={block.id} block={block} />;
           case "newsFeedCards":
             return <NewsFeedCardsBlock key={block.id} block={block} />;
           case "taskChecklistCards":

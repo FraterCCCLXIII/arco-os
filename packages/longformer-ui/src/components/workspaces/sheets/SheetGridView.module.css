@@ -29,8 +29,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-right: 1px solid var(--lf-border-subtle);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-right: 1px solid var(--lf-divider);
+  border-bottom: 1px solid var(--lf-divider);
   background: var(--lf-surface-sunken);
   color: var(--lf-text-secondary);
   font-size: var(--lf-font-size-xs);
@@ -69,8 +69,8 @@
   align-items: center;
   min-width: 0;
   padding: 0 var(--lf-space-2);
-  border-right: 1px solid var(--lf-border-subtle);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-right: 1px solid var(--lf-divider);
+  border-bottom: 1px solid var(--lf-divider);
   background: var(--lf-surface-1);
   color: var(--lf-text-primary);
   font-size: var(--lf-font-size-sm);

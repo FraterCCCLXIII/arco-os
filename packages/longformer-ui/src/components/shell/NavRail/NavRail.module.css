@@ -66,6 +66,7 @@
 }
 
 .items {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: var(--lf-space-1);
@@ -97,9 +98,14 @@
   touch-action: none;
 }
 
-.itemSlotPending .itemButton {
+.itemSlotPending .itemButton,
+.itemSlotPending .itemRow {
   background: var(--lf-surface-2);
   transform: scale(0.96);
+}
+
+.itemSlotPending .itemRow .itemButton {
+  transform: none;
 }
 
 .itemSlotReorderActive {
@@ -108,6 +114,10 @@
 
 .itemSlotDragging {
   opacity: 0.35;
+}
+
+.itemSlotUndocking {
+  opacity: 0.2;
 }
 
 .itemSlotDropBefore::before {
@@ -131,8 +141,38 @@
   cursor: grabbing;
 }
 
+.railUndocking {
+  cursor: grabbing;
+}
+
+.undockHint {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--lf-radius-md);
+  background: color-mix(in srgb, var(--lf-danger) 12%, transparent);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--lf-duration-fast) var(--lf-ease);
+  z-index: 1;
+}
+
+.railUndocking .undockHint {
+  opacity: 1;
+}
+
+.railPinDragging {
+  cursor: grabbing;
+}
+
 .railReordering .itemButton {
   cursor: grabbing;
+}
+
+.itemSlotPinDropActive {
+  touch-action: none;
 }
 
 .dragGhost {
@@ -173,6 +213,11 @@
   white-space: nowrap;
 }
 
+.dragGhostUndocking {
+  opacity: 0.65;
+  transform: translate(-50%, -50%) scale(0.88);
+}
+
 .itemButton {
   position: relative;
   display: flex;
@@ -185,7 +230,7 @@
   color: var(--lf-text-tertiary);
   cursor: pointer;
   white-space: nowrap;
-  transition: background var(--lf-duration-fast) var(--lf-ease), color var(--lf-duration-fast) var(--lf-ease);
+  transition: color var(--lf-duration-fast) var(--lf-ease);
 }
 
 .collapsed .itemButton {
@@ -214,7 +259,11 @@
 }
 
 .itemButton:hover {
-  background: var(--lf-surface-2);
+  color: var(--lf-text-primary);
+}
+
+.expanded .itemRow:hover .itemButton,
+.expanded .itemRowActive .itemButton {
   color: var(--lf-text-primary);
 }
 
@@ -226,22 +275,37 @@
 .itemRow {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 0;
   min-width: 0;
+  border-radius: var(--lf-radius-md);
+  transition: background var(--lf-duration-fast) var(--lf-ease);
+}
+
+.expanded .itemRow {
+  width: 100%;
+  min-height: 34px;
+  padding-right: 2px;
+}
+
+.itemRow:hover,
+.itemRowActive {
+  background: var(--lf-surface-2);
 }
 
 .expanded .itemRow .itemButton {
   flex: 1;
   min-width: 0;
+  width: auto;
 }
 
-.unpinButton {
+.itemMenuButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 24px;
   height: 24px;
   flex-shrink: 0;
+  margin-right: 2px;
   border: none;
   border-radius: var(--lf-radius-sm);
   background: transparent;
@@ -254,12 +318,15 @@
     color var(--lf-duration-fast) var(--lf-ease);
 }
 
-.itemRow:hover .unpinButton,
-.unpinButton:focus-visible {
+.itemRow:hover .itemMenuButton,
+.itemRow:focus-within .itemMenuButton,
+.itemRowActive .itemMenuButton,
+.itemMenuButton:focus-visible,
+.itemMenuButton[aria-expanded="true"] {
   opacity: 1;
 }
 
-.unpinButton:hover {
+.itemMenuButton:hover {
   background: var(--lf-surface-3);
   color: var(--lf-text-primary);
 }
@@ -306,7 +373,7 @@
   flex-shrink: 0;
   margin: var(--lf-space-2) calc(-1 * var(--lf-space-2)) calc(-1 * var(--lf-space-3));
   padding: var(--lf-space-2);
-  border-top: 1px solid var(--lf-border-subtle);
+  border-top: 1px solid var(--lf-divider);
 }
 
 .footerUtilities {

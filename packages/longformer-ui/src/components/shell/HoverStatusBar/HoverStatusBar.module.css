@@ -14,7 +14,6 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 28px;
   pointer-events: auto;
 }
 
@@ -28,6 +27,8 @@
   top: 0;
   left: 0;
   right: 0;
+  display: flex;
+  flex-direction: column;
   transform: translateY(calc(-100% - 8px));
   opacity: 0;
   pointer-events: none;
@@ -36,13 +37,65 @@
     opacity var(--lf-duration-fast) var(--lf-ease);
 }
 
+.peakLine {
+  flex-shrink: 0;
+  height: 2px;
+  margin: 0 auto var(--lf-space-1);
+  border-radius: var(--lf-radius-pill);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--lf-border-strong) 18%,
+    var(--lf-border-strong) 82%,
+    transparent 100%
+  );
+  opacity: 0;
+  transform: scaleX(0.35);
+  transition:
+    opacity var(--lf-duration-fast) var(--lf-ease),
+    transform var(--lf-duration-fast) var(--lf-ease),
+    margin var(--lf-duration-fast) var(--lf-ease),
+    height var(--lf-duration-fast) var(--lf-ease);
+}
+
+.barContainerPeaked,
+.barContainerOpen {
+  transition:
+    transform var(--lf-duration-normal) var(--lf-ease),
+    opacity var(--lf-duration-normal) var(--lf-ease);
+}
+
+.barContainerPeaked .peakLine,
+.barContainerOpen .peakLine {
+  transition:
+    opacity var(--lf-duration-normal) var(--lf-ease),
+    transform var(--lf-duration-normal) var(--lf-ease),
+    margin var(--lf-duration-normal) var(--lf-ease),
+    height var(--lf-duration-normal) var(--lf-ease);
+}
+
+.barContainerPeaked {
+  transform: translateY(calc(-100% + 2px));
+  opacity: 1;
+}
+
+.barContainerPeaked .peakLine {
+  width: min(240px, 42vw);
+  opacity: 1;
+  transform: scaleX(1);
+}
+
 .barContainerOpen {
   transform: translateY(0);
   opacity: 1;
   pointer-events: auto;
-  transition:
-    transform var(--lf-duration-normal) var(--lf-ease),
-    opacity var(--lf-duration-normal) var(--lf-ease);
+}
+
+.barContainerOpen .peakLine {
+  opacity: 0;
+  height: 0;
+  margin-bottom: 0;
+  transform: scaleX(0.35);
 }
 
 .bar {

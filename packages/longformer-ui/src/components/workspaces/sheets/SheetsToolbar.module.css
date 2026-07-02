@@ -5,7 +5,7 @@
   gap: var(--lf-space-1);
   height: 40px;
   padding: 0 var(--lf-space-3);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   background: var(--lf-surface-1);
   overflow-x: auto;
 }

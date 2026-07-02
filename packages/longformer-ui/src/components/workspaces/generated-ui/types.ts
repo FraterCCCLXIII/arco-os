@@ -263,6 +263,16 @@ export interface GeneratedMusicPlayerCard {
   playing?: boolean;
 }
 
+export interface GeneratedVideoPlayerCard {
+  id: string;
+  elapsed?: string;
+  duration?: string;
+  progress?: number;
+  ended?: boolean;
+  imageTone?: "accent" | "neutral" | "warning";
+  watchAgainLabel?: string;
+}
+
 export interface GeneratedNewsFeedCard {
   id: string;
   source?: string;
@@ -541,6 +551,7 @@ export type GeneratedBlock =
   | { id: string; type: "calendarScheduleCards"; title?: string; cards: GeneratedCalendarScheduleCard[] }
   | { id: string; type: "batteryStatusCards"; title?: string; cards: GeneratedBatteryStatusCard[] }
   | { id: string; type: "musicPlayerCards"; title?: string; cards: GeneratedMusicPlayerCard[] }
+  | { id: string; type: "videoPlayerCards"; title?: string; cards: GeneratedVideoPlayerCard[] }
   | { id: string; type: "newsFeedCards"; title?: string; cards: GeneratedNewsFeedCard[] }
   | { id: string; type: "taskChecklistCards"; title?: string; cards: GeneratedTaskChecklistCard[] }
   | { id: string; type: "translationCards"; title?: string; cards: GeneratedTranslationCard[] }

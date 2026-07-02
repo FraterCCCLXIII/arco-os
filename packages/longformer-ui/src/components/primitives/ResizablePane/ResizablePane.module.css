@@ -17,3 +17,12 @@
   min-height: 0;
   overflow: hidden;
 }
+
+/* The adjacent resize handle renders the column divider. */
+.wrapper:not(.handleLeft) > .pane {
+  border-right: none;
+}
+
+.wrapper.handleLeft > .pane {
+  border-left: none;
+}

@@ -24,6 +24,7 @@ export * from "./maps";
 export * from "./camera";
 export * from "./weather";
 export * from "./calculator";
+export * from "./browser";
 export * from "./phone";
 export * from "./server";
 export * from "./orchestrator";

@@ -11,7 +11,7 @@ export interface MessageContact {
   name: string;
   avatarSrc?: string;
   status?: PresenceStatus;
-  /** Group DM (e.g. "Design Team") — avatars/status dots are hidden and sender names show above bubbles. */
+  /** Group DM (e.g. "Product Team") — avatars/status dots are hidden and sender names show above bubbles. */
   isGroup?: boolean;
   lastMessage?: string;
   timestamp?: string;

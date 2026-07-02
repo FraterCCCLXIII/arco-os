@@ -18,11 +18,11 @@ export function defaultProfilesForApp(appId: string): TrayAppProfile[] {
       { id: "all-hands", label: "all-hands.dev" },
       { id: "doctransit", label: "DocTransit" },
       { id: "moon", label: "Moon" },
-      { id: "paul", label: "Paul" },
-      { id: "paul-dev", label: "paul-dev" },
-      { id: "paul-test", label: "paul-test" },
-      { id: "paul-test2", label: "paul-test2" },
-      { id: "paul-test3", label: "paul-test3" },
+      { id: "alex", label: "Alex" },
+      { id: "alex-dev", label: "alex-dev" },
+      { id: "alex-test", label: "alex-test" },
+      { id: "alex-test2", label: "alex-test2" },
+      { id: "alex-test3", label: "alex-test3" },
     ];
   }
 
@@ -30,7 +30,7 @@ export function defaultProfilesForApp(appId: string): TrayAppProfile[] {
     return [
       { id: "longformer", label: "Longformer" },
       { id: "all-hands", label: "All Hands" },
-      { id: "design", label: "Design Team" },
+      { id: "design", label: "Product Team" },
     ];
   }
 

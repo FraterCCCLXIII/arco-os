@@ -23,7 +23,7 @@
 .graphPane {
   width: min(38%, 420px);
   min-width: 280px;
-  border-left: 1px solid var(--lf-border-subtle);
+  border-left: 1px solid var(--lf-divider);
   background: var(--lf-surface-sunken);
   display: flex;
   flex-direction: column;
@@ -54,7 +54,7 @@
 .meta {
   margin-top: var(--lf-space-6);
   padding-top: var(--lf-space-4);
-  border-top: 1px solid var(--lf-border-subtle);
+  border-top: 1px solid var(--lf-divider);
   font-size: var(--lf-font-size-xs);
   color: var(--lf-text-tertiary);
   text-align: right;

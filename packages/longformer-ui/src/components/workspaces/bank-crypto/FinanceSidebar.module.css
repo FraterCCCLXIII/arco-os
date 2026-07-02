@@ -1,6 +1,5 @@
 .sidebar {
-  flex-shrink: 0;
-  border-right: 1px solid var(--lf-border-subtle);
+  height: 100%;
 }
 
 .viewToggle {
@@ -47,10 +46,4 @@
   font-weight: 500;
   cursor: pointer;
   color: var(--lf-text-primary);
-}
-
-@media (max-width: 960px) {
-  .sidebar {
-    display: none;
-  }
 }

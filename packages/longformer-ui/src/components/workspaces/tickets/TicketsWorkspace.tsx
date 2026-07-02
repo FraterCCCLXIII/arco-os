@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ScrollArea } from "../../primitives/ScrollArea";
+import { SidebarPane } from "../../shell/NavSidebar";
 import { TicketsListView } from "./TicketsListView";
 import { TicketsSidebar } from "./TicketsSidebar";
 import type { TicketsView, TicketsWorkspaceData } from "./types";
@@ -93,7 +94,9 @@ export function TicketsWorkspace({
 
   return (
     <div className={styles.workspace}>
-      <TicketsSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      <SidebarPane handleLabel="Resize tickets sidebar" className={styles.sidebarResizable}>
+        <TicketsSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      </SidebarPane>
       <ScrollArea className={styles.main}>{renderMain()}</ScrollArea>
     </div>
   );

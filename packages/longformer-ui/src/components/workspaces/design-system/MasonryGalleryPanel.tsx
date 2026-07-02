@@ -75,7 +75,7 @@ function ComponentGalleryPreview({ itemId }: { itemId: string }) {
       return (
         <Card padding="md" className={styles.galleryComponentCard}>
           <div className={styles.galleryComponentRow}>
-            <Avatar name="Paul Bloch" status="online" />
+            <Avatar name="Alex Morgan" status="online" />
             <ListItem leading={<Icon name="folder" size={15} />} label="List item" description="Supporting text" />
           </div>
         </Card>

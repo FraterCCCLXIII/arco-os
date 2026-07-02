@@ -4,7 +4,7 @@ import { IconButton } from "../../primitives/IconButton";
 import { ScrollArea } from "../../primitives/ScrollArea";
 import { EmptyState } from "../../primitives/EmptyState";
 import { Icon } from "../../../icons";
-import { EmailReplyComposer } from "./EmailReplyComposer";
+import { EmailReplyComposer, type EmailBodyContent } from "./EmailReplyComposer";
 import type { EmailDetailMessage } from "./types";
 import styles from "./ReadingPane.module.css";
 
@@ -13,9 +13,10 @@ export interface ReadingPaneProps {
   messages: EmailDetailMessage[];
   /** Override the built-in rich-text reply composer. */
   replyBar?: ReactNode;
+  onSendReply?: (content: EmailBodyContent) => void;
 }
 
-export function ReadingPane({ subject, messages, replyBar }: ReadingPaneProps) {
+export function ReadingPane({ subject, messages, replyBar, onSendReply }: ReadingPaneProps) {
   const [replyOpen, setReplyOpen] = useState(false);
 
   useEffect(() => {
@@ -66,7 +67,9 @@ export function ReadingPane({ subject, messages, replyBar }: ReadingPaneProps) {
         </div>
       </ScrollArea>
       {(replyOpen || replyBar) && (
-        <div className={styles.replyBar}>{replyBar ?? <EmailReplyComposer />}</div>
+        <div className={styles.replyBar}>
+          {replyBar ?? <EmailReplyComposer onSend={onSendReply} />}
+        </div>
       )}
     </div>
   );

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ScrollArea } from "../../primitives/ScrollArea";
+import { SidebarPane } from "../../shell/NavSidebar";
 import { AuditView } from "./AuditView";
 import { DashboardView } from "./DashboardView";
 import { EnvSetsView } from "./EnvSetsView";
@@ -50,7 +51,9 @@ export function PassportWorkspace({
 
   return (
     <div className={styles.workspace} aria-label="Passport">
-      <PassportSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      <SidebarPane handleLabel="Resize passport sidebar" className={styles.sidebarResizable}>
+        <PassportSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      </SidebarPane>
       <ScrollArea className={styles.main}>{renderMain()}</ScrollArea>
     </div>
   );

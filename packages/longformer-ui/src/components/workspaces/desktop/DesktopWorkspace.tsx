@@ -40,6 +40,12 @@ export interface DesktopWorkspaceProps {
   onPrevGlance?: () => void;
   widgetTiles?: WidgetTile[];
   onCreateApp?: () => void;
+  /** Tray-specific pinned apps — defaults to `apps` when omitted. */
+  trayApps?: DesktopApp[];
+  trayOverflowApps?: DesktopApp[];
+  onTrayReorder?: (fromIndex: number, toIndex: number) => void;
+  onTrayUndock?: (fromIndex: number) => void;
+  onMoveToTray?: (id: string, index?: number) => void;
   renderWindowContent?: (window: SurfaceWindow) => ReactNode;
   /** Optional slot rendered above the desktop surface, e.g. shell picker controls. */
   header?: ReactNode;
@@ -47,6 +53,7 @@ export interface DesktopWorkspaceProps {
   fullscreen?: boolean;
   onFullscreenChange?: (fullscreen: boolean) => void;
   defaultFullscreen?: boolean;
+  wallpaperUrl?: string;
 }
 
 /**
@@ -80,11 +87,17 @@ export function DesktopWorkspace({
   onPrevGlance,
   widgetTiles,
   onCreateApp,
+  trayApps,
+  trayOverflowApps,
+  onTrayReorder,
+  onTrayUndock,
+  onMoveToTray,
   renderWindowContent,
   header,
   fullscreen: controlledFullscreen,
   onFullscreenChange,
   defaultFullscreen = false,
+  wallpaperUrl,
 }: DesktopWorkspaceProps) {
   const [internalFullscreen, setInternalFullscreen] = useState(defaultFullscreen);
   const fullscreen = controlledFullscreen ?? internalFullscreen;
@@ -172,11 +185,13 @@ export function DesktopWorkspace({
             onShowMobileHome={onMinimizeAll}
             widgetTiles={widgetTiles}
             renderWindowContent={renderWindowContent}
+            wallpaperUrl={wallpaperUrl}
           />
           <TaskTray
             shell={shell}
             formFactor={formFactor}
-            apps={apps}
+            apps={trayApps ?? apps}
+            overflowApps={trayOverflowApps}
             windows={trayWindows}
             activeWindowId={activeWindowId}
             onLaunchApp={onLaunchApp}
@@ -184,6 +199,9 @@ export function DesktopWorkspace({
             onMinimizeWindow={onMinimizeWindow}
             onCloseWindow={onCloseWindow}
             onCreateApp={onCreateApp}
+            onReorder={onTrayReorder}
+            onUndock={onTrayUndock}
+            onMoveToTray={onMoveToTray}
             onPopPhoneStack={onPopPhoneStack}
             onMinimizeAll={onMinimizeAll}
             onNextGlance={onNextGlance}

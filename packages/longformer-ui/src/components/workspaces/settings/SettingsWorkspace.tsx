@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import { Icon } from "../../../icons";
 import { Avatar } from "../../primitives/Avatar";
 import { Badge } from "../../primitives/Badge";
@@ -9,7 +9,7 @@ import { IconButton } from "../../primitives/IconButton";
 import { Input } from "../../primitives/Input";
 import { ListItem } from "../../primitives/ListItem";
 import { ScrollArea } from "../../primitives/ScrollArea";
-import { NavSidebar, SidebarUserFooterBar } from "../../shell/NavSidebar";
+import { NavSidebar, SidebarPane } from "../../shell/NavSidebar";
 import { cx } from "../../../utils/cx";
 import type {
   SettingsContentSection,
@@ -21,8 +21,10 @@ import type {
   SettingsStanding,
   SettingsToggleRow,
   SettingsUserProfile,
+  SettingsWallpaperPreset,
   SettingsWorkspaceData,
 } from "./types";
+import { SettingsWallpaperPanel } from "./SettingsWallpaperPanel";
 import styles from "./SettingsWorkspace.module.css";
 
 export interface SettingsWorkspaceProps {
@@ -37,7 +39,9 @@ export interface SettingsWorkspaceProps {
   onRevealField?: (fieldId: string) => void;
   toggleStates?: Record<string, boolean>;
   onToggleChange?: (toggleId: string, enabled: boolean) => void;
-  sidebarFooter?: ReactNode;
+  desktopWallpaperUrl?: string;
+  onDesktopWallpaperChange?: (url: string) => void;
+  wallpaperPresets?: SettingsWallpaperPreset[];
 }
 
 function findNavItem(groups: SettingsNavGroup[], sectionId: SettingsSectionId): SettingsNavItem | undefined {
@@ -338,7 +342,9 @@ export function SettingsWorkspace({
   onRevealField,
   toggleStates: controlledToggleStates,
   onToggleChange,
-  sidebarFooter,
+  desktopWallpaperUrl,
+  onDesktopWallpaperChange,
+  wallpaperPresets,
 }: SettingsWorkspaceProps) {
   const [internalSectionId, setInternalSectionId] = useState<SettingsSectionId>(defaultSectionId);
   const [internalSearchQuery, setInternalSearchQuery] = useState("");
@@ -371,6 +377,9 @@ export function SettingsWorkspace({
     () => pageTitleForSection(data.nav, data.sections, activeSectionId),
     [activeSectionId, data.nav, data.sections],
   );
+
+  const resolvedWallpaperPresets = wallpaperPresets ?? data.wallpaperPresets ?? [];
+  const showWallpaperPanel = activeSectionId === "wallpaper" && resolvedWallpaperPresets.length > 0;
 
   const expandedParentId = parentNavItem(data.nav, activeSectionId)?.id;
 
@@ -408,8 +417,9 @@ export function SettingsWorkspace({
 
   return (
     <div className={styles.workspace}>
-      <NavSidebar
-        className={styles.sidebar}
+      <SidebarPane handleLabel="Resize settings sidebar" className={styles.sidebarResizable}>
+        <NavSidebar
+          className={styles.sidebar}
         header={
           <>
             <ProfileHeader user={data.user} />
@@ -441,8 +451,8 @@ export function SettingsWorkspace({
             </div>
           ),
         }))}
-        footer={sidebarFooter ?? <DefaultSidebarFooter user={data.user} />}
-      />
+        />
+      </SidebarPane>
 
       <div className={styles.main}>
         <header className={styles.mainHeader}>
@@ -452,21 +462,32 @@ export function SettingsWorkspace({
 
         <ScrollArea className={styles.mainScroll}>
           <div className={styles.mainInner}>
-            {visibleSections.map((section, index) => (
-              <div key={section.id}>
-                {index > 0 && <Divider className={styles.sectionDivider} />}
-                <ContentSection
-                  section={section}
-                  sectionRef={(node) => {
-                    sectionRefs.current.set(section.id, node);
-                  }}
-                  revealedFields={revealedFields}
-                  onRevealField={handleRevealField}
-                  toggleStates={toggleStates}
-                  onToggleChange={handleToggleChange}
+            {showWallpaperPanel && onDesktopWallpaperChange ? (
+              <section id="wallpaper" className={styles.contentSection}>
+                <h2 className={styles.sectionTitle}>Wallpaper</h2>
+                <SettingsWallpaperPanel
+                  presets={resolvedWallpaperPresets}
+                  activeUrl={desktopWallpaperUrl ?? resolvedWallpaperPresets[0]?.url ?? ""}
+                  onSelect={onDesktopWallpaperChange}
                 />
-              </div>
-            ))}
+              </section>
+            ) : (
+              visibleSections.map((section, index) => (
+                <div key={section.id}>
+                  {index > 0 && <Divider className={styles.sectionDivider} />}
+                  <ContentSection
+                    section={section}
+                    sectionRef={(node) => {
+                      sectionRefs.current.set(section.id, node);
+                    }}
+                    revealedFields={revealedFields}
+                    onRevealField={handleRevealField}
+                    toggleStates={toggleStates}
+                    onToggleChange={handleToggleChange}
+                  />
+                </div>
+              ))
+            )}
           </div>
         </ScrollArea>
       </div>
@@ -489,32 +510,11 @@ function ProfileHeader({ user }: { user: SettingsUserProfile }) {
   );
 }
 
-function DefaultSidebarFooter({ user }: { user: SettingsUserProfile }) {
-  return (
-    <SidebarUserFooterBar
-      name={user.name}
-      avatarSrc={user.avatarSrc}
-      status="online"
-      meta={
-        <Badge tone="success" dot>
-          Online
-        </Badge>
-      }
-      actions={
-        <>
-          <IconButton icon="mic" label="Mute" size="sm" />
-          <IconButton icon="volume" label="Deafen" size="sm" />
-          <IconButton icon="settings" label="User settings" size="sm" />
-        </>
-      }
-    />
-  );
-}
-
 export type {
   SettingsWorkspaceData,
   SettingsSectionId,
   SettingsNavGroup,
   SettingsContentSection,
   SettingsUserProfile,
+  SettingsWallpaperPreset,
 };

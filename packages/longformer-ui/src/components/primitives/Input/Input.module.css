@@ -12,11 +12,6 @@
     background var(--lf-duration-fast) var(--lf-ease);
 }
 
-.wrapper:has(.input:focus) {
-  border-color: var(--lf-accent-border);
-  background: var(--lf-surface-1);
-}
-
 .wrapper.invalid {
   border-color: var(--lf-danger);
 }
@@ -36,6 +31,13 @@
   color: var(--lf-text-primary);
   font-family: var(--lf-font-family);
   font-size: var(--lf-font-size-md);
+}
+
+.input:focus,
+.input:focus-visible {
+  outline: none;
+  box-shadow: none;
+  border: none;
 }
 
 .input::placeholder {

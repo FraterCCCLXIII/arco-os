@@ -14,13 +14,13 @@
 .macos {
   background: var(--lf-desktop-status-bg);
   backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .windows {
   height: 32px;
   background: var(--lf-desktop-status-bg-windows);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .ios,
@@ -32,7 +32,7 @@
 
 .chromeos {
   background: var(--lf-desktop-status-bg-chromeos);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .left,

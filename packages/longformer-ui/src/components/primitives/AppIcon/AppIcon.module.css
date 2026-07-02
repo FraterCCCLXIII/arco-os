@@ -28,7 +28,7 @@
 }
 
 .tile.active .iconTile {
-  box-shadow: 0 0 0 2px var(--lf-accent-border), var(--lf-app-icon-shadow);
+  box-shadow: 0 0 0 2px var(--lf-accent-border), var(--lf-app-icon-solid-shadow);
 }
 
 .sm .tile {
@@ -81,9 +81,9 @@
   font-size: 1.1em;
   line-height: 1;
   border-radius: inherit;
-  background: linear-gradient(155deg, var(--lf-app-hue-slate-from), var(--lf-app-hue-slate-to));
-  color: var(--lf-text-primary);
-  box-shadow: var(--lf-app-icon-shadow);
+  background: var(--lf-app-hue-slate-solid);
+  color: var(--lf-text-on-accent);
+  box-shadow: var(--lf-app-icon-solid-shadow);
 }
 
 .badge {

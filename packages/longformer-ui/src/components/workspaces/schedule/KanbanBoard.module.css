@@ -22,7 +22,7 @@
   justify-content: space-between;
   gap: var(--lf-space-2);
   padding: var(--lf-space-3) var(--lf-space-4);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   font-size: var(--lf-font-size-sm);
   font-weight: 600;
   color: var(--lf-text-primary);

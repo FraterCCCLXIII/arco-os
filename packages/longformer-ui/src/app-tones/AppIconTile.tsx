@@ -10,12 +10,16 @@ import styles from "./app-icon-tile.module.css";
 
 export type AppIconTileSize = "xs" | "sm" | "md" | "lg" | "xl" | "dock" | "dockMac" | "taskbar";
 
+export type AppIconTileSurface = "gradient" | "solid";
+
 export interface AppIconTileProps {
   icon: IconName;
   appId?: string;
   hue?: AppIconHue;
   /** Legacy semantic tone — used when `appId` / `hue` are not provided. */
   tone?: BadgeTone;
+  /** Flat vibrant fill with shared shadow tokens; use `gradient` for legacy two-stop fills. */
+  surface?: AppIconTileSurface;
   size?: AppIconTileSize;
   className?: string;
 }
@@ -59,12 +63,13 @@ function resolveHue(appId: string | undefined, hue: AppIconHue | undefined, tone
   return "blue";
 }
 
-/** Shared gradient tile used by nav rail, desktop, dock, and launcher grids. */
+/** Shared app icon tile used by desktop, dock, tray, and launcher grids. */
 export function AppIconTile({
   icon,
   appId,
   hue,
   tone,
+  surface = "solid",
   size = "md",
   className,
 }: AppIconTileProps) {
@@ -76,6 +81,7 @@ export function AppIconTile({
         styles.tile,
         styles[size],
         HUE_CLASS[resolvedHue],
+        surface === "gradient" && styles.tileGradient,
         LIGHT_HUES.has(resolvedHue) && styles.tileLight,
         className,
       )}
@@ -86,6 +92,12 @@ export function AppIconTile({
   );
 }
 
-export function appIconHueClass(hue: AppIconHue, className?: string) {
-  return cx(styles.tile, HUE_CLASS[hue], LIGHT_HUES.has(hue) && styles.tileLight, className);
+export function appIconHueClass(hue: AppIconHue, className?: string, surface: AppIconTileSurface = "solid") {
+  return cx(
+    styles.tile,
+    HUE_CLASS[hue],
+    surface === "gradient" && styles.tileGradient,
+    LIGHT_HUES.has(hue) && styles.tileLight,
+    className,
+  );
 }

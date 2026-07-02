@@ -122,7 +122,7 @@ export const sheetsWorkspaceData: SheetsWorkspaceData = {
             C1: { value: "Status", format: { bold: true, fill: "muted" } },
             D1: { value: "Target", format: { bold: true, fill: "muted" } },
             A2: { value: "Sheets workspace" },
-            B2: { value: "Paul" },
+            B2: { value: "Alex" },
             C2: { value: "In progress" },
             D2: { value: "Apr 18" },
             A3: { value: "Hover nav rail" },
@@ -184,7 +184,7 @@ export const sheetsWorkspaceData: SheetsWorkspaceData = {
     },
   ],
   collaborators: [
-    { name: "Paul Bloch" },
+    { name: "Alex Morgan" },
     { name: "Alex Kim" },
     { name: "Jordan Lee" },
   ],

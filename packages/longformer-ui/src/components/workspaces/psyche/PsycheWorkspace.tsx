@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ScrollArea } from "../../primitives/ScrollArea";
+import { SidebarPane } from "../../shell/NavSidebar";
 import { DashboardView } from "./DashboardView";
 import { DocumentView } from "./DocumentView";
 import { KnowledgeGraphView } from "./KnowledgeGraphView";
@@ -71,7 +72,9 @@ export function PsycheWorkspace({
 
   return (
     <div className={styles.workspace}>
-      <PsycheSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      <SidebarPane handleLabel="Resize psyche sidebar" className={styles.sidebarResizable} defaultWidth={220} maxWidth={280}>
+        <PsycheSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      </SidebarPane>
       <ScrollArea className={styles.main}>{renderMain()}</ScrollArea>
     </div>
   );

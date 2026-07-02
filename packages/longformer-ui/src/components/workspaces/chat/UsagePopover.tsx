@@ -37,6 +37,11 @@ function dotTone(percent: number): "normal" | "warning" | "danger" {
   return "normal";
 }
 
+function usageLabel(percent: number): string {
+  if (percent >= 100) return "Context over limit";
+  return `${percent}% context`;
+}
+
 function getPanelPosition(trigger: HTMLButtonElement | null) {
   const rect = trigger?.getBoundingClientRect();
   if (!rect) return undefined;
@@ -57,6 +62,7 @@ export function UsagePopover({ stats, onPlanUsageClick, className }: UsagePopove
   const overLimit = percent >= 100;
   const fillWidth = Math.min(100, percent);
   const tone = dotTone(percent);
+  const label = usageLabel(percent);
 
   useEffect(() => {
     if (!open) return;
@@ -157,7 +163,7 @@ export function UsagePopover({ stats, onPlanUsageClick, className }: UsagePopove
         ref={triggerRef}
         type="button"
         className={styles.trigger}
-        aria-label="View usage"
+        aria-label={`View usage: ${label}`}
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={handleToggle}
@@ -166,9 +172,19 @@ export function UsagePopover({ stats, onPlanUsageClick, className }: UsagePopove
           className={cx(
             styles.triggerDot,
             tone === "warning" && styles.triggerDotWarning,
-            tone === "danger" && styles.triggerDotDanger
+            tone === "danger" && styles.triggerDotDanger,
           )}
+          aria-hidden="true"
         />
+        <span
+          className={cx(
+            styles.triggerLabel,
+            tone === "warning" && styles.triggerLabelWarning,
+            tone === "danger" && styles.triggerLabelDanger,
+          )}
+        >
+          {label}
+        </span>
       </button>
 
       {panel && createPortal(panel, getPortalContainer())}

@@ -76,5 +76,5 @@
 .separator {
   height: 1px;
   margin: var(--lf-space-1) var(--lf-space-1);
-  background: var(--lf-border-subtle);
+  background: var(--lf-divider);
 }

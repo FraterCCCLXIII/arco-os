@@ -7,7 +7,7 @@ export interface NotificationItem {
   type: NotificationType;
   /** Who triggered the notification. Omit for system notifications (falls back to a type icon). */
   actor?: { name: string; avatarSrc?: string };
-  /** Full sentence, e.g. "Dana Cho mentioned you in Addressing User Feedback". */
+  /** Full sentence, e.g. "Riley Chen mentioned you in Addressing User Feedback". */
   message: string;
   /** Optional secondary line, e.g. a quoted comment preview. */
   detail?: string;

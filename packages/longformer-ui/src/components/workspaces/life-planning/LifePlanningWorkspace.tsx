@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ScrollArea } from "../../primitives/ScrollArea";
+import { SidebarPane } from "../../shell/NavSidebar";
 import { AiCoachView } from "./AiCoachView";
 import { DashboardView } from "./DashboardView";
 import { GoalsView } from "./GoalsView";
@@ -77,7 +78,9 @@ export function LifePlanningWorkspace({
 
   return (
     <div className={styles.workspace}>
-      <LifePlanningSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      <SidebarPane handleLabel="Resize life planning sidebar" className={styles.sidebarResizable} defaultWidth={220} maxWidth={280}>
+        <LifePlanningSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      </SidebarPane>
       <ScrollArea className={styles.main}>{renderMain()}</ScrollArea>
     </div>
   );

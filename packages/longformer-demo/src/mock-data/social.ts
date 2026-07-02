@@ -26,7 +26,7 @@ export const twitterNavItems: SocialNavItem[] = [
 ];
 
 export const facebookShortcuts: SocialShortcut[] = [
-  { id: "sc-me", label: "Paul Bloch", avatarName: "Paul Bloch" },
+  { id: "sc-me", label: "Alex Morgan", avatarName: "Alex Morgan" },
   { id: "sc-ai", label: "Meta AI", avatarName: "Meta AI", avatarColor: "#1877F2" },
   { id: "sc-friends", label: "Friends", avatarName: "Friends", avatarColor: "#1877F2" },
   { id: "sc-memories", label: "Memories", avatarName: "Memories", avatarColor: "#f97316" },
@@ -37,58 +37,58 @@ export const facebookShortcuts: SocialShortcut[] = [
 
 export const facebookStories: SocialStory[] = [
   { id: "story-create", authorName: "Create story", isCreate: true },
-  { id: "story-dana", authorName: "Dana Cho" },
-  { id: "story-marcus", authorName: "Marcus Webb" },
-  { id: "story-priya", authorName: "Priya Nair" },
-  { id: "story-jamie", authorName: "Jamie Steinberg" },
-  { id: "story-design", authorName: "Design Team" },
+  { id: "story-riley", authorName: "Riley Chen" },
+  { id: "story-jordan", authorName: "Jordan Hayes" },
+  { id: "story-sam", authorName: "Sam Patel" },
+  { id: "story-casey", authorName: "Casey Walsh" },
+  { id: "story-design", authorName: "Product Team" },
 ];
 
 export const socialPosts: SocialPost[] = [
   {
     id: "post-1",
-    authorId: "jamie-steinberg",
-    authorName: "Jamie Steinberg",
-    authorHandle: "@jamiesteinberg",
+    authorId: "casey-walsh",
+    authorName: "Casey Walsh",
+    authorHandle: "@caseywalsh",
     verified: true,
     timestamp: "16h",
     content:
-      "Stanford's CS229 lecture on transformers is still one of the best intros to attention. Worth revisiting if you're building anything with LLMs.",
+      "Re-read an old essay on community gardens this morning. Still one of the best reminders that small shared projects compound over time.",
     mediaType: "video",
-    mediaLabel: "CS229 · Machine Learning · Stanford",
+    mediaLabel: "Essay · Community gardens",
     mediaTone: "accent",
     stats: { replies: 42, reposts: 318, likes: 2400, views: 89000 },
   },
   {
     id: "post-2",
-    authorId: "integral-global",
-    authorName: "Integral Global",
-    authorHandle: "@integralglobal",
+    authorId: "harbor-analytics",
+    authorName: "Harbor Analytics",
+    authorHandle: "@harboranalytics",
     timestamp: "7h",
     content:
-      "An Integral View of Tibetan Buddhism — a concise map of practice traditions, philosophy, and lineage. Now available in print and digital.",
+      "June volunteer sign-ups are live — shift coverage, RSVP trends, and supply needs in one dashboard. Link in thread.",
     mediaType: "image",
-    mediaLabel: "An Integral View of Tibetan Buddhism",
+    mediaLabel: "Harbor Analytics · June Dashboard",
     mediaTone: "warning",
     visibility: "public",
     stats: { replies: 18, reposts: 64, likes: 412, views: 12400 },
   },
   {
     id: "post-3",
-    authorId: "dana-cho",
-    authorName: "Dana Cho",
-    authorHandle: "@danachodesign",
+    authorId: "riley-chen",
+    authorName: "Riley Chen",
+    authorHandle: "@rileychen",
     verified: true,
     timestamp: "2h",
     content:
-      "Shipped a new composer pattern in Longformer today — same primitives, two totally different social layouts. Reuse wins again.",
+      "Printed the picnic posters today — same layout template, two totally different neighborhood events. Reuse wins again.",
     stats: { replies: 9, reposts: 27, likes: 186, views: 5200 },
   },
   {
     id: "post-4",
-    authorId: "marcus-webb",
-    authorName: "Marcus Webb",
-    authorHandle: "@marcuswebb",
+    authorId: "jordan-hayes",
+    authorName: "Jordan Hayes",
+    authorHandle: "@jordanhayes",
     timestamp: "45m",
     content:
       "Hot take: the best social UIs are just good information architecture with a feed column and widgets that respect your attention.",
@@ -97,9 +97,9 @@ export const socialPosts: SocialPost[] = [
 ];
 
 export const socialTrends: SocialTrend[] = [
-  { id: "trend-1", category: "Trending in United States", topic: "Longformer UI", postCount: "12.4K posts" },
-  { id: "trend-2", category: "Technology · Trending", topic: "Design Systems", postCount: "8,291 posts" },
-  { id: "trend-3", category: "Trending", topic: "OpenClaw", postCount: "4,102 posts" },
+  { id: "trend-1", category: "Trending in United States", topic: "Summer Picnics", postCount: "12.4K posts" },
+  { id: "trend-2", category: "Community · Trending", topic: "Volunteer Week", postCount: "8,291 posts" },
+  { id: "trend-3", category: "Trending", topic: "Neighborhood Forums", postCount: "4,102 posts" },
   { id: "trend-4", category: "Music · Trending", topic: "New Album Friday", postCount: "22.1K posts" },
 ];
 
@@ -131,19 +131,19 @@ export const socialNews: SocialNewsItem[] = [
 ];
 
 export const socialSuggestions: SocialSuggestion[] = [
-  { id: "sug-1", name: "Priya Nair", handle: "@priyanair", bio: "Infra · Longformer" },
-  { id: "sug-2", name: "Design Team", handle: "@longformerdesign", bio: "Systems & craft" },
-  { id: "sug-3", name: "Longformer Bot", handle: "@longformerbot", bio: "Release notes & tips" },
+  { id: "sug-1", name: "Sam Patel", handle: "@sampatel", bio: "Events · Meridian Labs" },
+  { id: "sug-2", name: "Product Team", handle: "@meridiandesign", bio: "Systems & craft" },
+  { id: "sug-3", name: "Meridian Bot", handle: "@meridianbot", bio: "Release notes & tips" },
 ];
 
 export const socialBirthdays: SocialBirthdayNotice = {
-  names: "Michael Madden",
+  names: "Chris Dalton",
   count: 5,
 };
 
 export const socialContactsOnline: SocialContactOnline[] = [
-  { id: "online-dana", name: "Dana Cho", status: "online" },
-  { id: "online-marcus", name: "Marcus Webb", status: "online" },
-  { id: "online-jamie", name: "Jamie Steinberg", status: "away" },
-  { id: "online-priya", name: "Priya Nair", status: "online" },
+  { id: "online-riley", name: "Riley Chen", status: "online" },
+  { id: "online-jordan", name: "Jordan Hayes", status: "online" },
+  { id: "online-casey", name: "Casey Walsh", status: "away" },
+  { id: "online-sam", name: "Sam Patel", status: "online" },
 ];

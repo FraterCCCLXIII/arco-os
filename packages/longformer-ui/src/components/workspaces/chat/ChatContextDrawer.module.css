@@ -5,26 +5,26 @@
   min-height: 0;
   min-width: 0;
   background: var(--lf-surface-1);
-  border-left: 1px solid var(--lf-border-subtle);
 }
 
-.drawerBorderless {
-  border-left: none;
+.drawerBordered {
+  border-left: 1px solid var(--lf-divider);
 }
 
 .header {
   flex-shrink: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   gap: var(--lf-space-2);
   padding: 0 var(--lf-space-2) 0 var(--lf-space-3);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .tabs {
   flex: 1;
   min-width: 0;
+  border-bottom: none;
 }
 
 .headerActions {
@@ -32,6 +32,7 @@
   display: flex;
   align-items: center;
   gap: 2px;
+  padding-bottom: var(--lf-space-2);
 }
 
 .body {

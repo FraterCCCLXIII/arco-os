@@ -1,7 +1,7 @@
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
 import { cx } from "../../../utils/cx";
 import { AppIconTile } from "../../../app-tones/AppIconTile";
-import { resolveAppIconHue, badgeToneToHue, type AppIconHue } from "../../../app-tones/app-tones";
+import type { AppIconHue } from "../../../app-tones/app-tones";
 import type { IconName } from "../../../icons";
 import { CountBadge, type BadgeTone } from "../Badge";
 import { Tooltip } from "../Tooltip";
@@ -64,8 +64,6 @@ export const AppIcon = forwardRef<HTMLButtonElement, AppIconProps>(function AppI
   },
   ref
 ) {
-  const resolvedHue = hue ?? (appId ? resolveAppIconHue(appId) : badgeToneToHue(tone));
-
   const button = (
     <button
       ref={ref}
@@ -79,7 +77,14 @@ export const AppIcon = forwardRef<HTMLButtonElement, AppIconProps>(function AppI
       ) : glyph ? (
         <span className={styles.glyph}>{glyph}</span>
       ) : icon ? (
-        <AppIconTile icon={icon} hue={resolvedHue} size={TILE_SIZE[size]} className={styles.iconTile} />
+        <AppIconTile
+          appId={appId}
+          icon={icon}
+          hue={hue}
+          tone={!appId && !hue ? tone : undefined}
+          size={TILE_SIZE[size]}
+          className={styles.iconTile}
+        />
       ) : null}
       {typeof badgeCount === "number" && <CountBadge count={badgeCount} className={styles.badge} />}
     </button>

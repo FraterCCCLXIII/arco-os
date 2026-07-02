@@ -1,6 +1,7 @@
 import { useMemo, useEffect, useRef, useState } from "react";
 import { Icon } from "../../../icons";
 import { Avatar } from "../../primitives/Avatar";
+import { Button } from "../../primitives/Button";
 import { IconButton } from "../../primitives/IconButton";
 import { Input } from "../../primitives/Input";
 import { ScrollArea } from "../../primitives/ScrollArea";
@@ -122,7 +123,10 @@ export function MessagesWorkspace({
             </>
           }
           headerActions={
-            <IconButton icon="plus" label="New message" size="sm" onClick={onCompose} />
+            <Button variant="primary" size="md" onClick={onCompose}>
+              <Icon name="plus" size={16} />
+              New message
+            </Button>
           }
           toolbar={
             <Input

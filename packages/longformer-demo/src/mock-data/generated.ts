@@ -547,6 +547,20 @@ export const generatedSchema: GeneratedSurfaceSchema = {
       ],
     },
     {
+      id: "g3ac",
+      type: "videoPlayerCards",
+      cards: [
+        {
+          id: "vp1",
+          elapsed: "1:43",
+          duration: "1:43",
+          progress: 100,
+          ended: true,
+          imageTone: "neutral",
+        },
+      ],
+    },
+    {
       id: "g3ab",
       type: "newsFeedCards",
       cards: [
@@ -1152,7 +1166,7 @@ export const generatedSchema: GeneratedSurfaceSchema = {
       type: "glassWidgets",
       title: "Glass dashboard widgets",
       widgets: [
-        { id: "gw1", variant: "wifi", network: "kawsar's_wifi", enabled: true },
+        { id: "gw1", variant: "wifi", network: "guest_wifi_5g", enabled: true },
         { id: "gw2", variant: "habits", label: "Daily Writing", remaining: "10m left", progress: 72 },
         { id: "gw3", variant: "gateInfo", gate: "B18", status: "Gate Open", countdown: "26 min" },
         { id: "gw4", variant: "audioRecording", elapsed: "01:12:25", recording: true },
@@ -1396,7 +1410,7 @@ export const generatedSchema: GeneratedSurfaceSchema = {
         {
           id: "cw10",
           variant: "coachingSlot",
-          coachName: "Marcus Webb",
+          coachName: "Jordan Hayes",
           verified: true,
           specialty: "Executive coaching",
           slotTime: "3:00",

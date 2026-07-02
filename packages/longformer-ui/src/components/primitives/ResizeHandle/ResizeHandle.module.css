@@ -25,43 +25,39 @@
 .grip {
   display: block;
   border-radius: var(--lf-radius-pill);
-  background: transparent;
+  background: var(--lf-divider);
   transition:
     background var(--lf-duration-fast) var(--lf-ease),
-    box-shadow var(--lf-duration-fast) var(--lf-ease),
     width var(--lf-duration-fast) var(--lf-ease),
     height var(--lf-duration-fast) var(--lf-ease);
 }
 
 .vertical .grip {
-  width: 3px;
-  height: 32px;
+  width: 1px;
+  align-self: stretch;
 }
 
 .horizontal .grip {
-  width: 32px;
-  height: 3px;
+  width: 100%;
+  height: 1px;
 }
 
 .handle:hover .grip,
 .handle:focus-visible .grip,
 .active .grip {
   background: var(--lf-accent);
-  box-shadow: 0 0 0 1px var(--lf-accent-border);
 }
 
 .vertical:hover .grip,
 .vertical:focus-visible .grip,
 .vertical.active .grip {
-  width: 4px;
-  height: 48px;
+  width: 2px;
 }
 
 .horizontal:hover .grip,
 .horizontal:focus-visible .grip,
 .horizontal.active .grip {
-  width: 48px;
-  height: 4px;
+  height: 2px;
 }
 
 .handle::before {
@@ -77,27 +73,4 @@
 .handle:focus-visible::before,
 .active::before {
   background: var(--lf-accent-muted);
-}
-
-.vertical::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  background: var(--lf-text-disabled);
-  box-shadow:
-    0 -5px 0 var(--lf-text-disabled),
-    0 5px 0 var(--lf-text-disabled);
-  transform: translate(-50%, -50%);
-  opacity: 0;
-  transition: opacity var(--lf-duration-fast) var(--lf-ease);
-}
-
-.vertical:hover::after,
-.vertical:focus-visible::after,
-.vertical.active::after {
-  opacity: 1;
 }

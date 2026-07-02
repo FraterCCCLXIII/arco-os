@@ -31,7 +31,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function 
   return (
     <textarea
       ref={innerRef}
-      className={cx("lf-focusable", styles.textarea, className)}
+      className={cx(styles.textarea, className)}
       value={value}
       onChange={onChange}
       rows={1}

@@ -24,6 +24,7 @@
   --lf-border-subtle: rgba(255, 255, 255, 0.06);
   --lf-border-default: rgba(255, 255, 255, 0.1);
   --lf-border-strong: rgba(255, 255, 255, 0.16);
+  --lf-divider: var(--lf-border-default);
 
   /* Text */
   --lf-text-primary: rgba(245, 245, 247, 0.95);
@@ -61,6 +62,12 @@
   --lf-shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
   --lf-shadow-overlay: 0 16px 48px rgba(0, 0, 0, 0.6);
 
+  /* Button edge bevel */
+  --lf-button-edge-highlight: rgba(255, 255, 255, 0.04);
+  --lf-button-edge-shadow: rgba(0, 0, 0, 0.08);
+  --lf-button-edge-pressed: rgba(0, 0, 0, 0.1);
+  --lf-button-edge-highlight-strong: rgba(255, 255, 255, 0.06);
+
   /* Desktop shell */
   --lf-desktop-wallpaper: var(--lf-surface-sunken);
   --lf-desktop-wallpaper-mobile: var(--lf-surface-sunken);
@@ -77,25 +84,27 @@
   --lf-desktop-dock-border: rgba(255, 255, 255, 0.08);
   --lf-macos-dock-chrome-height: 80px;
   --lf-desktop-taskbar-bg: rgba(32, 32, 36, 0.82);
-  --lf-desktop-taskbar-border: rgba(255, 255, 255, 0.06);
+  --lf-desktop-taskbar-border: var(--lf-divider);
   --lf-desktop-chrome-hover: rgba(255, 255, 255, 0.06);
   --lf-desktop-chrome-hover-strong: rgba(255, 255, 255, 0.1);
   --lf-desktop-chrome-active: rgba(255, 255, 255, 0.08);
   --lf-desktop-chrome-indicator: rgba(255, 255, 255, 0.55);
   --lf-desktop-ios-dock-bg: rgba(50, 50, 58, 0.45);
-  --lf-desktop-ios-dock-border: rgba(255, 255, 255, 0.06);
+  --lf-desktop-ios-dock-border: var(--lf-divider);
   --lf-desktop-home-indicator: rgba(255, 255, 255, 0.35);
   --lf-desktop-android-tray-bg: rgba(20, 20, 24, 0.68);
   --lf-desktop-chromeos-tray-bg: rgba(28, 28, 34, 0.68);
   --lf-desktop-floating-tray-bg: rgba(32, 32, 36, 0.88);
   --lf-desktop-floating-tray-border: rgba(255, 255, 255, 0.08);
-  --lf-desktop-tray-divider: rgba(255, 255, 255, 0.12);
+  --lf-desktop-tray-divider: var(--lf-divider);
   --lf-desktop-create-btn-border: rgba(255, 255, 255, 0.16);
   --lf-desktop-create-btn-hover-bg: rgba(255, 255, 255, 0.04);
 
   /* App icon tiles — shared gradient palette */
-  --lf-app-icon-border: rgba(255, 255, 255, 0.1);
-  --lf-app-icon-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --lf-app-icon-border: rgba(255, 255, 255, 0.06);
+  --lf-app-icon-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.22),
+    0 2px 6px rgba(0, 0, 0, 0.14);
   --lf-app-hue-blue-from: #6b9af2;
   --lf-app-hue-blue-to: #4576db;
   --lf-app-hue-indigo-from: #8496f5;
@@ -128,6 +137,26 @@
   --lf-app-hue-slate-to: #52525c;
   --lf-app-hue-graphite-from: #5c5c68;
   --lf-app-hue-graphite-to: #3a3a42;
+  --lf-app-hue-blue-solid: #0a84ff;
+  --lf-app-hue-indigo-solid: #5e5ce6;
+  --lf-app-hue-violet-solid: #bf5af2;
+  --lf-app-hue-purple-solid: #af52de;
+  --lf-app-hue-teal-solid: #30d5c8;
+  --lf-app-hue-green-solid: #30d158;
+  --lf-app-hue-lime-solid: #c8e620;
+  --lf-app-hue-amber-solid: #ffd60a;
+  --lf-app-hue-orange-solid: #ff9f0a;
+  --lf-app-hue-rose-solid: #ff375f;
+  --lf-app-hue-cyan-solid: #40c8e0;
+  --lf-app-hue-sky-solid: #64d2ff;
+  --lf-app-hue-gold-solid: #ffd60a;
+  --lf-app-hue-emerald-solid: #34c759;
+  --lf-app-hue-slate-solid: #98989d;
+  --lf-app-hue-graphite-solid: #636366;
+  --lf-app-icon-solid-border: rgba(255, 255, 255, 0.08);
+  --lf-app-icon-solid-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    0 2px 5px rgba(0, 0, 0, 0.12);
 }
 
 [data-lf-theme="light"] {
@@ -144,6 +173,7 @@
   --lf-border-subtle: rgba(15, 15, 20, 0.06);
   --lf-border-default: rgba(15, 15, 20, 0.1);
   --lf-border-strong: rgba(15, 15, 20, 0.18);
+  --lf-divider: var(--lf-border-default);
 
   --lf-text-primary: rgba(20, 20, 24, 0.92);
   --lf-text-secondary: rgba(20, 20, 24, 0.62);
@@ -175,6 +205,12 @@
   --lf-shadow-lg: 0 12px 32px rgba(15, 15, 20, 0.14);
   --lf-shadow-overlay: 0 16px 48px rgba(15, 15, 20, 0.18);
 
+  /* Button edge bevel */
+  --lf-button-edge-highlight: rgba(255, 255, 255, 0.16);
+  --lf-button-edge-shadow: rgba(15, 15, 20, 0.04);
+  --lf-button-edge-pressed: rgba(15, 15, 20, 0.06);
+  --lf-button-edge-highlight-strong: rgba(255, 255, 255, 0.1);
+
   /* Desktop shell */
   --lf-desktop-wallpaper: var(--lf-surface-sunken);
   --lf-desktop-wallpaper-mobile: var(--lf-surface-sunken);
@@ -191,25 +227,27 @@
   --lf-desktop-dock-border: rgba(15, 15, 20, 0.1);
   --lf-macos-dock-chrome-height: 80px;
   --lf-desktop-taskbar-bg: rgba(250, 250, 252, 0.88);
-  --lf-desktop-taskbar-border: rgba(15, 15, 20, 0.08);
+  --lf-desktop-taskbar-border: var(--lf-divider);
   --lf-desktop-chrome-hover: rgba(15, 15, 20, 0.06);
   --lf-desktop-chrome-hover-strong: rgba(15, 15, 20, 0.08);
   --lf-desktop-chrome-active: rgba(15, 15, 20, 0.08);
   --lf-desktop-chrome-indicator: rgba(15, 15, 20, 0.45);
   --lf-desktop-ios-dock-bg: rgba(255, 255, 255, 0.58);
-  --lf-desktop-ios-dock-border: rgba(15, 15, 20, 0.08);
+  --lf-desktop-ios-dock-border: var(--lf-divider);
   --lf-desktop-home-indicator: rgba(15, 15, 20, 0.28);
   --lf-desktop-android-tray-bg: rgba(255, 255, 255, 0.72);
   --lf-desktop-chromeos-tray-bg: rgba(255, 255, 255, 0.72);
   --lf-desktop-floating-tray-bg: rgba(255, 255, 255, 0.88);
   --lf-desktop-floating-tray-border: rgba(15, 15, 20, 0.1);
-  --lf-desktop-tray-divider: rgba(15, 15, 20, 0.12);
+  --lf-desktop-tray-divider: var(--lf-divider);
   --lf-desktop-create-btn-border: rgba(15, 15, 20, 0.16);
   --lf-desktop-create-btn-hover-bg: rgba(15, 15, 20, 0.04);
 
   /* App icon tiles — shared gradient palette */
-  --lf-app-icon-border: rgba(15, 15, 20, 0.08);
-  --lf-app-icon-shadow: 0 2px 8px rgba(15, 15, 20, 0.12);
+  --lf-app-icon-border: rgba(15, 15, 20, 0.05);
+  --lf-app-icon-shadow:
+    0 1px 2px rgba(15, 15, 20, 0.1),
+    0 2px 6px rgba(15, 15, 20, 0.07);
   --lf-app-hue-blue-from: #5b8def;
   --lf-app-hue-blue-to: #3d6fd4;
   --lf-app-hue-indigo-from: #7284f0;
@@ -242,6 +280,26 @@
   --lf-app-hue-slate-to: #888894;
   --lf-app-hue-graphite-from: #9898a4;
   --lf-app-hue-graphite-to: #686874;
+  --lf-app-hue-blue-solid: #007aff;
+  --lf-app-hue-indigo-solid: #5856d6;
+  --lf-app-hue-violet-solid: #af52de;
+  --lf-app-hue-purple-solid: #9b59d0;
+  --lf-app-hue-teal-solid: #20b2aa;
+  --lf-app-hue-green-solid: #28cd41;
+  --lf-app-hue-lime-solid: #82c91e;
+  --lf-app-hue-amber-solid: #ffcc00;
+  --lf-app-hue-orange-solid: #ff9500;
+  --lf-app-hue-rose-solid: #ff2d55;
+  --lf-app-hue-cyan-solid: #00bcd4;
+  --lf-app-hue-sky-solid: #5ac8fa;
+  --lf-app-hue-gold-solid: #ffcc00;
+  --lf-app-hue-emerald-solid: #28cd41;
+  --lf-app-hue-slate-solid: #8e8e93;
+  --lf-app-hue-graphite-solid: #48484a;
+  --lf-app-icon-solid-border: rgba(15, 15, 20, 0.06);
+  --lf-app-icon-solid-shadow:
+    0 1px 2px rgba(15, 15, 20, 0.08),
+    0 2px 5px rgba(15, 15, 20, 0.05);
 }
 
 :root,
@@ -366,9 +424,15 @@
   box-sizing: border-box;
 }
 
-.lf-focusable:focus-visible {
+.lf-focusable:focus-visible:not(input):not(textarea):not(select):not([contenteditable="true"]) {
   outline: 2px solid var(--lf-focus-ring);
   outline-offset: 2px;
+}
+
+.lf-root :is(input, textarea, select, [contenteditable="true"]):focus,
+.lf-root :is(input, textarea, select, [contenteditable="true"]):focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 .lf-scrollbar {
@@ -388,4 +452,16 @@
 
 .lf-scrollbar::-webkit-scrollbar-track {
   background: transparent;
+}
+
+.lf-scrollbar-hidden {
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.lf-scrollbar-hidden::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }

@@ -21,7 +21,7 @@
 .header {
   flex-shrink: 0;
   padding: var(--lf-space-4) var(--lf-space-5);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .headerLeft {
@@ -65,7 +65,7 @@
 .tabBar {
   flex-shrink: 0;
   padding: 0 var(--lf-space-5);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -157,7 +157,7 @@
 
 .swatchPreview {
   height: 72px;
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .swatchMeta {
@@ -394,7 +394,7 @@
   flex-direction: column;
   gap: var(--lf-space-2);
   padding: var(--lf-space-3) var(--lf-space-4);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   background: var(--lf-surface-2);
 }
 

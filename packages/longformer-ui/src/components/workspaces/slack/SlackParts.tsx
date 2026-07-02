@@ -10,6 +10,11 @@ import {
   SidebarUserFooterBar,
 } from "../../shell/NavSidebar";
 import { Textarea } from "../../primitives/Textarea";
+import {
+  ComposerFormattingToggle,
+  ComposerFormattingToolbar,
+} from "../chat/ComposerFormattingToolbar";
+import { useComposerFormattingToolbar } from "../chat/useComposerFormattingToolbar";
 import type { SlackMember, SlackMessage, SlackNavItem } from "./types";
 import styles from "./SlackWorkspace.module.css";
 
@@ -28,6 +33,9 @@ export function SlackComposer({
   placeholder = "Message #general",
   disabled = false,
 }: SlackComposerProps) {
+  const { visible: formattingToolbarVisible, toggle: toggleFormattingToolbar } =
+    useComposerFormattingToolbar();
+
   function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
@@ -37,16 +45,7 @@ export function SlackComposer({
 
   return (
     <div className={styles.composer}>
-      <div className={styles.composerToolbar}>
-        <IconButton icon="bold" label="Bold" size="sm" />
-        <IconButton icon="italic" label="Italic" size="sm" />
-        <IconButton icon="strikethrough" label="Strikethrough" size="sm" />
-        <IconButton icon="link" label="Insert link" size="sm" />
-        <IconButton icon="list-ordered" label="Numbered list" size="sm" />
-        <IconButton icon="list" label="Bulleted list" size="sm" />
-        <IconButton icon="quote" label="Quote" size="sm" />
-        <IconButton icon="code" label="Code block" size="sm" />
-      </div>
+      <ComposerFormattingToolbar visible={formattingToolbarVisible} />
       <Textarea
         className={styles.composerInput}
         value={value}
@@ -59,6 +58,10 @@ export function SlackComposer({
       />
       <div className={styles.composerFooter}>
         <div className={styles.composerActions}>
+          <ComposerFormattingToggle
+            visible={formattingToolbarVisible}
+            onToggle={toggleFormattingToolbar}
+          />
           <IconButton icon="plus" label="Add" size="sm" />
           <IconButton icon="attach" label="Attach file" size="sm" />
           <IconButton icon="mic" label="Record clip" size="sm" />

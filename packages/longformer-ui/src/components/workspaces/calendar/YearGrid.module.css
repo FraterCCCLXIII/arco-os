@@ -1,0 +1,110 @@
+.grid {
+  height: 100%;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--lf-space-4) var(--lf-space-5) var(--lf-space-5);
+}
+
+.months {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--lf-space-6) var(--lf-space-5);
+}
+
+.month {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  min-width: 0;
+}
+
+.monthTitle {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-accent);
+  text-align: left;
+  cursor: pointer;
+  border-radius: var(--lf-radius-sm);
+}
+
+.monthTitle:hover {
+  color: var(--lf-accent-hover);
+}
+
+.weekdayRow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.weekdayCell {
+  text-align: center;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--lf-text-tertiary);
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 2px;
+}
+
+.day {
+  appearance: none;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--lf-radius-pill);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-xs);
+  cursor: pointer;
+}
+
+.day:hover {
+  background: var(--lf-surface-3);
+}
+
+.dayOutside {
+  color: var(--lf-text-disabled);
+}
+
+.dayToday {
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent);
+  font-weight: 600;
+}
+
+.dayToday:hover {
+  background: var(--lf-accent-hover);
+}
+
+.daySelected {
+  background: var(--lf-accent-muted);
+  color: var(--lf-text-primary);
+  font-weight: 600;
+}
+
+.dayHasEvents:not(.dayToday):not(.daySelected) {
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+@media (max-width: 1100px) {
+  .months {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 820px) {
+  .months {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

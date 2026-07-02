@@ -35,7 +35,7 @@
 .content {
   margin-top: var(--lf-space-2);
   padding-left: var(--lf-space-4);
-  border-left: 2px solid var(--lf-border-subtle);
+  border-left: 2px solid var(--lf-divider);
   color: var(--lf-text-tertiary);
   font-size: var(--lf-font-size-md);
   display: flex;

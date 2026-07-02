@@ -23,7 +23,7 @@ export interface TabStripProps {
 /** Horizontal browser-style tab row, used inside `BrowserApp`'s window content. */
 export function TabStrip({ tabs, activeId, onSelect, onClose, className }: TabStripProps) {
   return (
-    <div className={cx(styles.strip, "lf-scrollbar", className)} role="tablist">
+    <div className={cx("lf-scrollbar-hidden", styles.strip, className)} role="tablist">
       {tabs.map((tab) => {
         const active = tab.id === activeId;
         return (

@@ -2,8 +2,8 @@ import type { OrchestratorWorkspaceData } from "longformer-ui";
 
 export const orchestratorWorkspaceData: OrchestratorWorkspaceData = {
   productName: "Orchestrator",
-  userName: "Paul Bloch",
-  userEmail: "paul@example.com",
+  userName: "Alex Morgan",
+  userEmail: "alex@example.com",
   navItems: [
     { id: "dashboard", label: "Dashboard", icon: "grid", view: "dashboard" },
     { id: "agents", label: "Agents", icon: "users", view: "agents" },

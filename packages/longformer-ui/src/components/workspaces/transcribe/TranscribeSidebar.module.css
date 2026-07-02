@@ -1,6 +1,5 @@
 .sidebar {
-  flex-shrink: 0;
-  border-right: 1px solid var(--lf-border-subtle);
+  height: 100%;
 }
 
 .brand {
@@ -162,10 +161,4 @@
 .footerLink:hover {
   background: var(--lf-surface-sunken);
   color: var(--lf-text-primary);
-}
-
-@media (max-width: 960px) {
-  .sidebar {
-    display: none;
-  }
 }

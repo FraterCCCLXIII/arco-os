@@ -1,8 +1,9 @@
 import type { SettingsWorkspaceData } from "longformer-ui";
+import { DEFAULT_DESKTOP_WALLPAPER_URL } from "longformer-ui";
 
 export const settingsData: SettingsWorkspaceData = {
   user: {
-    name: "Kosmonaut",
+    name: "Stargazer",
     editProfilesLabel: "Edit Profiles",
   },
   nav: [
@@ -43,6 +44,7 @@ export const settingsData: SettingsWorkspaceData = {
       label: "Experience",
       items: [
         { id: "appearance", label: "Appearance", icon: "monitor" },
+        { id: "wallpaper", label: "Wallpaper", icon: "image" },
         { id: "accessibility", label: "Accessibility", icon: "target" },
         { id: "voice-video", label: "Voice & Video", icon: "mic" },
         { id: "text-images", label: "Text & Images", icon: "image" },
@@ -62,13 +64,13 @@ export const settingsData: SettingsWorkspaceData = {
         {
           id: "username",
           label: "Username",
-          value: "kosmonaut3000",
+          value: "stargazer3000",
           actions: [{ type: "edit", label: "Edit" }],
         },
         {
           id: "email",
           label: "Email",
-          value: "kosmonaut@gmail.com",
+          value: "stargazer@gmail.com",
           masked: true,
           maskedDisplay: "**********@gmail.com",
           actions: [
@@ -276,6 +278,11 @@ export const settingsData: SettingsWorkspaceData = {
       links: [{ id: "theme", label: "Theme", value: "Dark" }],
     },
     {
+      id: "wallpaper",
+      title: "Wallpaper",
+      intro: "Pick a background for the simulated desktop shells.",
+    },
+    {
       id: "accessibility",
       title: "Accessibility",
       toggles: [
@@ -419,6 +426,32 @@ export const settingsData: SettingsWorkspaceData = {
         },
       ],
       links: [{ id: "clear-cache", label: "Clear cache", value: "Clear" }],
+    },
+  ],
+  wallpaperPresets: [
+    {
+      id: "talisker-bay",
+      label: "Talisker Bay",
+      url: DEFAULT_DESKTOP_WALLPAPER_URL,
+      credit: "Aaron Mridha · Pexels",
+    },
+    {
+      id: "aurora",
+      label: "Northern lights",
+      url: "https://images.pexels.com/photos/1933239/pexels-photo-1933239.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      credit: "Vincent Rivaud · Pexels",
+    },
+    {
+      id: "desert-dunes",
+      label: "Desert dunes",
+      url: "https://images.pexels.com/photos/2387873/pexels-photo-2387873.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      credit: "Alex Azabache · Pexels",
+    },
+    {
+      id: "solid-dark",
+      label: "Solid dark",
+      url: "https://images.pexels.com/photos/325044/pexels-photo-325044.jpeg?auto=compress&cs=tinysrgb&w=1920",
+      credit: "Minimal gradient",
     },
   ],
 };

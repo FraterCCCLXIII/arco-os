@@ -14,6 +14,16 @@
   flex-direction: column;
 }
 
+.sidebarResizable {
+  flex-shrink: 0;
+}
+
+@media (max-width: 960px) {
+  .sidebarResizable {
+    display: none;
+  }
+}
+
 .titleBar {
   flex-shrink: 0;
   display: flex;
@@ -119,12 +129,20 @@
 .sheetTabs {
   flex-shrink: 0;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   gap: var(--lf-space-2);
   height: 36px;
   padding: 0 var(--lf-space-3);
-  border-top: 1px solid var(--lf-border-subtle);
-  background: var(--lf-surface-1);
+  border-top: 1px solid var(--lf-divider);
+  background: var(--lf-surface-2);
+}
+
+.sheetTabControls {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  margin-bottom: 2px;
+  flex-shrink: 0;
 }
 
 .allSheetsButton {
@@ -147,19 +165,64 @@
 
 .tabList {
   display: flex;
-  align-items: center;
-  gap: var(--lf-space-1);
+  align-items: flex-end;
+  gap: 2px;
   min-width: 0;
   overflow-x: auto;
 }
 
 .sheetTab {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  max-width: 160px;
+  padding: 0 var(--lf-space-3);
+  border: 1px solid transparent;
+  border-bottom: none;
+  border-radius: var(--lf-radius-md) var(--lf-radius-md) 0 0;
+  background: transparent;
+  color: var(--lf-text-tertiary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
   flex-shrink: 0;
+  transition:
+    background var(--lf-duration-fast) var(--lf-ease),
+    border-color var(--lf-duration-fast) var(--lf-ease),
+    color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.sheetTab:hover {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-secondary);
+}
+
+.sheetTabActive {
+  height: 30px;
+  margin-top: -1px;
+  background: var(--lf-surface-canvas);
+  border-color: var(--lf-divider);
+  color: var(--lf-text-primary);
+}
+
+.sheetTabActive:hover {
+  background: var(--lf-surface-canvas);
+  color: var(--lf-text-primary);
+}
+
+.sheetTabLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .sheetSummary {
   margin-left: auto;
   padding-left: var(--lf-space-3);
+  padding-bottom: var(--lf-space-2);
   color: var(--lf-text-tertiary);
   font-size: var(--lf-font-size-xs);
   white-space: nowrap;

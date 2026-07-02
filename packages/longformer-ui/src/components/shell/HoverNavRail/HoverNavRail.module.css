@@ -31,7 +31,7 @@
   left: 0;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid var(--lf-border-subtle);
+  border-right: 1px solid var(--lf-divider);
   background: var(--lf-surface-canvas);
   box-shadow: var(--lf-shadow-lg);
   transform: translateX(calc(-100% - 8px));

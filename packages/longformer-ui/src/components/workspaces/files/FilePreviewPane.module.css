@@ -13,7 +13,7 @@
   justify-content: space-between;
   gap: var(--lf-space-2);
   padding: var(--lf-space-3) var(--lf-space-4);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .headerTitle {
@@ -55,7 +55,7 @@
 
 .previewArea {
   padding: var(--lf-space-4);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .previewImage {
@@ -97,7 +97,7 @@
 }
 
 .textSection {
-  border-top: 1px solid var(--lf-border-subtle);
+  border-top: 1px solid var(--lf-divider);
 }
 
 .sectionTitle {
@@ -151,7 +151,7 @@
   display: flex;
   gap: var(--lf-space-2);
   padding: var(--lf-space-3) var(--lf-space-4);
-  border-top: 1px solid var(--lf-border-subtle);
+  border-top: 1px solid var(--lf-divider);
 }
 
 .empty {

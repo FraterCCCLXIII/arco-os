@@ -4,7 +4,8 @@
   align-items: stretch;
   min-width: 0;
   height: 36px;
-  border-bottom: 1px solid var(--lf-border-subtle);
+  overflow: hidden;
+  border-bottom: 1px solid var(--lf-divider);
   background: var(--lf-surface-2);
 }
 
@@ -13,7 +14,7 @@
   display: flex;
   align-items: center;
   padding: 0 var(--lf-space-3);
-  border-right: 1px solid var(--lf-border-subtle);
+  border-right: 1px solid var(--lf-divider);
   font-size: var(--lf-font-size-sm);
   font-weight: 600;
   color: var(--lf-text-primary);
@@ -26,6 +27,15 @@
   flex: 1;
   min-width: 0;
   overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.tabs::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
 }
 
 .tab {
@@ -35,7 +45,7 @@
   min-width: 0;
   max-width: 180px;
   padding: 0 var(--lf-space-3);
-  border-right: 1px solid var(--lf-border-subtle);
+  border-right: 1px solid var(--lf-divider);
   background: transparent;
   color: var(--lf-text-tertiary);
   font-size: var(--lf-font-size-sm);
@@ -100,5 +110,5 @@
   align-items: center;
   gap: 1px;
   padding: 0 var(--lf-space-1);
-  border-left: 1px solid var(--lf-border-subtle);
+  border-left: 1px solid var(--lf-divider);
 }

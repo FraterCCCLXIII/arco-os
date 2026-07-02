@@ -10,9 +10,13 @@
   justify-content: center;
   gap: var(--lf-space-2);
   white-space: nowrap;
-  transition: background var(--lf-duration-fast) var(--lf-ease),
+  background-image: none;
+  box-shadow: none;
+  transition:
+    background-color var(--lf-duration-fast) var(--lf-ease),
     border-color var(--lf-duration-fast) var(--lf-ease),
-    color var(--lf-duration-fast) var(--lf-ease);
+    color var(--lf-duration-fast) var(--lf-ease),
+    box-shadow var(--lf-duration-fast) var(--lf-ease);
 }
 
 .button:disabled {
@@ -56,49 +60,67 @@
 
 /* Variants */
 .primary {
-  background: var(--lf-accent);
+  background-color: var(--lf-accent);
   color: var(--lf-text-on-accent);
+  box-shadow: inset 0 1px 0 var(--lf-button-edge-highlight-strong);
 }
 
 .primary:hover:not(:disabled) {
-  background: var(--lf-accent-hover);
+  background-color: var(--lf-accent-hover);
 }
 
 .primary:active:not(:disabled) {
-  background: var(--lf-accent-active);
+  background-color: var(--lf-accent-active);
+  box-shadow: inset 0 1px 0 var(--lf-button-edge-pressed);
 }
 
 .secondary {
-  background: var(--lf-surface-3);
+  background-color: var(--lf-surface-3);
   color: var(--lf-text-primary);
   border-color: var(--lf-border-default);
 }
 
 .secondary:hover:not(:disabled) {
-  background: var(--lf-surface-2);
+  background-color: var(--lf-surface-2);
   border-color: var(--lf-border-strong);
 }
 
+.secondary:active:not(:disabled) {
+  background-color: var(--lf-surface-2);
+  box-shadow: inset 0 1px 0 var(--lf-button-edge-pressed);
+}
+
 .ghost {
-  background: transparent;
+  background-color: transparent;
   color: var(--lf-text-secondary);
 }
 
 .ghost:hover:not(:disabled) {
-  background: var(--lf-surface-2);
+  background-color: var(--lf-surface-2);
   color: var(--lf-text-primary);
 }
 
+.ghost:active:not(:disabled) {
+  box-shadow: inset 0 1px 0 var(--lf-button-edge-pressed);
+}
+
 .danger {
-  background: var(--lf-danger-muted);
+  background-color: var(--lf-danger-muted);
   color: var(--lf-danger);
 }
 
 .danger:hover:not(:disabled) {
-  background: var(--lf-danger);
+  background-color: var(--lf-danger);
   color: var(--lf-text-on-accent);
+  box-shadow: inset 0 1px 0 var(--lf-button-edge-highlight-strong);
+}
+
+.danger:active:not(:disabled) {
+  box-shadow: inset 0 1px 0 var(--lf-button-edge-pressed);
 }
 
 .fullWidth {
   width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }

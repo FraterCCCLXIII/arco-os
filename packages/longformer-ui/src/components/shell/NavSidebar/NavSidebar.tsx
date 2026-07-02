@@ -124,29 +124,31 @@ export function NavSidebar({
         </div>
       )}
 
-      <ScrollArea className={styles.sections}>
-        {sections.map((section) => (
-          <div key={section.id}>
-            <NavSidebarSectionHeader title={section.title} action={section.action} />
-            {section.beforeItems}
-            {section.content ?? (
-              <div className={styles.sectionItems}>
-                {section.items?.map((item) => (
-                  <ListItem
-                    key={item.id}
-                    className={cx(styles.navListItem, item.className)}
-                    leading={item.leading}
-                    label={item.label}
-                    description={item.description}
-                    trailing={item.trailing}
-                    active={item.active}
-                    onClick={item.onClick}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
+      <ScrollArea className={styles.sectionsScroll}>
+        <div className={styles.sections}>
+          {sections.map((section) => (
+            <div key={section.id}>
+              <NavSidebarSectionHeader title={section.title} action={section.action} />
+              {section.beforeItems}
+              {section.content ?? (
+                <div className={styles.sectionItems}>
+                  {section.items?.map((item) => (
+                    <ListItem
+                      key={item.id}
+                      className={cx(styles.navListItem, item.className)}
+                      leading={item.leading}
+                      label={item.label}
+                      description={item.description}
+                      trailing={item.trailing}
+                      active={item.active}
+                      onClick={item.onClick}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </ScrollArea>
 
       {footer && <div className={styles.footer}>{footer}</div>}

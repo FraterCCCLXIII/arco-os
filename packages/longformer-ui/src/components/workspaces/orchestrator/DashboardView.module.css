@@ -120,7 +120,7 @@
 .table td {
   padding: var(--lf-space-3) var(--lf-space-4);
   text-align: left;
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .table th {
@@ -171,7 +171,7 @@
   justify-content: flex-end;
   gap: var(--lf-space-1);
   padding: var(--lf-space-3) var(--lf-space-4);
-  border-top: 1px solid var(--lf-border-subtle);
+  border-top: 1px solid var(--lf-divider);
 }
 
 .pageBtn {

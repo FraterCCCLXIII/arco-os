@@ -122,7 +122,7 @@
   align-items: center;
   justify-content: space-between;
   padding-bottom: 6px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid var(--lf-divider);
   font-size: 11px;
   opacity: 0.45;
 }
@@ -224,7 +224,7 @@
   font-weight: 700;
   opacity: 1 !important;
   padding-top: 4px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: 1px solid var(--lf-divider);
 }
 
 /* Crypto list */
@@ -234,7 +234,7 @@
 }
 
 .cryptoItem {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .cryptoItem:last-child {
@@ -421,7 +421,7 @@
   flex-direction: column;
   gap: 6px;
   padding-top: var(--lf-space-2);
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-top: 1px solid var(--lf-divider);
   font-size: 10px;
 }
 

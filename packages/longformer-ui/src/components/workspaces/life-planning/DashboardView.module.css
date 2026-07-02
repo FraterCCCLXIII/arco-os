@@ -230,7 +230,7 @@
   gap: var(--lf-space-3);
   margin-top: var(--lf-space-3);
   padding-top: var(--lf-space-3);
-  border-top: 1px solid var(--lf-border-subtle);
+  border-top: 1px solid var(--lf-divider);
   font-size: var(--lf-font-size-xs);
   color: var(--lf-text-tertiary);
 }

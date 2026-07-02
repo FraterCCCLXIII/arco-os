@@ -35,7 +35,7 @@ export const scheduleItems: ScheduleItem[] = [
     tone: "beige",
     status: "active",
     projectId: "p3",
-    assignees: [{ name: "Dana Cho" }],
+    assignees: [{ name: "Riley Chen" }],
     priority: "medium",
   },
   {
@@ -47,7 +47,7 @@ export const scheduleItems: ScheduleItem[] = [
     tone: "pink",
     status: "active",
     projectId: "p4",
-    assignees: [{ name: "Marcus Webb" }, { name: "Priya Nair" }],
+    assignees: [{ name: "Jordan Hayes" }, { name: "Sam Patel" }],
     priority: "high",
   },
   {
@@ -59,7 +59,7 @@ export const scheduleItems: ScheduleItem[] = [
     tone: "blue",
     status: "active",
     projectId: "p1",
-    assignees: [{ name: "Paul Bloch" }, { name: "Dana Cho" }, { name: "Marcus Webb" }],
+    assignees: [{ name: "Alex Morgan" }, { name: "Riley Chen" }, { name: "Jordan Hayes" }],
     requiresRsvp: true,
     location: "Zoom",
     description: "Align on research goals, interview scripts, and the week-one synthesis plan.",
@@ -74,10 +74,10 @@ export const scheduleItems: ScheduleItem[] = [
     status: "active",
     projectId: "p3",
     assignees: [
-      { name: "Paul Bloch" },
-      { name: "Dana Cho" },
-      { name: "Marcus Webb" },
-      { name: "Priya Nair" },
+      { name: "Alex Morgan" },
+      { name: "Riley Chen" },
+      { name: "Jordan Hayes" },
+      { name: "Sam Patel" },
       { name: "Alex Kim" },
       { name: "Jordan Lee" },
       { name: "Sam Rivera" },
@@ -96,7 +96,7 @@ export const scheduleItems: ScheduleItem[] = [
     tone: "warning",
     status: "backlog",
     projectId: "p2",
-    assignees: [{ name: "Dana Cho" }],
+    assignees: [{ name: "Riley Chen" }],
   },
   {
     id: "s6",
@@ -107,7 +107,7 @@ export const scheduleItems: ScheduleItem[] = [
     tone: "accent",
     status: "active",
     projectId: "p1",
-    assignees: [{ name: "Paul Bloch" }, { name: "Priya Nair" }],
+    assignees: [{ name: "Alex Morgan" }, { name: "Sam Patel" }],
     location: "Conference room B",
   },
   {
@@ -119,7 +119,7 @@ export const scheduleItems: ScheduleItem[] = [
     tone: "success",
     status: "closed",
     projectId: "p4",
-    assignees: [{ name: "Marcus Webb" }],
+    assignees: [{ name: "Jordan Hayes" }],
   },
   {
     id: "s8",

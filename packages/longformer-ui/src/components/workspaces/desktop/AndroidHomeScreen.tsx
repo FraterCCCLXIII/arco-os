@@ -69,7 +69,13 @@ export function AndroidHomeScreen({
             {apps.map((app) => (
               <li key={app.id}>
                 <button type="button" className={styles.tile} onClick={() => onLaunchApp(app.id)}>
-                  <AppIconTile appId={app.id} icon={app.icon} size="xl" className={styles.icon} />
+                  <AppIconTile
+                    appId={app.id}
+                    icon={app.icon}
+                    size="xl"
+                    surface="solid"
+                    className={styles.icon}
+                  />
                   <span className={styles.label}>{app.label}</span>
                 </button>
               </li>

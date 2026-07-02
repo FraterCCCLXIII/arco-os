@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ScrollArea } from "../../primitives/ScrollArea";
+import { SidebarPane } from "../../shell/NavSidebar";
 import { DeploymentsView } from "./DeploymentsView";
 import { ProjectsDashboardView } from "./ProjectsDashboardView";
 import { ServerSidebar } from "./ServerSidebar";
@@ -70,7 +71,9 @@ export function ServerWorkspace({
 
   return (
     <div className={styles.workspace}>
-      <ServerSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      <SidebarPane handleLabel="Resize server sidebar" className={styles.sidebarResizable}>
+        <ServerSidebar data={data} view={activeView} onViewChange={handleViewChange} />
+      </SidebarPane>
       <ScrollArea className={styles.main}>{renderMain()}</ScrollArea>
     </div>
   );

@@ -382,7 +382,7 @@ export function FacebookTopBar() {
         <IconButton icon="grid" label="Menu" size="sm" />
         <IconButton icon="message-square" label="Messenger" size="sm" />
         <IconButton icon="bell" label="Notifications" size="sm" />
-        <Avatar name="Paul Bloch" size="sm" />
+        <Avatar name="Alex Morgan" size="sm" />
       </div>
     </header>
   );

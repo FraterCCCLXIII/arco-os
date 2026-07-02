@@ -4,10 +4,6 @@
   min-height: 0;
 }
 
-.libraryResizable {
-  border-right: 1px solid var(--lf-border-subtle);
-}
-
 .libraryPane {
   height: 100%;
   display: flex;
@@ -22,7 +18,7 @@
   gap: var(--lf-space-2);
   height: 44px;
   padding: 0 var(--lf-space-4);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   font-weight: 600;
   color: var(--lf-text-primary);
 }
@@ -52,7 +48,7 @@
   gap: var(--lf-space-3);
   height: 44px;
   padding: 0 var(--lf-space-4);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .bookMeta {
@@ -120,7 +116,7 @@
 .progressBar {
   flex-shrink: 0;
   height: 3px;
-  background: var(--lf-border-subtle);
+  background: var(--lf-divider);
 }
 
 .progressFill {

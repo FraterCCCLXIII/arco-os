@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ScrollArea } from "../../primitives/ScrollArea";
+import { SidebarPane } from "../../shell/NavSidebar";
 import { BankDashboardView } from "./BankDashboardView";
 import { CryptoWalletView } from "./CryptoWalletView";
 import { FinanceSidebar } from "./FinanceSidebar";
@@ -32,7 +33,9 @@ export function BankCryptoWorkspace({
 
   return (
     <div className={styles.workspace}>
-      <FinanceSidebar data={bank} view={activeView} onViewChange={handleViewChange} />
+      <SidebarPane handleLabel="Resize finance sidebar" className={styles.sidebarResizable}>
+        <FinanceSidebar data={bank} view={activeView} onViewChange={handleViewChange} />
+      </SidebarPane>
       <ScrollArea className={styles.main}>
         {activeView === "bank" ? (
           <BankDashboardView data={bank} />

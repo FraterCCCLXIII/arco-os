@@ -139,13 +139,13 @@ export function buildNotesVault(onNavigate: (id: string) => void): NotePage[] {
         {
           id: "dj-p1",
           type: "paragraph",
-          text: "Refined the telepathy note and prepped slides for Weekly Demos.",
+          text: "Refined the telepathy note and prepped materials for the Community Forum.",
         },
       ],
     },
     {
       id: "weekly-demos",
-      title: "06-26-2026 Weekly Demos",
+      title: "06-26-2026 Community Forum",
       folder: "projects",
       links: ["agent-canvas", "company-handbook"],
       blocks: [
@@ -154,23 +154,23 @@ export function buildNotesVault(onNavigate: (id: string) => void): NotePage[] {
           id: "wd-list",
           type: "bulletList",
           items: [
-            { id: "wd-i1", text: "Graph view demo — Obsidian Publish parity" },
-            { id: "wd-i2", text: "Agent Canvas Comparison walkthrough" },
-            { id: "wd-i3", text: "Link to Company Handbook for onboarding" },
+            { id: "wd-i1", text: "Neighborhood welcome session" },
+            { id: "wd-i2", text: "Vendor layout walkthrough" },
+            { id: "wd-i3", text: "Link to Company Handbook for volunteer onboarding" },
           ],
         },
       ],
     },
     {
       id: "agent-canvas",
-      title: "Agent Canvas Comparison",
+      title: "Vendor Layout Study",
       folder: "projects",
       links: ["weekly-demos", "scratchpad"],
       blocks: [
         {
           id: "ac-p1",
           type: "paragraph",
-          text: "Compare canvas implementations across vendors. Scratchpad has rough benchmarks.",
+          text: "Compare booth and signage layouts for the summer picnic. Scratchpad has rough sketches.",
         },
       ],
     },
@@ -196,7 +196,7 @@ export function buildNotesVault(onNavigate: (id: string) => void): NotePage[] {
         {
           id: "oo-p1",
           type: "paragraph",
-          text: "Standing topics for manager sync. Demo prep tracked in Weekly Demos.",
+          text: "Standing topics for coordinator sync. Event prep tracked in Community Forum notes.",
         },
       ],
     },
@@ -228,52 +228,52 @@ export function buildNotesVault(onNavigate: (id: string) => void): NotePage[] {
     },
     {
       id: "agent-team-wiki",
-      title: "Agent Team Wiki",
+      title: "Volunteer Team Wiki",
       folder: "projects",
       links: ["company-handbook", "agent-canvas"],
       blocks: [
         {
           id: "at-p1",
           type: "paragraph",
-          text: "Internal wiki for agent tooling. See Agent Canvas Comparison for UI experiments.",
+          text: "Shared notes for event volunteers. See Vendor Layout Study for booth planning.",
         },
       ],
     },
     {
       id: "user-feedback",
-      title: "Addressing User Feedback",
+      title: "Picnic Planning Notes",
       folder: "projects",
       links: ["weekly-demos", "agent-canvas"],
       blocks: [
         {
           id: "uf-p1",
           type: "paragraph",
-          text: "Rename the surface away from abstract “Automations.” Candidates:",
+          text: "Open questions for the summer picnic:",
         },
         {
           id: "uf-list",
           type: "bulletList",
           items: [
-            { id: "uf-i1", text: "Workflows — most understandable, broad enough for SDLC and non-SDLC." },
-            { id: "uf-i2", text: "Agents on a Schedule — explicit, but clunky." },
-            { id: "uf-i3", text: "Playbooks — enterprise-friendly, implies repeatable process." },
+            { id: "uf-i1", text: "Rain backup location — community center vs. school gym." },
+            { id: "uf-i2", text: "Food stations — one line or two parallel lines." },
+            { id: "uf-i3", text: "Kids area — face painting or craft table." },
           ],
         },
-        { id: "uf-h1", type: "heading", level: 2, text: "Breaking It Up" },
+        { id: "uf-h1", type: "heading", level: 2, text: "Still To Confirm" },
         {
           id: "uf-list2",
           type: "bulletList",
           items: [
-            { id: "uf-i4", text: "Automations — dashboard of active automations, recent runs, usage." },
-            { id: "uf-i5", text: "Workflows — event and webhook based automations." },
-            { id: "uf-i6", text: "Routines — cron based automations." },
+            { id: "uf-i4", text: "Final headcount from RSVP form." },
+            { id: "uf-i5", text: "Parking volunteer shift coverage." },
+            { id: "uf-i6", text: "Permit approval from parks department." },
           ],
         },
         {
           id: "uf-callout",
           type: "callout",
           icon: "sparkles",
-          text: "This mental model — context in, review step, then enable — is the shared spine for every Longformer workspace.",
+          text: "Simple checklist: confirm headcount, assign shifts, send reminders — then open the gates.",
         },
       ],
     },
@@ -297,8 +297,8 @@ export const defaultNoteId = "writing-telepathy";
 /** Sidebar lists derived from the vault for the demo app. */
 export const vaultRecentPages = [
   { id: "writing-telepathy", label: "Writing is telepathy", meta: "now" },
-  { id: "p1", label: "Addressing User Feedback", meta: "2h" },
-  { id: "p2", label: "06-26-2026 Weekly Demos", meta: "1d" },
+  { id: "p1", label: "Picnic Planning Notes", meta: "2h" },
+  { id: "p2", label: "06-26-2026 Community Forum", meta: "1d" },
 ];
 
 export const vaultPrivatePages = [
@@ -309,7 +309,7 @@ export const vaultPrivatePages = [
 
 export const vaultTeamspacePages = [
   { id: "p7", label: "Company Handbook" },
-  { id: "p8", label: "Agent Team Wiki" },
+  { id: "p8", label: "Volunteer Team Wiki" },
 ];
 
 export function resolveNoteId(pageId: string): string {

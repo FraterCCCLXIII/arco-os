@@ -43,7 +43,7 @@ export function ConversationTabBar({
   return (
     <div className={cx(styles.bar, className)}>
       {projectLabel ? <div className={styles.project}>{projectLabel}</div> : null}
-      <div className={cx(styles.tabs, "lf-scrollbar")} role="tablist" aria-label="Conversation tabs">
+      <div className={cx("lf-scrollbar-hidden", styles.tabs)} role="tablist" aria-label="Conversation tabs">
         {tabs.map((tab) => {
           const active = tab.id === activeId;
           return (

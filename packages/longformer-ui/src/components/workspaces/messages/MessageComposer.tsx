@@ -1,6 +1,11 @@
 import { cx } from "../../../utils/cx";
 import { Textarea } from "../../primitives/Textarea";
 import { IconButton } from "../../primitives/IconButton";
+import {
+  ComposerFormattingToggle,
+  ComposerFormattingToolbar,
+} from "../chat/ComposerFormattingToolbar";
+import { useComposerFormattingToolbar } from "../chat/useComposerFormattingToolbar";
 import styles from "./MessageComposer.module.css";
 
 export interface MessageComposerProps {
@@ -24,6 +29,9 @@ export function MessageComposer({
   disabled = false,
   className,
 }: MessageComposerProps) {
+  const { visible: formattingToolbarVisible, toggle: toggleFormattingToolbar } =
+    useComposerFormattingToolbar();
+
   function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
@@ -33,6 +41,10 @@ export function MessageComposer({
 
   return (
     <div className={cx(styles.composer, className)}>
+      <ComposerFormattingToolbar
+        visible={formattingToolbarVisible}
+        className={styles.formattingToolbar}
+      />
       <div className={styles.textareaRow}>
         <Textarea
           value={value}
@@ -46,6 +58,10 @@ export function MessageComposer({
       </div>
       <div className={styles.controls}>
         <div className={styles.controlsLeft}>
+          <ComposerFormattingToggle
+            visible={formattingToolbarVisible}
+            onToggle={toggleFormattingToolbar}
+          />
           <IconButton icon="attach" label="Attach file" size="sm" />
           <IconButton icon="mic" label="Voice message" size="sm" />
         </div>

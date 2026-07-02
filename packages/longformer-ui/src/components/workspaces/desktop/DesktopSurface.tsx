@@ -17,6 +17,7 @@ import { WidgetDesktopView, type WidgetTile } from "./WidgetDesktopView";
 import { MobileHomeScreen } from "./MobileHomeScreen";
 import { useWindowTransitions } from "./useWindowTransitions";
 import type { DesktopApp, DesktopIconItem, DesktopShell } from "./types";
+import { desktopWallpaperBackground } from "./wallpaper";
 import styles from "./DesktopSurface.module.css";
 
 export interface DesktopSurfaceProps {
@@ -42,6 +43,7 @@ export interface DesktopSurfaceProps {
   widgetTiles?: WidgetTile[];
   renderWindowContent?: (window: SurfaceWindow) => ReactNode;
   className?: string;
+  wallpaperUrl?: string;
 }
 
 interface SurfaceWindowViewProps {
@@ -231,6 +233,7 @@ export function DesktopSurface({
   widgetTiles = [],
   renderWindowContent,
   className,
+  wallpaperUrl,
 }: DesktopSurfaceProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { displayWindows, requestClose, requestMinimize, getTransition } = useWindowTransitions(windows, {
@@ -289,6 +292,13 @@ export function DesktopSurface({
         className,
       )}
       onPointerDown={formFactor === "watch" ? handleWatchSwipe : undefined}
+      style={
+        wallpaperUrl
+          ? ({
+              ["--lf-desktop-wallpaper-image" as string]: desktopWallpaperBackground(wallpaperUrl),
+            } as React.CSSProperties)
+          : undefined
+      }
     >
       <div className={styles.wallpaper} aria-hidden="true">
         <div className={styles.wallpaperGradient} />
@@ -304,7 +314,13 @@ export function DesktopSurface({
               onDoubleClick={() => onSelectIcon(icon.id)}
               onClick={() => onSelectIcon(icon.id)}
             >
-              <AppIconTile appId={icon.appId} icon={icon.icon} size="lg" className={styles.iconTile} />
+              <AppIconTile
+                appId={icon.appId}
+                icon={icon.icon}
+                size="lg"
+                surface="solid"
+                className={styles.iconTile}
+              />
               <span className={styles.iconLabel}>{icon.label}</span>
             </button>
           ))}

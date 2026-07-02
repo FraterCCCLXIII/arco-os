@@ -1,5 +1,6 @@
 .sidebar {
-  border-right: 1px solid var(--lf-border-subtle);
+  height: 100%;
+  overflow: hidden;
 }
 
 .storage {
@@ -34,10 +35,4 @@
 .storageMeta {
   font-size: var(--lf-font-size-xs);
   color: var(--lf-text-tertiary);
-}
-
-@media (max-width: 900px) {
-  .sidebar {
-    display: none;
-  }
 }

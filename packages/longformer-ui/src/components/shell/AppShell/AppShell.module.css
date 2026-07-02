@@ -11,27 +11,26 @@
 
 .rail {
   height: 100%;
+  border-right: 1px solid var(--lf-divider);
 }
 
-.railResizable {
-  border-right: 1px solid var(--lf-border-subtle);
-}
-
-.sidebarResizable,
-.contextPanelResizable {
-  border-color: var(--lf-border-subtle);
-}
-
+.railResizable,
 .sidebarResizable {
-  border-right: 1px solid var(--lf-border-subtle);
+  border-right: none;
+}
+
+.railResizable .rail {
+  border-right: none;
 }
 
 .contextPanelResizable {
-  border-left: 1px solid var(--lf-border-subtle);
+  border-left: none;
 }
 
 .sidebar {
   height: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .main {

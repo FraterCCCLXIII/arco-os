@@ -1,0 +1,17 @@
+.viewport {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.sizer {
+  flex-shrink: 0;
+}
+
+.content {
+  width: max-content;
+}

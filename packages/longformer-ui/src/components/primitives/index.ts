@@ -48,6 +48,7 @@ export * from "./Menu";
 export * from "./MiniStatChartCard";
 export * from "./Modal";
 export * from "./MusicPlayerCard";
+export * from "./VideoPlayerCard";
 export * from "./NewsFeedCard";
 export * from "./ProfileGridCard";
 export * from "./ProfileSummaryCard";

@@ -8,7 +8,7 @@ import type {
 } from "longformer-ui";
 
 export const musicUser: MusicUser = {
-  name: "Paul Bloch",
+  name: "Alex Morgan",
 };
 
 export const musicLibraryItems: MusicLibraryItem[] = [
@@ -29,14 +29,14 @@ export const musicLibraryItems: MusicLibraryItem[] = [
   {
     id: "fire-for-you",
     title: "Fire For You Mixtape",
-    subtitle: "Playlist · Paul Bloch",
+    subtitle: "Playlist · Alex Morgan",
     kind: "playlist",
     imageTone: "orange",
   },
   {
     id: "heat-death",
     title: "Heat Death by Music Mix",
-    subtitle: "Playlist · Paul Bloch",
+    subtitle: "Playlist · Alex Morgan",
     kind: "playlist",
     imageTone: "rose",
   },
@@ -57,28 +57,28 @@ export const musicLibraryItems: MusicLibraryItem[] = [
   {
     id: "daily-mix-1",
     title: "Daily Mix 1",
-    subtitle: "Playlist · Paul Bloch",
+    subtitle: "Playlist · Alex Morgan",
     kind: "playlist",
     imageTone: "blue",
   },
   {
     id: "daily-mix-2",
     title: "Daily Mix 2",
-    subtitle: "Playlist · Paul Bloch",
+    subtitle: "Playlist · Alex Morgan",
     kind: "playlist",
     imageTone: "pink",
   },
   {
     id: "daily-mix-3",
     title: "Daily Mix 3",
-    subtitle: "Playlist · Paul Bloch",
+    subtitle: "Playlist · Alex Morgan",
     kind: "playlist",
     imageTone: "lime",
   },
   {
     id: "daily-mix-4",
     title: "Daily Mix 4",
-    subtitle: "Playlist · Paul Bloch",
+    subtitle: "Playlist · Alex Morgan",
     kind: "playlist",
     imageTone: "cyan",
   },

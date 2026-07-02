@@ -2,7 +2,7 @@
   /* Bank dashboard — inherit global light/dark tokens */
   --bc-bg: var(--lf-surface-canvas);
   --bc-surface: var(--lf-surface-1);
-  --bc-border: var(--lf-border-subtle);
+  --bc-border: var(--lf-divider);
   --bc-text: var(--lf-text-primary);
   --bc-text-muted: var(--lf-text-secondary);
   --bc-accent: var(--lf-accent);
@@ -17,7 +17,7 @@
   --cw-pill: var(--lf-text-primary);
   --cw-pill-text: var(--lf-surface-canvas);
   --cw-subtle-bg: var(--lf-surface-3);
-  --cw-border: var(--lf-border-subtle);
+  --cw-border: var(--lf-divider);
   --cw-success: var(--lf-success);
   --cw-warning-bg: var(--lf-warning-muted);
   --cw-warning-text: var(--lf-warning);
@@ -37,4 +37,14 @@
   flex: 1;
   min-width: 0;
   min-height: 0;
+}
+
+.sidebarResizable {
+  flex-shrink: 0;
+}
+
+@media (max-width: 960px) {
+  .sidebarResizable {
+    display: none;
+  }
 }

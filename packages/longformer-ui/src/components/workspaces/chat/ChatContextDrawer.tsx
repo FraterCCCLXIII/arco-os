@@ -13,7 +13,7 @@ export interface ChatContextDrawerProps {
   activeTab: ChatContextDrawerTab;
   onTabChange: (tab: ChatContextDrawerTab) => void;
   onClose?: () => void;
-  /** When false, the left edge separator is omitted — use when a resize grip sits beside the drawer. */
+  /** When true, draws a left edge separator — omit when a resize grip sits beside the drawer. */
   showLeadingBorder?: boolean;
   diffHunks?: DiffHunk[];
   activeDiffId?: string;
@@ -32,14 +32,14 @@ export function ChatContextDrawer({
   activeTab,
   onTabChange,
   onClose,
-  showLeadingBorder = true,
+  showLeadingBorder = false,
   diffHunks = [],
   activeDiffId,
   folders,
   rootFolderId,
 }: ChatContextDrawerProps) {
   return (
-    <div className={cx(styles.drawer, !showLeadingBorder && styles.drawerBorderless)}>
+    <div className={cx(styles.drawer, showLeadingBorder && styles.drawerBordered)}>
       <div className={styles.header}>
         <Tabs
           items={TAB_ITEMS.map(({ id, label }) => ({ id, label }))}

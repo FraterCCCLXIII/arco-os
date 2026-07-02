@@ -601,7 +601,7 @@
   align-items: center;
   gap: var(--lf-space-4);
   padding: var(--lf-space-2) var(--lf-space-4);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--lf-divider);
   background: rgba(0, 0, 0, 0.92);
 }
 

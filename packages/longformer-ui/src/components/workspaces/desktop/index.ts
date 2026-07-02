@@ -10,6 +10,7 @@ export * from "./widget-types";
 export * from "./WidgetDesktopView";
 export * from "./WidgetRenderer";
 export * from "./DesktopWorkspace";
+export * from "./wallpaper";
 export * from "./WorkspaceWindowShell";
 export * from "./formFactorFrame";
 export * from "./MobileHomeScreen";

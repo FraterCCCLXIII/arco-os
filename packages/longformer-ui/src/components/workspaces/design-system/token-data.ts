@@ -70,6 +70,7 @@ export const COLOR_GROUPS: { title: string; tokens: TokenSwatch[] }[] = [
     title: "Borders & focus",
     tokens: [
       { name: "Border subtle", variable: "--lf-border-subtle" },
+      { name: "Divider", variable: "--lf-divider", description: "Line separators between UI regions" },
       { name: "Border default", variable: "--lf-border-default" },
       { name: "Border strong", variable: "--lf-border-strong" },
       { name: "Focus ring", variable: "--lf-focus-ring" },

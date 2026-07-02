@@ -191,7 +191,7 @@
 }
 
 .formRow:not(:last-child) {
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .formLabel {
@@ -239,7 +239,7 @@
   align-items: center;
   gap: 6px;
   padding: var(--lf-space-2) var(--lf-space-3);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .terminalDot {
@@ -271,6 +271,13 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: var(--lf-space-3);
+}
+
+.videoPlayerGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lf-space-4);
+  align-items: flex-start;
 }
 
 .dashboardWideGrid {

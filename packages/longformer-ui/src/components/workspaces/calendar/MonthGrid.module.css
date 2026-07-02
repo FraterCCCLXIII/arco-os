@@ -9,7 +9,7 @@
   flex-shrink: 0;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
 }
 
 .weekdayCell {
@@ -38,8 +38,8 @@
   min-width: 0;
   min-height: 90px;
   padding: var(--lf-space-1) var(--lf-space-1) var(--lf-space-2);
-  border-right: 1px solid var(--lf-border-subtle);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-right: 1px solid var(--lf-divider);
+  border-bottom: 1px solid var(--lf-divider);
   background: transparent;
   cursor: pointer;
 }

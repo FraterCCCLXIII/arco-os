@@ -1,8 +1,10 @@
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { cx } from "../../../utils/cx";
 import { Icon, type IconName } from "../../../icons";
+import { Menu, type MenuItemDescriptor } from "../../primitives/Menu";
 import { Tooltip } from "../../primitives/Tooltip";
 import { NavRailOverflowCard } from "./NavRailOverflowCard";
+import { useNavRailPinDrag } from "./useNavRailPinDrag";
 import { useNavRailReorder } from "./useNavRailReorder";
 import styles from "./NavRail.module.css";
 
@@ -18,7 +20,7 @@ export interface NavRailProps {
   onSelect: (id: string) => void;
   /** Apps hidden from the rail and shown in the overflow menu instead. */
   overflowItems?: NavRailItem[];
-  onMoveToRail?: (id: string) => void;
+  onMoveToRail?: (id: string, index?: number) => void;
   onMoveToOverflow?: (id: string) => void;
   /** Reorder pinned tabs after hold-and-drag. */
   onReorder?: (fromIndex: number, toIndex: number) => void;
@@ -61,14 +63,30 @@ export function NavRail({
 }: NavRailProps) {
   const [expandedState, setExpandedState] = useState(defaultExpanded);
   const expanded = expandedProp ?? expandedState;
+  const railBoundsRef = useRef<HTMLElement>(null);
   const canCustomize = Boolean(onMoveToRail && onMoveToOverflow);
+  const canUndock = canCustomize && items.length > 1;
   const canReorder = Boolean(onReorder && items.length > 1);
   const showOverflow = overflowItems.length > 0 || canCustomize;
 
   const { dragState, pendingIndex, itemRefs, createItemPointerDown, shouldSuppressClick } = useNavRailReorder({
-    enabled: canReorder,
+    enabled: canReorder || canUndock,
     itemCount: items.length,
+    railBoundsRef,
     onReorder,
+    onUndock: canUndock
+      ? (fromIndex) => {
+          const item = items[fromIndex];
+          if (item) onMoveToOverflow?.(item.id);
+        }
+      : undefined,
+  });
+
+  const { pinDrag, pinDropIndex, createOverflowDragStart, shouldSuppressOverflowClick } = useNavRailPinDrag({
+    enabled: canCustomize,
+    itemCount: items.length,
+    itemRefs,
+    onPin: onMoveToRail,
   });
 
   function setExpanded(next: boolean) {
@@ -81,13 +99,17 @@ export function NavRail({
     const canUnpin = canCustomize && items.length > 1;
     const isPendingHold = pendingIndex === index;
     const isDraggingSource = dragState?.fromIndex === index;
-    const showDropBefore = dragState && dragState.dropIndex === index && dragState.fromIndex !== index;
-    const itemPointerDown = canReorder ? createItemPointerDown(index, item.label, item.icon) : undefined;
+    const isUndockingSource = isDraggingSource && dragState?.isUndocking;
+    const showDropBefore =
+      (dragState && !dragState.isUndocking && dragState.dropIndex === index && dragState.fromIndex !== index) ||
+      (pinDrag && pinDropIndex === index);
+    const itemPointerDown =
+      canReorder || canUndock ? createItemPointerDown(index, item.label, item.icon) : undefined;
 
     const button = (
       <button
         type="button"
-        className={cx("lf-focusable", styles.itemButton, active && styles.itemActive)}
+        className={cx("lf-focusable", styles.itemButton, active && !expanded && styles.itemActive)}
         aria-current={active ? "true" : undefined}
         aria-label={item.label}
         onPointerDown={itemPointerDown}
@@ -103,20 +125,33 @@ export function NavRail({
       </button>
     );
 
-    const unpinButton =
+    const menuButton =
       expanded && canUnpin ? (
-        <button
-          type="button"
-          className={styles.unpinButton}
-          aria-label={`Move ${item.label} to more apps`}
-          onPointerDown={(event) => event.stopPropagation()}
-          onClick={(event) => {
-            event.stopPropagation();
-            onMoveToOverflow?.(item.id);
-          }}
-        >
-          <Icon name="minus" size={14} />
-        </button>
+        <Menu
+          trigger={
+            <button
+              type="button"
+              className={styles.itemMenuButton}
+              aria-label={`${item.label} options`}
+              onPointerDown={(event) => event.stopPropagation()}
+              onClick={(event) => event.stopPropagation()}
+            >
+              <Icon name="more-vertical" size={14} />
+            </button>
+          }
+          items={
+            [
+              {
+                id: "move-to-overflow",
+                label: "Move to more apps",
+                icon: "minus",
+                onSelect: () => onMoveToOverflow?.(item.id),
+              },
+            ] satisfies MenuItemDescriptor[]
+          }
+          align="end"
+          aria-label={`${item.label} options`}
+        />
       ) : null;
 
     const slot = (
@@ -126,17 +161,19 @@ export function NavRail({
         }}
         className={cx(
           styles.itemSlot,
-          canReorder && styles.itemSlotReorderable,
+          (canReorder || canUndock) && styles.itemSlotReorderable,
           isPendingHold && styles.itemSlotPending,
           isDraggingSource && styles.itemSlotDragging,
+          isUndockingSource && styles.itemSlotUndocking,
           showDropBefore && styles.itemSlotDropBefore,
           dragState && styles.itemSlotReorderActive,
+          pinDrag && styles.itemSlotPinDropActive,
         )}
       >
         {expanded ? (
-          <div className={styles.itemRow}>
+          <div className={cx(styles.itemRow, active && styles.itemRowActive)}>
             {button}
-            {unpinButton}
+            {menuButton}
           </div>
         ) : (
           button
@@ -169,10 +206,13 @@ export function NavRail({
 
   return (
     <nav
+      ref={railBoundsRef}
       className={cx(
         styles.rail,
         expanded ? styles.expanded : styles.collapsed,
+        dragState?.isUndocking && styles.railUndocking,
         dragState && styles.railReordering,
+        pinDrag && styles.railPinDragging,
         className,
       )}
       aria-label="Workspaces"
@@ -186,14 +226,24 @@ export function NavRail({
         </div>
       )}
       <div className={styles.items}>
+        {dragState?.isUndocking ? <span className={styles.undockHint} aria-hidden="true" /> : null}
         {items.map((item, index) => renderItem(item, index))}
+        {pinDrag ? (
+          <div
+            className={cx(styles.itemSlot, pinDropIndex === items.length && styles.itemSlotDropBefore)}
+            aria-hidden="true"
+          />
+        ) : null}
         {showOverflow && onMoveToRail && (
           <NavRailOverflowCard
             items={overflowItems}
             activeId={activeId}
             expanded={expanded}
             onSelect={onSelect}
-            onMoveToRail={onMoveToRail}
+            onMoveToRail={(id) => onMoveToRail(id)}
+            onRowPointerDown={createOverflowDragStart}
+            shouldSuppressRowClick={shouldSuppressOverflowClick}
+            draggingItemId={pinDrag?.id ?? null}
           />
         )}
       </div>
@@ -204,16 +254,25 @@ export function NavRail({
         </div>
       )}
 
-      {dragState ? (
+      {dragState || pinDrag ? (
         <div
-          className={cx(styles.dragGhost, expanded ? styles.dragGhostExpanded : styles.dragGhostCollapsed)}
-          style={{ left: dragState.ghostX, top: dragState.ghostY }}
+          className={cx(
+            styles.dragGhost,
+            expanded ? styles.dragGhostExpanded : styles.dragGhostCollapsed,
+            dragState?.isUndocking && styles.dragGhostUndocking,
+          )}
+          style={{
+            left: (dragState ?? pinDrag)!.ghostX,
+            top: (dragState ?? pinDrag)!.ghostY,
+          }}
           aria-hidden="true"
         >
           <span className={styles.dragGhostIcon}>
-            <Icon name={dragState.icon} size={18} />
+            <Icon name={(dragState ?? pinDrag)!.icon} size={18} />
           </span>
-          {expanded ? <span className={styles.dragGhostLabel}>{dragState.label}</span> : null}
+          {expanded ? (
+            <span className={styles.dragGhostLabel}>{(dragState ?? pinDrag)!.label}</span>
+          ) : null}
         </div>
       ) : null}
     </nav>

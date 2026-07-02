@@ -23,7 +23,7 @@
   gap: var(--lf-space-2);
   padding: var(--lf-space-3) var(--lf-space-2);
   background: var(--groups-rail-bg);
-  border-right: 1px solid var(--lf-border-subtle);
+  border-right: 1px solid var(--lf-divider);
 }
 
 .railWorkspaces {
@@ -112,9 +112,19 @@
 
 /* ── Sidebar ── */
 
-.sidebarNav {
+.sidebarResizable {
   flex-shrink: 0;
-  border-right: 1px solid var(--lf-border-subtle);
+}
+
+.sidebarPane {
+  height: 100%;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--groups-sidebar-bg);
+}
+
+.sidebarNav {
+  height: 100%;
 }
 
 .sidebarHeader {
@@ -215,7 +225,7 @@
   gap: var(--lf-space-3);
   height: 52px;
   padding: 0 var(--lf-space-5);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   background: var(--lf-surface-1);
 }
 
@@ -344,7 +354,7 @@
   content: "";
   flex: 1;
   height: 1px;
-  background: var(--lf-border-subtle);
+  background: var(--lf-divider);
 }
 
 .composerDock {
@@ -358,14 +368,6 @@
   border-radius: var(--lf-radius-lg);
   background: var(--groups-compose-bg);
   overflow: hidden;
-}
-
-.composerToolbar {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-  padding: var(--lf-space-2) var(--lf-space-3);
-  border-bottom: 1px solid var(--lf-border-subtle);
 }
 
 .composerInput {
@@ -410,10 +412,6 @@
 
 /* ── Profile panel ── */
 
-.profileResizable {
-  border-left: 1px solid var(--lf-border-subtle);
-}
-
 .profilePane {
   height: 100%;
   display: flex;
@@ -429,7 +427,7 @@
   justify-content: space-between;
   height: 52px;
   padding: 0 var(--lf-space-4);
-  border-bottom: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-divider);
   font-weight: 600;
   color: var(--lf-text-primary);
 }
@@ -496,7 +494,7 @@
 
 .profileSection {
   padding: var(--lf-space-4);
-  border-top: 1px solid var(--lf-border-subtle);
+  border-top: 1px solid var(--lf-divider);
 }
 
 .profileSectionTitle {
@@ -541,7 +539,21 @@
     display: none;
   }
 
-  .sidebarNav {
+  .sidebarResizable {
+    width: 100%;
+  }
+
+  .main {
+    display: none;
+  }
+}
+
+@container lf-window (max-width: 760px) {
+  .rail {
+    display: none;
+  }
+
+  .sidebarResizable {
     width: 100%;
   }
 

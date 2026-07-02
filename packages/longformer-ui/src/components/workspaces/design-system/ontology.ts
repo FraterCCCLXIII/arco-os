@@ -188,6 +188,7 @@ export const CARD_FAMILIES: CardFamily[] = [
       "profileGridCards",
       "newsFeedCards",
       "musicPlayerCards",
+      "videoPlayerCards",
       "translationCards",
       "insightCards",
       "courseCards",

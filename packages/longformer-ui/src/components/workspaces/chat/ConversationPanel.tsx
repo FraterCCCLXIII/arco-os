@@ -61,7 +61,7 @@ export function ConversationPanel({
   onSubmit,
   onClose,
   onNewConversation,
-  emptyStateHeading = "Ask about this workspace",
+  emptyStateHeading = "",
   promptChips,
   onPromptChipSelect,
   model,

@@ -19,12 +19,16 @@
 .wallpaperGradient {
   position: absolute;
   inset: 0;
-  background: var(--lf-desktop-wallpaper);
+  background-color: var(--lf-surface-sunken);
+  background-image: var(--lf-desktop-wallpaper-image, var(--lf-desktop-wallpaper));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .ios .wallpaperGradient,
 .android .wallpaperGradient {
-  background: var(--lf-desktop-wallpaper-mobile);
+  background-image: var(--lf-desktop-wallpaper-image, var(--lf-desktop-wallpaper-mobile));
 }
 
 .mobileAppsOpen {

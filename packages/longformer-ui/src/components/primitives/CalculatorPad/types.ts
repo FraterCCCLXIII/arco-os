@@ -31,13 +31,13 @@ export const CALCULATOR_KEYS: (CalculatorKeyDef | null)[][] = [
     { label: "1", value: "1", variant: "numeric" },
     { label: "2", value: "2", variant: "numeric" },
     { label: "3", value: "3", variant: "numeric" },
-    { label: "=", value: "=", variant: "equals", rowSpan: 2 },
+    { label: "+", value: "+", variant: "operator" },
   ],
   [
     { label: "0", value: "0", variant: "numeric" },
     { label: ".", value: ".", variant: "numeric" },
     null,
-    null,
+    { label: "=", value: "=", variant: "equals" },
   ],
 ];
 
