@@ -6,6 +6,15 @@
   background: var(--lf-surface-1);
 }
 
+.headerSlot {
+  flex-shrink: 0;
+  padding: var(--lf-space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
 .header {
   flex-shrink: 0;
   padding: var(--lf-space-3);
@@ -31,13 +40,39 @@
   gap: var(--lf-space-3);
 }
 
-.sectionTitle {
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
   padding: var(--lf-space-2) var(--lf-space-2) var(--lf-space-1);
+}
+
+.sectionHeaderTitle {
   font-size: var(--lf-font-size-xs);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--lf-text-tertiary);
+}
+
+.sectionHeaderButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--lf-text-tertiary);
+  cursor: pointer;
+  transition: background var(--lf-duration-fast) var(--lf-ease), color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.sectionHeaderButton:hover {
+  background: var(--lf-surface-2);
+  color: var(--lf-text-primary);
 }
 
 .sectionItems {
@@ -50,6 +85,7 @@
   flex-shrink: 0;
   border-top: 1px solid var(--lf-border-subtle);
   padding: var(--lf-space-2);
+  background: var(--lf-surface-1);
 }
 
 .userFooter {
@@ -67,6 +103,12 @@
 
 .userFooter:hover {
   background: var(--lf-surface-2);
+}
+
+.userFooterCompact {
+  justify-content: center;
+  width: auto;
+  padding: var(--lf-space-1);
 }
 
 .userFooterBody {
@@ -88,4 +130,19 @@
 .userFooterMeta {
   font-size: var(--lf-font-size-xs);
   color: var(--lf-text-tertiary);
+}
+
+.userFooterBar {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  width: 100%;
+  padding: var(--lf-space-2);
+}
+
+.userFooterActions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  flex-shrink: 0;
 }

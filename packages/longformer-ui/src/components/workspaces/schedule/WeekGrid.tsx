@@ -4,9 +4,9 @@ import { ScheduleTaskCard } from "./ScheduleTaskCard";
 import {
   addDaysISO,
   formatMinutesToLabel,
-  toISODate,
   type ScheduleItem,
 } from "./types";
+import { toISODate } from "../calendar/types";
 import styles from "./WeekGrid.module.css";
 
 export interface WeekGridProps {
@@ -46,12 +46,11 @@ export function WeekGrid({
   const days = useMemo(() => {
     return Array.from({ length: dayCount }, (_, index) => {
       const iso = addDaysISO(weekStartISO, index);
-      const [year, month, day] = iso.split("-").map(Number);
-      const date = new Date(year, month - 1, day);
+      const dayNumber = Number(iso.split("-")[2]);
       return {
         iso,
         label: WEEKDAY_SHORT[index],
-        dayNumber: day,
+        dayNumber,
         isToday: iso === todayISO,
       };
     });

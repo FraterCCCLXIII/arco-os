@@ -4,6 +4,7 @@ import { Input } from "../../primitives/Input";
 import { ScrollArea } from "../../primitives/ScrollArea";
 import { ResizablePane } from "../../primitives/ResizablePane";
 import { EmptyState } from "../../primitives/EmptyState";
+import { ListPane } from "../../shell/ListPane";
 import { ContactRow } from "./ContactRow";
 import { ContactDetail } from "./ContactDetail";
 import { DialPad } from "./DialPad";
@@ -88,43 +89,45 @@ export function ContactsWorkspace({
         maxWidth={420}
         handleSide="right"
         className={styles.listResizable}
-        paneClassName={styles.listPane}
         handleLabel="Resize contacts list"
       >
-        <div className={styles.listHeader}>
-          <div className={styles.listTitle}>
-            <Icon name="contact" size={15} />
-            {title}
-          </div>
-          {actions}
-        </div>
-        {onSearchChange && (
-          <div className={styles.searchRow}>
-            <Input
-              value={searchQuery}
-              onChange={(event) => onSearchChange(event.target.value)}
-              placeholder="Search contacts"
-              aria-label="Search contacts"
-            />
-          </div>
-        )}
-        <ScrollArea className={styles.listScroll}>
-          {filtered.length === 0 ? (
-            <EmptyState icon={<Icon name="contact" size={22} />} title="No contacts found" description="Try a different search." />
-          ) : (
-            filtered.map((contact) => (
-              <ContactRow
-                key={contact.id}
-                contact={contact}
-                active={contact.id === activeContactId}
-                onClick={() => {
-                  onSelectContact(contact.id);
-                  onDialChange(contact.phone);
-                }}
+        <ListPane
+          title={
+            <>
+              <Icon name="contact" size={15} />
+              {title}
+            </>
+          }
+          headerActions={actions}
+          toolbar={
+            onSearchChange ? (
+              <Input
+                value={searchQuery}
+                onChange={(event) => onSearchChange(event.target.value)}
+                placeholder="Search contacts"
+                aria-label="Search contacts"
               />
-            ))
-          )}
-        </ScrollArea>
+            ) : undefined
+          }
+        >
+          <ScrollArea className={styles.listScroll}>
+            {filtered.length === 0 ? (
+              <EmptyState icon={<Icon name="contact" size={22} />} title="No contacts found" description="Try a different search." />
+            ) : (
+              filtered.map((contact) => (
+                <ContactRow
+                  key={contact.id}
+                  contact={contact}
+                  active={contact.id === activeContactId}
+                  onClick={() => {
+                    onSelectContact(contact.id);
+                    onDialChange(contact.phone);
+                  }}
+                />
+              ))
+            )}
+          </ScrollArea>
+        </ListPane>
       </ResizablePane>
 
       <div className={styles.detailPane}>

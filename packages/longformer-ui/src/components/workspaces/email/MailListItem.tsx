@@ -2,6 +2,7 @@ import { cx } from "../../../utils/cx";
 import { Icon } from "../../../icons";
 import { Avatar } from "../../primitives/Avatar";
 import type { EmailThread } from "./types";
+import inboxStyles from "../../shell/ListPane/inboxListItem.module.css";
 import styles from "./MailListItem.module.css";
 
 export interface MailListItemProps {
@@ -13,16 +14,29 @@ export interface MailListItemProps {
 
 export function MailListItem({ thread, active = false, onClick, onToggleStar }: MailListItemProps) {
   return (
-    <button type="button" className={cx("lf-focusable", styles.item, active && styles.itemActive)} onClick={onClick}>
-      {thread.unread ? <span className={styles.unreadDot} aria-label="Unread" /> : <span style={{ width: 7 }} />}
+    <button
+      type="button"
+      className={cx(
+        "lf-focusable",
+        inboxStyles.row,
+        styles.item,
+        thread.unread && inboxStyles.rowUnread,
+        active && inboxStyles.rowActive,
+      )}
+      onClick={onClick}
+      aria-current={active ? "true" : undefined}
+    >
+      <span className={inboxStyles.unreadMarker} aria-hidden="true">
+        {thread.unread ? <span className={inboxStyles.unreadDot} /> : null}
+      </span>
       <Avatar name={thread.senderName} src={thread.senderAvatarSrc} size="md" />
-      <span className={styles.body}>
-        <span className={styles.topRow}>
-          <span className={cx(styles.sender, thread.unread && styles.senderUnread)}>{thread.senderName}</span>
-          <span className={styles.timestamp}>{thread.timestamp}</span>
+      <span className={inboxStyles.body}>
+        <span className={inboxStyles.topRow}>
+          <span className={inboxStyles.primary}>{thread.senderName}</span>
+          <span className={inboxStyles.timestamp}>{thread.timestamp}</span>
         </span>
-        <span className={styles.subject}>{thread.subject}</span>
-        <span className={styles.preview}>{thread.preview}</span>
+        <span className={cx(styles.subject, thread.unread && styles.subjectUnread)}>{thread.subject}</span>
+        <span className={inboxStyles.preview}>{thread.preview}</span>
       </span>
       <span
         role="button"

@@ -14,6 +14,8 @@ export interface WindowFrameProps {
   onClose?: () => void;
   onMinimize?: () => void;
   onMaximize?: () => void;
+  /** Returns to the phone home screen (app tiles). */
+  onShowHome?: () => void;
   allowDrag?: boolean;
   allowResize?: boolean;
   onTitlePointerDown?: (event: React.PointerEvent<HTMLElement>) => void;
@@ -37,6 +39,7 @@ export function WindowFrame({
   onClose,
   onMinimize,
   onMaximize,
+  onShowHome,
   allowDrag = false,
   allowResize = false,
   onTitlePointerDown,
@@ -56,7 +59,37 @@ export function WindowFrame({
       role="dialog"
       aria-label={title}
     >
-      {!isMobile && (
+      {isMobile ? (
+        <div
+          className={cx(styles.titleBar, styles.mobileTitleBar, allowDrag && styles.titleBarDraggable)}
+          onPointerDown={allowDrag ? onTitlePointerDown : undefined}
+        >
+          <div className={styles.mobileTitleCenter}>
+            <Icon name={icon} size={14} />
+            <span className={styles.titleText}>{title}</span>
+          </div>
+          {onShowHome && (
+            <button
+              type="button"
+              className={styles.mobileHome}
+              aria-label="Home screen"
+              onClick={onShowHome}
+              onPointerDown={(event) => event.stopPropagation()}
+            >
+              <Icon name="home" size={14} />
+            </button>
+          )}
+          <button
+            type="button"
+            className={styles.mobileClose}
+            aria-label="Close"
+            onClick={onClose}
+            onPointerDown={(event) => event.stopPropagation()}
+          >
+            <Icon name="close" size={14} />
+          </button>
+        </div>
+      ) : (
         <div
           className={cx(styles.titleBar, allowDrag && styles.titleBarDraggable)}
           onPointerDown={allowDrag ? onTitlePointerDown : undefined}

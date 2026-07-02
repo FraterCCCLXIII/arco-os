@@ -13,8 +13,8 @@ export interface MessageComposerProps {
 }
 
 /**
- * A compact, pill-shaped composer for 1:1/group messaging threads — deliberately
- * lighter than the AI Chat `Composer` (no model picker), matching Messenger/iMessage/Skype.
+ * Thread composer using the standard input surface — bordered field with
+ * controls below, matching the shared Input primitive styling.
  */
 export function MessageComposer({
   value,
@@ -33,10 +33,8 @@ export function MessageComposer({
 
   return (
     <div className={cx(styles.composer, className)}>
-      <IconButton icon="attach" label="Attach file" size="sm" />
       <div className={styles.textareaRow}>
         <Textarea
-          className={styles.textarea}
           value={value}
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={handleKeyDown}
@@ -46,15 +44,20 @@ export function MessageComposer({
           aria-label="Message"
         />
       </div>
-      <IconButton icon="mic" label="Voice message" size="sm" />
-      <IconButton
-        icon="send"
-        label="Send message"
-        variant="primary"
-        size="sm"
-        disabled={disabled || value.trim().length === 0}
-        onClick={onSubmit}
-      />
+      <div className={styles.controls}>
+        <div className={styles.controlsLeft}>
+          <IconButton icon="attach" label="Attach file" size="sm" />
+          <IconButton icon="mic" label="Voice message" size="sm" />
+        </div>
+        <IconButton
+          icon="send"
+          label="Send message"
+          variant="primary"
+          size="sm"
+          disabled={disabled || value.trim().length === 0}
+          onClick={onSubmit}
+        />
+      </div>
     </div>
   );
 }

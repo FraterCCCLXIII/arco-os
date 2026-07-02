@@ -102,18 +102,16 @@ export function SlackWorkspace({
         onSelectWorkspace={onSelectWorkspace}
       />
 
-      <aside className={styles.sidebar}>
-        <SlackSidebar
-          workspaceName={workspaceName}
-          navItems={navItems}
-          channels={channels}
-          directMessages={directMessages}
-          activeConversationId={activeConversationId}
-          onSelectConversation={onSelectConversation}
-          unreadMentionCount={unreadMentionCount}
-          currentUser={currentUser}
-        />
-      </aside>
+      <SlackSidebar
+        workspaceName={workspaceName}
+        navItems={navItems}
+        channels={channels}
+        directMessages={directMessages}
+        activeConversationId={activeConversationId}
+        onSelectConversation={onSelectConversation}
+        unreadMentionCount={unreadMentionCount}
+        currentUser={currentUser}
+      />
 
       <div className={styles.main}>
         {!hasConversation ? (

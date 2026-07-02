@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   AppShell,
   NavRail,
+  SidebarUserFooterMenu,
   ChatContextPanel,
   type ChatContextDrawerTab,
   DesktopWorkspace,
@@ -26,6 +27,14 @@ import {
   type MarketplaceCategoryId,
   type CreateAppPayload,
   type SlackMessage,
+  type SocialNetworkId,
+  type SocialPost,
+  type ScheduleItem,
+  type ScheduleStatusFilter,
+  type ScheduleView,
+  addDaysISO,
+  getWeekStart,
+  toISODate,
   useSurfaceManager,
 } from "longformer-ui";
 import { activeConversation, demoUsage, promptChips, assistantPromptChips, assistantConversationTabs } from "./mock-data/chat";
@@ -47,8 +56,21 @@ import {
   slackSenderToMemberId,
   slackWorkspaces,
 } from "./mock-data/slack";
+import {
+  facebookShortcuts,
+  facebookStories,
+  socialBirthdays,
+  socialContactsOnline,
+  socialNetworks,
+  socialNews,
+  socialPosts as initialSocialPosts,
+  socialSuggestions,
+  socialTrends,
+  twitterNavItems,
+} from "./mock-data/social";
 import { phoneContacts } from "./mock-data/contacts";
 import { calendarEvents } from "./mock-data/calendar";
+import { scheduleItems, scheduleProjects, weekStartISO as initialWeekStartISO } from "./mock-data/schedule";
 import { fileFolders } from "./mock-data/files";
 import { chatConversations, mailFolders, privatePages, recentPages, teamspacePages } from "./mock-data/sidebar";
 import { bankingWidgetTiles } from "./mock-data/banking-widgets";
@@ -69,9 +91,26 @@ import {
 import { settingsData } from "./mock-data/settings";
 import { walletExpenses } from "./mock-data/wallet";
 import { createWindowForApp, desktopIcons, initialSurfaceWindows, isDesktopLaunchableWorkspace } from "./mock-data/desktop";
-import { WORKSPACES, workspacesToDesktopApps, type WorkspaceId } from "./workspace-config";
+import {
+  WORKSPACES,
+  loadPinnedWorkspaceIds,
+  moveWorkspaceToOverflow,
+  moveWorkspaceToRail,
+  savePinnedWorkspaceIds,
+  splitWorkspacesByPinned,
+  workspacesToDesktopApps,
+  type WorkspaceId,
+} from "./workspace-config";
 import { buildWorkspaceLayout, buildWorkspaceWindowContent } from "./workspace-layout";
 import { bankDashboardData, cryptoWalletData } from "./mock-data/bank-crypto";
+import {
+  musicFeatured,
+  musicLibraryItems,
+  musicMixes,
+  musicNowPlaying,
+  musicQuickAccess,
+  musicUser,
+} from "./mock-data/music";
 
 interface DocFormatState {
   blockFormat: BlockFormat;
@@ -96,13 +135,13 @@ const APP_WORKSPACE: Partial<Record<string, WorkspaceId>> = {
   figma: "generated",
   github: "desktop",
   docker: "desktop",
-  spotify: "desktop",
+  spotify: "music",
   "1password": "desktop",
   analytics: "generated",
 } as Partial<Record<string, WorkspaceId>>;
 
 function LongformerApp() {
-  const { toggleTheme, theme } = useTheme();
+  const { setTheme, theme } = useTheme();
   const [workspaceId, setWorkspaceId] = useState<WorkspaceId>("chat");
 
   const [messages, setMessages] = useState<ChatMessage[]>(activeConversation);
@@ -131,10 +170,21 @@ function LongformerApp() {
   const [slackComposerValue, setSlackComposerValue] = useState("");
   const [slackProfileMemberId, setSlackProfileMemberId] = useState<string | null>(null);
 
+  const [activeSocialNetworkId, setActiveSocialNetworkId] = useState<SocialNetworkId>("twitter");
+  const [socialPosts, setSocialPosts] = useState<SocialPost[]>(initialSocialPosts);
+  const [socialComposerValue, setSocialComposerValue] = useState("");
+  const [socialFeedTab, setSocialFeedTab] = useState("for-you");
+
   const today = useMemo(() => new Date(), []);
   const [calendarMonth, setCalendarMonth] = useState(today.getMonth());
   const [calendarYear, setCalendarYear] = useState(today.getFullYear());
   const [selectedDate, setSelectedDate] = useState<string | undefined>(undefined);
+  const [weekStartISO, setWeekStartISO] = useState(initialWeekStartISO);
+  const [scheduleView, setScheduleView] = useState<ScheduleView>("week");
+  const [scheduleStatusFilter, setScheduleStatusFilter] = useState<ScheduleStatusFilter>("all");
+  const [selectedScheduleItem, setSelectedScheduleItem] = useState<ScheduleItem | null>(null);
+  const [selectedScheduleProjectId, setSelectedScheduleProjectId] = useState<string | undefined>(undefined);
+  const [scheduleItemsState, setScheduleItemsState] = useState(scheduleItems);
 
   const [assistantOpen, setAssistantOpen] = useState(false);
   const [contextDrawerOpen, setContextDrawerOpen] = useState(true);
@@ -165,6 +215,16 @@ function LongformerApp() {
     initialWindows: initialSurfaceWindows,
   });
   const [navRailExpanded, setNavRailExpanded] = useState(false);
+  const [pinnedWorkspaceIds, setPinnedWorkspaceIds] = useState<WorkspaceId[]>(() => loadPinnedWorkspaceIds());
+
+  useEffect(() => {
+    savePinnedWorkspaceIds(pinnedWorkspaceIds);
+  }, [pinnedWorkspaceIds]);
+
+  const { pinned: railWorkspaces, overflow: overflowWorkspaces } = useMemo(
+    () => splitWorkspacesByPinned(pinnedWorkspaceIds),
+    [pinnedWorkspaceIds],
+  );
 
   const [appsSubpage, setAppsSubpage] = useState<AppsSubpage>("installed");
   const [marketplaceCategory, setMarketplaceCategory] = useState<MarketplaceCategoryId>("featured");
@@ -307,6 +367,21 @@ function LongformerApp() {
     if (memberId) setSlackProfileMemberId(memberId);
   }
 
+  function handleSocialSubmit() {
+    if (!socialComposerValue.trim()) return;
+    const newPost: SocialPost = {
+      id: `social-${Date.now()}`,
+      authorId: "me",
+      authorName: "Paul Bloch",
+      authorHandle: "@paulblochxp",
+      timestamp: "Just now",
+      content: socialComposerValue.trim(),
+      stats: { replies: 0, reposts: 0, likes: 0, views: 0 },
+    };
+    setSocialPosts((prev) => [newPost, ...prev]);
+    setSocialComposerValue("");
+  }
+
   const activeSlackChannel = slackChannels.find((channel) => channel.id === activeSlackConversationId);
   const activeSlackDm = slackDirectMessages.find((dm) => dm.id === activeSlackConversationId);
   const activeSlackConversationTitle = activeSlackChannel
@@ -365,6 +440,15 @@ function LongformerApp() {
     setCalendarMonth(today.getMonth());
     setCalendarYear(today.getFullYear());
     setSelectedDate(undefined);
+    setWeekStartISO(toISODate(getWeekStart(new Date())));
+  }
+
+  function handlePrevWeek() {
+    setWeekStartISO((iso) => addDaysISO(iso, -7));
+  }
+
+  function handleNextWeek() {
+    setWeekStartISO((iso) => addDaysISO(iso, 7));
   }
 
   function handleOpenFile(file: FileItem) {
@@ -491,26 +575,42 @@ function LongformerApp() {
 
   const rail = (
     <NavRail
-      items={WORKSPACES}
+      items={railWorkspaces}
+      overflowItems={overflowWorkspaces}
       activeId={workspaceId}
       onSelect={(id) => setWorkspaceId(id as WorkspaceId)}
+      onMoveToRail={(id) => setPinnedWorkspaceIds((prev) => moveWorkspaceToRail(prev, id as WorkspaceId))}
+      onMoveToOverflow={(id) => setPinnedWorkspaceIds((prev) => moveWorkspaceToOverflow(prev, id as WorkspaceId))}
       expanded={navRailExpanded}
       onExpandedChange={setNavRailExpanded}
       brand="L"
+      utilities={
+        <IconButton
+          icon="sparkles"
+          label={assistantOpen ? "Hide AI conversation" : "Ask Longformer"}
+          aria-pressed={assistantOpen}
+          onClick={() => setAssistantOpen((open) => !open)}
+        />
+      }
       footer={
-        <>
-          <IconButton
-            icon="sparkles"
-            label={assistantOpen ? "Hide AI conversation" : "Ask Longformer"}
-            aria-pressed={assistantOpen}
-            onClick={() => setAssistantOpen((open) => !open)}
-          />
-          <IconButton
-            icon={theme === "dark" ? "sun" : "moon"}
-            label="Toggle theme"
-            onClick={toggleTheme}
-          />
-        </>
+        <SidebarUserFooterMenu
+          name="Paul Bloch"
+          meta="Longformer · Plus"
+          compact={!navRailExpanded}
+          theme={theme}
+          onThemeChange={setTheme}
+          items={[
+            {
+              id: "settings",
+              label: "Settings",
+              icon: "settings",
+              onSelect: () => setWorkspaceId("settings"),
+            },
+            { id: "profile", label: "Profile", icon: "contact" },
+            { id: "upgrade", label: "Upgrade plan", icon: "sparkles" },
+            { id: "logout", label: "Log out", icon: "external-link", danger: true, separatorAbove: true },
+          ]}
+        />
       }
     />
   );
@@ -550,6 +650,23 @@ function LongformerApp() {
       activeSlackProfileMember,
       setSlackProfileMemberId,
       handleOpenSlackProfile,
+      socialNetworks,
+      activeSocialNetworkId,
+      setActiveSocialNetworkId,
+      twitterNavItems,
+      facebookShortcuts,
+      facebookStories,
+      socialPosts,
+      socialTrends,
+      socialNews,
+      socialSuggestions,
+      socialBirthdays,
+      socialContactsOnline,
+      socialComposerValue,
+      setSocialComposerValue,
+      handleSocialSubmit,
+      socialFeedTab,
+      setSocialFeedTab,
       phoneContacts,
       activePhoneContactId,
       setActivePhoneContactId,
@@ -592,6 +709,20 @@ function LongformerApp() {
       selectedDate,
       setSelectedDate,
       calendarEvents,
+      scheduleItems: scheduleItemsState,
+      setScheduleItems: setScheduleItemsState,
+      scheduleProjects,
+      scheduleView,
+      setScheduleView,
+      scheduleStatusFilter,
+      setScheduleStatusFilter,
+      selectedScheduleItem,
+      setSelectedScheduleItem,
+      selectedScheduleProjectId,
+      setSelectedScheduleProjectId,
+      weekStartISO,
+      handlePrevWeek,
+      handleNextWeek,
       notifications,
       setNotifications,
       filesBreadcrumb,
@@ -604,6 +735,12 @@ function LongformerApp() {
       walletExpenses,
       bankDashboardData,
       cryptoWalletData,
+      musicUser,
+      musicLibraryItems,
+      musicQuickAccess,
+      musicFeatured,
+      musicMixes,
+      musicNowPlaying,
       generatedSchema,
       threads,
       activeThreadId,
@@ -629,6 +766,10 @@ function LongformerApp() {
       slackMessages,
       slackComposerValue,
       activeSlackProfileMember,
+      activeSocialNetworkId,
+      socialPosts,
+      socialComposerValue,
+      socialFeedTab,
       activePhoneContactId,
       contactSearch,
       dialValue,
@@ -646,6 +787,12 @@ function LongformerApp() {
       calendarMonth,
       calendarYear,
       selectedDate,
+      weekStartISO,
+      scheduleView,
+      scheduleStatusFilter,
+      selectedScheduleItem,
+      selectedScheduleProjectId,
+      scheduleItemsState,
       notifications,
       filesBreadcrumb,
       currentFolder,
@@ -678,7 +825,6 @@ function LongformerApp() {
         surfaceWindows={surface.renderableWindows}
         windows={surface.legacyWindows}
         activeWindowId={surface.activeWindowId}
-        wallpaperLabel="Longformer"
         status={{ wifi: true, bluetooth: true, batteryPercent: 84 }}
         onLaunchApp={handleLaunchDesktopApp}
         onSelectDesktopIcon={handleSelectDesktopIcon}

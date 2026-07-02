@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { cx } from "../../../utils/cx";
+import { AppIconTile } from "../../../app-tones/AppIconTile";
 import { Icon } from "../../../icons";
 import { Tooltip } from "../../primitives/Tooltip";
 import { TrayAppHoverCard, type TrayAppMenuActionHandlers } from "./TrayAppHoverCard";
@@ -29,14 +30,6 @@ export interface TaskTrayProps {
   floating?: boolean;
   className?: string;
 }
-
-const TONE_CLASS = {
-  accent: styles.toneAccent,
-  success: styles.toneSuccess,
-  warning: styles.toneWarning,
-  danger: styles.toneDanger,
-  neutral: styles.toneNeutral,
-} as const;
 
 function trayMenuHandlers(
   appId: string,
@@ -88,6 +81,9 @@ export function TaskTray({
 }: TaskTrayProps) {
   const openAppIds = new Set(windows.filter((w) => !w.minimized).map((w) => w.appId));
   const pinnedApps = apps.filter((app) => app.pinned !== false);
+  const isPhone = formFactor === "phone";
+  const showAppDock = !isPhone && !homeVisible;
+  const showPhoneHomeButton = isPhone && !homeVisible && Boolean(onMinimizeAll);
 
   if (shell === "android") {
     return (
@@ -113,7 +109,7 @@ export function TaskTray({
             <Icon name="layers" size={18} />
           </button>
         </div>
-        {!homeVisible && (
+        {showAppDock && (
         <div className={styles.androidShelf}>
           {pinnedApps.slice(0, 5).map((app) => {
             const running = openAppIds.has(app.id);
@@ -130,11 +126,11 @@ export function TaskTray({
             >
               <button
                 type="button"
-                className={cx(styles.trayIcon, TONE_CLASS[app.tone ?? "neutral"], running && styles.trayIconActive)}
+                className={cx(styles.trayIcon, running && styles.trayIconActive)}
                 aria-label={app.label}
                 onClick={() => onLaunchApp(app.id)}
               >
-                <Icon name={app.icon} size={18} />
+                <AppIconTile appId={app.id} icon={app.icon} size="dock" />
               </button>
             </TrayAppHoverCard>
             );
@@ -149,7 +145,7 @@ export function TaskTray({
   if (shell === "ios") {
     return (
       <footer className={cx(styles.tray, styles.ios, floating && styles.floating, className)} role="contentinfo">
-        {!homeVisible && (
+        {showAppDock && (
         <div className={styles.iosDock}>
           {pinnedApps.slice(0, 4).map((app) => {
             const running = openAppIds.has(app.id);
@@ -166,11 +162,11 @@ export function TaskTray({
             >
               <button
                 type="button"
-                className={cx(styles.trayIcon, styles.iosIcon, TONE_CLASS[app.tone ?? "neutral"], running && styles.trayIconActive)}
+                className={cx(styles.trayIcon, styles.iosIcon, running && styles.trayIconActive)}
                 aria-label={app.label}
                 onClick={() => onLaunchApp(app.id)}
               >
-                <Icon name={app.icon} size={20} />
+                <AppIconTile appId={app.id} icon={app.icon} size="dockMac" />
               </button>
             </TrayAppHoverCard>
             );
@@ -188,11 +184,21 @@ export function TaskTray({
             </button>
           </div>
         )}
+        {showPhoneHomeButton && (
+          <button
+            type="button"
+            className={styles.phoneHomeButton}
+            aria-label="Home screen"
+            onClick={onMinimizeAll}
+          >
+            <Icon name="home" size={18} />
+          </button>
+        )}
         <button
           type="button"
           className={styles.homeIndicator}
           aria-label="Home"
-          onClick={formFactor === "phone" ? onMinimizeAll : undefined}
+          onClick={isPhone ? onMinimizeAll : undefined}
         />
       </footer>
     );
@@ -238,13 +244,12 @@ export function TaskTray({
                 className={cx(
                   styles.trayIcon,
                   shell === "macos" && styles.macosIcon,
-                  TONE_CLASS[app.tone ?? "neutral"],
                   running && styles.trayIconActive,
                 )}
                 aria-label={app.label}
                 onClick={() => onLaunchApp(app.id)}
               >
-                <Icon name={app.icon} size={shell === "macos" ? 22 : 18} />
+                <AppIconTile appId={app.id} icon={app.icon} size={shell === "macos" ? "dockMac" : "dock"} />
                 {running && shell === "macos" && <span className={styles.dockDot} aria-hidden="true" />}
               </button>
             </TrayAppHoverCard>
@@ -338,9 +343,7 @@ function WindowsTaskTray({
                     else onLaunchApp(app.id);
                   }}
                 >
-                  <span className={cx(styles.windowsIcon, TONE_CLASS[app.tone ?? "neutral"])}>
-                    <Icon name={app.icon} size={14} />
-                  </span>
+                  <AppIconTile appId={app.id} icon={app.icon} size="taskbar" />
                 </button>
               </TrayAppHoverCard>
             );

@@ -147,6 +147,8 @@
   padding: 0;
   color: var(--lf-text-secondary);
   font-size: var(--lf-font-size-md);
+  container-type: inline-size;
+  container-name: lf-window;
 }
 
 .contentLegacy {
@@ -156,7 +158,76 @@
 
 .ios .contentLegacy,
 .android .contentLegacy {
-  padding: var(--lf-space-5);
+  padding: var(--lf-space-4);
+}
+
+.mobileTitleBar {
+  position: relative;
+  justify-content: space-between;
+  height: 44px;
+  padding: 0 var(--lf-space-3);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.ios .mobileTitleBar {
+  background: color-mix(in srgb, var(--lf-surface-1) 82%, transparent);
+  backdrop-filter: blur(16px);
+}
+
+.android .mobileTitleBar {
+  background: var(--lf-surface-2);
+}
+
+.mobileTitleCenter {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-2);
+  padding-right: var(--lf-space-8);
+  padding-left: var(--lf-space-8);
+  color: var(--lf-text-primary);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+}
+
+.mobileHome,
+.mobileClose {
+  position: absolute;
+  top: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--lf-text-primary) 10%, transparent);
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background var(--lf-duration-fast) var(--lf-ease),
+    color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.mobileHome {
+  left: 10px;
+}
+
+.mobileHome:hover {
+  background: color-mix(in srgb, var(--lf-accent) 18%, transparent);
+  color: var(--lf-accent);
+}
+
+.mobileClose {
+  right: 10px;
+}
+
+.mobileClose:hover {
+  background: color-mix(in srgb, var(--lf-danger) 18%, transparent);
+  color: var(--lf-danger);
 }
 
 .resizeHandle {

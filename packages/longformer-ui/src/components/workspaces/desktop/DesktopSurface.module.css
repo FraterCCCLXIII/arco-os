@@ -5,12 +5,15 @@
   overflow: hidden;
 }
 
+/* Let the wallpaper run behind the floating macOS dock while keeping window bounds. */
+.surface.macos {
+  margin-bottom: calc(-1 * var(--lf-macos-dock-chrome-height));
+  padding-bottom: var(--lf-macos-dock-chrome-height);
+}
+
 .wallpaper {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .wallpaperGradient {
@@ -24,13 +27,12 @@
   background: var(--lf-desktop-wallpaper-mobile);
 }
 
-.wallpaperLabel {
-  position: relative;
-  font-size: var(--lf-font-size-2xl);
-  font-weight: 700;
-  color: var(--lf-desktop-wallpaper-label);
-  letter-spacing: 0.04em;
-  user-select: none;
+.mobileAppsOpen {
+  background: var(--lf-surface-sunken);
+}
+
+.mobileAppsOpen .wallpaper {
+  display: none;
 }
 
 .iconGrid {
@@ -58,19 +60,12 @@
 }
 
 .iconTile {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
   border-radius: 12px;
-  background: var(--lf-desktop-icon-tile-bg);
-  backdrop-filter: blur(8px);
-  border: 1px solid var(--lf-desktop-icon-tile-border);
+  transition: transform var(--lf-duration-fast) var(--lf-ease);
 }
 
 .desktopIcon:hover .iconTile {
-  background: var(--lf-desktop-icon-tile-bg-hover);
+  transform: translateY(-2px) scale(1.04);
 }
 
 .iconLabel {
@@ -154,10 +149,6 @@
 
 .watch {
   border-radius: 36px;
-}
-
-.widget .wallpaperLabel {
-  opacity: 0.04;
 }
 
 .widgetBoard {

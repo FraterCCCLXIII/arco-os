@@ -4,11 +4,17 @@
  * agent-generated.
  */
 
+import type { AppIconHue } from "../../../app-tones/app-tones";
+import type { IconName } from "../../../icons";
+import type { WidgetTile } from "../../workspaces/desktop/widget-types";
+
 export interface PhoneApp {
   id: string;
   name: string;
-  /** Index into the built-in gradient palette. */
-  colorIndex: number;
+  icon?: IconName;
+  hue?: AppIconHue;
+  /** @deprecated Prefer `hue` — legacy index into the demo gradient palette. */
+  colorIndex?: number;
 }
 
 export interface PhoneFolder {
@@ -46,6 +52,8 @@ export interface PhoneHomeScreenProps {
   hideStatusBar?: boolean;
   /** Show the drag-to-folder hint footer. */
   showHint?: boolean;
+  /** Swipeable widget columns shown to the left of the app grid. */
+  widgetColumns?: WidgetTile[][];
   onLayoutChange?: (layout: PhoneHomeLayout) => void;
   onAppLaunch?: (appId: string) => void;
 }

@@ -13,6 +13,7 @@ import {
 } from "react";
 import { createPortal } from "react-dom";
 import { cx } from "../../../utils/cx";
+import { AppIconTile } from "../../../app-tones/AppIconTile";
 import { getPortalContainer } from "../../../utils/getPortalContainer";
 import { Icon } from "../../../icons";
 import type { DesktopApp, DesktopWindow } from "./types";
@@ -23,14 +24,6 @@ import {
   type TrayAppProfile,
 } from "./tray-menu-data";
 import styles from "./TrayAppHoverCard.module.css";
-
-const TONE_CLASS = {
-  accent: styles.toneAccent,
-  success: styles.toneSuccess,
-  warning: styles.toneWarning,
-  danger: styles.toneDanger,
-  neutral: styles.toneNeutral,
-} as const;
 
 export interface TrayAppHoverCardProps extends TrayAppMenuActionHandlers {
   app: DesktopApp;
@@ -126,10 +119,8 @@ function TrayAppMenuPanel({
     <div className={styles.menu} role="menu" aria-label={`${app.label} menu`}>
       <MenuRow
         label={
-          <span className={styles.menuHeaderLabel}>
-            <span className={cx(styles.menuHeaderIcon, TONE_CLASS[app.tone ?? "neutral"])}>
-              <Icon name={app.icon} size={14} />
-            </span>
+            <span className={styles.menuHeaderLabel}>
+            <AppIconTile appId={app.id} icon={app.icon} size="xs" className={styles.menuHeaderIcon} />
             {app.label}
           </span>
         }

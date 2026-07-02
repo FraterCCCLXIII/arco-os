@@ -8,7 +8,7 @@ import {
   EditorToolbar,
   EmailWorkspace,
   FilesWorkspace,
-  GeneratedUIWorkspace,
+  DesignSystemWorkspace,
   Icon,
   MARKETPLACE_CATEGORIES,
   MessagesWorkspace,
@@ -19,9 +19,11 @@ import {
   SettingsWorkspace,
   SidebarUserFooter,
   SlackWorkspace,
+  SocialWorkspace,
   ScheduleWorkspace,
   TasksWorkspace,
   WalletWorkspace,
+  MusicWorkspace,
   type AppsSubpage,
   type BlockFormat,
   type ChatMessage,
@@ -39,6 +41,7 @@ import {
   type TextMark,
 } from "longformer-ui";
 import type { WorkspaceId } from "./workspace-config";
+import type { SocialNetworkId } from "longformer-ui";
 
 export interface WorkspaceLayoutOptions {
   /** Include workspace sidebars (false for desktop window embedding). */
@@ -80,6 +83,23 @@ export interface WorkspaceLayoutViewModel {
   activeSlackProfileMember: unknown;
   setSlackProfileMemberId: (id: string | null) => void;
   handleOpenSlackProfile: (senderId: string) => void;
+  socialNetworks: unknown[];
+  activeSocialNetworkId: SocialNetworkId;
+  setActiveSocialNetworkId: (id: SocialNetworkId) => void;
+  twitterNavItems: unknown[];
+  facebookShortcuts: unknown[];
+  facebookStories: unknown[];
+  socialPosts: unknown[];
+  socialTrends: unknown[];
+  socialNews: unknown[];
+  socialSuggestions: unknown[];
+  socialBirthdays: unknown;
+  socialContactsOnline: unknown[];
+  socialComposerValue: string;
+  setSocialComposerValue: (value: string) => void;
+  handleSocialSubmit: () => void;
+  socialFeedTab: string;
+  setSocialFeedTab: (tab: string) => void;
   phoneContacts: { id: string; name: string; phone: string }[];
   activePhoneContactId: string;
   setActivePhoneContactId: (id: string) => void;
@@ -123,6 +143,7 @@ export interface WorkspaceLayoutViewModel {
   setSelectedDate: (date?: string) => void;
   calendarEvents: unknown[];
   scheduleItems: ScheduleItem[];
+  setScheduleItems: React.Dispatch<React.SetStateAction<ScheduleItem[]>>;
   scheduleProjects: ScheduleProject[];
   scheduleView: ScheduleView;
   setScheduleView: (view: ScheduleView) => void;
@@ -147,6 +168,12 @@ export interface WorkspaceLayoutViewModel {
   walletExpenses: unknown[];
   bankDashboardData: unknown;
   cryptoWalletData: unknown;
+  musicUser: unknown;
+  musicLibraryItems: unknown[];
+  musicQuickAccess: unknown[];
+  musicFeatured: unknown;
+  musicMixes: unknown[];
+  musicNowPlaying: unknown;
   generatedSchema: unknown;
   threads: { id: string; starred?: boolean }[];
   activeThreadId: string;
@@ -247,6 +274,32 @@ export function buildWorkspaceLayout(
           onProfileClose={() => vm.setSlackProfileMemberId(null)}
           onOpenProfile={vm.handleOpenSlackProfile}
           currentUser={{ name: "Paul Bloch", status: "online" }}
+        />
+      );
+      break;
+
+    case "social":
+      sidebar = undefined;
+      main = (
+        <SocialWorkspace
+          networks={vm.socialNetworks as never}
+          activeNetworkId={vm.activeSocialNetworkId as never}
+          onSelectNetwork={vm.setActiveSocialNetworkId}
+          twitterNavItems={vm.twitterNavItems as never}
+          facebookShortcuts={vm.facebookShortcuts as never}
+          facebookStories={vm.facebookStories as never}
+          posts={vm.socialPosts as never}
+          trends={vm.socialTrends as never}
+          news={vm.socialNews as never}
+          suggestions={vm.socialSuggestions as never}
+          birthdays={vm.socialBirthdays as never}
+          contactsOnline={vm.socialContactsOnline as never}
+          composerValue={vm.socialComposerValue}
+          onComposerChange={vm.setSocialComposerValue}
+          onComposerSubmit={vm.handleSocialSubmit}
+          feedTab={vm.socialFeedTab}
+          onFeedTabChange={vm.setSocialFeedTab}
+          currentUser={{ name: "Paul Bloch", handle: "@paulblochxp" }}
         />
       );
       break;
@@ -484,6 +537,128 @@ export function buildWorkspaceLayout(
       );
       break;
 
+    case "schedule":
+      sidebar = includeSidebar ? (
+        <NavSidebar
+          quickLinks={[
+            {
+              id: "inbox",
+              label: "Inbox",
+              icon: "inbox",
+              onClick: () => vm.setWorkspaceId("notifications"),
+            },
+            {
+              id: "calendar",
+              label: "Calendar",
+              icon: "calendar",
+              active: true,
+            },
+          ]}
+          sections={[
+            {
+              id: "channels",
+              title: "My channels",
+              items: [
+                { id: "dashboard", label: "Dashboard", leading: <Icon name="grid" size={14} /> },
+                {
+                  id: "tasks",
+                  label: "Tasks",
+                  leading: <Icon name="check" size={14} />,
+                  onClick: () => vm.setWorkspaceId("tasks"),
+                },
+                {
+                  id: "messages",
+                  label: "Messages",
+                  leading: <Icon name="chat" size={14} />,
+                  onClick: () => vm.setWorkspaceId("messages"),
+                },
+                {
+                  id: "groups",
+                  label: "Groups",
+                  leading: <Icon name="hash" size={14} />,
+                  onClick: () => vm.setWorkspaceId("slack"),
+                },
+                {
+                  id: "notifications",
+                  label: "Notifications",
+                  leading: <Icon name="bell" size={14} />,
+                  onClick: () => vm.setWorkspaceId("notifications"),
+                },
+                {
+                  id: "settings",
+                  label: "Settings",
+                  leading: <Icon name="settings" size={14} />,
+                  onClick: () => vm.setWorkspaceId("settings"),
+                },
+              ],
+            },
+            {
+              id: "favourites",
+              title: "Favourites",
+              items: vm.scheduleProjects.map((project) => ({
+                id: project.id,
+                label: project.name,
+                leading: (
+                  <span
+                    style={{
+                      width: 10,
+                      height: 10,
+                      borderRadius: 2,
+                      background: project.color,
+                      flexShrink: 0,
+                    }}
+                    aria-hidden="true"
+                  />
+                ),
+                active: vm.selectedScheduleProjectId === project.id,
+                onClick: () =>
+                  vm.setSelectedScheduleProjectId(
+                    vm.selectedScheduleProjectId === project.id ? undefined : project.id,
+                  ),
+              })),
+            },
+          ]}
+          footer={<SidebarUserFooter name="Paul Bloch" meta="Visual Designer · Longformer" />}
+        />
+      ) : undefined;
+      main = (
+        <ScheduleWorkspace
+          weekStartISO={vm.weekStartISO}
+          month={vm.calendarMonth}
+          year={vm.calendarYear}
+          items={vm.scheduleItems}
+          projects={vm.scheduleProjects}
+          view={vm.scheduleView}
+          onViewChange={vm.setScheduleView}
+          statusFilter={vm.scheduleStatusFilter}
+          onStatusFilterChange={vm.setScheduleStatusFilter}
+          selectedProjectId={vm.selectedScheduleProjectId}
+          onPrevWeek={vm.handlePrevWeek}
+          onNextWeek={vm.handleNextWeek}
+          onPrevMonth={vm.handlePrevMonth}
+          onNextMonth={vm.handleNextMonth}
+          onToday={vm.handleToday}
+          selectedDate={vm.selectedDate}
+          onSelectDate={vm.setSelectedDate}
+          selectedItem={vm.selectedScheduleItem}
+          onSelectItem={vm.setSelectedScheduleItem}
+          onToggleComplete={(id) =>
+            vm.setScheduleItems((prev) =>
+              prev.map((item) =>
+                item.id === id
+                  ? { ...item, status: item.status === "closed" ? "backlog" : "closed" }
+                  : item,
+              ),
+            )
+          }
+          onConfirmAttending={() => vm.setSelectedScheduleItem(null)}
+          onDeclineAttending={() => vm.setSelectedScheduleItem(null)}
+          onNewProject={() => undefined}
+          unreadUpdates={3}
+        />
+      );
+      break;
+
     case "files":
       sidebar = undefined;
       main = (
@@ -514,6 +689,20 @@ export function buildWorkspaceLayout(
         <BankCryptoWorkspace
           bank={vm.bankDashboardData as never}
           crypto={vm.cryptoWalletData as never}
+        />
+      );
+      break;
+
+    case "music":
+      sidebar = undefined;
+      main = (
+        <MusicWorkspace
+          user={vm.musicUser as never}
+          libraryItems={vm.musicLibraryItems as never}
+          quickAccess={vm.musicQuickAccess as never}
+          featured={vm.musicFeatured as never}
+          mixes={vm.musicMixes as never}
+          nowPlaying={vm.musicNowPlaying as never}
         />
       );
       break;
@@ -563,7 +752,7 @@ export function buildWorkspaceLayout(
     case "generated":
     default:
       sidebar = undefined;
-      main = <GeneratedUIWorkspace schema={vm.generatedSchema as never} />;
+      main = <DesignSystemWorkspace generatedSchema={vm.generatedSchema as never} />;
       break;
   }
 

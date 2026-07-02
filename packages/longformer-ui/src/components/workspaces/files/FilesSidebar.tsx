@@ -1,7 +1,6 @@
 import { Icon, type IconName } from "../../../icons";
 import { Button } from "../../primitives/Button";
-import { ListItem } from "../../primitives/ListItem";
-import { ScrollArea } from "../../primitives/ScrollArea";
+import { NavSidebar } from "../../shell/NavSidebar";
 import type { FilesLocation } from "./types";
 import styles from "./FilesSidebar.module.css";
 
@@ -32,45 +31,38 @@ export function FilesSidebar({
   const usedPercent = 22;
 
   return (
-    <aside className={styles.sidebar} aria-label="Files navigation">
-      <div className={styles.header}>
-        {onNewFile && (
-          <Button variant="secondary" fullWidth onClick={onNewFile} style={{ justifyContent: "flex-start" }}>
-            <Icon name="plus" size={15} />
-            New
+    <NavSidebar
+      className={styles.sidebar}
+      primaryAction={onNewFile ? { label: "New", icon: "plus", onClick: onNewFile } : undefined}
+      sections={[
+        {
+          id: "locations",
+          items: LOCATIONS.map((item) => ({
+            id: item.id,
+            label: item.label,
+            leading: <Icon name={item.icon} size={15} />,
+            active: location === item.id,
+            onClick: () => onLocationChange(item.id),
+          })),
+        },
+      ]}
+      footer={
+        <div className={styles.storage}>
+          <div className={styles.storageLabel}>
+            <Icon name="globe" size={14} />
+            Storage
+          </div>
+          <div className={styles.storageMeter} aria-hidden="true">
+            <span className={styles.storageFill} style={{ width: `${usedPercent}%` }} />
+          </div>
+          <div className={styles.storageMeta}>
+            {storageUsedLabel} of {storageTotalLabel} used
+          </div>
+          <Button variant="ghost" size="sm" fullWidth>
+            Get more storage
           </Button>
-        )}
-      </div>
-
-      <ScrollArea className={styles.nav}>
-        <div className={styles.sectionItems}>
-          {LOCATIONS.map((item) => (
-            <ListItem
-              key={item.id}
-              leading={<Icon name={item.icon} size={15} />}
-              label={item.label}
-              active={location === item.id}
-              onClick={() => onLocationChange(item.id)}
-            />
-          ))}
         </div>
-      </ScrollArea>
-
-      <div className={styles.storage}>
-        <div className={styles.storageLabel}>
-          <Icon name="globe" size={14} />
-          Storage
-        </div>
-        <div className={styles.storageMeter} aria-hidden="true">
-          <span className={styles.storageFill} style={{ width: `${usedPercent}%` }} />
-        </div>
-        <div className={styles.storageMeta}>
-          {storageUsedLabel} of {storageTotalLabel} used
-        </div>
-        <Button variant="ghost" size="sm" fullWidth>
-          Get more storage
-        </Button>
-      </div>
-    </aside>
+      }
+    />
   );
 }

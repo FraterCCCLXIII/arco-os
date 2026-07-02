@@ -47,6 +47,10 @@
   background: var(--lf-surface-sunken);
 }
 
+.deviceScreen[data-shell="macos"] {
+  background: transparent;
+}
+
 .deviceScreen[data-form-factor="tablet"] {
   border-radius: 24px;
 }

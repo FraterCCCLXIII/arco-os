@@ -68,13 +68,6 @@ export function BankDashboardView({ data }: BankDashboardViewProps) {
         </header>
 
         <div className={styles.content}>
-          <div className={styles.welcomeRow}>
-            <h1 className={styles.welcome}>Welcome, {data.userName.split(" ")[0]}</h1>
-            <button type="button" className={styles.customizeLink}>
-              Customize
-            </button>
-          </div>
-
           <div className={styles.quickActions}>
             {data.quickActions.map((action) => (
               <button

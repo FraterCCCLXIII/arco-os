@@ -3,9 +3,9 @@ import { PHONE_RECT } from "./desktop";
 
 export const phonePolicy: WindowPolicy = {
   formFactor: "phone",
-  allowDrag: false,
+  allowDrag: true,
   allowResize: false,
-  maxVisible: 1,
+  maxVisible: Infinity,
   defaultPlacement() {
     return { ...PHONE_RECT };
   },
@@ -41,14 +41,19 @@ export function phoneVisibleWindowIds(state: {
   windows: SurfaceWindow[];
   phoneStack: string[];
 }): string[] {
-  const baseTop = state.phoneStack[state.phoneStack.length - 1];
+  const baseIds = state.phoneStack.filter((id) => {
+    const window = state.windows.find((entry) => entry.id === id);
+    return window && window.layer === "base" && window.state !== "minimized";
+  });
+
   const overlays = state.windows
     .filter((w) => (w.layer === "sheet" || w.layer === "modal") && w.state !== "minimized")
     .sort((a, b) => a.stackOrder - b.stackOrder)
     .map((w) => w.id);
 
-  if (!baseTop) {
+  if (baseIds.length === 0) {
     return overlays;
   }
-  return [baseTop, ...overlays];
+
+  return [...baseIds, ...overlays];
 }

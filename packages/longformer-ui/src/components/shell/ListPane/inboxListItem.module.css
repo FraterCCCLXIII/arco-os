@@ -1,0 +1,120 @@
+.row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lf-space-3);
+  width: 100%;
+  padding: var(--lf-space-3);
+  border: none;
+  border-radius: var(--lf-radius-lg);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background var(--lf-duration-fast) var(--lf-ease),
+    box-shadow var(--lf-duration-fast) var(--lf-ease);
+}
+
+.row:hover {
+  background: var(--lf-surface-2);
+}
+
+.rowActive {
+  background: var(--lf-surface-2);
+  box-shadow: inset 0 0 0 1px var(--lf-border-default);
+}
+
+.rowActive::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 58%;
+  min-height: 18px;
+  max-height: 30px;
+  border-radius: 0 var(--lf-radius-pill) var(--lf-radius-pill) 0;
+  background: var(--lf-accent);
+}
+
+.rowUnread {
+  background: var(--lf-accent-muted);
+}
+
+.rowUnread:hover,
+.rowUnread.rowActive {
+  background: color-mix(in srgb, var(--lf-accent-muted) 70%, var(--lf-surface-2));
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.topRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.primary {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rowUnread .primary {
+  font-weight: 700;
+}
+
+.timestamp {
+  flex-shrink: 0;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.rowUnread .timestamp {
+  color: var(--lf-accent);
+  font-weight: 600;
+}
+
+.preview {
+  margin-top: 3px;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: var(--lf-line-height-tight);
+}
+
+.rowUnread .preview {
+  color: var(--lf-text-secondary);
+}
+
+.unreadMarker {
+  flex-shrink: 0;
+  width: 8px;
+  margin-top: 7px;
+}
+
+.unreadDot {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-accent);
+  box-shadow: 0 0 0 2px var(--lf-accent-muted);
+}
+
+.trailing {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  align-self: center;
+}

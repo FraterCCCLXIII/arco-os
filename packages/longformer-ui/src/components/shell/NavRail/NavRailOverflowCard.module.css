@@ -1,0 +1,123 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.collapsedWrapper {
+  width: auto;
+}
+
+.panel {
+  position: fixed;
+  z-index: var(--lf-z-overlay);
+  width: 240px;
+  max-height: min(420px, calc(100vh - 24px));
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--lf-radius-lg);
+  border: 1px solid var(--lf-border-default);
+  background: var(--lf-surface-overlay);
+  box-shadow: var(--lf-shadow-lg);
+  overflow: hidden;
+}
+
+.header {
+  flex-shrink: 0;
+  padding: var(--lf-space-3) var(--lf-space-3) var(--lf-space-2);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.title {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.hint {
+  margin-top: 2px;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--lf-space-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.empty {
+  padding: var(--lf-space-4) var(--lf-space-3);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  text-align: center;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.rowMain {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  flex: 1;
+  min-width: 0;
+  min-height: 36px;
+  padding: 0 var(--lf-space-2);
+  border: none;
+  border-radius: var(--lf-radius-md);
+  background: transparent;
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+  text-align: left;
+}
+
+.rowMain:hover {
+  background: var(--lf-surface-2);
+  color: var(--lf-text-primary);
+}
+
+.rowActive {
+  background: var(--lf-accent-muted);
+  color: var(--lf-text-primary);
+}
+
+.rowIcon {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.rowLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--lf-font-size-sm);
+}
+
+.pinButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--lf-text-tertiary);
+  cursor: pointer;
+}
+
+.pinButton:hover {
+  background: var(--lf-surface-3);
+  color: var(--lf-accent);
+}

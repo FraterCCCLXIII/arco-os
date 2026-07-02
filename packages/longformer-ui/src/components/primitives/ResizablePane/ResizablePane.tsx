@@ -58,7 +58,7 @@ export function ResizablePane({
   return (
     <div
       className={cx(styles.wrapper, handleSide === "left" && styles.handleLeft, className)}
-      style={{ width }}
+      style={{ width: `min(100%, ${width}px)` }}
     >
       {handleSide === "left" && (
         <ResizeHandle

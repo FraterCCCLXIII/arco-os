@@ -1,0 +1,131 @@
+.tile {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--lf-app-icon-border);
+  color: var(--lf-text-on-accent);
+  box-shadow: var(--lf-app-icon-shadow);
+  transition:
+    transform var(--lf-duration-fast) var(--lf-ease),
+    box-shadow var(--lf-duration-fast) var(--lf-ease),
+    filter var(--lf-duration-fast) var(--lf-ease);
+}
+
+.tileLight {
+  color: rgba(20, 20, 24, 0.92);
+}
+
+.xs {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.sm {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--lf-radius-md);
+}
+
+.md {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--lf-radius-lg);
+}
+
+.lg {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+}
+
+.xl {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+}
+
+.dock {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+.dockMac {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+}
+
+.taskbar {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+}
+
+.hueBlue {
+  background: linear-gradient(155deg, var(--lf-app-hue-blue-from), var(--lf-app-hue-blue-to));
+}
+
+.hueIndigo {
+  background: linear-gradient(155deg, var(--lf-app-hue-indigo-from), var(--lf-app-hue-indigo-to));
+}
+
+.hueViolet {
+  background: linear-gradient(155deg, var(--lf-app-hue-violet-from), var(--lf-app-hue-violet-to));
+}
+
+.huePurple {
+  background: linear-gradient(155deg, var(--lf-app-hue-purple-from), var(--lf-app-hue-purple-to));
+}
+
+.hueTeal {
+  background: linear-gradient(155deg, var(--lf-app-hue-teal-from), var(--lf-app-hue-teal-to));
+}
+
+.hueGreen {
+  background: linear-gradient(155deg, var(--lf-app-hue-green-from), var(--lf-app-hue-green-to));
+}
+
+.hueLime {
+  background: linear-gradient(155deg, var(--lf-app-hue-lime-from), var(--lf-app-hue-lime-to));
+}
+
+.hueAmber {
+  background: linear-gradient(155deg, var(--lf-app-hue-amber-from), var(--lf-app-hue-amber-to));
+}
+
+.hueOrange {
+  background: linear-gradient(155deg, var(--lf-app-hue-orange-from), var(--lf-app-hue-orange-to));
+}
+
+.hueRose {
+  background: linear-gradient(155deg, var(--lf-app-hue-rose-from), var(--lf-app-hue-rose-to));
+}
+
+.hueCyan {
+  background: linear-gradient(155deg, var(--lf-app-hue-cyan-from), var(--lf-app-hue-cyan-to));
+}
+
+.hueSky {
+  background: linear-gradient(155deg, var(--lf-app-hue-sky-from), var(--lf-app-hue-sky-to));
+}
+
+.hueGold {
+  background: linear-gradient(155deg, var(--lf-app-hue-gold-from), var(--lf-app-hue-gold-to));
+}
+
+.hueEmerald {
+  background: linear-gradient(155deg, var(--lf-app-hue-emerald-from), var(--lf-app-hue-emerald-to));
+}
+
+.hueSlate {
+  background: linear-gradient(155deg, var(--lf-app-hue-slate-from), var(--lf-app-hue-slate-to));
+  color: var(--lf-text-primary);
+}
+
+.hueGraphite {
+  background: linear-gradient(155deg, var(--lf-app-hue-graphite-from), var(--lf-app-hue-graphite-to));
+  color: var(--lf-text-primary);
+}

@@ -1,10 +1,13 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useMemo, useEffect, useRef, useState } from "react";
 import { Icon } from "../../../icons";
 import { Avatar } from "../../primitives/Avatar";
 import { IconButton } from "../../primitives/IconButton";
+import { Input } from "../../primitives/Input";
 import { ScrollArea } from "../../primitives/ScrollArea";
 import { ResizablePane } from "../../primitives/ResizablePane";
 import { EmptyState } from "../../primitives/EmptyState";
+import { ListPane } from "../../shell/ListPane";
+import listPaneStyles from "../../shell/ListPane/ListPane.module.css";
 import { ContactListItem } from "./ContactListItem";
 import { DirectMessageBubble } from "./DirectMessageBubble";
 import { MessageComposer } from "./MessageComposer";
@@ -22,6 +25,9 @@ export interface MessagesWorkspaceProps {
   onSubmit: () => void;
   onCall?: (contactId: string) => void;
   onVideoCall?: (contactId: string) => void;
+  onCompose?: () => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
   disabled?: boolean;
   listPaneWidth?: number;
   defaultListPaneWidth?: number;
@@ -44,20 +50,55 @@ export function MessagesWorkspace({
   onSubmit,
   onCall,
   onVideoCall,
+  onCompose,
+  searchQuery: searchQueryProp,
+  onSearchChange,
   disabled = false,
   listPaneWidth,
   defaultListPaneWidth = 320,
   onListPaneWidthChange,
 }: MessagesWorkspaceProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [internalSearch, setInternalSearch] = useState("");
+  const searchQuery = searchQueryProp ?? internalSearch;
+  const setSearchQuery = onSearchChange ?? setInternalSearch;
+
   const activeContact = useMemo(
     () => contacts.find((contact) => contact.id === activeContactId),
-    [contacts, activeContactId]
+    [contacts, activeContactId],
   );
+
+  const filteredContacts = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return contacts;
+
+    return contacts.filter(
+      (contact) =>
+        contact.name.toLowerCase().includes(query) ||
+        contact.lastMessage?.toLowerCase().includes(query),
+    );
+  }, [contacts, searchQuery]);
+
+  const { unreadContacts, readContacts } = useMemo(() => {
+    const unread = filteredContacts.filter((contact) => (contact.unreadCount ?? 0) > 0);
+    const read = filteredContacts.filter((contact) => (contact.unreadCount ?? 0) === 0);
+    return { unreadContacts: unread, readContacts: read };
+  }, [filteredContacts]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages.length]);
+
+  function renderContactList(items: MessageContact[]) {
+    return items.map((contact) => (
+      <ContactListItem
+        key={contact.id}
+        contact={contact}
+        active={contact.id === activeContactId}
+        onClick={() => onSelectContact(contact.id)}
+      />
+    ));
+  }
 
   return (
     <div className={styles.workspace}>
@@ -65,24 +106,65 @@ export function MessagesWorkspace({
         width={listPaneWidth}
         defaultWidth={defaultListPaneWidth}
         onWidthChange={onListPaneWidthChange}
-        minWidth={240}
+        minWidth={260}
         maxWidth={480}
         handleSide="right"
         className={styles.listResizable}
-        paneClassName={styles.list}
         handleLabel="Resize contacts list"
       >
-        <div className={styles.listHeader}>{contactsTitle}</div>
-        <ScrollArea className={styles.listScroll}>
-          {contacts.map((contact) => (
-            <ContactListItem
-              key={contact.id}
-              contact={contact}
-              active={contact.id === activeContactId}
-              onClick={() => onSelectContact(contact.id)}
+        <ListPane
+          className={styles.listPane}
+          bodyClassName={listPaneStyles.bodyInset}
+          title={
+            <>
+              <Icon name="users" size={16} />
+              {contactsTitle}
+            </>
+          }
+          headerActions={
+            <IconButton icon="plus" label="New message" size="sm" onClick={onCompose} />
+          }
+          toolbar={
+            <Input
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder="Search conversations"
+              aria-label="Search conversations"
+              startSlot={<Icon name="search" size={14} />}
             />
-          ))}
-        </ScrollArea>
+          }
+        >
+          <ScrollArea className={styles.listScroll}>
+            <div className={styles.listInner}>
+              {filteredContacts.length === 0 ? (
+                <EmptyState
+                  icon={<Icon name="search" size={20} />}
+                  title="No conversations found"
+                  description="Try a different name or message preview."
+                />
+              ) : (
+                <>
+                  {unreadContacts.length > 0 && (
+                    <section className={styles.listSection}>
+                      <h3 className={styles.listSectionLabel}>Unread</h3>
+                      {renderContactList(unreadContacts)}
+                    </section>
+                  )}
+                  {readContacts.length > 0 && (
+                    <section className={styles.listSection}>
+                      {unreadContacts.length > 0 && (
+                        <h3 className={styles.listSectionLabel}>
+                          {searchQuery.trim() ? "Results" : "Recent"}
+                        </h3>
+                      )}
+                      {renderContactList(readContacts)}
+                    </section>
+                  )}
+                </>
+              )}
+            </div>
+          </ScrollArea>
+        </ListPane>
       </ResizablePane>
       <div className={styles.thread}>
         {!activeContact ? (

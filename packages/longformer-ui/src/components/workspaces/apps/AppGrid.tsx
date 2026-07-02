@@ -15,6 +15,7 @@ export function AppGrid({ apps, runningAppIds, onLaunchApp }: AppGridProps) {
       {apps.map((app) => (
         <AppIcon
           key={app.id}
+          appId={app.id}
           icon={app.icon}
           label={app.label}
           labelPlacement="below"

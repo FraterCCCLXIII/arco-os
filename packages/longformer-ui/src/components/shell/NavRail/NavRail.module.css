@@ -23,11 +23,15 @@
 .brandRow {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-1);
+  width: 100%;
   margin-bottom: var(--lf-space-4);
   flex-shrink: 0;
 }
 
 .collapsed .brandRow {
+  flex-direction: column;
   justify-content: center;
 }
 
@@ -52,6 +56,12 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.items::-webkit-scrollbar {
+  display: none;
 }
 
 .collapsed .items {
@@ -108,6 +118,70 @@
   color: var(--lf-text-primary);
 }
 
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.expanded .itemRow .itemButton {
+  flex: 1;
+  min-width: 0;
+}
+
+.unpinButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--lf-text-tertiary);
+  cursor: pointer;
+  opacity: 0;
+  transition:
+    opacity var(--lf-duration-fast) var(--lf-ease),
+    background var(--lf-duration-fast) var(--lf-ease),
+    color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.itemRow:hover .unpinButton,
+.unpinButton:focus-visible {
+  opacity: 1;
+}
+
+.unpinButton:hover {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+}
+
+.overflowButton {
+  margin-top: var(--lf-space-1);
+}
+
+.overflowButtonOpen {
+  background: var(--lf-surface-2);
+  color: var(--lf-text-primary);
+}
+
+.overflowCount {
+  margin-left: auto;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-surface-3);
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  line-height: 18px;
+  text-align: center;
+}
+
 .collapsed .itemActive::before {
   content: "";
   position: absolute;
@@ -124,23 +198,37 @@
   display: flex;
   flex-direction: column;
   gap: var(--lf-space-2);
-  padding-top: var(--lf-space-2);
   flex-shrink: 0;
+  margin: var(--lf-space-2) calc(-1 * var(--lf-space-2)) calc(-1 * var(--lf-space-3));
+  padding: var(--lf-space-2);
+  border-top: 1px solid var(--lf-border-subtle);
+}
+
+.footerUtilities {
+  display: flex;
+  gap: var(--lf-space-1);
 }
 
 .collapsed .footer {
   align-items: center;
 }
 
+.collapsed .footerUtilities {
+  flex-direction: column;
+  align-items: center;
+}
+
 .expanded .footer {
-  align-items: flex-start;
+  align-items: stretch;
 }
 
 .toggleButton {
   display: flex;
   align-items: center;
-  gap: var(--lf-space-2);
+  justify-content: center;
+  width: 32px;
   height: 32px;
+  margin-left: auto;
   border: none;
   background: transparent;
   border-radius: var(--lf-radius-md);
@@ -150,14 +238,7 @@
 }
 
 .collapsed .toggleButton {
-  width: 32px;
-  justify-content: center;
-}
-
-.expanded .toggleButton {
-  width: 100%;
-  padding: 0 var(--lf-space-2);
-  justify-content: flex-start;
+  margin-left: 0;
 }
 
 .toggleButton:hover {

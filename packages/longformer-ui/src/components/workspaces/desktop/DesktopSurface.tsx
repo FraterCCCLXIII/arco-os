@@ -1,6 +1,6 @@
 import { useCallback, useRef, type ReactNode } from "react";
 import { cx } from "../../../utils/cx";
-import { Icon } from "../../../icons";
+import { AppIconTile } from "../../../app-tones/AppIconTile";
 import {
   computeZIndex,
   useWindowDrag,
@@ -12,6 +12,7 @@ import {
 } from "../../../surface-manager";
 import type { ResizeEdge } from "../../../surface-manager/useWindowResize";
 import { WindowFrame } from "./WindowFrame";
+import { MobileWindowCarousel } from "./MobileWindowCarousel";
 import { WidgetDesktopView, type WidgetTile } from "./WidgetDesktopView";
 import { MobileHomeScreen } from "./MobileHomeScreen";
 import { useWindowTransitions } from "./useWindowTransitions";
@@ -22,7 +23,6 @@ export interface DesktopSurfaceProps {
   shell: DesktopShell;
   formFactor?: FormFactor;
   policy?: WindowPolicy;
-  wallpaperLabel?: string;
   icons: DesktopIconItem[];
   apps?: DesktopApp[];
   windows: SurfaceWindow[];
@@ -37,6 +37,8 @@ export interface DesktopSurfaceProps {
   onResizeWindow?: (windowId: string, rect: SurfaceRect) => void;
   onNextGlance?: () => void;
   onPrevGlance?: () => void;
+  /** Minimize open apps and show the phone home screen. */
+  onShowMobileHome?: () => void;
   widgetTiles?: WidgetTile[];
   renderWindowContent?: (window: SurfaceWindow) => ReactNode;
   className?: string;
@@ -58,6 +60,7 @@ interface SurfaceWindowViewProps {
   inactiveGlance?: boolean;
   transitionClassName?: string;
   renderWindowContent?: (window: SurfaceWindow) => ReactNode;
+  onShowHome?: () => void;
 }
 
 function SurfaceWindowView({
@@ -76,6 +79,7 @@ function SurfaceWindowView({
   inactiveGlance,
   transitionClassName,
   renderWindowContent,
+  onShowHome,
 }: SurfaceWindowViewProps) {
   const drag = useWindowDrag({
     rect: window.rect,
@@ -174,6 +178,7 @@ function SurfaceWindowView({
       onClose={onClose}
       onMinimize={onMinimize}
       onMaximize={onMaximize}
+      onShowHome={onShowHome}
       allowDrag={allowDrag}
       allowResize={allowResize}
       onTitlePointerDown={drag.onPointerDown}
@@ -208,7 +213,6 @@ export function DesktopSurface({
   shell,
   formFactor = "desktop",
   policy,
-  wallpaperLabel = "Longformer",
   icons,
   apps = [],
   windows,
@@ -223,6 +227,7 @@ export function DesktopSurface({
   onResizeWindow,
   onNextGlance,
   onPrevGlance,
+  onShowMobileHome,
   widgetTiles = [],
   renderWindowContent,
   className,
@@ -242,6 +247,11 @@ export function DesktopSurface({
     !hasVisibleBaseWindow &&
     apps.length > 0 &&
     Boolean(onLaunchApp);
+  const showMobileCarousel = formFactor === "phone" && isMobile;
+  const mobileAppsOpen = showMobileCarousel && hasVisibleBaseWindow;
+  const mobileHomeHandler = showMobileCarousel && hasVisibleBaseWindow ? onShowMobileHome : undefined;
+  const baseWindows = displayWindows.filter((window) => window.layer === "base");
+  const overlayWindows = displayWindows.filter((window) => window.layer !== "base");
 
   const handleWatchSwipe = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
@@ -275,13 +285,13 @@ export function DesktopSurface({
         styles[shell],
         formFactor === "watch" && styles.watch,
         formFactor === "widget" && styles.widget,
+        mobileAppsOpen && styles.mobileAppsOpen,
         className,
       )}
       onPointerDown={formFactor === "watch" ? handleWatchSwipe : undefined}
     >
       <div className={styles.wallpaper} aria-hidden="true">
         <div className={styles.wallpaperGradient} />
-        <span className={styles.wallpaperLabel}>{wallpaperLabel}</span>
       </div>
 
       {!isMobile && formFactor === "desktop" && (
@@ -294,9 +304,7 @@ export function DesktopSurface({
               onDoubleClick={() => onSelectIcon(icon.id)}
               onClick={() => onSelectIcon(icon.id)}
             >
-              <span className={styles.iconTile}>
-                <Icon name={icon.icon} size={22} />
-              </span>
+              <AppIconTile appId={icon.appId} icon={icon.icon} size="lg" className={styles.iconTile} />
               <span className={styles.iconLabel}>{icon.label}</span>
             </button>
           ))}
@@ -308,11 +316,36 @@ export function DesktopSurface({
       )}
 
       {showMobileHome && (
-        <MobileHomeScreen shell={shell} apps={apps} onLaunchApp={onLaunchApp!} />
+        <MobileHomeScreen shell={shell} apps={apps} widgetTiles={widgetTiles} onLaunchApp={onLaunchApp!} />
+      )}
+
+      {showMobileCarousel && baseWindows.length > 0 && (
+        <MobileWindowCarousel
+          shell={shell}
+          windows={baseWindows}
+          activeWindowId={activeWindowId}
+          onFocusWindow={onFocusWindow}
+          onCloseWindow={onCloseWindow}
+          onMinimizeWindow={onMinimizeWindow}
+          renderWindowContent={renderWindowContent}
+          getTransitionClassName={(windowId) => {
+            const transition = getTransition(windowId);
+            return transition === "enter"
+              ? styles.windowEnter
+              : transition === "close"
+                ? styles.windowClose
+                : transition === "minimize"
+                  ? styles.windowMinimize
+                  : undefined;
+          }}
+          onRequestClose={requestClose}
+          onRequestMinimize={requestMinimize}
+          onShowHome={mobileHomeHandler}
+        />
       )}
 
       {formFactor !== "widget" &&
-        displayWindows.map((window) => {
+        (showMobileCarousel ? overlayWindows : displayWindows).map((window) => {
           const transition = getTransition(window.id);
           const transitionClassName =
             transition === "enter"
@@ -329,7 +362,12 @@ export function DesktopSurface({
               shell={shell}
               window={window}
               active={window.id === activeWindowId}
-              allowDrag={allowDrag && transition !== "close" && transition !== "minimize"}
+              allowDrag={
+                allowDrag &&
+                !(showMobileCarousel && window.layer !== "base") &&
+                transition !== "close" &&
+                transition !== "minimize"
+              }
               allowResize={allowResize && transition !== "close" && transition !== "minimize"}
               containerRef={containerRef}
               onFocus={() => onFocusWindow(window.id)}
@@ -341,6 +379,7 @@ export function DesktopSurface({
               inactiveGlance={formFactor === "watch" && window.id !== activeWindowId}
               transitionClassName={transitionClassName}
               renderWindowContent={renderWindowContent}
+              onShowHome={mobileHomeHandler}
             />
           );
         })}

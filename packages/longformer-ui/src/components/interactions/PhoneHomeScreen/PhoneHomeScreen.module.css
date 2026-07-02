@@ -145,6 +145,13 @@
   padding: calc(var(--status-h) + 7px) 8px 7px;
 }
 
+.widgetPage {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-content: stretch;
+  padding-top: calc(var(--status-h) + 12px);
+}
+
 .app,
 .folder {
   position: relative;
@@ -154,6 +161,7 @@
 }
 
 .appIcon,
+.appIconButton,
 .folderApps {
   margin: auto;
   border: none;
@@ -161,16 +169,21 @@
   -webkit-tap-highlight-color: transparent;
 }
 
+.appIconButton {
+  padding: 0;
+  background: transparent;
+}
+
 .appIcon {
   width: 60px;
   height: 60px;
-  border-radius: 9px;
-  background-image: linear-gradient(#dde, #aab);
-  transition: filter 0.12s ease;
+  border-radius: 14px;
+  transition: filter var(--lf-duration-fast) var(--lf-ease);
 }
 
+.appIconButton:active:not(.dragging) .appIcon,
 .appIcon:active:not(.dragging) {
-  filter: brightness(0.7);
+  filter: brightness(0.82);
 }
 
 .appName,
@@ -183,6 +196,7 @@
 }
 
 .dropTarget .appIcon,
+.dropTarget .appIconButton,
 .dropTarget .folderApps {
   outline: 2px solid rgba(255, 255, 255, 0.85);
   outline-offset: 2px;

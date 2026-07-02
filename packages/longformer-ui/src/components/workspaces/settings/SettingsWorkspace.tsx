@@ -9,6 +9,7 @@ import { IconButton } from "../../primitives/IconButton";
 import { Input } from "../../primitives/Input";
 import { ListItem } from "../../primitives/ListItem";
 import { ScrollArea } from "../../primitives/ScrollArea";
+import { NavSidebar, SidebarUserFooterBar } from "../../shell/NavSidebar";
 import { cx } from "../../../utils/cx";
 import type {
   SettingsContentSection,
@@ -407,11 +408,11 @@ export function SettingsWorkspace({
 
   return (
     <div className={styles.workspace}>
-      <aside className={styles.sidebar}>
-        <ScrollArea className={styles.sidebarScroll}>
-          <div className={styles.sidebarInner}>
+      <NavSidebar
+        className={styles.sidebar}
+        header={
+          <>
             <ProfileHeader user={data.user} />
-
             <Input
               type="search"
               placeholder="Search"
@@ -421,28 +422,27 @@ export function SettingsWorkspace({
               startSlot={<Icon name="search" size={14} />}
               wrapperClassName={styles.searchInput}
             />
-
-            {filteredNav.map((group) => (
-              <div key={group.id} className={styles.navGroup}>
-                {group.label && <div className={styles.navGroupLabel}>{group.label}</div>}
-                <div className={styles.navItems}>
-                  {group.items.map((item) => (
-                    <NavButton
-                      key={item.id}
-                      item={item}
-                      activeSectionId={activeSectionId}
-                      expandedParentId={expandedParentId}
-                      onSelect={handleSelectSection}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </ScrollArea>
-
-        {sidebarFooter ?? <DefaultSidebarFooter user={data.user} />}
-      </aside>
+          </>
+        }
+        sections={filteredNav.map((group) => ({
+          id: group.id,
+          title: group.label,
+          content: (
+            <div className={styles.navItems}>
+              {group.items.map((item) => (
+                <NavButton
+                  key={item.id}
+                  item={item}
+                  activeSectionId={activeSectionId}
+                  expandedParentId={expandedParentId}
+                  onSelect={handleSelectSection}
+                />
+              ))}
+            </div>
+          ),
+        }))}
+        footer={sidebarFooter ?? <DefaultSidebarFooter user={data.user} />}
+      />
 
       <div className={styles.main}>
         <header className={styles.mainHeader}>
@@ -491,22 +491,23 @@ function ProfileHeader({ user }: { user: SettingsUserProfile }) {
 
 function DefaultSidebarFooter({ user }: { user: SettingsUserProfile }) {
   return (
-    <div className={styles.sidebarFooter}>
-      <Avatar name={user.name} src={user.avatarSrc} size="sm" status="online" />
-      <div className={styles.sidebarFooterMeta}>
-        <div className={styles.sidebarFooterName}>{user.name}</div>
-        <div className={styles.sidebarFooterStatus}>
-          <Badge tone="success" dot>
-            Online
-          </Badge>
-        </div>
-      </div>
-      <div className={styles.sidebarFooterActions}>
-        <IconButton icon="mic" label="Mute" size="sm" />
-        <IconButton icon="volume" label="Deafen" size="sm" />
-        <IconButton icon="settings" label="User settings" size="sm" />
-      </div>
-    </div>
+    <SidebarUserFooterBar
+      name={user.name}
+      avatarSrc={user.avatarSrc}
+      status="online"
+      meta={
+        <Badge tone="success" dot>
+          Online
+        </Badge>
+      }
+      actions={
+        <>
+          <IconButton icon="mic" label="Mute" size="sm" />
+          <IconButton icon="volume" label="Deafen" size="sm" />
+          <IconButton icon="settings" label="User settings" size="sm" />
+        </>
+      }
+    />
   );
 }
 

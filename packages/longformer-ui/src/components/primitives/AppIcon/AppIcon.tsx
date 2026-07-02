@@ -1,6 +1,8 @@
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
 import { cx } from "../../../utils/cx";
-import { Icon, type IconName } from "../../../icons";
+import { AppIconTile } from "../../../app-tones/AppIconTile";
+import { resolveAppIconHue, badgeToneToHue, type AppIconHue } from "../../../app-tones/app-tones";
+import type { IconName } from "../../../icons";
 import { CountBadge, type BadgeTone } from "../Badge";
 import { Tooltip } from "../Tooltip";
 import styles from "./AppIcon.module.css";
@@ -10,6 +12,8 @@ export type AppIconSize = "sm" | "md" | "lg";
 export interface AppIconProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, "children"> {
   /** Glyph to draw when no `image` is supplied. */
   icon?: IconName;
+  /** Stable app id — resolves the canonical launcher hue when set. */
+  appId?: string;
   /** Fully custom glyph (emoji, initials, inline svg) — takes precedence over `icon`. */
   glyph?: ReactNode;
   /** Photo/artwork to fill the tile, e.g. a favicon or app screenshot. */
@@ -20,6 +24,7 @@ export interface AppIconProps extends Omit<ButtonHTMLAttributes<HTMLButtonElemen
   labelPlacement?: "below" | "none";
   size?: AppIconSize;
   tone?: BadgeTone;
+  hue?: AppIconHue;
   /** Small dot under the tile, e.g. "this app is running". */
   running?: boolean;
   /** Overlay count badge, e.g. unread notifications. */
@@ -27,6 +32,12 @@ export interface AppIconProps extends Omit<ButtonHTMLAttributes<HTMLButtonElemen
   /** Selected/highlighted state. */
   active?: boolean;
 }
+
+const TILE_SIZE: Record<AppIconSize, "sm" | "md" | "xl"> = {
+  sm: "sm",
+  md: "md",
+  lg: "xl",
+};
 
 /**
  * The single tile primitive shared by every "grid of apps" surface — app
@@ -37,12 +48,14 @@ export interface AppIconProps extends Omit<ButtonHTMLAttributes<HTMLButtonElemen
 export const AppIcon = forwardRef<HTMLButtonElement, AppIconProps>(function AppIcon(
   {
     icon,
+    appId,
     glyph,
     image,
     label,
     labelPlacement = "none",
     size = "md",
     tone = "accent",
+    hue,
     running = false,
     badgeCount,
     active = false,
@@ -51,18 +64,13 @@ export const AppIcon = forwardRef<HTMLButtonElement, AppIconProps>(function AppI
   },
   ref
 ) {
+  const resolvedHue = hue ?? (appId ? resolveAppIconHue(appId) : badgeToneToHue(tone));
+
   const button = (
     <button
       ref={ref}
       type="button"
-      className={cx(
-        "lf-focusable",
-        styles.tile,
-        styles[size],
-        !image && styles[tone],
-        active && styles.active,
-        className
-      )}
+      className={cx("lf-focusable", styles.tile, styles[size], active && styles.active, className)}
       aria-label={rest["aria-label"] ?? label}
       {...rest}
     >
@@ -71,7 +79,7 @@ export const AppIcon = forwardRef<HTMLButtonElement, AppIconProps>(function AppI
       ) : glyph ? (
         <span className={styles.glyph}>{glyph}</span>
       ) : icon ? (
-        <Icon name={icon} size={size === "sm" ? 16 : size === "lg" ? 28 : 20} />
+        <AppIconTile icon={icon} hue={resolvedHue} size={TILE_SIZE[size]} className={styles.iconTile} />
       ) : null}
       {typeof badgeCount === "number" && <CountBadge count={badgeCount} className={styles.badge} />}
     </button>

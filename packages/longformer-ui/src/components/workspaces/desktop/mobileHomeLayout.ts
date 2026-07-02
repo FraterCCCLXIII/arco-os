@@ -1,15 +1,17 @@
 import type { PhoneHomeItem, PhoneHomeLayout } from "../../interactions/PhoneHomeScreen";
+import { resolveAppIconHue } from "../../../app-tones/app-tones";
 import type { DesktopApp } from "./types";
 
 const APPS_PER_PAGE = 16;
 
-function toPhoneApp(app: DesktopApp, colorIndex: number) {
+function toPhoneApp(app: DesktopApp): PhoneHomeItem {
   return {
-    type: "app" as const,
+    type: "app",
     app: {
       id: app.id,
       name: app.label,
-      colorIndex,
+      icon: app.icon,
+      hue: resolveAppIconHue(app.id),
     },
   };
 }
@@ -20,7 +22,7 @@ export function layoutFromDesktopApps(apps: DesktopApp[]): PhoneHomeLayout {
   const dockApps = pinned.slice(0, 4);
   const gridApps = apps.filter((app) => !dockApps.some((dockApp) => dockApp.id === app.id));
 
-  const pageItems: PhoneHomeItem[] = gridApps.map((app, index) => toPhoneApp(app, index));
+  const pageItems: PhoneHomeItem[] = gridApps.map((app) => toPhoneApp(app));
   const pages: PhoneHomeItem[][] = [];
 
   for (let index = 0; index < pageItems.length; index += APPS_PER_PAGE) {
@@ -33,6 +35,6 @@ export function layoutFromDesktopApps(apps: DesktopApp[]): PhoneHomeLayout {
 
   return {
     pages,
-    dock: dockApps.map((app, index) => toPhoneApp(app, index)),
+    dock: dockApps.map((app) => toPhoneApp(app)),
   };
 }

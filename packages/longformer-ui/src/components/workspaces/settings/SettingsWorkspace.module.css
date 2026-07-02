@@ -1,6 +1,4 @@
 .workspace {
-  --settings-sidebar-width: 280px;
-  --settings-sidebar-bg: var(--lf-surface-1);
   --settings-content-bg: var(--lf-surface-1);
   --settings-link: #00a8fc;
   --settings-divider: var(--lf-border-subtle);
@@ -18,25 +16,8 @@
 }
 
 .sidebar {
-  width: var(--settings-sidebar-width);
   flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  background: var(--settings-sidebar-bg);
   border-right: 1px solid var(--settings-divider);
-  min-height: 0;
-}
-
-.sidebarScroll {
-  flex: 1;
-  min-height: 0;
-}
-
-.sidebarInner {
-  display: flex;
-  flex-direction: column;
-  gap: var(--lf-space-3);
-  padding: var(--lf-space-3);
 }
 
 .profile {
@@ -72,20 +53,7 @@
 }
 
 .searchInput {
-  margin-bottom: var(--lf-space-1);
-}
-
-.navGroup + .navGroup {
-  margin-top: var(--lf-space-1);
-}
-
-.navGroupLabel {
-  padding: var(--lf-space-2) var(--lf-space-2) var(--lf-space-1);
-  font-size: var(--lf-font-size-xs);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--lf-text-tertiary);
+  margin-bottom: 0;
 }
 
 .navItems {
@@ -134,35 +102,6 @@
   letter-spacing: 0.02em;
   height: auto;
   padding: 2px 6px;
-}
-
-.sidebarFooter {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: var(--lf-space-2);
-  padding: var(--lf-space-3);
-  border-top: 1px solid var(--settings-divider);
-  background: var(--lf-surface-sunken);
-}
-
-.sidebarFooterMeta {
-  flex: 1;
-  min-width: 0;
-}
-
-.sidebarFooterName {
-  font-size: var(--lf-font-size-sm);
-  font-weight: 600;
-}
-
-.sidebarFooterStatus {
-  margin-top: 2px;
-}
-
-.sidebarFooterActions {
-  display: flex;
-  gap: var(--lf-space-1);
 }
 
 .main {

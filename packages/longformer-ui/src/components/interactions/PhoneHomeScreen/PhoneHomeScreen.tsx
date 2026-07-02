@@ -15,11 +15,14 @@ import {
   type PointerEvent as ReactPointerEvent,
 } from "react";
 import { cx } from "../../../utils/cx";
+import { AppIconTile } from "../../../app-tones/AppIconTile";
+import { MobileHomeWidgetColumn } from "../../workspaces/desktop/MobileHomeWidgetColumn";
 import {
   createDefaultPhoneHomeLayout,
   folderOpenTransform,
   gradientForApp,
   mergeHomeItems,
+  phoneAppHue,
 } from "./utils";
 import type {
   PhoneApp,
@@ -60,6 +63,18 @@ function AppIconView({
   className?: string;
   dragging?: boolean;
 }) {
+  if (app.icon) {
+    return (
+      <AppIconTile
+        appId={app.id}
+        icon={app.icon}
+        hue={phoneAppHue(app)}
+        size="xl"
+        className={cx(styles.appIcon, dragging && styles.dragging, className)}
+      />
+    );
+  }
+
   return (
     <div
       className={cx(styles.appIcon, dragging && styles.dragging, className)}
@@ -121,11 +136,12 @@ function HomeItemView({
       >
         <button
           type="button"
-          className={styles.appIcon}
-          style={{ backgroundImage: gradientForApp(item.app) }}
+          className={styles.appIconButton}
           aria-label={item.app.name}
           onPointerDown={(event) => onPointerDown(event, location, item)}
-        />
+        >
+          <AppIconView app={item.app} />
+        </button>
         <div className={styles.appName}>{item.app.name}</div>
       </div>
     );
@@ -187,6 +203,7 @@ function HomeItemView({
 export function PhoneHomeScreen({
   layout: layoutProp,
   pageCount = 2,
+  widgetColumns = [],
   carrier = "No Service",
   wallpaperUrl,
   className,
@@ -199,7 +216,9 @@ export function PhoneHomeScreen({
   const [layout, setLayout] = useState<PhoneHomeLayout>(
     () => layoutProp ?? createDefaultPhoneHomeLayout(pageCount),
   );
-  const [activePage, setActivePage] = useState(0);
+  const widgetPageCount = widgetColumns.length;
+  const totalPageCount = widgetPageCount + layout.pages.length;
+  const [activePage, setActivePage] = useState(widgetPageCount);
   const [openFolder, setOpenFolder] = useState<OpenFolderState | null>(null);
   const [dragState, setDragState] = useState<DragState | null>(null);
   const [dropTarget, setDropTarget] = useState<PhoneHomeLocation | null>(null);
@@ -214,6 +233,12 @@ export function PhoneHomeScreen({
   useEffect(() => {
     if (layoutProp) setLayout(layoutProp);
   }, [layoutProp]);
+
+  useEffect(() => {
+    setActivePage((page) => Math.min(Math.max(widgetPageCount, page), totalPageCount - 1));
+  }, [totalPageCount, widgetPageCount]);
+
+  const onWidgetPage = activePage < widgetPageCount;
 
   const updateLayout = useCallback(
     (next: PhoneHomeLayout) => {
@@ -358,14 +383,14 @@ export function PhoneHomeScreen({
       const delta = event.clientX - swipeStartX.current;
       if (Math.abs(delta) > 48) {
         setActivePage((page) => {
-          if (delta < 0) return Math.min(layout.pages.length - 1, page + 1);
+          if (delta < 0) return Math.min(totalPageCount - 1, page + 1);
           return Math.max(0, page - 1);
         });
         setOpenFolder(null);
       }
       swipeStartX.current = null;
     },
-    [dragState?.active, layout.pages.length],
+    [dragState?.active, totalPageCount],
   );
 
   const screenStyle = {
@@ -401,6 +426,11 @@ export function PhoneHomeScreen({
         onPointerDown={onPagesPointerDown}
         onPointerUp={onPagesPointerUp}
       >
+        {widgetColumns.map((column, columnIndex) => (
+          <div key={`widgets-${columnIndex}`} className={cx(styles.page, styles.widgetPage)}>
+            <MobileHomeWidgetColumn widgets={column} />
+          </div>
+        ))}
         {layout.pages.map((page, pageIndex) => (
           <div key={`page-${pageIndex}`} className={styles.page}>
             {page.map((item, itemIndex) => (
@@ -423,13 +453,13 @@ export function PhoneHomeScreen({
       </div>
 
       <div className={styles.pagination} role="tablist" aria-label="Home screen pages">
-        {layout.pages.map((_, pageIndex) => (
+        {Array.from({ length: totalPageCount }, (_, pageIndex) => (
           <button
             key={`dot-${pageIndex}`}
             type="button"
             role="tab"
             aria-selected={pageIndex === activePage}
-            aria-label={`Page ${pageIndex + 1}`}
+            aria-label={pageIndex < widgetPageCount ? `Widgets ${pageIndex + 1}` : `Page ${pageIndex - widgetPageCount + 1}`}
             className={cx(styles.pageDot, pageIndex === activePage && styles.pageDotActive)}
             onClick={() => {
               setActivePage(pageIndex);
@@ -441,10 +471,7 @@ export function PhoneHomeScreen({
         ))}
       </div>
 
-      <div
-        className={styles.bottomBar}
-        style={{ transform: `translateX(calc(${activePage} * 100%))` }}
-      >
+      <div className={styles.bottomBar}>
         {layout.dock.map((item, itemIndex) => (
           <HomeItemView
             key={locationKey({ zone: "dock", itemIndex })}
@@ -472,7 +499,9 @@ export function PhoneHomeScreen({
         </div>
       )}
 
-      {showHint && <div className={styles.hint}>Drag an icon onto another to create a folder</div>}
+      {showHint && !onWidgetPage && (
+        <div className={styles.hint}>Drag an icon onto another to create a folder</div>
+      )}
     </div>
   );
 }

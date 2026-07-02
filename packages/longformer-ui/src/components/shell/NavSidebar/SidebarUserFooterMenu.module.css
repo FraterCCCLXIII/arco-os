@@ -1,0 +1,113 @@
+.wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.compact {
+  width: auto;
+}
+
+.panel {
+  position: fixed;
+  z-index: var(--lf-z-overlay);
+  min-width: 220px;
+  background: var(--lf-surface-overlay);
+  border: 1px solid var(--lf-border-default);
+  border-radius: var(--lf-radius-md);
+  box-shadow: var(--lf-shadow-lg);
+  padding: var(--lf-space-1);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2);
+  margin-bottom: var(--lf-space-1);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.headerBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.headerName {
+  font-size: var(--lf-font-size-md);
+  color: var(--lf-text-primary);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.headerMeta {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.themeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2);
+  border-radius: var(--lf-radius-sm);
+}
+
+.themeRowLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  font-size: var(--lf-font-size-md);
+  color: var(--lf-text-primary);
+}
+
+.themeRowIcon {
+  display: flex;
+  color: var(--lf-text-tertiary);
+}
+
+.themeSegment {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-surface-3);
+  gap: 2px;
+}
+
+.themeSegmentButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 24px;
+  border: none;
+  border-radius: var(--lf-radius-pill);
+  background: transparent;
+  color: var(--lf-text-tertiary);
+  cursor: pointer;
+  transition:
+    background var(--lf-duration-fast) var(--lf-ease),
+    color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.themeSegmentButton:hover {
+  color: var(--lf-text-primary);
+}
+
+.themeSegmentButtonActive {
+  background: var(--lf-surface-1);
+  color: var(--lf-text-primary);
+  box-shadow: var(--lf-shadow-sm);
+}

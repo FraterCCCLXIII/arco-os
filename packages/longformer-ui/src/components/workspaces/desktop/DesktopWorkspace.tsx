@@ -24,7 +24,6 @@ export interface DesktopWorkspaceProps {
   windows: DesktopWindow[];
   activeWindowId?: string;
   status?: DesktopStatus;
-  wallpaperLabel?: string;
   onLaunchApp: (appId: string) => void;
   onSelectDesktopIcon: (iconId: string) => void;
   onFocusWindow: (windowId: string) => void;
@@ -61,7 +60,6 @@ export function DesktopWorkspace({
   windows,
   activeWindowId,
   status,
-  wallpaperLabel,
   onLaunchApp,
   onSelectDesktopIcon,
   onFocusWindow,
@@ -116,6 +114,7 @@ export function DesktopWorkspace({
       <div className={styles.deviceStage}>
         <div
           className={styles.deviceScreen}
+          data-shell={shell}
           data-form-factor={formFactor}
           style={
             fixedFrame
@@ -131,7 +130,6 @@ export function DesktopWorkspace({
             shell={shell}
             formFactor={formFactor}
             policy={policy}
-            wallpaperLabel={wallpaperLabel}
             icons={desktopIcons}
             apps={apps}
             windows={displayWindows}
@@ -146,6 +144,7 @@ export function DesktopWorkspace({
             onResizeWindow={onResizeWindow}
             onNextGlance={onNextGlance}
             onPrevGlance={onPrevGlance}
+            onShowMobileHome={onMinimizeAll}
             widgetTiles={widgetTiles}
             renderWindowContent={renderWindowContent}
           />

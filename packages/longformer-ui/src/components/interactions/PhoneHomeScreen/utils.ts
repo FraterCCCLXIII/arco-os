@@ -1,10 +1,7 @@
-/**
- * Layout helpers for PhoneHomeScreen — random seeding, folder merge logic,
- * and grid math for the folder zoom animation.
- */
-
 import type { PhoneApp, PhoneFolder, PhoneHomeItem, PhoneHomeLayout, PhoneHomeLocation } from "./types";
+import { APP_ICON_HUES, resolveAppIconHue, type AppIconHue } from "../../../app-tones/app-tones";
 
+/** @deprecated Demo-only gradients — prefer `AppIconTile` with canonical hues. */
 export const ICON_GRADIENTS: readonly [string, string][] = [
   ["#eddf44", "#ecba45"],
   ["#82e8d1", "#25ce93"],
@@ -34,10 +31,16 @@ export function nextId(prefix: string) {
   return `${prefix}-${idCounter}`;
 }
 
+function demoHue(seed: number): AppIconHue {
+  return APP_ICON_HUES[seed % APP_ICON_HUES.length] ?? "blue";
+}
+
 function createApp(colorSeed: number): PhoneApp {
   return {
     id: nextId("app"),
     name: "App",
+    icon: "app-window",
+    hue: demoHue(colorSeed),
     colorIndex: colorSeed % ICON_GRADIENTS.length,
   };
 }
@@ -82,9 +85,17 @@ export function createDefaultPhoneHomeLayout(pageCount = 2): PhoneHomeLayout {
   return { pages, dock };
 }
 
+/** Legacy gradient helper for demo apps without icon metadata. */
 export function gradientForApp(app: PhoneApp) {
-  const pair = ICON_GRADIENTS[app.colorIndex % ICON_GRADIENTS.length];
+  if (app.hue) {
+    return `linear-gradient(155deg, var(--lf-app-hue-${app.hue}-from), var(--lf-app-hue-${app.hue}-to))`;
+  }
+  const pair = ICON_GRADIENTS[(app.colorIndex ?? 0) % ICON_GRADIENTS.length];
   return `linear-gradient(${pair[0]}, ${pair[1]})`;
+}
+
+export function phoneAppHue(app: PhoneApp): AppIconHue {
+  return app.hue ?? resolveAppIconHue(app.id);
 }
 
 export function folderOpenTransform(location: PhoneHomeLocation) {

@@ -1,0 +1,699 @@
+.workspace {
+  --social-rail-bg: var(--lf-surface-sunken);
+  --social-sidebar-bg: var(--lf-surface-1);
+  --social-accent: var(--lf-accent);
+
+  height: 100%;
+  display: flex;
+  min-height: 0;
+  background: var(--lf-surface-canvas);
+}
+
+/* ── Network rail ── */
+
+.rail {
+  flex-shrink: 0;
+  width: 68px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--lf-space-3) var(--lf-space-2);
+  background: var(--social-rail-bg);
+  border-right: 1px solid var(--lf-border-subtle);
+}
+
+.railNetworks {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lf-space-2);
+  width: 100%;
+}
+
+.railNetwork {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: var(--lf-radius-lg);
+  background: var(--social-accent, var(--lf-surface-3));
+  color: var(--lf-text-on-accent);
+  font-size: var(--lf-font-size-md);
+  font-weight: 800;
+  cursor: pointer;
+  transition: border-radius 120ms ease;
+}
+
+.railNetwork:hover {
+  border-radius: var(--lf-radius-md);
+}
+
+.railNetworkActive {
+  border-radius: var(--lf-radius-md);
+}
+
+.railNetworkActive::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  width: 3px;
+  height: 20px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-accent);
+}
+
+/* ── Twitter layout ── */
+
+.twitterNav {
+  flex-shrink: 0;
+  width: 260px;
+  background: var(--social-sidebar-bg);
+  border-right: 1px solid var(--lf-border-subtle);
+}
+
+.twitterNavItem {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 600;
+}
+
+.twitterPostButton {
+  margin: var(--lf-space-3) var(--lf-space-4);
+  border-radius: var(--lf-radius-pill);
+}
+
+.twitterMain {
+  flex: 1;
+  min-width: 0;
+  max-width: 600px;
+  border-right: 1px solid var(--lf-border-subtle);
+}
+
+.twitterFeedScroll {
+  height: 100%;
+}
+
+.twitterRight {
+  flex: 1;
+  min-width: 280px;
+  max-width: 380px;
+}
+
+.twitterRightScroll {
+  height: 100%;
+  padding: var(--lf-space-3);
+}
+
+/* ── Facebook layout ── */
+
+.facebookShell {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.facebookTopBar {
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--lf-space-4);
+  padding: var(--lf-space-2) var(--lf-space-4);
+  background: var(--lf-surface-1);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.facebookTopLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.facebookLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--lf-radius-pill);
+  background: #1877f2;
+  color: #fff;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.facebookSearch {
+  width: 240px;
+}
+
+.facebookTopNav {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+}
+
+.facebookTopNavItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 112px;
+  height: 48px;
+  border: none;
+  border-radius: var(--lf-radius-md);
+  background: transparent;
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}
+
+.facebookTopNavItem:hover {
+  background: var(--lf-surface-2);
+}
+
+.facebookTopNavItemActive {
+  color: var(--lf-accent);
+  box-shadow: inset 0 -3px 0 var(--lf-accent);
+}
+
+.facebookTopRight {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--lf-space-2);
+}
+
+.facebookBody {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.facebookSidebar {
+  flex-shrink: 0;
+  width: 280px;
+  background: var(--social-sidebar-bg);
+  border-right: 1px solid var(--lf-border-subtle);
+}
+
+.shortcutAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lf-radius-sm);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.facebookMain {
+  flex: 1;
+  min-width: 0;
+  max-width: 680px;
+}
+
+.facebookFeedScroll {
+  height: 100%;
+  padding: var(--lf-space-3);
+}
+
+.facebookRight {
+  flex: 1;
+  min-width: 280px;
+  max-width: 360px;
+}
+
+.facebookRightScroll {
+  height: 100%;
+  padding: var(--lf-space-3);
+}
+
+/* ── Composer ── */
+
+.composerBlock {
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.composerBlockFacebook {
+  margin-bottom: var(--lf-space-3);
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-1);
+  overflow: hidden;
+}
+
+.feedTabs {
+  padding: 0 var(--lf-space-4);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.composer {
+  display: flex;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-4);
+}
+
+.composerFacebook {
+  padding: var(--lf-space-3) var(--lf-space-4);
+}
+
+.composerBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.composerInput {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: var(--lf-font-size-lg);
+}
+
+.composerFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  margin-top: var(--lf-space-3);
+  padding-top: var(--lf-space-3);
+  border-top: 1px solid var(--lf-border-subtle);
+}
+
+.composerBlockFacebook .composerFooter {
+  border-top: none;
+  padding-top: 0;
+}
+
+.composerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  color: var(--lf-accent);
+}
+
+/* ── Stories ── */
+
+.storiesScroll {
+  margin-bottom: var(--lf-space-3);
+}
+
+.storiesRow {
+  display: flex;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-1) 0;
+}
+
+.storyCard {
+  position: relative;
+  flex-shrink: 0;
+  width: 112px;
+  height: 200px;
+  border: none;
+  border-radius: var(--lf-radius-lg);
+  overflow: hidden;
+  background: var(--lf-surface-2);
+  cursor: pointer;
+  text-align: left;
+}
+
+.storyCreateBg {
+  height: 70%;
+  background: var(--lf-surface-3);
+}
+
+.storyCreatePlus {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent);
+  border: 3px solid var(--lf-surface-1);
+}
+
+.storyThumb {
+  height: 100%;
+  background: linear-gradient(160deg, var(--lf-surface-3), var(--lf-surface-2));
+}
+
+.storyAvatarWrap {
+  position: absolute;
+  top: var(--lf-space-2);
+  left: var(--lf-space-2);
+  border: 3px solid var(--lf-accent);
+  border-radius: var(--lf-radius-pill);
+}
+
+.storyLabel {
+  position: absolute;
+  left: var(--lf-space-2);
+  right: var(--lf-space-2);
+  bottom: var(--lf-space-2);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.storyCardCreate .storyLabel {
+  bottom: var(--lf-space-3);
+  text-align: center;
+}
+
+/* ── Feed posts ── */
+
+.feed {
+  display: flex;
+  flex-direction: column;
+}
+
+.post {
+  display: flex;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-4);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.postFacebook {
+  margin-bottom: var(--lf-space-3);
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-1);
+}
+
+.postBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.postHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+  margin-bottom: var(--lf-space-1);
+}
+
+.postIdentity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.postAuthor {
+  font-weight: 700;
+  color: var(--lf-text-primary);
+}
+
+.verifiedBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent);
+}
+
+.postHandle,
+.postTime {
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-sm);
+}
+
+.postDot {
+  color: var(--lf-text-secondary);
+}
+
+.postVisibility {
+  color: var(--lf-text-secondary);
+}
+
+.postContent {
+  margin-bottom: var(--lf-space-3);
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+.postMedia {
+  margin-bottom: var(--lf-space-3);
+  border-radius: var(--lf-radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--lf-border-subtle);
+}
+
+.media-accent {
+  --media-tone: var(--lf-accent-muted, var(--lf-accent));
+}
+
+.media-neutral {
+  --media-tone: var(--lf-surface-3);
+}
+
+.media-warning {
+  --media-tone: var(--lf-warning-muted, #f59e0b);
+}
+
+.mediaVideo,
+.mediaImage {
+  position: relative;
+  min-height: 220px;
+  background: linear-gradient(135deg, var(--media-tone), var(--lf-surface-2));
+}
+
+.mediaPlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: var(--lf-radius-pill);
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  cursor: pointer;
+}
+
+.mediaLabel,
+.mediaImageLabel {
+  position: absolute;
+  left: var(--lf-space-3);
+  bottom: var(--lf-space-3);
+  padding: var(--lf-space-1) var(--lf-space-2);
+  border-radius: var(--lf-radius-sm);
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: var(--lf-font-size-sm);
+}
+
+.mediaImageLabel {
+  position: static;
+  margin: var(--lf-space-4);
+  background: transparent;
+  color: var(--lf-text-primary);
+  font-weight: 600;
+}
+
+/* ── Reactions ── */
+
+.reactions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-1);
+  max-width: 420px;
+  color: var(--lf-text-secondary);
+}
+
+.reactionsFacebook {
+  max-width: none;
+  padding-top: var(--lf-space-2);
+  border-top: 1px solid var(--lf-border-subtle);
+}
+
+.reactionButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: var(--lf-font-size-sm);
+  padding: var(--lf-space-1) var(--lf-space-2);
+  border-radius: var(--lf-radius-pill);
+  cursor: pointer;
+}
+
+.reactionButton:hover {
+  color: var(--lf-accent);
+  background: var(--lf-surface-2);
+}
+
+/* ── Widgets ── */
+
+.widgetStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.widgetSearch {
+  width: 100%;
+}
+
+.widgetCard {
+  overflow: hidden;
+}
+
+.widgetHeader,
+.widgetHeaderInline {
+  padding: var(--lf-space-3) var(--lf-space-4);
+  font-size: var(--lf-font-size-lg);
+  font-weight: 800;
+}
+
+.widgetHeaderInline {
+  padding-bottom: var(--lf-space-2);
+}
+
+.widgetTitle {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 800;
+  margin-bottom: var(--lf-space-2);
+}
+
+.widgetCopy {
+  margin: 0 0 var(--lf-space-3);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-sm);
+  line-height: 1.45;
+}
+
+.newsList,
+.trendsList,
+.suggestionsList,
+.contactsList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.newsItem,
+.trendItem,
+.contactItem {
+  display: flex;
+  width: 100%;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-3) var(--lf-space-4);
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.newsItem:hover,
+.trendItem:hover,
+.contactItem:hover {
+  background: var(--lf-surface-2);
+}
+
+.newsThumb {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  border-radius: var(--lf-radius-md);
+  background: linear-gradient(135deg, var(--media-tone, var(--lf-surface-3)), var(--lf-surface-2));
+}
+
+.newsBody {
+  min-width: 0;
+}
+
+.newsHeadline {
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.newsMeta,
+.trendMeta {
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-xs);
+}
+
+.trendCategory {
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-xs);
+}
+
+.trendTopic {
+  font-weight: 700;
+  margin: 2px 0;
+}
+
+.suggestionItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-3) var(--lf-space-4);
+}
+
+.suggestionBody {
+  flex: 1;
+  min-width: 0;
+}
+
+.suggestionName {
+  font-weight: 700;
+}
+
+.suggestionHandle,
+.suggestionBio {
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-sm);
+}
+
+.birthdayRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lf-space-2);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-sm);
+  line-height: 1.45;
+}
+
+.contactItem {
+  align-items: center;
+}
+
+.sponsoredThumb {
+  height: 160px;
+  margin: 0 var(--lf-space-4) var(--lf-space-3);
+  border-radius: var(--lf-radius-md);
+  background: linear-gradient(135deg, var(--lf-surface-3), var(--lf-surface-2));
+}
+
+.sponsoredCopy {
+  padding: 0 var(--lf-space-4) var(--lf-space-4);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-sm);
+}

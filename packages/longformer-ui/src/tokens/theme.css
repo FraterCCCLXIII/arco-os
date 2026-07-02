@@ -62,14 +62,8 @@
   --lf-shadow-overlay: 0 16px 48px rgba(0, 0, 0, 0.6);
 
   /* Desktop shell */
-  --lf-desktop-wallpaper:
-    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(91, 141, 239, 0.35), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 80% 70%, rgba(63, 191, 114, 0.22), transparent 50%),
-    linear-gradient(145deg, #0c0c10 0%, #14141c 45%, #0a0a0e 100%);
-  --lf-desktop-wallpaper-mobile:
-    radial-gradient(circle at 50% 0%, rgba(91, 141, 239, 0.4), transparent 45%),
-    linear-gradient(180deg, #1a1a24 0%, #0a0a0c 100%);
-  --lf-desktop-wallpaper-label: rgba(255, 255, 255, 0.08);
+  --lf-desktop-wallpaper: var(--lf-surface-sunken);
+  --lf-desktop-wallpaper-mobile: var(--lf-surface-sunken);
   --lf-desktop-icon-tile-bg: rgba(255, 255, 255, 0.12);
   --lf-desktop-icon-tile-border: rgba(255, 255, 255, 0.08);
   --lf-desktop-icon-tile-bg-hover: rgba(255, 255, 255, 0.18);
@@ -81,6 +75,7 @@
   --lf-desktop-status-notch: rgba(0, 0, 0, 0.85);
   --lf-desktop-dock-bg: rgba(40, 40, 48, 0.55);
   --lf-desktop-dock-border: rgba(255, 255, 255, 0.08);
+  --lf-macos-dock-chrome-height: 80px;
   --lf-desktop-taskbar-bg: rgba(32, 32, 36, 0.82);
   --lf-desktop-taskbar-border: rgba(255, 255, 255, 0.06);
   --lf-desktop-chrome-hover: rgba(255, 255, 255, 0.06);
@@ -97,6 +92,42 @@
   --lf-desktop-tray-divider: rgba(255, 255, 255, 0.12);
   --lf-desktop-create-btn-border: rgba(255, 255, 255, 0.16);
   --lf-desktop-create-btn-hover-bg: rgba(255, 255, 255, 0.04);
+
+  /* App icon tiles — shared gradient palette */
+  --lf-app-icon-border: rgba(255, 255, 255, 0.1);
+  --lf-app-icon-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --lf-app-hue-blue-from: #6b9af2;
+  --lf-app-hue-blue-to: #4576db;
+  --lf-app-hue-indigo-from: #8496f5;
+  --lf-app-hue-indigo-to: #5a6de8;
+  --lf-app-hue-violet-from: #a88af5;
+  --lf-app-hue-violet-to: #7b5de8;
+  --lf-app-hue-purple-from: #b88af5;
+  --lf-app-hue-purple-to: #944de8;
+  --lf-app-hue-teal-from: #48d4b8;
+  --lf-app-hue-teal-to: #28b894;
+  --lf-app-hue-green-from: #52c97e;
+  --lf-app-hue-green-to: #2ea05a;
+  --lf-app-hue-lime-from: #9ad85a;
+  --lf-app-hue-lime-to: #6fb832;
+  --lf-app-hue-amber-from: #e8b04c;
+  --lf-app-hue-amber-to: #c88822;
+  --lf-app-hue-orange-from: #f09458;
+  --lf-app-hue-orange-to: #e06a28;
+  --lf-app-hue-rose-from: #f08098;
+  --lf-app-hue-rose-to: #e04a68;
+  --lf-app-hue-cyan-from: #58d0ec;
+  --lf-app-hue-cyan-to: #28aed4;
+  --lf-app-hue-sky-from: #68b8f2;
+  --lf-app-hue-sky-to: #388ed4;
+  --lf-app-hue-gold-from: #ecc858;
+  --lf-app-hue-gold-to: #d4a828;
+  --lf-app-hue-emerald-from: #3ed898;
+  --lf-app-hue-emerald-to: #1eb068;
+  --lf-app-hue-slate-from: #747484;
+  --lf-app-hue-slate-to: #52525c;
+  --lf-app-hue-graphite-from: #5c5c68;
+  --lf-app-hue-graphite-to: #3a3a42;
 }
 
 [data-lf-theme="light"] {
@@ -145,14 +176,8 @@
   --lf-shadow-overlay: 0 16px 48px rgba(15, 15, 20, 0.18);
 
   /* Desktop shell */
-  --lf-desktop-wallpaper:
-    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(59, 111, 224, 0.2), transparent 55%),
-    radial-gradient(ellipse 70% 50% at 80% 70%, rgba(31, 157, 85, 0.12), transparent 50%),
-    linear-gradient(145deg, #dde1ea 0%, #eef0f5 42%, #e3e7ef 100%);
-  --lf-desktop-wallpaper-mobile:
-    radial-gradient(circle at 50% 0%, rgba(59, 111, 224, 0.22), transparent 45%),
-    linear-gradient(180deg, #eef0f5 0%, #dfe3eb 100%);
-  --lf-desktop-wallpaper-label: rgba(20, 20, 24, 0.06);
+  --lf-desktop-wallpaper: var(--lf-surface-sunken);
+  --lf-desktop-wallpaper-mobile: var(--lf-surface-sunken);
   --lf-desktop-icon-tile-bg: rgba(255, 255, 255, 0.72);
   --lf-desktop-icon-tile-border: rgba(15, 15, 20, 0.1);
   --lf-desktop-icon-tile-bg-hover: rgba(255, 255, 255, 0.92);
@@ -164,6 +189,7 @@
   --lf-desktop-status-notch: rgba(20, 20, 24, 0.88);
   --lf-desktop-dock-bg: rgba(255, 255, 255, 0.62);
   --lf-desktop-dock-border: rgba(15, 15, 20, 0.1);
+  --lf-macos-dock-chrome-height: 80px;
   --lf-desktop-taskbar-bg: rgba(250, 250, 252, 0.88);
   --lf-desktop-taskbar-border: rgba(15, 15, 20, 0.08);
   --lf-desktop-chrome-hover: rgba(15, 15, 20, 0.06);
@@ -180,6 +206,42 @@
   --lf-desktop-tray-divider: rgba(15, 15, 20, 0.12);
   --lf-desktop-create-btn-border: rgba(15, 15, 20, 0.16);
   --lf-desktop-create-btn-hover-bg: rgba(15, 15, 20, 0.04);
+
+  /* App icon tiles — shared gradient palette */
+  --lf-app-icon-border: rgba(15, 15, 20, 0.08);
+  --lf-app-icon-shadow: 0 2px 8px rgba(15, 15, 20, 0.12);
+  --lf-app-hue-blue-from: #5b8def;
+  --lf-app-hue-blue-to: #3d6fd4;
+  --lf-app-hue-indigo-from: #7284f0;
+  --lf-app-hue-indigo-to: #4f62dc;
+  --lf-app-hue-violet-from: #9470ec;
+  --lf-app-hue-violet-to: #6f4ed4;
+  --lf-app-hue-purple-from: #a870ec;
+  --lf-app-hue-purple-to: #8448d4;
+  --lf-app-hue-teal-from: #34c4a8;
+  --lf-app-hue-teal-to: #1ea888;
+  --lf-app-hue-green-from: #3fbf72;
+  --lf-app-hue-green-to: #249858;
+  --lf-app-hue-lime-from: #8ecc48;
+  --lf-app-hue-lime-to: #68a830;
+  --lf-app-hue-amber-from: #dfa040;
+  --lf-app-hue-amber-to: #c08018;
+  --lf-app-hue-orange-from: #e88048;
+  --lf-app-hue-orange-to: #d06020;
+  --lf-app-hue-rose-from: #e87088;
+  --lf-app-hue-rose-to: #d04860;
+  --lf-app-hue-cyan-from: #44c0e0;
+  --lf-app-hue-cyan-to: #20a0c8;
+  --lf-app-hue-sky-from: #58a8e8;
+  --lf-app-hue-sky-to: #3088cc;
+  --lf-app-hue-gold-from: #e0bc40;
+  --lf-app-hue-gold-to: #c89818;
+  --lf-app-hue-emerald-from: #34c888;
+  --lf-app-hue-emerald-to: #18a868;
+  --lf-app-hue-slate-from: #b0b0ba;
+  --lf-app-hue-slate-to: #888894;
+  --lf-app-hue-graphite-from: #9898a4;
+  --lf-app-hue-graphite-to: #686874;
 }
 
 :root,

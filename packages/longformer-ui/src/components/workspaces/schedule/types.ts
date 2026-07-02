@@ -1,4 +1,5 @@
 import type { CalendarEvent, CalendarEventTone } from "../calendar/types";
+import { toISODate } from "../calendar/types";
 import type { TaskItem, TaskPriority, TaskStatus } from "../tasks/types";
 
 export type ScheduleView = "week" | "month" | "list" | "board";
@@ -52,10 +53,6 @@ export const SCHEDULE_VIEW_LABEL: Record<ScheduleView, string> = {
   list: "List",
   board: "Board",
 };
-
-export function toISODate(date: Date): string {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-}
 
 export function parseTimeLabelToMinutes(label: string): number {
   const match = label.trim().match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);

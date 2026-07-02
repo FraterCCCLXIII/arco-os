@@ -4,8 +4,11 @@ import { Icon, type IconName } from "../../../icons";
 import { Avatar } from "../../primitives/Avatar";
 import { IconButton } from "../../primitives/IconButton";
 import { CountBadge } from "../../primitives/Badge";
-import { ListItem } from "../../primitives/ListItem";
-import { ScrollArea } from "../../primitives/ScrollArea";
+import {
+  NavSidebar,
+  NavSidebarSectionAction,
+  SidebarUserFooterBar,
+} from "../../shell/NavSidebar";
 import { Textarea } from "../../primitives/Textarea";
 import type { SlackMember, SlackMessage, SlackNavItem } from "./types";
 import styles from "./SlackWorkspace.module.css";
@@ -200,103 +203,97 @@ export function SlackSidebar({
   unreadMentionCount = 0,
   currentUser,
 }: SlackSidebarProps) {
+  const sections = [
+    {
+      id: "nav",
+      items: navItems.map((item) => ({
+        id: item.id,
+        label: item.label,
+        leading: <Icon name={NAV_ICON[item.icon]} size={15} />,
+        trailing: item.badgeCount ? <CountBadge count={item.badgeCount} /> : undefined,
+        active: item.active,
+        className: styles.navListItem,
+      })),
+    },
+    ...(unreadMentionCount > 0
+      ? [
+          {
+            id: "mentions",
+            beforeItems: (
+              <button type="button" className={styles.unreadMentions}>
+                Unread mentions
+                <CountBadge count={unreadMentionCount} />
+              </button>
+            ),
+            items: [],
+          },
+        ]
+      : []),
+    {
+      id: "channels",
+      title: "Channels",
+      action: <NavSidebarSectionAction label="Add channel" />,
+      items: channels.map((channel) => ({
+        id: channel.id,
+        label: channel.name,
+        leading: <span className={styles.channelHash}>#</span>,
+        trailing: channel.mentionCount ? <CountBadge count={channel.mentionCount} /> : undefined,
+        active: channel.id === activeConversationId,
+        className: cx(styles.channelListItem, channel.unread && styles.unreadListItem),
+        onClick: () => onSelectConversation(channel.id),
+      })),
+    },
+    {
+      id: "dms",
+      title: "Direct messages",
+      action: <NavSidebarSectionAction label="Start direct message" />,
+      items: directMessages.map((dm) => ({
+        id: dm.id,
+        label: dm.name,
+        leading: (
+          <span className={styles.dmAvatar}>
+            <Avatar name={dm.name} src={dm.avatarSrc} size="sm" status={dm.isGroup ? undefined : dm.status} />
+          </span>
+        ),
+        trailing: dm.unreadCount ? <CountBadge count={dm.unreadCount} /> : undefined,
+        active: dm.id === activeConversationId,
+        className: cx(styles.dmListItem, (dm.unreadCount ?? 0) > 0 && styles.unreadListItem),
+        onClick: () => onSelectConversation(dm.id),
+      })),
+    },
+  ];
+
   return (
-    <>
-      <div className={styles.sidebarHeader}>
-        <button type="button" className={styles.sidebarTitle}>
-          <span className={styles.sidebarTitleText}>{workspaceName}</span>
-        </button>
-        <div className={styles.sidebarHeaderActions}>
-          <IconButton icon="settings" label="Workspace settings" size="sm" />
-          <IconButton icon="edit" label="New message" size="sm" />
+    <NavSidebar
+      className={styles.sidebarNav}
+      header={
+        <div className={styles.sidebarHeader}>
+          <button type="button" className={styles.sidebarTitle}>
+            <span className={styles.sidebarTitleText}>{workspaceName}</span>
+          </button>
+          <div className={styles.sidebarHeaderActions}>
+            <IconButton icon="settings" label="Workspace settings" size="sm" />
+            <IconButton icon="edit" label="New message" size="sm" />
+          </div>
         </div>
-      </div>
-
-      <ScrollArea className={styles.sidebarScroll}>
-        <div className={styles.sidebarContent}>
-          <nav className={styles.navItems} aria-label="Workspace navigation">
-            {navItems.map((item) => (
-              <ListItem
-                key={item.id}
-                className={styles.navListItem}
-                leading={<Icon name={NAV_ICON[item.icon]} size={15} />}
-                label={item.label}
-                trailing={item.badgeCount ? <CountBadge count={item.badgeCount} /> : undefined}
-                active={item.active}
-              />
-            ))}
-          </nav>
-
-          {unreadMentionCount > 0 && (
-            <button type="button" className={styles.unreadMentions}>
-              Unread mentions
-              <CountBadge count={unreadMentionCount} />
-            </button>
-          )}
-
-          <section className={styles.sidebarSection}>
-            <div className={styles.sectionHeader}>
-              Channels
-              <button type="button" className={styles.sectionHeaderButton} aria-label="Add channel">
-                +
-              </button>
-            </div>
-            <div className={styles.sectionItems}>
-              {channels.map((channel) => (
-                <ListItem
-                  key={channel.id}
-                  className={cx(styles.channelListItem, channel.unread && styles.unreadListItem)}
-                  leading={<span className={styles.channelHash}>#</span>}
-                  label={channel.name}
-                  trailing={channel.mentionCount ? <CountBadge count={channel.mentionCount} /> : undefined}
-                  active={channel.id === activeConversationId}
-                  onClick={() => onSelectConversation(channel.id)}
-                />
-              ))}
-            </div>
-          </section>
-
-          <section className={styles.sidebarSection}>
-            <div className={styles.sectionHeader}>
-              Direct messages
-              <button type="button" className={styles.sectionHeaderButton} aria-label="Start direct message">
-                +
-              </button>
-            </div>
-            <div className={styles.sectionItems}>
-              {directMessages.map((dm) => (
-                <ListItem
-                  key={dm.id}
-                  className={cx(styles.dmListItem, (dm.unreadCount ?? 0) > 0 && styles.unreadListItem)}
-                  leading={
-                    <span className={styles.dmAvatar}>
-                      <Avatar name={dm.name} src={dm.avatarSrc} size="sm" status={dm.isGroup ? undefined : dm.status} />
-                    </span>
-                  }
-                  label={dm.name}
-                  trailing={dm.unreadCount ? <CountBadge count={dm.unreadCount} /> : undefined}
-                  active={dm.id === activeConversationId}
-                  onClick={() => onSelectConversation(dm.id)}
-                />
-              ))}
-            </div>
-          </section>
-        </div>
-      </ScrollArea>
-
-      <div className={styles.sidebarUser}>
-        <Avatar name={currentUser.name} src={currentUser.avatarSrc} size="md" status={currentUser.status ?? "online"} />
-        <div className={styles.sidebarUserInfo}>
-          <div className={styles.sidebarUserName}>{currentUser.name}</div>
-          <div className={styles.sidebarUserStatus}>Active</div>
-        </div>
-        <div className={styles.sidebarUserActions}>
-          <IconButton icon="mic" label="Mute microphone" size="sm" />
-          <IconButton icon="phone" label="Start huddle" size="sm" />
-          <IconButton icon="settings" label="User settings" size="sm" />
-        </div>
-      </div>
-    </>
+      }
+      sections={sections}
+      footer={
+        <SidebarUserFooterBar
+          name={currentUser.name}
+          meta="Active"
+          avatarSrc={currentUser.avatarSrc}
+          status={currentUser.status ?? "online"}
+          actions={
+            <>
+              <IconButton icon="mic" label="Mute microphone" size="sm" />
+              <IconButton icon="phone" label="Start huddle" size="sm" />
+              <IconButton icon="settings" label="User settings" size="sm" />
+            </>
+          }
+        />
+      }
+    />
   );
 }
 

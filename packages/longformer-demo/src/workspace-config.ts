@@ -1,9 +1,11 @@
 import type { DesktopApp, IconName } from "longformer-ui";
+import { resolveAppTone } from "longformer-ui";
 
 export type WorkspaceId =
   | "chat"
   | "messages"
   | "slack"
+  | "social"
   | "contacts"
   | "notes"
   | "email"
@@ -17,7 +19,8 @@ export type WorkspaceId =
   | "apps"
   | "settings"
   | "wallet"
-  | "bank-crypto";
+  | "bank-crypto"
+  | "music";
 
 export interface WorkspaceNavItem {
   id: WorkspaceId;
@@ -29,6 +32,7 @@ export const WORKSPACES: WorkspaceNavItem[] = [
   { id: "chat", label: "Chat", icon: "chat" },
   { id: "messages", label: "Messages", icon: "users" },
   { id: "slack", label: "Groups", icon: "hash" },
+  { id: "social", label: "Social", icon: "globe" },
   { id: "contacts", label: "Contacts", icon: "contact" },
   { id: "notes", label: "Notes", icon: "notebook" },
   { id: "email", label: "Email", icon: "mail" },
@@ -37,33 +41,18 @@ export const WORKSPACES: WorkspaceNavItem[] = [
   { id: "files", label: "Files", icon: "folder" },
   { id: "wallet", label: "Wallet", icon: "wallet" },
   { id: "bank-crypto", label: "Bank / Crypto", icon: "dollar-sign" },
+  { id: "music", label: "Music", icon: "play" },
   { id: "tasks", label: "Tasks", icon: "check" },
   { id: "notifications", label: "Notifications", icon: "bell" },
   { id: "apps", label: "Apps", icon: "app-window" },
   { id: "settings", label: "Settings", icon: "settings" },
   { id: "desktop", label: "Desktop", icon: "monitor" },
-  { id: "generated", label: "Generated UI", icon: "sparkles" },
+  { id: "generated", label: "Design System", icon: "layers" },
 ];
 
-const WORKSPACE_TONES: Partial<Record<WorkspaceId, DesktopApp["tone"]>> = {
-  chat: "accent",
-  messages: "accent",
-  slack: "accent",
-  contacts: "success",
-  notes: "success",
-  email: "warning",
-  calendar: "accent",
-  schedule: "accent",
-  files: "accent",
-  wallet: "warning",
-  "bank-crypto": "success",
-  tasks: "success",
-  notifications: "warning",
-  apps: "neutral",
-  settings: "neutral",
-  desktop: "neutral",
-  generated: "accent",
-};
+const WORKSPACE_TONES: Partial<Record<WorkspaceId, DesktopApp["tone"]>> = Object.fromEntries(
+  WORKSPACES.map((workspace) => [workspace.id, resolveAppTone(workspace.id)]),
+) as Partial<Record<WorkspaceId, DesktopApp["tone"]>>;
 
 export function isWorkspaceId(value: string): value is WorkspaceId {
   return WORKSPACES.some((workspace) => workspace.id === value);
@@ -82,4 +71,68 @@ export function workspacesToDesktopApps(workspaces: WorkspaceNavItem[] = WORKSPA
 
 export function workspaceNavItem(id: WorkspaceId): WorkspaceNavItem | undefined {
   return WORKSPACES.find((workspace) => workspace.id === id);
+}
+
+/** Default apps shown directly on the left nav rail; the rest live in overflow. */
+export const DEFAULT_PINNED_WORKSPACE_IDS: WorkspaceId[] = [
+  "chat",
+  "messages",
+  "notes",
+  "email",
+  "calendar",
+  "files",
+  "tasks",
+  "desktop",
+  "settings",
+];
+
+const PINNED_STORAGE_KEY = "longformer-nav-pinned";
+
+export function loadPinnedWorkspaceIds(): WorkspaceId[] {
+  if (typeof window === "undefined") return DEFAULT_PINNED_WORKSPACE_IDS;
+
+  try {
+    const raw = window.localStorage.getItem(PINNED_STORAGE_KEY);
+    if (!raw) return DEFAULT_PINNED_WORKSPACE_IDS;
+
+    const parsed: unknown = JSON.parse(raw);
+    if (!Array.isArray(parsed) || !parsed.every(isWorkspaceId)) {
+      return DEFAULT_PINNED_WORKSPACE_IDS;
+    }
+
+    return parsed;
+  } catch {
+    return DEFAULT_PINNED_WORKSPACE_IDS;
+  }
+}
+
+export function savePinnedWorkspaceIds(ids: WorkspaceId[]): void {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(PINNED_STORAGE_KEY, JSON.stringify(ids));
+}
+
+export function splitWorkspacesByPinned(
+  pinnedIds: WorkspaceId[],
+  all: WorkspaceNavItem[] = WORKSPACES,
+): { pinned: WorkspaceNavItem[]; overflow: WorkspaceNavItem[]; pinnedIds: WorkspaceId[] } {
+  const knownIds = new Set(all.map((workspace) => workspace.id));
+  const normalizedPinned = pinnedIds.filter((id) => knownIds.has(id));
+  const pinnedSet = new Set(normalizedPinned);
+
+  const pinned = normalizedPinned
+    .map((id) => all.find((workspace) => workspace.id === id))
+    .filter((workspace): workspace is WorkspaceNavItem => Boolean(workspace));
+  const overflow = all.filter((workspace) => !pinnedSet.has(workspace.id));
+
+  return { pinned, overflow, pinnedIds: normalizedPinned };
+}
+
+export function moveWorkspaceToRail(pinnedIds: WorkspaceId[], id: WorkspaceId): WorkspaceId[] {
+  if (pinnedIds.includes(id)) return pinnedIds;
+  return [...pinnedIds, id];
+}
+
+export function moveWorkspaceToOverflow(pinnedIds: WorkspaceId[], id: WorkspaceId): WorkspaceId[] {
+  if (pinnedIds.length <= 1 || !pinnedIds.includes(id)) return pinnedIds;
+  return pinnedIds.filter((pinnedId) => pinnedId !== id);
 }

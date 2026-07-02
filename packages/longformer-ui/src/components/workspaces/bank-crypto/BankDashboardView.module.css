@@ -80,29 +80,6 @@
   padding: var(--lf-space-5) var(--lf-space-6);
 }
 
-.welcomeRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--lf-space-4);
-}
-
-.welcome {
-  margin: 0;
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.customizeLink {
-  border: none;
-  background: transparent;
-  color: var(--bc-accent);
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-}
-
 .quickActions {
   display: flex;
   flex-wrap: wrap;
