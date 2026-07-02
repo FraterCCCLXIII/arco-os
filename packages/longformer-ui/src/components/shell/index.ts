@@ -4,5 +4,7 @@ export * from "./NavRail";
 export * from "./NavSidebar";
 export * from "./TopBar";
 export * from "./HoverAppTray";
+export * from "./HoverAssistantBubble";
 export * from "./HoverStatusBar";
+export * from "./HoverNavRail";
 export * from "./FloatingChat";

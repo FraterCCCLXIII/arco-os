@@ -9,6 +9,27 @@
   flex: 1;
 }
 
+.body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.editorPane {
+  flex: 1;
+  min-width: 0;
+}
+
+.graphPane {
+  width: min(38%, 420px);
+  min-width: 280px;
+  border-left: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-sunken);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .page {
   max-width: 720px;
   margin: 0 auto;
@@ -19,6 +40,53 @@
   font-size: 32px;
   font-weight: 700;
   color: var(--lf-text-primary);
-  margin: 0 0 var(--lf-space-5);
+  margin: 0 0 var(--lf-space-3);
   line-height: 1.2;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lf-space-2);
+  margin-bottom: var(--lf-space-5);
+}
+
+.meta {
+  margin-top: var(--lf-space-6);
+  padding-top: var(--lf-space-4);
+  border-top: 1px solid var(--lf-border-subtle);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  text-align: right;
+}
+
+.graphToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-raised);
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}
+
+.graphToggle:hover {
+  color: var(--lf-text-primary);
+  border-color: color-mix(in srgb, var(--lf-accent) 35%, var(--lf-border-subtle));
+}
+
+.graphToggle[aria-pressed="true"] {
+  color: var(--lf-accent);
+  border-color: color-mix(in srgb, var(--lf-accent) 45%, transparent);
+  background: color-mix(in srgb, var(--lf-accent) 10%, var(--lf-surface-raised));
+}
+
+@media (max-width: 960px) {
+  .graphPane {
+    display: none;
+  }
 }

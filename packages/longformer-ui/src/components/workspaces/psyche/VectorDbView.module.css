@@ -1,0 +1,169 @@
+.view {
+  padding: var(--lf-space-6);
+  max-width: 1100px;
+}
+
+.header {
+  margin-bottom: var(--lf-space-5);
+}
+
+.title {
+  margin: 0 0 var(--lf-space-1);
+  font-size: var(--lf-font-size-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  max-width: 560px;
+  line-height: 1.5;
+}
+
+.statRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--lf-space-3);
+  margin-bottom: var(--lf-space-5);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--lf-space-3);
+  margin-bottom: var(--lf-space-5);
+}
+
+.collectionCard {
+  border: 1px solid var(--lf-border-subtle);
+}
+
+.collectionHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+  margin-bottom: var(--lf-space-4);
+}
+
+.collectionName {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+}
+
+.collectionModel {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  font-family: var(--lf-font-mono, ui-monospace, monospace);
+  margin-top: 2px;
+}
+
+.collectionStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--lf-space-2);
+  margin-bottom: var(--lf-space-3);
+}
+
+.collectionStat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.statLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--lf-text-tertiary);
+}
+
+.statValue {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+}
+
+.indexBar {
+  height: 6px;
+  border-radius: var(--lf-radius-full);
+  background: var(--lf-surface-sunken);
+  overflow: hidden;
+  margin-bottom: var(--lf-space-3);
+}
+
+.indexFill {
+  height: 100%;
+  border-radius: inherit;
+  transition: width 0.3s ease;
+}
+
+.indexFillHealthy {
+  background: linear-gradient(90deg, var(--lf-success), color-mix(in srgb, var(--lf-success) 70%, var(--lf-accent)));
+}
+
+.indexFillSyncing {
+  background: linear-gradient(90deg, var(--lf-warning), color-mix(in srgb, var(--lf-warning) 70%, var(--lf-accent)));
+}
+
+.indexFillDegraded {
+  background: linear-gradient(90deg, var(--lf-danger), color-mix(in srgb, var(--lf-danger) 70%, var(--lf-warning)));
+}
+
+.collectionFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.configCard {
+  border: 1px solid var(--lf-border-subtle);
+}
+
+.configHead {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  margin-bottom: var(--lf-space-4);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+}
+
+.configGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.configItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: var(--lf-space-3);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-sunken);
+}
+
+.configLabel {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--lf-text-tertiary);
+}
+
+.configValue {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  font-family: var(--lf-font-mono, ui-monospace, monospace);
+}
+
+@media (max-width: 960px) {
+  .statRow,
+  .grid,
+  .configGrid {
+    grid-template-columns: 1fr;
+  }
+}

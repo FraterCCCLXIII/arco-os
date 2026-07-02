@@ -1,0 +1,101 @@
+.wrapper {
+  position: fixed;
+  inset: 0 0 0 auto;
+  z-index: calc(var(--lf-z-overlay) - 1);
+  width: 48px;
+  pointer-events: none;
+}
+
+.hoverZone {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 28px;
+  pointer-events: auto;
+}
+
+.wrapperOpen {
+  width: 320px;
+}
+
+.wrapperOpen .hoverZone {
+  inset: 0;
+  width: auto;
+}
+
+.bubbleContainer {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 var(--lf-space-3) 0 0;
+  transform: translate(calc(100% - 14px), -50%);
+  opacity: 0.72;
+  pointer-events: auto;
+  transition:
+    transform var(--lf-duration-fast) var(--lf-ease),
+    opacity var(--lf-duration-fast) var(--lf-ease);
+}
+
+.bubbleContainerOpen {
+  transform: translate(0, -50%);
+  opacity: 1;
+  pointer-events: auto;
+  transition:
+    transform var(--lf-duration-normal) var(--lf-ease),
+    opacity var(--lf-duration-normal) var(--lf-ease);
+}
+
+.bubble {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--lf-border-default);
+  border-radius: 50%;
+  background: var(--lf-surface-overlay);
+  color: var(--lf-accent);
+  box-shadow: var(--lf-shadow-lg);
+  cursor: default;
+  flex-shrink: 0;
+  transition:
+    transform var(--lf-duration-fast) var(--lf-ease),
+    background var(--lf-duration-fast) var(--lf-ease),
+    box-shadow var(--lf-duration-fast) var(--lf-ease);
+}
+
+.bubble:hover,
+.bubble:focus-visible {
+  transform: translateX(-2px);
+  background: var(--lf-surface-2);
+  box-shadow: var(--lf-shadow-overlay);
+}
+
+.panel {
+  position: fixed;
+  z-index: var(--lf-z-overlay);
+  min-width: 220px;
+  max-width: 280px;
+  background: var(--lf-surface-overlay);
+  border: 1px solid var(--lf-border-default);
+  border-radius: var(--lf-radius-md);
+  box-shadow: var(--lf-shadow-lg);
+  padding: var(--lf-space-1);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  transform: translateY(-50%);
+}
+
+.header {
+  padding: var(--lf-space-2) var(--lf-space-2) var(--lf-space-1);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--lf-text-tertiary);
+}

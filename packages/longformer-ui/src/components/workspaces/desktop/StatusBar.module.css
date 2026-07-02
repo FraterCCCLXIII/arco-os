@@ -109,3 +109,28 @@
   border-radius: 0 0 12px 12px;
   background: var(--lf-desktop-status-notch);
 }
+
+.fullscreenToggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.85;
+}
+
+.fullscreenToggle:hover {
+  opacity: 1;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.fullscreenToggle:focus-visible {
+  outline: 2px solid var(--lf-focus-ring);
+  outline-offset: 1px;
+}

@@ -1,0 +1,278 @@
+.view {
+  padding: var(--lf-space-6);
+  max-width: 960px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-4);
+  margin-bottom: var(--lf-space-6);
+}
+
+.headerMain {
+  flex: 1;
+  min-width: 0;
+}
+
+.moduleIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--lf-radius-lg);
+  margin-bottom: var(--lf-space-3);
+}
+
+.moduleIconHealth {
+  background: var(--lf-success-muted);
+  color: var(--lf-success);
+}
+
+.moduleIconMind {
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.moduleIconFinances {
+  background: var(--lf-warning-muted);
+  color: var(--lf-warning);
+}
+
+.moduleIconHousing {
+  background: color-mix(in srgb, var(--lf-accent) 15%, transparent);
+  color: var(--lf-accent);
+}
+
+.moduleIconInvestments {
+  background: color-mix(in srgb, var(--lf-success) 12%, transparent);
+  color: var(--lf-success);
+}
+
+.moduleIconRetirement {
+  background: var(--lf-surface-sunken);
+  color: var(--lf-text-secondary);
+}
+
+.title {
+  margin: 0 0 var(--lf-space-1);
+  font-size: var(--lf-font-size-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.description {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  line-height: 1.5;
+  max-width: 480px;
+}
+
+.overallProgress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lf-space-1);
+  flex-shrink: 0;
+}
+
+.progressRing {
+  position: relative;
+  width: 72px;
+  height: 72px;
+}
+
+.progressRingLabel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--lf-font-size-md);
+  font-weight: 700;
+}
+
+.progressRingCaption {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--lf-space-3);
+  margin-bottom: var(--lf-space-6);
+}
+
+.metricCard {
+  min-height: 80px;
+}
+
+.metricLabel {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  margin-bottom: var(--lf-space-1);
+}
+
+.metricValue {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.metricChange {
+  margin-top: 2px;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-success);
+}
+
+.insights {
+  margin-bottom: var(--lf-space-6);
+  padding: var(--lf-space-4);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-accent-muted);
+  border: 1px solid color-mix(in srgb, var(--lf-accent) 20%, transparent);
+}
+
+.insightsHead {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  margin-bottom: var(--lf-space-3);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-accent);
+}
+
+.insightsList {
+  margin: 0;
+  padding-left: var(--lf-space-5);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  line-height: 1.6;
+}
+
+.insightsList li + li {
+  margin-top: var(--lf-space-1);
+}
+
+.goalsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.goalCard {
+  padding: var(--lf-space-4);
+}
+
+.goalHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  margin-bottom: var(--lf-space-2);
+}
+
+.goalTitle {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.goalDescription {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  line-height: 1.4;
+}
+
+.goalMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  flex-shrink: 0;
+}
+
+.goalProgress {
+  margin: var(--lf-space-3) 0;
+}
+
+.progressBar {
+  height: 6px;
+  border-radius: var(--lf-radius-full);
+  background: var(--lf-surface-sunken);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: var(--lf-radius-full);
+  background: var(--lf-accent);
+  transition: width 0.3s ease;
+}
+
+.progressFillSuccess {
+  background: var(--lf-success);
+}
+
+.progressFillWarning {
+  background: var(--lf-warning);
+}
+
+.progressLabel {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--lf-space-1);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.milestones {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  padding-top: var(--lf-space-3);
+  border-top: 1px solid var(--lf-border-subtle);
+}
+
+.milestone {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  font-size: var(--lf-font-size-sm);
+}
+
+.milestoneCheck {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--lf-radius-sm);
+  border: 1.5px solid var(--lf-border-strong);
+  flex-shrink: 0;
+}
+
+.milestoneCheckDone {
+  background: var(--lf-success);
+  border-color: var(--lf-success);
+  color: white;
+}
+
+.milestoneDone {
+  color: var(--lf-text-tertiary);
+  text-decoration: line-through;
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+}

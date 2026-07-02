@@ -8,6 +8,18 @@
   background: var(--lf-surface-2);
 }
 
+.project {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--lf-space-3);
+  border-right: 1px solid var(--lf-border-subtle);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  white-space: nowrap;
+}
+
 .tabs {
   display: flex;
   align-items: stretch;

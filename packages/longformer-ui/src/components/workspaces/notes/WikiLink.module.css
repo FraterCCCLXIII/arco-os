@@ -1,0 +1,25 @@
+.link {
+  display: inline;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--lf-accent);
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, #a78bfa 18%, transparent);
+  color: #c4b5fd;
+  font-size: var(--lf-font-size-xs);
+  font-weight: 500;
+}

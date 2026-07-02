@@ -1,0 +1,154 @@
+.view {
+  padding: var(--lf-space-6);
+  max-width: 960px;
+}
+
+.header {
+  margin-bottom: var(--lf-space-6);
+}
+
+.title {
+  margin: 0 0 var(--lf-space-1);
+  font-size: var(--lf-font-size-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lf-space-2);
+  margin-bottom: var(--lf-space-4);
+}
+
+.filterChip {
+  padding: var(--lf-space-1) var(--lf-space-3);
+  border-radius: var(--lf-radius-full);
+  font-size: var(--lf-font-size-sm);
+  border: 1px solid var(--lf-border-subtle);
+  background: transparent;
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}
+
+.filterChip:hover {
+  border-color: var(--lf-border-strong);
+  color: var(--lf-text-primary);
+}
+
+.filterChipActive {
+  background: var(--lf-accent-muted);
+  border-color: var(--lf-accent);
+  color: var(--lf-accent);
+}
+
+.goalsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.goalCard {
+  padding: var(--lf-space-4);
+}
+
+.goalHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  margin-bottom: var(--lf-space-2);
+}
+
+.goalModule {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: var(--lf-radius-sm);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 500;
+  background: var(--lf-surface-sunken);
+  color: var(--lf-text-secondary);
+  margin-bottom: var(--lf-space-1);
+}
+
+.goalTitle {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+}
+
+.goalDescription {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  line-height: 1.4;
+}
+
+.goalProgress {
+  margin: var(--lf-space-3) 0;
+}
+
+.progressBar {
+  height: 6px;
+  border-radius: var(--lf-radius-full);
+  background: var(--lf-surface-sunken);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: var(--lf-radius-full);
+  background: var(--lf-accent);
+}
+
+.progressFillSuccess {
+  background: var(--lf-success);
+}
+
+.progressFillWarning {
+  background: var(--lf-warning);
+}
+
+.progressLabel {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--lf-space-1);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.milestones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lf-space-2);
+  padding-top: var(--lf-space-3);
+  border-top: 1px solid var(--lf-border-subtle);
+}
+
+.milestone {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: var(--lf-space-1) var(--lf-space-2);
+  border-radius: var(--lf-radius-sm);
+  font-size: var(--lf-font-size-xs);
+  background: var(--lf-surface-sunken);
+}
+
+.milestoneDone {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.empty {
+  padding: var(--lf-space-8);
+  text-align: center;
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-sm);
+}

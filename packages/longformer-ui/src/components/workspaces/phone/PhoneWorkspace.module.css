@@ -1,0 +1,254 @@
+.workspace {
+  --phone-bg: #ececf1;
+  --phone-surface: #ececf1;
+  --phone-shadow-light: #ffffff;
+  --phone-shadow-dark: #c8c8cf;
+  --phone-text: #2f2f33;
+  --phone-text-muted: #9a9aa3;
+  --phone-green: #4caf7a;
+  --phone-green-hover: #43a06f;
+  --phone-red: #e85858;
+  --phone-red-hover: #d94f4f;
+  --phone-neu-raised:
+    8px 8px 16px var(--phone-shadow-dark),
+    -8px -8px 16px var(--phone-shadow-light);
+  --phone-neu-pressed:
+    inset 5px 5px 10px var(--phone-shadow-dark),
+    inset -5px -5px 10px var(--phone-shadow-light);
+  --phone-neu-soft:
+    4px 4px 10px var(--phone-shadow-dark),
+    -4px -4px 10px var(--phone-shadow-light);
+
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--lf-space-6) var(--lf-space-5) var(--lf-space-5);
+  background: var(--phone-bg);
+  color: var(--phone-text);
+  font-family: var(--lf-font-family);
+}
+
+.header {
+  flex-shrink: 0;
+  width: min(100%, 320px);
+  text-align: center;
+  padding: var(--lf-space-2) 0 var(--lf-space-6);
+}
+
+.primaryLabel {
+  font-size: clamp(1.35rem, 4vw, 1.75rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--phone-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.secondaryLabel {
+  margin-top: var(--lf-space-2);
+  font-size: var(--lf-font-size-md);
+  color: var(--phone-text-muted);
+}
+
+.avatarWrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--lf-space-4);
+}
+
+.avatar {
+  box-shadow: var(--phone-neu-soft);
+}
+
+.body {
+  flex: 1;
+  width: min(100%, 320px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 0;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--lf-space-3);
+  align-content: center;
+}
+
+.key {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  aspect-ratio: 1;
+  max-height: 72px;
+  border: none;
+  border-radius: 50%;
+  background: var(--phone-surface);
+  box-shadow: var(--phone-neu-raised);
+  cursor: pointer;
+  transition:
+    box-shadow var(--lf-duration-fast) var(--lf-ease),
+    transform var(--lf-duration-fast) var(--lf-ease);
+}
+
+.key:hover {
+  transform: translateY(-1px);
+}
+
+.key:active {
+  box-shadow: var(--phone-neu-pressed);
+  transform: translateY(0);
+}
+
+.keyDigit {
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--phone-text);
+}
+
+.keyLetters {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--phone-text-muted);
+  line-height: 1;
+}
+
+.keySpacer {
+  display: block;
+}
+
+.controlsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--lf-space-4);
+  justify-items: center;
+  align-content: center;
+}
+
+.controlButton {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 50%;
+  background: var(--phone-surface);
+  box-shadow: var(--phone-neu-soft);
+  color: var(--phone-text-muted);
+  cursor: pointer;
+  transition:
+    box-shadow var(--lf-duration-fast) var(--lf-ease),
+    color var(--lf-duration-fast) var(--lf-ease),
+    transform var(--lf-duration-fast) var(--lf-ease);
+}
+
+.controlButton:hover {
+  color: var(--phone-text);
+  transform: translateY(-1px);
+}
+
+.controlButton:active {
+  box-shadow: var(--phone-neu-pressed);
+  transform: translateY(0);
+}
+
+.controlButtonActive {
+  color: var(--phone-green);
+}
+
+.inlineControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-6);
+}
+
+.footer {
+  flex-shrink: 0;
+  width: min(100%, 320px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-8);
+  padding-top: var(--lf-space-6);
+}
+
+.actionButton {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border: none;
+  border-radius: 50%;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition:
+    transform var(--lf-duration-fast) var(--lf-ease),
+    background var(--lf-duration-fast) var(--lf-ease);
+}
+
+.actionButton:hover {
+  transform: translateY(-1px);
+}
+
+.actionButton:active {
+  transform: translateY(1px);
+}
+
+.actionButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.actionAccept {
+  background: var(--phone-green);
+}
+
+.actionAccept:hover:not(:disabled) {
+  background: var(--phone-green-hover);
+}
+
+.actionDecline {
+  background: var(--phone-red);
+}
+
+.actionDecline:hover:not(:disabled) {
+  background: var(--phone-red-hover);
+}
+
+.actionEnd {
+  background: var(--phone-red);
+}
+
+.actionEnd:hover {
+  background: var(--phone-red-hover);
+}
+
+.actionIcon {
+  display: inline-flex;
+}
+
+.actionIconDecline {
+  transform: rotate(135deg);
+}
+
+.footerSingle {
+  justify-content: center;
+}

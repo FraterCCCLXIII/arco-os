@@ -1,0 +1,80 @@
+.sidebar {
+  flex-shrink: 0;
+  border-right: 1px solid var(--lf-border-subtle);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-1) var(--lf-space-2);
+  font-size: var(--lf-font-size-lg);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--lf-text-primary);
+}
+
+.brandIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.navItem {
+  font-size: var(--lf-font-size-sm);
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2);
+  border-radius: var(--lf-radius-lg);
+}
+
+.profileBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  text-align: left;
+}
+
+.profileName {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  color: var(--lf-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profileEmail {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logoutBtn {
+  flex-shrink: 0;
+}
+
+@media (max-width: 960px) {
+  .sidebar {
+    display: none;
+  }
+}

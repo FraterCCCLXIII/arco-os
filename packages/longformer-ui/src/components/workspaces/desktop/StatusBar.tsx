@@ -8,6 +8,9 @@ export interface StatusBarProps {
   shell: DesktopShell;
   status?: DesktopStatus;
   className?: string;
+  /** When true the simulated desktop fills its workspace panel. */
+  fullscreen?: boolean;
+  onToggleFullscreen?: () => void;
 }
 
 function formatClock(date: Date, shell: DesktopShell): string {
@@ -34,8 +37,30 @@ export function getStatusBarHeight(shell: DesktopShell): number {
   return STATUS_BAR_HEIGHT[shell];
 }
 
+function FullscreenToggle({
+  fullscreen,
+  onToggle,
+}: {
+  fullscreen: boolean;
+  onToggle: () => void;
+}) {
+  const label = fullscreen ? "Exit full screen" : "Enter full screen";
+
+  return (
+    <button
+      type="button"
+      className={styles.fullscreenToggle}
+      aria-label={label}
+      title={label}
+      onClick={onToggle}
+    >
+      <Icon name={fullscreen ? "minimize-2" : "maximize"} size={13} />
+    </button>
+  );
+}
+
 /** Top status / menu bar — adapts layout per shell (macOS menu bar, iOS status bar, etc.). */
-export function StatusBar({ shell, status, className }: StatusBarProps) {
+export function StatusBar({ shell, status, className, fullscreen = false, onToggleFullscreen }: StatusBarProps) {
   const [now, setNow] = useState(() => new Date());
 
   useEffect(() => {
@@ -60,6 +85,7 @@ export function StatusBar({ shell, status, className }: StatusBarProps) {
             <span className={styles.menuItem}>Window</span>
           </div>
           <div className={styles.right}>
+            {onToggleFullscreen && <FullscreenToggle fullscreen={fullscreen} onToggle={onToggleFullscreen} />}
             <Icon name="wifi" size={13} />
             <Icon name="bluetooth" size={13} />
             <Icon name="battery" size={13} />
@@ -77,6 +103,7 @@ export function StatusBar({ shell, status, className }: StatusBarProps) {
             <span className={styles.searchHint}>Type here to search</span>
           </div>
           <div className={styles.right}>
+            {onToggleFullscreen && <FullscreenToggle fullscreen={fullscreen} onToggle={onToggleFullscreen} />}
             <Icon name="wifi" size={13} />
             <Icon name="volume" size={13} />
             <Icon name="battery" size={13} />
@@ -93,6 +120,7 @@ export function StatusBar({ shell, status, className }: StatusBarProps) {
           </div>
           <div className={cx(styles.center, styles.notchArea)} aria-hidden="true" />
           <div className={styles.right}>
+            {onToggleFullscreen && <FullscreenToggle fullscreen={fullscreen} onToggle={onToggleFullscreen} />}
             {status?.wifi !== false && <Icon name="wifi" size={12} />}
             <Icon name="battery" size={12} />
             <span className={styles.batteryPct}>{battery}%</span>
@@ -107,6 +135,7 @@ export function StatusBar({ shell, status, className }: StatusBarProps) {
             <span className={styles.menuApp}>Longformer</span>
           </div>
           <div className={styles.right}>
+            {onToggleFullscreen && <FullscreenToggle fullscreen={fullscreen} onToggle={onToggleFullscreen} />}
             <Icon name="wifi" size={13} />
             <Icon name="battery" size={13} />
             <span className={styles.clock}>{clock}</span>

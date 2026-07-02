@@ -68,6 +68,95 @@
   align-items: center;
 }
 
+.itemSlot {
+  position: relative;
+  width: 100%;
+}
+
+.collapsed .itemSlot {
+  width: auto;
+}
+
+.itemSlotReorderable {
+  touch-action: none;
+}
+
+.itemSlotPending .itemButton {
+  background: var(--lf-surface-2);
+  transform: scale(0.96);
+}
+
+.itemSlotReorderActive {
+  touch-action: none;
+}
+
+.itemSlotDragging {
+  opacity: 0.35;
+}
+
+.itemSlotDropBefore::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: 6px;
+  right: 6px;
+  height: 2px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-accent);
+  z-index: 1;
+}
+
+.collapsed .itemSlotDropBefore::before {
+  left: 2px;
+  right: 2px;
+}
+
+.railReordering {
+  cursor: grabbing;
+}
+
+.railReordering .itemButton {
+  cursor: grabbing;
+}
+
+.dragGhost {
+  position: fixed;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  pointer-events: none;
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-2);
+  border: 1px solid var(--lf-border-subtle);
+  box-shadow: var(--lf-shadow-md);
+  color: var(--lf-text-primary);
+  transform: translate(-50%, -50%);
+}
+
+.dragGhostCollapsed {
+  width: 36px;
+  height: 36px;
+  justify-content: center;
+  padding: 0;
+}
+
+.dragGhostExpanded {
+  height: 34px;
+  padding: 0 var(--lf-space-3);
+  min-width: 120px;
+}
+
+.dragGhostIcon {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.dragGhostLabel {
+  font-size: var(--lf-font-size-md);
+  white-space: nowrap;
+}
+
 .itemButton {
   position: relative;
   display: flex;

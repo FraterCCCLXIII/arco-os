@@ -7,12 +7,13 @@ import {
   type ChatContextDrawerTab,
   DesktopWorkspace,
   HoverAppTray,
+  HoverAssistantBubble,
+  HoverNavRail,
   HoverStatusBar,
   CreateAppModal,
   FloatingChat,
   ThemeProvider,
   useTheme,
-  IconButton,
   WorkspaceWindowShell,
   type ChatMessage,
   type TaskItem,
@@ -36,10 +37,21 @@ import {
   getWeekStart,
   toISODate,
   useSurfaceManager,
+  buildNotesGraph,
+  countBacklinks,
+  countNoteWords,
+  type NotesView,
 } from "longformer-ui";
-import { activeConversation, demoUsage, promptChips, assistantPromptChips, assistantConversationTabs } from "./mock-data/chat";
+import { activeConversation, demoUsage, promptChips, assistantPromptChips, assistantConversationTabs, assistantConversationNavItems, chatConversationNavItems, chatConversationTabs } from "./mock-data/chat";
 import { demoDiffHunks } from "./mock-data/context-drawer";
-import { notesBlocks } from "./mock-data/notes";
+import {
+  buildNotesVault,
+  defaultNoteId,
+  resolveNoteId,
+  vaultPrivatePages,
+  vaultRecentPages,
+  vaultTeamspacePages,
+} from "./mock-data/notes-vault";
 import { threadMessages, threads } from "./mock-data/email";
 import { generatedSchema } from "./mock-data/generated";
 import { initialTasks } from "./mock-data/tasks";
@@ -72,7 +84,7 @@ import { phoneContacts } from "./mock-data/contacts";
 import { calendarEvents } from "./mock-data/calendar";
 import { scheduleItems, scheduleProjects, weekStartISO as initialWeekStartISO } from "./mock-data/schedule";
 import { fileFolders } from "./mock-data/files";
-import { chatConversations, mailFolders, privatePages, recentPages, teamspacePages } from "./mock-data/sidebar";
+import { chatConversations, mailFolders } from "./mock-data/sidebar";
 import { bankingWidgetTiles } from "./mock-data/banking-widgets";
 import { financeWidgetTiles } from "./mock-data/finance-widgets";
 import { fitnessWidgetTiles } from "./mock-data/fitness-widgets";
@@ -96,6 +108,7 @@ import {
   loadPinnedWorkspaceIds,
   moveWorkspaceToOverflow,
   moveWorkspaceToRail,
+  reorderPinnedWorkspaces,
   savePinnedWorkspaceIds,
   splitWorkspacesByPinned,
   workspacesToDesktopApps,
@@ -103,6 +116,12 @@ import {
 } from "./workspace-config";
 import { buildWorkspaceLayout, buildWorkspaceWindowContent } from "./workspace-layout";
 import { bankDashboardData, cryptoWalletData } from "./mock-data/bank-crypto";
+import { serverWorkspaceData } from "./mock-data/server";
+import { orchestratorWorkspaceData } from "./mock-data/orchestrator";
+import { ticketsWorkspaceData } from "./mock-data/tickets";
+import { transcribeWorkspaceData } from "./mock-data/transcribe";
+import { lifePlanningWorkspaceData } from "./mock-data/life-planning";
+import { psycheWorkspaceData } from "./mock-data/psyche";
 import {
   musicFeatured,
   musicLibraryItems,
@@ -111,6 +130,11 @@ import {
   musicQuickAccess,
   musicUser,
 } from "./mock-data/music";
+import { visionFeatured, visionNowPlaying, visionRows, visionUser } from "./mock-data/vision";
+import { readerBooks } from "./mock-data/reader";
+import { mapsDestinations, mapsRoute, mapsSavedPlaces } from "./mock-data/maps";
+import { cameraGallery } from "./mock-data/camera";
+import { weatherCurrent, weatherForecast, weatherLocations } from "./mock-data/weather";
 
 interface DocFormatState {
   blockFormat: BlockFormat;
@@ -144,16 +168,24 @@ function LongformerApp() {
   const { setTheme, theme } = useTheme();
   const [workspaceId, setWorkspaceId] = useState<WorkspaceId>("chat");
 
-  const [messages, setMessages] = useState<ChatMessage[]>(activeConversation);
   const [composerValue, setComposerValue] = useState("");
   const [model, setModel] = useState("Sonnet 5");
+  const [chatTabs, setChatTabs] = useState(() => [...chatConversationTabs]);
+  const [activeChatTabId, setActiveChatTabId] = useState(chatConversationTabs[0].id);
+  const [chatTabMessages, setChatTabMessages] = useState<Record<string, ChatMessage[]>>(() => ({
+    [chatConversationTabs[0].id]: activeConversation,
+    ...Object.fromEntries(chatConversationTabs.slice(1).map((tab) => [tab.id, []])),
+  }));
+  const [chatNavId, setChatNavId] = useState(chatConversationNavItems[0].id);
   const [activeThreadId, setActiveThreadId] = useState<string>(threads[0].id);
   const [starred, setStarred] = useState<Set<string>>(
     () => new Set(threads.filter((t) => t.starred).map((t) => t.id))
   );
   const [tasks, setTasks] = useState<TaskItem[]>(initialTasks);
   const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
-  const [activePageId, setActivePageId] = useState<string>(recentPages[0].id);
+  const [activePageId, setActivePageId] = useState<string>(defaultNoteId);
+  const [notesView, setNotesView] = useState<NotesView>("editor");
+  const [graphPanelOpen, setGraphPanelOpen] = useState(true);
   const [activeContactId, setActiveContactId] = useState<string>(messageContacts[0].id);
   const [messageComposerValue, setMessageComposerValue] = useState("");
   const [directMessages, setDirectMessages] = useState<Record<string, DirectMessage[]>>(messageThreads);
@@ -199,6 +231,7 @@ function LongformerApp() {
     Object.fromEntries(assistantConversationTabs.map((tab) => [tab.id, []]))
   );
   const [assistantComposerValue, setAssistantComposerValue] = useState("");
+  const [assistantNavId, setAssistantNavId] = useState(assistantConversationNavItems[0].id);
 
   const [docHistory, setDocHistory] = useState<DocFormatState[]>([initialDocFormat]);
   const [docHistoryIndex, setDocHistoryIndex] = useState(0);
@@ -215,11 +248,18 @@ function LongformerApp() {
     initialWindows: initialSurfaceWindows,
   });
   const [navRailExpanded, setNavRailExpanded] = useState(false);
+  const [desktopFullscreen, setDesktopFullscreen] = useState(false);
   const [pinnedWorkspaceIds, setPinnedWorkspaceIds] = useState<WorkspaceId[]>(() => loadPinnedWorkspaceIds());
 
   useEffect(() => {
     savePinnedWorkspaceIds(pinnedWorkspaceIds);
   }, [pinnedWorkspaceIds]);
+
+  useEffect(() => {
+    if (workspaceId !== "desktop") {
+      setDesktopFullscreen(false);
+    }
+  }, [workspaceId]);
 
   const { pinned: railWorkspaces, overflow: overflowWorkspaces } = useMemo(
     () => splitWorkspacesByPinned(pinnedWorkspaceIds),
@@ -247,6 +287,27 @@ function LongformerApp() {
 
   const activeThread = threadMessages[activeThreadId];
 
+  const handleNoteSelect = useCallback((noteId: string) => {
+    setActivePageId(noteId);
+    setNotesView("editor");
+  }, []);
+
+  const notesVault = useMemo(() => buildNotesVault(handleNoteSelect), [handleNoteSelect]);
+  const notesGraph = useMemo(() => buildNotesGraph(notesVault), [notesVault]);
+  const activeNoteId = resolveNoteId(activePageId);
+  const activeNote = useMemo(
+    () => notesVault.find((note) => note.id === activeNoteId) ?? notesVault[0],
+    [notesVault, activeNoteId],
+  );
+  const activeNoteBacklinks = useMemo(
+    () => countBacklinks(notesVault, activeNote.id),
+    [notesVault, activeNote.id],
+  );
+  const activeNoteWordCount = useMemo(
+    () => countNoteWords(activeNote.blocks),
+    [activeNote.blocks],
+  );
+
   const modelMenuItems = useMemo(
     () => MODEL_OPTIONS.map((option) => ({ id: option.id, label: option.label, onSelect: () => setModel(option.label) })),
     []
@@ -260,19 +321,48 @@ function LongformerApp() {
       content: composerValue,
       timestamp: "Just now",
     };
-    setMessages((prev) => [...prev, userMessage]);
+    setChatTabMessages((prev) => ({
+      ...prev,
+      [activeChatTabId]: [...(prev[activeChatTabId] ?? []), userMessage],
+    }));
     setComposerValue("");
     setTimeout(() => {
-      setMessages((prev) => [
+      setChatTabMessages((prev) => ({
         ...prev,
-        {
-          id: `a-${Date.now()}`,
-          role: "agent",
-          content: "Got it — this is a static demo, so I can't actually run that yet, but here's where the reply would stream in.",
-          timestamp: "Just now",
-        },
-      ]);
+        [activeChatTabId]: [
+          ...(prev[activeChatTabId] ?? []),
+          {
+            id: `a-${Date.now()}`,
+            role: "agent",
+            content: "Got it — this is a static demo, so I can't actually run that yet, but here's where the reply would stream in.",
+            timestamp: "Just now",
+          },
+        ],
+      }));
     }, 400);
+  }
+
+  function handleChatNewTab() {
+    const id = `chat-tab-${Date.now()}`;
+    setChatTabs((prev) => [...prev, { id, label: "New conversation", icon: "sparkles", closable: true }]);
+    setChatTabMessages((prev) => ({ ...prev, [id]: [] }));
+    setActiveChatTabId(id);
+  }
+
+  function handleChatTabClose(id: string) {
+    setChatTabs((prev) => {
+      const next = prev.filter((tab) => tab.id !== id);
+      if (next.length === 0) return prev;
+      if (activeChatTabId === id) {
+        setActiveChatTabId(next[next.length - 1].id);
+      }
+      return next;
+    });
+    setChatTabMessages((prev) => {
+      const next = { ...prev };
+      delete next[id];
+      return next;
+    });
   }
 
   function handleAssistantSubmit() {
@@ -330,6 +420,25 @@ function LongformerApp() {
   function handleAssistantPromptChip(item: PromptChipItem) {
     setAssistantComposerValue(item.label);
   }
+
+  const assistantMenuItems = useMemo(
+    () => [
+      {
+        id: "new-conversation",
+        label: "New conversation",
+        icon: "plus" as const,
+        onSelect: handleAssistantNewTab,
+      },
+      ...assistantPromptChips.map((chip, index) => ({
+        id: chip.id,
+        label: chip.label,
+        icon: chip.icon,
+        separatorAbove: index === 0,
+        onSelect: () => handleAssistantPromptChip(chip),
+      })),
+    ],
+    [],
+  );
 
   function handleSendMessage() {
     if (!messageComposerValue.trim()) return;
@@ -581,17 +690,12 @@ function LongformerApp() {
       onSelect={(id) => setWorkspaceId(id as WorkspaceId)}
       onMoveToRail={(id) => setPinnedWorkspaceIds((prev) => moveWorkspaceToRail(prev, id as WorkspaceId))}
       onMoveToOverflow={(id) => setPinnedWorkspaceIds((prev) => moveWorkspaceToOverflow(prev, id as WorkspaceId))}
+      onReorder={(fromIndex, toIndex) =>
+        setPinnedWorkspaceIds((prev) => reorderPinnedWorkspaces(prev, fromIndex, toIndex))
+      }
       expanded={navRailExpanded}
       onExpandedChange={setNavRailExpanded}
       brand="L"
-      utilities={
-        <IconButton
-          icon="sparkles"
-          label={assistantOpen ? "Hide AI conversation" : "Ask Longformer"}
-          aria-pressed={assistantOpen}
-          onClick={() => setAssistantOpen((open) => !open)}
-        />
-      }
       footer={
         <SidebarUserFooterMenu
           name="Paul Bloch"
@@ -618,7 +722,7 @@ function LongformerApp() {
   const workspaceViewModelBase = useMemo(
     () => ({
       setWorkspaceId,
-      messages,
+      messages: chatTabMessages[activeChatTabId] ?? [],
       composerValue,
       setComposerValue,
       handleSubmit,
@@ -685,12 +789,22 @@ function LongformerApp() {
       runningAppIds: new Set(surface.windows.filter((w) => w.state !== "minimized").map((w) => w.appId)),
       handleTrayLaunchApp,
       handleInstallApp,
-      recentPages,
-      privatePages,
-      teamspacePages,
+      recentPages: vaultRecentPages,
+      privatePages: vaultPrivatePages,
+      teamspacePages: vaultTeamspacePages,
       activePageId,
       setActivePageId,
-      notesBlocks,
+      resolveNoteId,
+      activeNote,
+      notesGraphNodes: notesGraph.nodes,
+      notesGraphEdges: notesGraph.edges,
+      notesView,
+      setNotesView,
+      graphPanelOpen,
+      setGraphPanelOpen,
+      handleNoteSelect,
+      activeNoteBacklinks,
+      activeNoteWordCount,
       docFormat,
       handleBlockFormatChange,
       handleToggleMark,
@@ -741,6 +855,24 @@ function LongformerApp() {
       musicFeatured,
       musicMixes,
       musicNowPlaying,
+      visionUser,
+      visionFeatured,
+      visionRows,
+      visionNowPlaying,
+      readerBooks,
+      mapsSavedPlaces,
+      mapsDestinations,
+      mapsRoute,
+      cameraGallery,
+      weatherLocations,
+      weatherCurrent,
+      weatherForecast,
+      serverWorkspaceData,
+      orchestratorWorkspaceData,
+      ticketsWorkspaceData,
+      transcribeWorkspaceData,
+      lifePlanningWorkspaceData,
+      psycheWorkspaceData,
       generatedSchema,
       threads,
       activeThreadId,
@@ -750,9 +882,19 @@ function LongformerApp() {
       activeThread,
       mailFolders,
       chatConversations,
+      chatTabs,
+      activeChatTabId,
+      setActiveChatTabId,
+      handleChatTabClose,
+      handleChatNewTab,
+      chatNavItems: chatConversationNavItems,
+      chatNavId,
+      setChatNavId,
     }),
     [
-      messages,
+      chatTabMessages,
+      activeChatTabId,
+      chatTabs,
       composerValue,
       model,
       modelMenuItems,
@@ -780,6 +922,13 @@ function LongformerApp() {
       appSearch,
       surface.windows,
       activePageId,
+      activeNote,
+      notesGraph,
+      notesView,
+      graphPanelOpen,
+      activeNoteBacklinks,
+      activeNoteWordCount,
+      handleNoteSelect,
       docFormat,
       docHistoryIndex,
       docHistory.length,
@@ -800,6 +949,7 @@ function LongformerApp() {
       activeThreadId,
       starred,
       activeThread,
+      chatNavId,
     ],
   );
 
@@ -841,10 +991,13 @@ function LongformerApp() {
         widgetTiles={[...bankingWidgetTiles, ...financeWidgetTiles, ...fitnessWidgetTiles, ...widgetDashboardTiles]}
         onCreateApp={openCreateAppModal}
         renderWindowContent={renderDesktopWindowContent}
+        fullscreen={desktopFullscreen}
+        onFullscreenChange={setDesktopFullscreen}
       />
     ),
     [
       allDesktopApps,
+      desktopFullscreen,
       renderDesktopWindowContent,
       surface.activeWindowId,
       surface.formFactor,
@@ -878,10 +1031,12 @@ function LongformerApp() {
     setContextPanelWidth(contextPanelDefaultWidth);
   }, [contextPanelDefaultWidth]);
 
+  const hideInlineRail = workspaceId === "desktop" && desktopFullscreen;
+
   return (
     <>
       <AppShell
-        rail={rail}
+        rail={hideInlineRail ? undefined : rail}
         railResizable={navRailExpanded}
         sidebar={sidebar}
         main={main}
@@ -893,6 +1048,10 @@ function LongformerApp() {
               activeTabId={activeAssistantTabId}
               onTabChange={setActiveAssistantTabId}
               onTabClose={handleAssistantTabClose}
+              projectLabel="Longformer"
+              navItems={assistantConversationNavItems}
+              activeNavId={assistantNavId}
+              onNavChange={setAssistantNavId}
               messages={assistantTabMessages[activeAssistantTabId] ?? []}
               composerValue={assistantComposerValue}
               onComposerChange={setAssistantComposerValue}
@@ -923,6 +1082,9 @@ function LongformerApp() {
         defaultContextPanelWidth={contextPanelDefaultWidth}
         contextPanelMaxWidth={contextPanelMaxWidth}
       />
+      <HoverNavRail enabled={hideInlineRail} expanded={navRailExpanded}>
+        {rail}
+      </HoverNavRail>
       <HoverStatusBar
         enabled={workspaceId !== "desktop"}
         shell={surface.shell}
@@ -932,6 +1094,12 @@ function LongformerApp() {
           batteryPercent: 84,
           activeAppLabel: WORKSPACES.find((item) => item.id === workspaceId)?.label ?? "Longformer",
         }}
+      />
+      <HoverAssistantBubble
+        enabled={workspaceId !== "desktop" && workspaceId !== "chat"}
+        assistantOpen={assistantOpen}
+        onOpenAssistant={() => setAssistantOpen(true)}
+        items={assistantMenuItems}
       />
       <HoverAppTray
         enabled={workspaceId !== "desktop"}

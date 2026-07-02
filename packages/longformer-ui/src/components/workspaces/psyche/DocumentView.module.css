@@ -1,0 +1,147 @@
+.view {
+  padding: var(--lf-space-6);
+  max-width: 960px;
+}
+
+.header {
+  margin-bottom: var(--lf-space-6);
+}
+
+.headerTop {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lf-space-3);
+  margin-bottom: var(--lf-space-2);
+}
+
+.headerSoul,
+.headerEthics {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--lf-radius-lg);
+  flex-shrink: 0;
+}
+
+.headerSoul {
+  background: color-mix(in srgb, #f472b6 18%, transparent);
+  color: #f472b6;
+}
+
+.headerEthics {
+  background: color-mix(in srgb, #a78bfa 18%, transparent);
+  color: #a78bfa;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--lf-font-size-2xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.filename {
+  margin: 2px 0 0;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  font-family: var(--lf-font-mono, ui-monospace, monospace);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  margin-left: auto;
+}
+
+.meta {
+  margin: 0;
+  padding-left: calc(44px + var(--lf-space-3));
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: var(--lf-space-5);
+  align-items: start;
+}
+
+.toc {
+  position: sticky;
+  top: var(--lf-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+}
+
+.tocLabel {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--lf-text-tertiary);
+  margin-bottom: var(--lf-space-2);
+}
+
+.tocItem {
+  padding: 6px 10px;
+  border-radius: var(--lf-radius-md);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-secondary);
+  text-decoration: none;
+}
+
+.tocItem:hover {
+  background: var(--lf-surface-sunken);
+  color: var(--lf-text-primary);
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.sectionCard {
+  border: 1px solid var(--lf-border-subtle);
+  scroll-margin-top: var(--lf-space-4);
+}
+
+.sectionHeading {
+  margin: 0 0 var(--lf-space-3);
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+}
+
+.sectionBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.paragraph {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  line-height: 1.6;
+}
+
+@media (max-width: 760px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .toc {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .meta {
+    padding-left: 0;
+  }
+}

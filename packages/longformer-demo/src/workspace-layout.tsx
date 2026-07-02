@@ -4,6 +4,7 @@ import {
   BankCryptoWorkspace,
   CalendarWorkspace,
   ChatWorkspace,
+  type ConversationTabItem,
   ContactsWorkspace,
   EditorToolbar,
   EmailWorkspace,
@@ -24,6 +25,18 @@ import {
   TasksWorkspace,
   WalletWorkspace,
   MusicWorkspace,
+  VisionWorkspace,
+  ReaderWorkspace,
+  MapsWorkspace,
+  CameraWorkspace,
+  WeatherWorkspace,
+  PhoneWorkspace,
+  ServerWorkspace,
+  OrchestratorWorkspace,
+  TicketsWorkspace,
+  TranscribeWorkspace,
+  LifePlanningWorkspace,
+  PsycheWorkspace,
   type AppsSubpage,
   type BlockFormat,
   type ChatMessage,
@@ -123,7 +136,17 @@ export interface WorkspaceLayoutViewModel {
   teamspacePages: { id: string; label: string }[];
   activePageId: string;
   setActivePageId: (id: string) => void;
-  notesBlocks: unknown[];
+  resolveNoteId: (pageId: string) => string;
+  activeNote: import("longformer-ui").NotePage;
+  notesGraphNodes: import("longformer-ui").NotesGraphNode[];
+  notesGraphEdges: import("longformer-ui").NotesGraphEdge[];
+  notesView: import("longformer-ui").NotesView;
+  setNotesView: (view: import("longformer-ui").NotesView) => void;
+  graphPanelOpen: boolean;
+  setGraphPanelOpen: (open: boolean) => void;
+  handleNoteSelect: (noteId: string) => void;
+  activeNoteBacklinks: number;
+  activeNoteWordCount: number;
   docFormat: { blockFormat: BlockFormat; marks: TextMark[]; align: TextAlign };
   handleBlockFormatChange: (format: BlockFormat) => void;
   handleToggleMark: (mark: TextMark) => void;
@@ -174,6 +197,24 @@ export interface WorkspaceLayoutViewModel {
   musicFeatured: unknown;
   musicMixes: unknown[];
   musicNowPlaying: unknown;
+  visionUser: unknown;
+  visionFeatured: unknown;
+  visionRows: unknown[];
+  visionNowPlaying: unknown;
+  readerBooks: unknown[];
+  mapsSavedPlaces: unknown[];
+  mapsDestinations: unknown[];
+  mapsRoute: unknown;
+  cameraGallery: unknown[];
+  weatherLocations: unknown[];
+  weatherCurrent: unknown;
+  weatherForecast: unknown[];
+  serverWorkspaceData: unknown;
+  orchestratorWorkspaceData: unknown;
+  ticketsWorkspaceData: unknown;
+  transcribeWorkspaceData: unknown;
+  lifePlanningWorkspaceData: unknown;
+  psycheWorkspaceData: unknown;
   generatedSchema: unknown;
   threads: { id: string; starred?: boolean }[];
   activeThreadId: string;
@@ -183,6 +224,15 @@ export interface WorkspaceLayoutViewModel {
   activeThread?: { subject?: string; messages?: unknown[] };
   mailFolders: { id: string; label: string; icon: string }[];
   chatConversations: { id: string; label: string; meta?: string }[];
+  chatTabs: ConversationTabItem[];
+  activeChatTabId: string;
+  setActiveChatTabId: (id: string) => void;
+  handleChatTabClose: (id: string) => void;
+  handleChatNewTab: () => void;
+  chatNavItems: { id: string; label: string }[];
+  chatNavId: string;
+  setChatNavId: (id: string) => void;
+  chatConversationTitle?: string;
   renderDesktopWorkspace?: () => ReactNode;
 }
 
@@ -221,12 +271,21 @@ export function buildWorkspaceLayout(
           composerValue={vm.composerValue}
           onComposerChange={vm.setComposerValue}
           onSubmit={vm.handleSubmit}
+          tabs={vm.chatTabs}
+          activeTabId={vm.activeChatTabId}
+          onTabChange={vm.setActiveChatTabId}
+          onTabClose={vm.handleChatTabClose}
+          onNewConversation={vm.handleChatNewTab}
           promptChips={vm.promptChips}
           onPromptChipSelect={(item) => vm.setComposerValue(item.label)}
           model={vm.model}
           modelOptions={vm.modelMenuItems}
           usage={vm.demoUsage}
           thinkingLevel="High"
+          projectLabel="Longformer"
+          navItems={vm.chatNavItems}
+          activeNavId={vm.chatNavId}
+          onNavChange={vm.setChatNavId}
         />
       );
       break;
@@ -412,19 +471,48 @@ export function buildWorkspaceLayout(
           quickLinks={[
             { id: "search", label: "Search", icon: "search" },
             { id: "home", label: "Home", icon: "grid" },
+            {
+              id: "graph",
+              label: "Graph view",
+              icon: "globe",
+              active: vm.notesView === "graph",
+              onClick: () => vm.setNotesView(vm.notesView === "graph" ? "editor" : "graph"),
+            },
           ]}
           sections={[
             {
+              id: "ideas",
+              title: "Ideas",
+              items: vm.recentPages
+                .filter((page) => page.id === "writing-telepathy")
+                .map((page) => ({
+                  id: page.id,
+                  label: page.label,
+                  leading: <Icon name="notebook" size={14} />,
+                  trailing: page.meta,
+                  active: vm.resolveNoteId(page.id) === vm.activeNote.id,
+                  onClick: () => {
+                    vm.setActivePageId(page.id);
+                    vm.setNotesView("editor");
+                  },
+                })),
+            },
+            {
               id: "recents",
               title: "Recents",
-              items: vm.recentPages.map((page) => ({
-                id: page.id,
-                label: page.label,
-                leading: <Icon name="notebook" size={14} />,
-                trailing: page.meta,
-                active: page.id === vm.activePageId,
-                onClick: () => vm.setActivePageId(page.id),
-              })),
+              items: vm.recentPages
+                .filter((page) => page.id !== "writing-telepathy")
+                .map((page) => ({
+                  id: page.id,
+                  label: page.label,
+                  leading: <Icon name="notebook" size={14} />,
+                  trailing: page.meta,
+                  active: vm.resolveNoteId(page.id) === vm.activeNote.id,
+                  onClick: () => {
+                    vm.setActivePageId(page.id);
+                    vm.setNotesView("editor");
+                  },
+                })),
             },
             {
               id: "private",
@@ -433,8 +521,11 @@ export function buildWorkspaceLayout(
                 id: page.id,
                 label: page.label,
                 leading: <Icon name="notebook" size={14} />,
-                active: page.id === vm.activePageId,
-                onClick: () => vm.setActivePageId(page.id),
+                active: vm.resolveNoteId(page.id) === vm.activeNote.id,
+                onClick: () => {
+                  vm.setActivePageId(page.id);
+                  vm.setNotesView("editor");
+                },
               })),
             },
             {
@@ -444,8 +535,11 @@ export function buildWorkspaceLayout(
                 id: page.id,
                 label: page.label,
                 leading: <Icon name="folder" size={14} />,
-                active: page.id === vm.activePageId,
-                onClick: () => vm.setActivePageId(page.id),
+                active: vm.resolveNoteId(page.id) === vm.activeNote.id,
+                onClick: () => {
+                  vm.setActivePageId(page.id);
+                  vm.setNotesView("editor");
+                },
               })),
             },
           ]}
@@ -454,10 +548,25 @@ export function buildWorkspaceLayout(
       ) : undefined;
       main = (
         <NotesWorkspace
-          breadcrumb={[{ label: "Longformer" }, { label: "Brainstorming" }, { label: "Addressing User Feedback" }]}
-          title="Addressing User Feedback"
+          breadcrumb={[
+            { label: "Longformer" },
+            { label: vm.activeNote.folder ?? "Notes" },
+            { label: vm.activeNote.title },
+          ]}
+          title={vm.activeNote.title}
+          tags={vm.activeNote.tags}
           collaborators={[{ name: "Paul Bloch" }, { name: "Dana Cho" }, { name: "Marcus Webb" }]}
-          blocks={vm.notesBlocks as never}
+          blocks={vm.activeNote.blocks}
+          graphNodes={vm.notesGraphNodes}
+          graphEdges={vm.notesGraphEdges}
+          activeNoteId={vm.activeNote.id}
+          view={vm.notesView}
+          graphPanelOpen={vm.graphPanelOpen}
+          onToggleGraphPanel={() => vm.setGraphPanelOpen(!vm.graphPanelOpen)}
+          onViewChange={vm.setNotesView}
+          onNoteSelect={vm.handleNoteSelect}
+          backlinkCount={vm.activeNoteBacklinks}
+          wordCount={vm.activeNoteWordCount}
           toolbar={
             <EditorToolbar
               blockFormat={vm.docFormat.blockFormat}
@@ -705,6 +814,94 @@ export function buildWorkspaceLayout(
           nowPlaying={vm.musicNowPlaying as never}
         />
       );
+      break;
+
+    case "vision":
+      sidebar = undefined;
+      main = (
+        <VisionWorkspace
+          user={vm.visionUser as never}
+          featured={vm.visionFeatured as never}
+          rows={vm.visionRows as never}
+          nowPlaying={vm.visionNowPlaying as never}
+        />
+      );
+      break;
+
+    case "reader":
+      sidebar = undefined;
+      main = <ReaderWorkspace books={vm.readerBooks as never} />;
+      break;
+
+    case "maps":
+      sidebar = undefined;
+      main = (
+        <MapsWorkspace
+          savedPlaces={vm.mapsSavedPlaces as never}
+          destinations={vm.mapsDestinations as never}
+          route={vm.mapsRoute as never}
+        />
+      );
+      break;
+
+    case "camera":
+      sidebar = undefined;
+      main = <CameraWorkspace gallery={vm.cameraGallery as never} />;
+      break;
+
+    case "weather":
+      sidebar = undefined;
+      main = (
+        <WeatherWorkspace
+          locations={vm.weatherLocations as never}
+          current={vm.weatherCurrent as never}
+          forecast={vm.weatherForecast as never}
+        />
+      );
+      break;
+
+    case "phone":
+      sidebar = undefined;
+      main = (
+        <PhoneWorkspace
+          dialValue={vm.dialValue}
+          onDialChange={vm.setDialValue}
+          contacts={vm.phoneContacts as never}
+          activeContact={
+            vm.phoneContacts.find((contact) => contact.id === vm.activePhoneContactId) as never
+          }
+        />
+      );
+      break;
+
+    case "server":
+      sidebar = undefined;
+      main = <ServerWorkspace data={vm.serverWorkspaceData as never} />;
+      break;
+
+    case "orchestrator":
+      sidebar = undefined;
+      main = <OrchestratorWorkspace data={vm.orchestratorWorkspaceData as never} />;
+      break;
+
+    case "tickets":
+      sidebar = undefined;
+      main = <TicketsWorkspace data={vm.ticketsWorkspaceData as never} />;
+      break;
+
+    case "transcribe":
+      sidebar = undefined;
+      main = <TranscribeWorkspace data={vm.transcribeWorkspaceData as never} />;
+      break;
+
+    case "life-planning":
+      sidebar = undefined;
+      main = <LifePlanningWorkspace data={vm.lifePlanningWorkspaceData as never} />;
+      break;
+
+    case "psyche":
+      sidebar = undefined;
+      main = <PsycheWorkspace data={vm.psycheWorkspaceData as never} />;
       break;
 
     case "desktop":

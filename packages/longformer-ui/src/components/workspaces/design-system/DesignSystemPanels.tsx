@@ -4,6 +4,8 @@ import {
   Avatar,
   Badge,
   Button,
+  CalculatorPad,
+  OmronCalculatorPad,
   Card,
   Chip,
   CountBadge,
@@ -196,6 +198,10 @@ export function ComponentsPanel() {
               <div className={styles.componentRow}>
                 <Chip active>Selected</Chip>
                 <Chip>Default</Chip>
+              </div>
+              <div className={styles.calculatorPreviewRow}>
+                <CalculatorPad />
+                <OmronCalculatorPad />
               </div>
             </div>
           )}

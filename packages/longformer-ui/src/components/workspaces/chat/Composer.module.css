@@ -36,6 +36,11 @@
   gap: var(--lf-space-1);
 }
 
+.modeTabs {
+  flex-shrink: 0;
+  background: var(--lf-surface-3);
+}
+
 .modelTrigger {
   display: inline-flex;
   align-items: center;

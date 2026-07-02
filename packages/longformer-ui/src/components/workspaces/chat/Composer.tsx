@@ -4,6 +4,7 @@ import { Icon } from "../../../icons";
 import { Textarea } from "../../primitives/Textarea";
 import { IconButton } from "../../primitives/IconButton";
 import { Menu, type MenuItemDescriptor } from "../../primitives/Menu";
+import { Tabs, type TabItem } from "../../primitives/Tabs";
 import { ComposerStatusBar } from "./ComposerStatusBar";
 import type { UsageStats } from "./UsagePopover";
 import styles from "./Composer.module.css";
@@ -16,6 +17,10 @@ export interface ComposerProps {
   disabled?: boolean;
   model?: string;
   modelOptions?: MenuItemDescriptor[];
+  /** Agent / Ask mode switch rendered inside the input controls. */
+  navItems?: TabItem[];
+  activeNavId?: string;
+  onNavChange?: (id: string) => void;
   /** Extra row rendered below the controls, e.g. repo/branch selectors. */
   footer?: ReactNode;
   /** When set, renders a status bar with usage popover below the input. */
@@ -36,6 +41,9 @@ export function Composer({
   disabled = false,
   model,
   modelOptions,
+  navItems,
+  activeNavId,
+  onNavChange,
   footer,
   usage,
   thinkingLevel,
@@ -49,6 +57,8 @@ export function Composer({
       if (value.trim().length > 0) onSubmit();
     }
   }
+
+  const showModeTabs = navItems && navItems.length > 0 && activeNavId && onNavChange;
 
   return (
     <div className={cx(styles.stack, className)}>
@@ -67,6 +77,15 @@ export function Composer({
         </div>
         <div className={styles.controls}>
           <div className={styles.controlsLeft}>
+            {showModeTabs ? (
+              <Tabs
+                className={styles.modeTabs}
+                items={navItems}
+                value={activeNavId}
+                onChange={onNavChange}
+                aria-label="Conversation mode"
+              />
+            ) : null}
             <IconButton icon="attach" label="Attach file" size="sm" />
             {model && modelOptions && (
               <Menu

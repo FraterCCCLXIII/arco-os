@@ -9,6 +9,7 @@ import { MessageBubble } from "./MessageBubble";
 import { PromptChips } from "./PromptChips";
 import type { ChatMessage, PromptChipItem } from "./types";
 import { ConversationTabBar, type ConversationTabItem } from "./ConversationTabBar";
+import type { TabItem } from "../../primitives/Tabs";
 import styles from "./ConversationPanel.module.css";
 
 export interface ConversationPanelProps {
@@ -33,6 +34,10 @@ export interface ConversationPanelProps {
   disabled?: boolean;
   /** Drop header and panel background — for floating overlays without window chrome. */
   chromeless?: boolean;
+  projectLabel?: ReactNode;
+  navItems?: TabItem[];
+  activeNavId?: string;
+  onNavChange?: (id: string) => void;
   className?: string;
 }
 
@@ -63,21 +68,32 @@ export function ConversationPanel({
   modelOptions,
   disabled = false,
   chromeless = false,
+  projectLabel,
+  navItems,
+  activeNavId,
+  onNavChange,
   className,
 }: ConversationPanelProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const hasTabBar = !chromeless && tabs && tabs.length > 0 && activeTabId && onTabChange;
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages.length]);
 
+  const composerModeProps =
+    navItems && activeNavId && onNavChange
+      ? { navItems, activeNavId, onNavChange }
+      : undefined;
+
   return (
     <div className={cx(styles.panel, chromeless && styles.panelChromeless, className)}>
-      {!chromeless && tabs && tabs.length > 0 && activeTabId && onTabChange ? (
+      {hasTabBar ? (
         <ConversationTabBar
           tabs={tabs}
           activeId={activeTabId}
           onSelect={onTabChange}
+          projectLabel={projectLabel}
           onClose={onTabClose}
           onNewTab={onNewConversation}
           onHistory={onTabHistory}
@@ -112,6 +128,7 @@ export function ConversationPanel({
               model={model}
               modelOptions={modelOptions}
               surfaceClassName={chromeless ? styles.composerChromeless : undefined}
+              {...composerModeProps}
             />
             {promptChips && promptChips.length > 0 && onPromptChipSelect && (
               <PromptChips items={promptChips} onSelect={onPromptChipSelect} />
@@ -137,6 +154,7 @@ export function ConversationPanel({
               model={model}
               modelOptions={modelOptions}
               surfaceClassName={chromeless ? styles.composerChromeless : undefined}
+              {...composerModeProps}
             />
           </div>
         </>

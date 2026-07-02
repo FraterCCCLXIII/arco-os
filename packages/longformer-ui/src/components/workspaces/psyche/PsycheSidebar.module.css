@@ -1,0 +1,113 @@
+.sidebar {
+  flex-shrink: 0;
+  width: 220px;
+  max-width: 220px;
+  min-width: 220px;
+  border-right: 1px solid var(--lf-border-subtle);
+  overflow: hidden;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--lf-space-1) var(--lf-space-2);
+  min-width: 0;
+}
+
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  min-width: 0;
+  font-size: var(--lf-font-size-md);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--lf-text-primary);
+}
+
+.brandRow > span:last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brandIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lf-radius-md);
+  background: color-mix(in srgb, var(--lf-accent) 18%, transparent);
+  color: var(--lf-accent);
+}
+
+.tagline {
+  padding-left: calc(28px + var(--lf-space-2));
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.navItem {
+  font-size: var(--lf-font-size-sm);
+}
+
+.docBadge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: auto;
+  padding: 2px 6px;
+  border-radius: var(--lf-radius-full);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--lf-surface-sunken);
+  color: var(--lf-text-secondary);
+  border: 1px solid var(--lf-border-subtle);
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.modelChip {
+  padding: var(--lf-space-3);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-sunken);
+  border: 1px solid var(--lf-border-subtle);
+}
+
+.modelChipLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  margin-bottom: var(--lf-space-1);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--lf-accent);
+}
+
+.modelChipText {
+  margin: 0;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-secondary);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 960px) {
+  .sidebar {
+    display: none;
+  }
+}

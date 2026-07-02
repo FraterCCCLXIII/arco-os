@@ -1,0 +1,211 @@
+.dashboard {
+  padding: var(--lf-space-6);
+  max-width: 1280px;
+}
+
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: 0;
+  margin-bottom: var(--lf-space-4);
+  border: none;
+  background: transparent;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}
+
+.breadcrumb:hover {
+  color: var(--lf-text-primary);
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--lf-space-3);
+  margin-bottom: var(--lf-space-6);
+}
+
+.metricCard {
+  position: relative;
+  min-height: 96px;
+}
+
+.metricHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+  margin-bottom: var(--lf-space-3);
+}
+
+.metricLabel {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+}
+
+.metricIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lf-radius-md);
+  flex-shrink: 0;
+}
+
+.metricIconAccent {
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.metricIconSuccess {
+  background: var(--lf-success-muted);
+  color: var(--lf-success);
+}
+
+.metricIconNeutral {
+  background: var(--lf-surface-sunken);
+  color: var(--lf-text-secondary);
+}
+
+.metricValue {
+  font-size: var(--lf-font-size-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--lf-text-primary);
+}
+
+.metricValueSuccess {
+  color: var(--lf-success);
+}
+
+.agentsSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+}
+
+.search {
+  flex: 1;
+  max-width: 320px;
+}
+
+.columnsBtn {
+  margin-left: auto;
+}
+
+.tableCard {
+  overflow: hidden;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--lf-font-size-sm);
+}
+
+.table th,
+.table td {
+  padding: var(--lf-space-3) var(--lf-space-4);
+  text-align: left;
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.table th {
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: var(--lf-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--lf-surface-sunken);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: var(--lf-surface-sunken);
+}
+
+.agentName {
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.agentDescription {
+  color: var(--lf-text-secondary);
+}
+
+.sortBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: 0;
+  border: none;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.sortBtn:hover {
+  color: var(--lf-text-primary);
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--lf-space-1);
+  padding: var(--lf-space-3) var(--lf-space-4);
+  border-top: 1px solid var(--lf-border-subtle);
+}
+
+.pageBtn {
+  min-width: 32px;
+}
+
+.pageBtnActive {
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.empty {
+  padding: var(--lf-space-8);
+  text-align: center;
+  color: var(--lf-text-tertiary);
+}
+
+@media (max-width: 1100px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .toolbar {
+    flex-wrap: wrap;
+  }
+
+  .search {
+    max-width: none;
+    width: 100%;
+  }
+}

@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { useState } from "react";
+import { cx } from "../../../utils/cx";
 import { StatusBar } from "./StatusBar";
 import { DesktopSurface } from "./DesktopSurface";
 import { TaskTray } from "./TaskTray";
@@ -41,6 +43,10 @@ export interface DesktopWorkspaceProps {
   renderWindowContent?: (window: SurfaceWindow) => ReactNode;
   /** Optional slot rendered above the desktop surface, e.g. shell picker controls. */
   header?: ReactNode;
+  /** When set, controls whether the simulated desktop fills the workspace panel. */
+  fullscreen?: boolean;
+  onFullscreenChange?: (fullscreen: boolean) => void;
+  defaultFullscreen?: boolean;
 }
 
 /**
@@ -76,7 +82,21 @@ export function DesktopWorkspace({
   onCreateApp,
   renderWindowContent,
   header,
+  fullscreen: controlledFullscreen,
+  onFullscreenChange,
+  defaultFullscreen = false,
 }: DesktopWorkspaceProps) {
+  const [internalFullscreen, setInternalFullscreen] = useState(defaultFullscreen);
+  const fullscreen = controlledFullscreen ?? internalFullscreen;
+
+  function handleToggleFullscreen() {
+    const next = !fullscreen;
+    onFullscreenChange?.(next);
+    if (controlledFullscreen === undefined) {
+      setInternalFullscreen(next);
+    }
+  }
+
   const displayWindows =
     surfaceWindows ??
     windows.map((window, index) => toSurfaceWindow(window, index + 1)).filter((w) => w.state !== "minimized");
@@ -98,8 +118,8 @@ export function DesktopWorkspace({
   const fixedFrame = formFactorUsesFixedFrame(formFactor);
 
   return (
-    <div className={styles.workspace}>
-      {(onShellChange || onFormFactorChange) && (
+    <div className={cx(styles.workspace, fullscreen && styles.workspaceFullscreen)}>
+      {(onShellChange || onFormFactorChange) && !fullscreen && (
         <div className={styles.toolbar}>
           {header ?? (
             <div className={styles.toolbarPickers}>
@@ -111,13 +131,13 @@ export function DesktopWorkspace({
           )}
         </div>
       )}
-      <div className={styles.deviceStage}>
+      <div className={cx(styles.deviceStage, fullscreen && styles.deviceStageFullscreen)}>
         <div
-          className={styles.deviceScreen}
+          className={cx(styles.deviceScreen, fullscreen && styles.deviceScreenFullscreen)}
           data-shell={shell}
           data-form-factor={formFactor}
           style={
-            fixedFrame
+            fixedFrame && !fullscreen
               ? {
                   width: frame.width,
                   height: frame.height,
@@ -125,7 +145,12 @@ export function DesktopWorkspace({
               : undefined
           }
         >
-          <StatusBar shell={shell} status={mergedStatus} />
+          <StatusBar
+            shell={shell}
+            status={mergedStatus}
+            fullscreen={fullscreen}
+            onToggleFullscreen={handleToggleFullscreen}
+          />
           <DesktopSurface
             shell={shell}
             formFactor={formFactor}

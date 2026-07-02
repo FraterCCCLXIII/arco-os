@@ -8,6 +8,7 @@ export * from "./Avatar";
 export * from "./Badge";
 export * from "./BatteryStatusCard";
 export * from "./Button";
+export * from "./CalculatorPad";
 export * from "./CalendarScheduleCard";
 export * from "./Card";
 export * from "./CardCollection";

@@ -42,6 +42,7 @@ import {
   RefreshCw,
   Lock,
   Minus,
+  Minimize2,
   Maximize,
   Wifi,
   Battery,
@@ -154,6 +155,7 @@ export type IconName =
   | "refresh"
   | "lock"
   | "minus"
+  | "minimize-2"
   | "maximize"
   | "wifi"
   | "battery"
@@ -259,6 +261,7 @@ const icons: Record<IconName, LucideIcon> = {
   refresh: RefreshCw,
   lock: Lock,
   minus: Minus,
+  "minimize-2": Minimize2,
   maximize: Maximize,
   wifi: Wifi,
   battery: Battery,

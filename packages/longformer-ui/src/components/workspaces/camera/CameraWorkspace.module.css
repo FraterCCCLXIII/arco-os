@@ -1,0 +1,149 @@
+.workspace {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--lf-surface-canvas);
+}
+
+.viewfinder {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0a;
+}
+
+.viewfinderFrame {
+  position: relative;
+  width: min(100%, 720px);
+  aspect-ratio: 4 / 3;
+  margin: var(--lf-space-4);
+  border-radius: var(--lf-radius-md);
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 60% 30%, rgba(255, 255, 255, 0.08), transparent 55%),
+    linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.viewfinderOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: var(--lf-space-4);
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.recordingBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-1) var(--lf-space-2);
+  border-radius: var(--lf-radius-pill);
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+}
+
+.recordingDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--lf-danger);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.gridLines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.2;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.5) 1px, transparent 1px);
+  background-size: 33.33% 33.33%;
+}
+
+.controls {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-4);
+  border-top: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-1);
+}
+
+.modeRow {
+  display: flex;
+  justify-content: center;
+  gap: var(--lf-space-2);
+}
+
+.shutterRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-5);
+}
+
+.shutter {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 4px solid var(--lf-border-strong);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s ease;
+}
+
+.shutter:active {
+  transform: scale(0.94);
+}
+
+.shutterInner {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--lf-surface-1);
+  border: 2px solid var(--lf-text-primary);
+}
+
+.shutterRecording .shutterInner {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-danger);
+  border-color: var(--lf-danger);
+}
+
+.gallery {
+  display: flex;
+  gap: var(--lf-space-2);
+  overflow-x: auto;
+  padding-bottom: var(--lf-space-1);
+}
+
+.galleryCard {
+  flex: 0 0 100px;
+  height: 120px;
+}

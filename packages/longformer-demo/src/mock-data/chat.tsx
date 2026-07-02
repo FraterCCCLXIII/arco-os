@@ -22,11 +22,24 @@ export const assistantPromptChips: PromptChipItem[] = [
   { id: "find-related", label: "Find related notes", icon: "search" },
 ];
 
+export const chatConversationTabs = [
+  { id: "c1", label: "Can you review the project?", swatch: "var(--lf-accent)", closable: true },
+  { id: "c2", label: "Research an office app", icon: "sparkles" as const, closable: true },
+  { id: "c3", label: "Order me a pizza", icon: "sparkles" as const, closable: true },
+];
+
 export const assistantConversationTabs = [
   { id: "slack-workspace", label: "Groups workspace", swatch: "var(--lf-accent)", closable: true },
   { id: "settings-page", label: "Large settings page", icon: "sparkles" as const, closable: true },
   { id: "more-widgets", label: "More widgets", icon: "sparkles" as const, closable: true },
 ];
+
+export const assistantConversationNavItems = [
+  { id: "agent", label: "Agent" },
+  { id: "ask", label: "Ask" },
+];
+
+export const chatConversationNavItems = assistantConversationNavItems;
 
 export const activeConversation: ChatMessage[] = [
   {

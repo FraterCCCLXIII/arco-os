@@ -1,0 +1,245 @@
+.view {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+}
+
+.chatPanel {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--lf-border-subtle);
+}
+
+.chatHeader {
+  padding: var(--lf-space-4) var(--lf-space-6);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.chatTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  margin: 0 0 var(--lf-space-1);
+  font-size: var(--lf-font-size-lg);
+  font-weight: 700;
+}
+
+.chatSubtitle {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+}
+
+.messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: var(--lf-space-4) var(--lf-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-4);
+}
+
+.message {
+  display: flex;
+  gap: var(--lf-space-3);
+  max-width: 85%;
+}
+
+.messageUser {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.messageAvatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--lf-radius-full);
+  flex-shrink: 0;
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.messageAvatarUser {
+  background: var(--lf-surface-sunken);
+  color: var(--lf-text-secondary);
+}
+
+.messageBubble {
+  padding: var(--lf-space-3) var(--lf-space-4);
+  border-radius: var(--lf-radius-lg);
+  font-size: var(--lf-font-size-sm);
+  line-height: 1.5;
+}
+
+.messageBubbleAssistant {
+  background: var(--lf-surface-sunken);
+  border: 1px solid var(--lf-border-subtle);
+}
+
+.messageBubbleUser {
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent, white);
+}
+
+.messageMeta {
+  margin-top: var(--lf-space-1);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.messageModuleTag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: var(--lf-space-1);
+  padding: 2px 6px;
+  border-radius: var(--lf-radius-sm);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.composer {
+  padding: var(--lf-space-4) var(--lf-space-6);
+  border-top: 1px solid var(--lf-border-subtle);
+}
+
+.composerHint {
+  margin-top: var(--lf-space-2);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  text-align: center;
+}
+
+.sidePanel {
+  width: 340px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  padding: var(--lf-space-4);
+  background: var(--lf-surface-sunken);
+}
+
+.sideSection {
+  margin-bottom: var(--lf-space-5);
+}
+
+.sideSectionTitle {
+  margin: 0 0 var(--lf-space-3);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--lf-text-tertiary);
+}
+
+.focusCard {
+  padding: var(--lf-space-4);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-raised);
+  border: 1px solid var(--lf-border-subtle);
+}
+
+.focusText {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  line-height: 1.5;
+  color: var(--lf-text-primary);
+}
+
+.recommendation {
+  padding: var(--lf-space-3);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-raised);
+  border: 1px solid var(--lf-border-subtle);
+  margin-bottom: var(--lf-space-2);
+}
+
+.recommendationHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+  margin-bottom: var(--lf-space-1);
+}
+
+.recommendationTitle {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+}
+
+.priorityBadge {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border-radius: var(--lf-radius-sm);
+}
+
+.priorityHigh {
+  background: var(--lf-danger-muted);
+  color: var(--lf-danger);
+}
+
+.priorityMedium {
+  background: var(--lf-warning-muted);
+  color: var(--lf-warning);
+}
+
+.priorityLow {
+  background: var(--lf-surface-sunken);
+  color: var(--lf-text-tertiary);
+}
+
+.recommendationText {
+  margin: 0 0 var(--lf-space-2);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-secondary);
+  line-height: 1.4;
+}
+
+.moduleQuickLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lf-space-2);
+}
+
+.moduleChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: var(--lf-space-1) var(--lf-space-2);
+  border-radius: var(--lf-radius-full);
+  font-size: var(--lf-font-size-xs);
+  background: var(--lf-surface-raised);
+  border: 1px solid var(--lf-border-subtle);
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}
+
+.moduleChip:hover {
+  border-color: var(--lf-border-strong);
+  color: var(--lf-text-primary);
+}
+
+@media (max-width: 960px) {
+  .view {
+    flex-direction: column;
+  }
+
+  .chatPanel {
+    border-right: none;
+    border-bottom: 1px solid var(--lf-border-subtle);
+  }
+
+  .sidePanel {
+    width: 100%;
+  }
+}

@@ -3,6 +3,7 @@ import { cx } from "../../../utils/cx";
 import { Icon, type IconName } from "../../../icons";
 import { Tooltip } from "../../primitives/Tooltip";
 import { NavRailOverflowCard } from "./NavRailOverflowCard";
+import { useNavRailReorder } from "./useNavRailReorder";
 import styles from "./NavRail.module.css";
 
 export interface NavRailItem {
@@ -19,6 +20,8 @@ export interface NavRailProps {
   overflowItems?: NavRailItem[];
   onMoveToRail?: (id: string) => void;
   onMoveToOverflow?: (id: string) => void;
+  /** Reorder pinned tabs after hold-and-drag. */
+  onReorder?: (fromIndex: number, toIndex: number) => void;
   /** Small brand mark rendered at the top, e.g. the product's initial. */
   brand?: ReactNode;
   /** Icon row above the footer, e.g. theme toggle or assistant. */
@@ -46,6 +49,7 @@ export function NavRail({
   overflowItems = [],
   onMoveToRail,
   onMoveToOverflow,
+  onReorder,
   brand,
   utilities,
   footer,
@@ -58,16 +62,27 @@ export function NavRail({
   const [expandedState, setExpandedState] = useState(defaultExpanded);
   const expanded = expandedProp ?? expandedState;
   const canCustomize = Boolean(onMoveToRail && onMoveToOverflow);
+  const canReorder = Boolean(onReorder && items.length > 1);
   const showOverflow = overflowItems.length > 0 || canCustomize;
+
+  const { dragState, pendingIndex, itemRefs, createItemPointerDown, shouldSuppressClick } = useNavRailReorder({
+    enabled: canReorder,
+    itemCount: items.length,
+    onReorder,
+  });
 
   function setExpanded(next: boolean) {
     setExpandedState(next);
     onExpandedChange?.(next);
   }
 
-  function renderItem(item: NavRailItem) {
+  function renderItem(item: NavRailItem, index: number) {
     const active = item.id === activeId;
     const canUnpin = canCustomize && items.length > 1;
+    const isPendingHold = pendingIndex === index;
+    const isDraggingSource = dragState?.fromIndex === index;
+    const showDropBefore = dragState && dragState.dropIndex === index && dragState.fromIndex !== index;
+    const itemPointerDown = canReorder ? createItemPointerDown(index, item.label, item.icon) : undefined;
 
     const button = (
       <button
@@ -75,7 +90,11 @@ export function NavRail({
         className={cx("lf-focusable", styles.itemButton, active && styles.itemActive)}
         aria-current={active ? "true" : undefined}
         aria-label={item.label}
-        onClick={() => onSelect(item.id)}
+        onPointerDown={itemPointerDown}
+        onClick={() => {
+          if (shouldSuppressClick()) return;
+          onSelect(item.id);
+        }}
       >
         <span className={styles.itemIcon}>
           <Icon name={item.icon} size={18} />
@@ -90,6 +109,7 @@ export function NavRail({
           type="button"
           className={styles.unpinButton}
           aria-label={`Move ${item.label} to more apps`}
+          onPointerDown={(event) => event.stopPropagation()}
           onClick={(event) => {
             event.stopPropagation();
             onMoveToOverflow?.(item.id);
@@ -99,18 +119,38 @@ export function NavRail({
         </button>
       ) : null;
 
+    const slot = (
+      <div
+        ref={(element) => {
+          itemRefs.current[index] = element;
+        }}
+        className={cx(
+          styles.itemSlot,
+          canReorder && styles.itemSlotReorderable,
+          isPendingHold && styles.itemSlotPending,
+          isDraggingSource && styles.itemSlotDragging,
+          showDropBefore && styles.itemSlotDropBefore,
+          dragState && styles.itemSlotReorderActive,
+        )}
+      >
+        {expanded ? (
+          <div className={styles.itemRow}>
+            {button}
+            {unpinButton}
+          </div>
+        ) : (
+          button
+        )}
+      </div>
+    );
+
     if (expanded) {
-      return (
-        <div key={item.id} className={styles.itemRow}>
-          {button}
-          {unpinButton}
-        </div>
-      );
+      return <div key={item.id}>{slot}</div>;
     }
 
     return (
       <Tooltip key={item.id} label={item.label} placement="right">
-        {button}
+        {slot}
       </Tooltip>
     );
   }
@@ -129,7 +169,12 @@ export function NavRail({
 
   return (
     <nav
-      className={cx(styles.rail, expanded ? styles.expanded : styles.collapsed, className)}
+      className={cx(
+        styles.rail,
+        expanded ? styles.expanded : styles.collapsed,
+        dragState && styles.railReordering,
+        className,
+      )}
       aria-label="Workspaces"
     >
       {(brand || collapseToggle) && (
@@ -139,7 +184,7 @@ export function NavRail({
         </div>
       )}
       <div className={styles.items}>
-        {items.map((item) => renderItem(item))}
+        {items.map((item, index) => renderItem(item, index))}
         {showOverflow && onMoveToRail && (
           <NavRailOverflowCard
             items={overflowItems}
@@ -156,6 +201,19 @@ export function NavRail({
           {footer}
         </div>
       )}
+
+      {dragState ? (
+        <div
+          className={cx(styles.dragGhost, expanded ? styles.dragGhostExpanded : styles.dragGhostCollapsed)}
+          style={{ left: dragState.ghostX, top: dragState.ghostY }}
+          aria-hidden="true"
+        >
+          <span className={styles.dragGhostIcon}>
+            <Icon name={dragState.icon} size={18} />
+          </span>
+          {expanded ? <span className={styles.dragGhostLabel}>{dragState.label}</span> : null}
+        </div>
+      ) : null}
     </nav>
   );
 }

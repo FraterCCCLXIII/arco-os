@@ -17,6 +17,8 @@ export interface ConversationTabBarProps {
   tabs: ConversationTabItem[];
   activeId: string;
   onSelect: (id: string) => void;
+  /** Project or workspace name shown to the left of conversation tabs. */
+  projectLabel?: ReactNode;
   onClose?: (id: string) => void;
   onNewTab?: () => void;
   onHistory?: () => void;
@@ -30,6 +32,7 @@ export function ConversationTabBar({
   tabs,
   activeId,
   onSelect,
+  projectLabel,
   onClose,
   onNewTab,
   onHistory,
@@ -39,6 +42,7 @@ export function ConversationTabBar({
 }: ConversationTabBarProps) {
   return (
     <div className={cx(styles.bar, className)}>
+      {projectLabel ? <div className={styles.project}>{projectLabel}</div> : null}
       <div className={cx(styles.tabs, "lf-scrollbar")} role="tablist" aria-label="Conversation tabs">
         {tabs.map((tab) => {
           const active = tab.id === activeId;

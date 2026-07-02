@@ -292,6 +292,33 @@
   --banking-white: #ffffff;
   --banking-black: #121212;
   --lf-font-banking: "Space Grotesk", sans-serif;
+
+  /* Calculator / Datamath palette */
+  --calculator-case: #d6d2c4;
+  --calculator-keypad-bg: #1a1a1b;
+  --calculator-key-numeric: #f5f3ee;
+  --calculator-key-function: #d6d2c4;
+  --calculator-key-equals: #ff8c00;
+  --calculator-key-equals-text: #1a1a1b;
+  --calculator-key-text: #1a1a1b;
+  --calculator-display-bg: #1f0808;
+  --calculator-display-text: #ff2a2a;
+  --calculator-display-glow: rgba(255, 42, 42, 0.55);
+  --calculator-brand-gold: #c9a227;
+
+  /* Omron 86 calculator palette */
+  --omron-orange: #ff6600;
+  --omron-body: #1a1a1a;
+  --omron-brand-text: #ff6600;
+  --omron-brand-pill-bg: #1a1a1a;
+  --omron-display-recess: #0a1210;
+  --omron-display-text: #7ef0d8;
+  --omron-display-glow: rgba(126, 240, 216, 0.55);
+  --omron-display-label: rgba(255, 255, 255, 0.45);
+  --omron-key-numeric-bg: #141414;
+  --omron-key-numeric-text: #ffffff;
+  --omron-key-function-bg: #f2f0eb;
+  --omron-key-function-text: #1a1a1a;
   --lf-font-size-xs: 11px;
   --lf-font-size-sm: 12px;
   --lf-font-size-md: 13px;

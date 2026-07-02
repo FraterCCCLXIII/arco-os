@@ -20,7 +20,19 @@ export type WorkspaceId =
   | "settings"
   | "wallet"
   | "bank-crypto"
-  | "music";
+  | "music"
+  | "vision"
+  | "reader"
+  | "maps"
+  | "camera"
+  | "weather"
+  | "phone"
+  | "server"
+  | "orchestrator"
+  | "tickets"
+  | "transcribe"
+  | "life-planning"
+  | "psyche";
 
 export interface WorkspaceNavItem {
   id: WorkspaceId;
@@ -42,11 +54,23 @@ export const WORKSPACES: WorkspaceNavItem[] = [
   { id: "wallet", label: "Wallet", icon: "wallet" },
   { id: "bank-crypto", label: "Bank / Crypto", icon: "dollar-sign" },
   { id: "music", label: "Music", icon: "play" },
+  { id: "vision", label: "Vision", icon: "video" },
+  { id: "reader", label: "Reader", icon: "bookmark" },
+  { id: "maps", label: "Maps", icon: "globe" },
+  { id: "camera", label: "Camera", icon: "image" },
+  { id: "weather", label: "Weather", icon: "sun" },
+  { id: "phone", label: "Phone", icon: "phone-call" },
   { id: "tasks", label: "Tasks", icon: "check" },
   { id: "notifications", label: "Notifications", icon: "bell" },
   { id: "apps", label: "Apps", icon: "app-window" },
   { id: "settings", label: "Settings", icon: "settings" },
   { id: "desktop", label: "Desktop", icon: "monitor" },
+  { id: "server", label: "Server", icon: "terminal" },
+  { id: "orchestrator", label: "Orchestrator", icon: "sparkles" },
+  { id: "tickets", label: "Tickets", icon: "inbox" },
+  { id: "transcribe", label: "Transcribe", icon: "mic" },
+  { id: "life-planning", label: "Life Planning", icon: "target" },
+  { id: "psyche", label: "Psyche", icon: "sparkles" },
   { id: "generated", label: "Design System", icon: "layers" },
 ];
 
@@ -135,4 +159,26 @@ export function moveWorkspaceToRail(pinnedIds: WorkspaceId[], id: WorkspaceId): 
 export function moveWorkspaceToOverflow(pinnedIds: WorkspaceId[], id: WorkspaceId): WorkspaceId[] {
   if (pinnedIds.length <= 1 || !pinnedIds.includes(id)) return pinnedIds;
   return pinnedIds.filter((pinnedId) => pinnedId !== id);
+}
+
+export function reorderPinnedWorkspaces(
+  pinnedIds: WorkspaceId[],
+  fromIndex: number,
+  toIndex: number,
+): WorkspaceId[] {
+  if (
+    fromIndex === toIndex ||
+    fromIndex < 0 ||
+    toIndex < 0 ||
+    fromIndex >= pinnedIds.length ||
+    toIndex >= pinnedIds.length
+  ) {
+    return pinnedIds;
+  }
+
+  const next = [...pinnedIds];
+  const [moved] = next.splice(fromIndex, 1);
+  const insertAt = fromIndex < toIndex ? toIndex - 1 : toIndex;
+  next.splice(insertAt, 0, moved);
+  return next;
 }

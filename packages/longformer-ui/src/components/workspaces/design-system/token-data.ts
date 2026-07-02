@@ -75,6 +75,29 @@ export const COLOR_GROUPS: { title: string; tokens: TokenSwatch[] }[] = [
       { name: "Focus ring", variable: "--lf-focus-ring" },
     ],
   },
+  {
+    title: "Calculator (Datamath)",
+    tokens: [
+      { name: "Case", variable: "--calculator-case", description: "Outer beige shell" },
+      { name: "Keypad", variable: "--calculator-keypad-bg", description: "Recessed black panel" },
+      { name: "Numeric key", variable: "--calculator-key-numeric", description: "White digit keys" },
+      { name: "Function key", variable: "--calculator-key-function", description: "Beige operator keys" },
+      { name: "Equals key", variable: "--calculator-key-equals", description: "Safety orange action" },
+      { name: "Display text", variable: "--calculator-display-text", description: "LED red numerals" },
+      { name: "Brand gold", variable: "--calculator-brand-gold", description: "Header lettering" },
+    ],
+  },
+  {
+    title: "Calculator (Omron 86)",
+    tokens: [
+      { name: "Orange header", variable: "--omron-orange", description: "Top case accent" },
+      { name: "Body", variable: "--omron-body", description: "Matte black shell" },
+      { name: "Display text", variable: "--omron-display-text", description: "VFD cyan-green numerals" },
+      { name: "Numeric key", variable: "--omron-key-numeric-bg", description: "Black circular keys" },
+      { name: "Function key", variable: "--omron-key-function-bg", description: "White circular keys" },
+      { name: "Brand text", variable: "--omron-brand-text", description: "Orange logo lettering" },
+    ],
+  },
 ];
 
 export const SPACING_SCALE: TokenScale[] = [

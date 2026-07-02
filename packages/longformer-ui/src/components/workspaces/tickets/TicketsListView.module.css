@@ -1,0 +1,328 @@
+.ticketView {
+  padding: var(--lf-space-6);
+  max-width: 1400px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-4);
+  margin-bottom: var(--lf-space-5);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--lf-font-size-2xl);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--lf-text-primary);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.addTicketBtn {
+  background: var(--lf-success);
+  color: white;
+}
+
+.addTicketBtn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--lf-success) 85%, black);
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--lf-space-3);
+  margin-bottom: var(--lf-space-4);
+}
+
+.metricCard {
+  min-height: 88px;
+}
+
+.metricLabel {
+  display: block;
+  margin-bottom: var(--lf-space-2);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+}
+
+.metricRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lf-space-2);
+}
+
+.metricValue {
+  font-size: var(--lf-font-size-xl);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--lf-text-primary);
+}
+
+.metricTrend {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+}
+
+.trendUp {
+  color: var(--lf-success);
+}
+
+.trendDown {
+  color: var(--lf-danger);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lf-space-2);
+  margin-bottom: var(--lf-space-4);
+}
+
+.filterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-1);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}
+
+.filterBtn:hover {
+  background: var(--lf-surface-sunken);
+  color: var(--lf-text-primary);
+}
+
+.automationBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-4);
+  padding: var(--lf-space-3) var(--lf-space-4);
+  margin-bottom: var(--lf-space-4);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-success);
+  color: white;
+}
+
+.automationText {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+}
+
+.automationActions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  flex-shrink: 0;
+}
+
+.automationBtn {
+  padding: var(--lf-space-1) var(--lf-space-3);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--lf-radius-md);
+  background: transparent;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+}
+
+.automationBtnPrimary {
+  background: white;
+  border-color: white;
+  color: var(--lf-success);
+}
+
+.tableCard {
+  overflow: hidden;
+}
+
+.tableWrap {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--lf-font-size-sm);
+}
+
+.table th,
+.table td {
+  padding: var(--lf-space-3) var(--lf-space-4);
+  text-align: left;
+  border-bottom: 1px solid var(--lf-border-subtle);
+  vertical-align: middle;
+}
+
+.table th {
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: var(--lf-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  background: var(--lf-surface-sunken);
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: var(--lf-surface-sunken);
+}
+
+.checkboxCol {
+  width: 40px;
+}
+
+.ticketIdCol {
+  min-width: 160px;
+}
+
+.ticketIdCell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+}
+
+.ticketId {
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.priorityBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: var(--lf-radius-sm);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+}
+
+.priorityUrgent {
+  background: var(--lf-danger-muted);
+  color: var(--lf-danger);
+}
+
+.priorityMedium {
+  background: var(--lf-warning-muted);
+  color: var(--lf-warning);
+}
+
+.priorityLow {
+  background: var(--lf-success-muted);
+  color: var(--lf-success);
+}
+
+.subject {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--lf-text-primary);
+}
+
+.intent {
+  color: var(--lf-text-secondary);
+}
+
+.typeCell {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  color: var(--lf-text-secondary);
+}
+
+.clientCell {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  min-width: 140px;
+}
+
+.clientName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--lf-text-primary);
+}
+
+.email {
+  color: var(--lf-text-secondary);
+}
+
+.actionsCol {
+  width: 48px;
+  text-align: right;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: var(--lf-radius-md);
+  background: transparent;
+  color: var(--lf-text-tertiary);
+  cursor: pointer;
+}
+
+.actionBtn:hover {
+  background: var(--lf-surface-sunken);
+  color: var(--lf-text-primary);
+}
+
+.empty {
+  padding: var(--lf-space-8);
+  text-align: center;
+  color: var(--lf-text-tertiary);
+}
+
+@media (max-width: 1200px) {
+  .metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .automationBanner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .metrics {
+    grid-template-columns: 1fr;
+  }
+}

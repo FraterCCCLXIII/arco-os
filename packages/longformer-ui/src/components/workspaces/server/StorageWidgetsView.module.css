@@ -1,0 +1,217 @@
+.page {
+  padding: var(--lf-space-6);
+  max-width: 1200px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-4);
+  margin-bottom: var(--lf-space-8);
+}
+
+.title {
+  margin: 0 0 var(--lf-space-1);
+  font-size: var(--lf-font-size-2xl);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  max-width: 520px;
+}
+
+.addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-1);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--lf-text-primary);
+  flex-shrink: 0;
+}
+
+.section {
+  margin-bottom: var(--lf-space-8);
+}
+
+.sectionTitle {
+  margin: 0 0 var(--lf-space-4);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.widgetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--lf-space-4);
+}
+
+.storageWidget {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.widgetTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.widgetName {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+}
+
+.widgetSub {
+  margin: 2px 0 0;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gauge {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--lf-space-2) auto;
+}
+
+.gaugeTrack {
+  fill: none;
+  stroke: var(--lf-border-subtle);
+  stroke-width: 6;
+}
+
+.gaugeFill {
+  fill: none;
+  stroke-width: 6;
+  stroke-linecap: round;
+}
+
+.gaugeFill_accent {
+  stroke: var(--lf-accent);
+}
+
+.gaugeFill_warning {
+  stroke: var(--lf-warning);
+}
+
+.gaugeFill_danger {
+  stroke: var(--lf-danger);
+}
+
+.gaugeCenter {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.gaugePercent {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.gaugeLabel {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.widgetStats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--lf-space-3);
+}
+
+.statLabel {
+  display: block;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  margin-bottom: 2px;
+}
+
+.statValue {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+}
+
+.mountPath {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: var(--lf-space-2);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-sunken);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.mountPath code {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: ui-monospace, monospace;
+}
+
+.progressTrack {
+  height: 4px;
+  border-radius: var(--lf-radius-full);
+  background: var(--lf-border-subtle);
+  overflow: hidden;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--lf-accent);
+}
+
+.dbIdentity {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  min-width: 0;
+}
+
+.dbIcon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.serverDiskCard {
+  max-width: 640px;
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: var(--lf-space-4);
+  }
+
+  .header {
+    flex-direction: column;
+  }
+}
