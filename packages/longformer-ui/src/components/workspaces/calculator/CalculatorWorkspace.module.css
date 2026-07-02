@@ -1,0 +1,55 @@
+.workspace {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--lf-surface-canvas);
+}
+
+.header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-4);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.title {
+  font-size: var(--lf-font-size-xl);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+}
+
+.subtitle {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.variantChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lf-space-2);
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--lf-space-6) var(--lf-space-4);
+}
+
+.calculatorWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

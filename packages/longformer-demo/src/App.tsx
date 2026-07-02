@@ -122,6 +122,7 @@ import { ticketsWorkspaceData } from "./mock-data/tickets";
 import { transcribeWorkspaceData } from "./mock-data/transcribe";
 import { lifePlanningWorkspaceData } from "./mock-data/life-planning";
 import { psycheWorkspaceData } from "./mock-data/psyche";
+import { sheetsWorkspaceData } from "./mock-data/sheets";
 import {
   musicFeatured,
   musicLibraryItems,
@@ -873,6 +874,7 @@ function LongformerApp() {
       transcribeWorkspaceData,
       lifePlanningWorkspaceData,
       psycheWorkspaceData,
+      sheetsWorkspaceData,
       generatedSchema,
       threads,
       activeThreadId,

@@ -1,0 +1,54 @@
+.formulaBar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
+  height: 32px;
+  border-bottom: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-1);
+}
+
+.addressBox {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  border-right: 1px solid var(--lf-border-subtle);
+  font-family: var(--lf-font-family-mono, var(--lf-font-family));
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  background: var(--lf-surface-sunken);
+}
+
+.fxWrap {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 var(--lf-space-2);
+  border-right: 1px solid var(--lf-border-subtle);
+  color: var(--lf-text-tertiary);
+}
+
+.fxLabel {
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-xs);
+  font-style: italic;
+  color: var(--lf-text-tertiary);
+}
+
+.formulaInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  padding: 0 var(--lf-space-3);
+  background: var(--lf-surface-1);
+  color: var(--lf-text-primary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-sm);
+}
+
+.formulaInput:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 1px var(--lf-accent);
+}

@@ -26,13 +26,15 @@ export type WorkspaceId =
   | "maps"
   | "camera"
   | "weather"
+  | "calculator"
   | "phone"
   | "server"
   | "orchestrator"
   | "tickets"
   | "transcribe"
   | "life-planning"
-  | "psyche";
+  | "psyche"
+  | "sheets";
 
 export interface WorkspaceNavItem {
   id: WorkspaceId;
@@ -51,6 +53,7 @@ export const WORKSPACES: WorkspaceNavItem[] = [
   { id: "calendar", label: "Calendar", icon: "calendar" },
   { id: "schedule", label: "Schedule", icon: "layers" },
   { id: "files", label: "Files", icon: "folder" },
+  { id: "sheets", label: "Sheets", icon: "grid" },
   { id: "wallet", label: "Wallet", icon: "wallet" },
   { id: "bank-crypto", label: "Bank / Crypto", icon: "dollar-sign" },
   { id: "music", label: "Music", icon: "play" },
@@ -59,6 +62,7 @@ export const WORKSPACES: WorkspaceNavItem[] = [
   { id: "maps", label: "Maps", icon: "globe" },
   { id: "camera", label: "Camera", icon: "image" },
   { id: "weather", label: "Weather", icon: "sun" },
+  { id: "calculator", label: "Calculator", icon: "grid" },
   { id: "phone", label: "Phone", icon: "phone-call" },
   { id: "tasks", label: "Tasks", icon: "check" },
   { id: "notifications", label: "Notifications", icon: "bell" },

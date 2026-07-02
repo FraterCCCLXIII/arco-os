@@ -30,6 +30,7 @@ import {
   MapsWorkspace,
   CameraWorkspace,
   WeatherWorkspace,
+  CalculatorWorkspace,
   PhoneWorkspace,
   ServerWorkspace,
   OrchestratorWorkspace,
@@ -37,6 +38,7 @@ import {
   TranscribeWorkspace,
   LifePlanningWorkspace,
   PsycheWorkspace,
+  SheetsWorkspace,
   type AppsSubpage,
   type BlockFormat,
   type ChatMessage,
@@ -215,6 +217,7 @@ export interface WorkspaceLayoutViewModel {
   transcribeWorkspaceData: unknown;
   lifePlanningWorkspaceData: unknown;
   psycheWorkspaceData: unknown;
+  sheetsWorkspaceData: unknown;
   generatedSchema: unknown;
   threads: { id: string; starred?: boolean }[];
   activeThreadId: string;
@@ -860,6 +863,11 @@ export function buildWorkspaceLayout(
       );
       break;
 
+    case "calculator":
+      sidebar = undefined;
+      main = <CalculatorWorkspace />;
+      break;
+
     case "phone":
       sidebar = undefined;
       main = (
@@ -902,6 +910,11 @@ export function buildWorkspaceLayout(
     case "psyche":
       sidebar = undefined;
       main = <PsycheWorkspace data={vm.psycheWorkspaceData as never} />;
+      break;
+
+    case "sheets":
+      sidebar = undefined;
+      main = <SheetsWorkspace data={vm.sheetsWorkspaceData as never} />;
       break;
 
     case "desktop":

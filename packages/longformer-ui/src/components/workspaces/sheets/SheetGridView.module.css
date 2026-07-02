@@ -1,0 +1,142 @@
+.gridViewport {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  background: var(--lf-surface-canvas);
+  outline: none;
+}
+
+.gridViewport:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--lf-accent-muted);
+}
+
+.gridScroll {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.grid {
+  display: grid;
+  width: max-content;
+  min-width: 100%;
+  background: var(--lf-surface-1);
+}
+
+.headerCell {
+  position: sticky;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-sunken);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 500;
+  user-select: none;
+}
+
+.cornerCell {
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 4;
+}
+
+.columnHeader {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+}
+
+.rowHeader {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  justify-content: center;
+}
+
+.headerActive {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0 var(--lf-space-2);
+  border-right: 1px solid var(--lf-border-subtle);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-1);
+  color: var(--lf-text-primary);
+  font-size: var(--lf-font-size-sm);
+  cursor: cell;
+}
+
+.cellSelected {
+  outline: 2px solid var(--lf-accent);
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+.cellSelected::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--lf-accent);
+  background: var(--lf-accent);
+}
+
+.cellText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.cellInput {
+  width: 100%;
+  border: none;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+
+.cellBold {
+  font-weight: 600;
+}
+
+.cellItalic {
+  font-style: italic;
+}
+
+.cellStrikethrough .cellText {
+  text-decoration: line-through;
+}
+
+.cellAlignCenter {
+  justify-content: center;
+  text-align: center;
+}
+
+.cellAlignRight {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.cellFillAccent {
+  background: var(--lf-accent-muted);
+}
+
+.cellFillMuted {
+  background: var(--lf-surface-sunken);
+}

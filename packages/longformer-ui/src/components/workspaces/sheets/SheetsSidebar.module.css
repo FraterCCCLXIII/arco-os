@@ -1,0 +1,58 @@
+.sidebar {
+  flex-shrink: 0;
+  width: 240px;
+  max-width: 240px;
+  min-width: 240px;
+  border-right: 1px solid var(--lf-border-subtle);
+  overflow: hidden;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--lf-space-1) var(--lf-space-2);
+  min-width: 0;
+}
+
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  min-width: 0;
+  font-size: var(--lf-font-size-md);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--lf-text-primary);
+}
+
+.brandIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lf-radius-md);
+  background: color-mix(in srgb, var(--lf-accent) 16%, transparent);
+  color: var(--lf-accent);
+}
+
+.tagline {
+  padding-left: calc(28px + var(--lf-space-2));
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.workbookItem {
+  font-size: var(--lf-font-size-sm);
+}
+
+.starTrailing {
+  color: var(--lf-accent);
+}
+
+@media (max-width: 960px) {
+  .sidebar {
+    display: none;
+  }
+}
