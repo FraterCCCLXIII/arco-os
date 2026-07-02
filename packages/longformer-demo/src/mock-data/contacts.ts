@@ -1,0 +1,56 @@
+import type { PhoneContact } from "longformer-ui";
+
+export const phoneContacts: PhoneContact[] = [
+  {
+    id: "p1",
+    name: "Dana Cho",
+    phone: "+1 (415) 555-0142",
+    phoneLabel: "Mobile",
+    email: "dana@longformer.dev",
+    company: "Longformer",
+    title: "Engineering",
+    favorite: true,
+  },
+  {
+    id: "p2",
+    name: "Marcus Webb",
+    phone: "+1 (628) 555-0198",
+    phoneLabel: "Work",
+    email: "marcus@longformer.dev",
+    company: "Longformer",
+    title: "Design",
+  },
+  {
+    id: "p3",
+    name: "Priya Nair",
+    phone: "+1 (510) 555-0177",
+    phoneLabel: "Mobile",
+    email: "priya@longformer.dev",
+    company: "Longformer",
+    title: "Platform",
+    favorite: true,
+  },
+  {
+    id: "p4",
+    name: "Paul Bloch",
+    phone: "+1 (206) 555-0103",
+    phoneLabel: "Mobile",
+    email: "paul@longformer.dev",
+    company: "Longformer",
+    title: "Founder",
+  },
+  {
+    id: "p5",
+    name: "Acme Support",
+    phone: "+1 (800) 555-0199",
+    phoneLabel: "Main line",
+    company: "Acme Corp",
+  },
+  {
+    id: "p6",
+    name: "Front Desk",
+    phone: "+1 (415) 555-0100",
+    phoneLabel: "Office",
+    company: "WeWork Mission",
+  },
+];

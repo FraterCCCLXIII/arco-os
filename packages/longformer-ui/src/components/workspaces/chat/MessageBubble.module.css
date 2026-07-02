@@ -1,0 +1,51 @@
+.row {
+  display: flex;
+  margin-bottom: var(--lf-space-4);
+}
+
+.rowUser {
+  justify-content: flex-end;
+}
+
+.rowAgent {
+  justify-content: flex-start;
+}
+
+.agentColumn {
+  max-width: 720px;
+  width: 100%;
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-base);
+  line-height: var(--lf-line-height-normal);
+}
+
+.bubble {
+  max-width: 560px;
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+  font-size: var(--lf-font-size-base);
+  line-height: var(--lf-line-height-normal);
+  white-space: pre-wrap;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  margin-top: var(--lf-space-2);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.metaAction {
+  display: inline-flex;
+  align-items: center;
+  color: var(--lf-text-tertiary);
+  cursor: pointer;
+}
+
+.metaAction:hover {
+  color: var(--lf-text-secondary);
+}

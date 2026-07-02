@@ -1,0 +1,157 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-5);
+  border-radius: var(--lf-radius-xl);
+  min-height: 140px;
+}
+
+.accent,
+.success,
+.warning,
+.danger {
+  --stat-fg: var(--lf-text-on-accent);
+  --stat-fg-muted: rgba(255, 255, 255, 0.72);
+  --stat-chip-bg: rgba(255, 255, 255, 0.2);
+  --stat-track: rgba(255, 255, 255, 0.28);
+  --stat-fill: var(--lf-text-on-accent);
+  color: var(--stat-fg);
+}
+
+.accent {
+  background: var(--lf-accent);
+}
+
+.success {
+  background: var(--lf-success);
+}
+
+.warning {
+  background: var(--lf-warning);
+}
+
+.danger {
+  background: var(--lf-danger);
+}
+
+.neutral {
+  --stat-fg: var(--lf-text-primary);
+  --stat-fg-muted: var(--lf-text-tertiary);
+  --stat-chip-bg: var(--lf-surface-3);
+  --stat-track: var(--lf-border-default);
+  --stat-fill: var(--lf-accent);
+  background: var(--lf-surface-2);
+  color: var(--stat-fg);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.iconTile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--lf-radius-sm);
+  background: var(--stat-chip-bg);
+  flex-shrink: 0;
+}
+
+.label {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--stat-fg-muted);
+}
+
+.value {
+  font-size: var(--lf-font-size-2xl);
+  font-weight: 700;
+  line-height: var(--lf-line-height-tight);
+}
+
+.caption {
+  font-size: var(--lf-font-size-sm);
+  color: var(--stat-fg-muted);
+}
+
+.ringRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lf-space-2);
+  margin: var(--lf-space-1) 0;
+}
+
+.ring {
+  position: relative;
+  width: 72px;
+  height: 72px;
+}
+
+.ringSvg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ringTrack {
+  fill: none;
+  stroke: var(--stat-track);
+  stroke-width: 3;
+}
+
+.ringProgress {
+  fill: none;
+  stroke: var(--stat-fill);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dasharray var(--lf-duration-normal) var(--lf-ease);
+}
+
+.ringValue {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--lf-font-size-lg);
+  font-weight: 700;
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--lf-space-1);
+  height: 48px;
+  margin-top: auto;
+}
+
+.bar {
+  flex: 1;
+  min-width: 4px;
+  border-radius: var(--lf-radius-sm) var(--lf-radius-sm) 0 0;
+  background: var(--stat-track);
+}
+
+.dots {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--lf-space-1);
+  margin-top: auto;
+}
+
+.dotItem {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--lf-radius-pill);
+  background: var(--stat-track);
+}
+
+.dotFilled {
+  background: var(--stat-fill);
+}

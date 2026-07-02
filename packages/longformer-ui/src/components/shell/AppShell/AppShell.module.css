@@ -1,0 +1,61 @@
+.shell {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+  background: var(--lf-surface-canvas);
+  color: var(--lf-text-primary);
+}
+
+.rail {
+  height: 100%;
+}
+
+.railResizable {
+  border-right: 1px solid var(--lf-border-subtle);
+}
+
+.sidebarResizable,
+.contextPanelResizable {
+  border-color: var(--lf-border-subtle);
+}
+
+.sidebarResizable {
+  border-right: 1px solid var(--lf-border-subtle);
+}
+
+.contextPanelResizable {
+  border-left: 1px solid var(--lf-border-subtle);
+}
+
+.sidebar {
+  height: 100%;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.contextPanel {
+  height: 100%;
+  overflow: visible;
+}
+
+@media (max-width: 860px) {
+  .sidebarResizable:not([style*="width: 0"]) {
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: var(--lf-z-overlay);
+    box-shadow: var(--lf-shadow-lg);
+  }
+
+  .contextPanelResizable:not([style*="width: 0"]) {
+    position: absolute;
+    inset: 0 0 0 auto;
+    z-index: var(--lf-z-overlay);
+    box-shadow: var(--lf-shadow-lg);
+  }
+}

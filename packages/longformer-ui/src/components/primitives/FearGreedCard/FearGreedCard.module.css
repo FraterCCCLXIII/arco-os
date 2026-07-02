@@ -1,0 +1,104 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.gaugeWrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  min-height: 120px;
+}
+
+.gauge {
+  width: 100%;
+  max-width: 220px;
+  height: 110px;
+}
+
+.segment {
+  fill: none;
+  stroke-width: 14;
+  stroke-linecap: round;
+}
+
+.segment-0 {
+  stroke: #ede9fe;
+}
+
+.segment-1 {
+  stroke: #ddd6fe;
+}
+
+.segment-2 {
+  stroke: #c4b5fd;
+}
+
+.segment-3 {
+  stroke: #a78bfa;
+}
+
+.segment-4 {
+  stroke: #7c3aed;
+}
+
+.needle {
+  fill: #111;
+}
+
+.gaugeCenter {
+  position: absolute;
+  inset: auto 0 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score {
+  font-size: var(--lf-font-size-3xl);
+  font-weight: 800;
+  color: var(--lf-text-primary);
+  line-height: 1;
+}
+
+.sentiment {
+  margin-top: 4px;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.caption {
+  text-align: center;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.splitBar {
+  display: flex;
+  height: 36px;
+  border-radius: var(--lf-radius-md);
+  overflow: hidden;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 700;
+}
+
+.splitLeft,
+.splitRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.splitLeft {
+  background: #ddd6fe;
+  color: #5b21b6;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+}
+
+.splitRight {
+  margin-left: -12px;
+  background: #7c3aed;
+  color: #fff;
+  clip-path: polygon(12px 0, 100% 0, 100% 100%, 0 100%);
+}

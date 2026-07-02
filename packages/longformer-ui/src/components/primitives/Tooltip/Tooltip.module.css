@@ -1,0 +1,31 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.bubble {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+  border: 1px solid var(--lf-border-default);
+  padding: 4px var(--lf-space-2);
+  border-radius: var(--lf-radius-sm);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-xs);
+  line-height: var(--lf-line-height-tight);
+  white-space: nowrap;
+  box-shadow: var(--lf-shadow-md);
+  z-index: var(--lf-z-tooltip);
+  pointer-events: none;
+}
+
+.bubbleTop {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bubbleRight {
+  position: fixed;
+  transform: translateY(-50%);
+}

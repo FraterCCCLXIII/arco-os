@@ -1,0 +1,46 @@
+.composer {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--lf-border-default);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-1);
+  overflow: hidden;
+}
+
+.composer:focus-within {
+  border-color: var(--lf-accent-border);
+}
+
+.editor {
+  min-height: 120px;
+  max-height: 240px;
+  overflow-y: auto;
+  padding: var(--lf-space-3) var(--lf-space-4);
+  color: var(--lf-text-primary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-base);
+  line-height: var(--lf-line-height-normal);
+  outline: none;
+}
+
+.editor:empty::before {
+  content: attr(data-placeholder);
+  color: var(--lf-text-tertiary);
+  pointer-events: none;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-top: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-2);
+}
+
+.footerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+}

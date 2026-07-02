@@ -1,0 +1,132 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.panel {
+  position: fixed;
+  width: 280px;
+  background: var(--lf-surface-overlay);
+  border: 1px solid var(--lf-border-default);
+  border-radius: var(--lf-radius-md);
+  box-shadow: var(--lf-shadow-lg);
+  padding: var(--lf-space-3);
+  z-index: var(--lf-z-tooltip);
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+  font-family: var(--lf-font-family);
+  line-height: var(--lf-line-height-normal);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.label {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+}
+
+.value {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-primary);
+}
+
+.valueMuted {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+}
+
+.progressTrack {
+  height: 4px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-surface-3);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--lf-accent);
+  transition: width 0.2s ease;
+}
+
+.progressFillOver {
+  background: var(--lf-danger);
+}
+
+.divider {
+  height: 1px;
+  background: var(--lf-border-subtle);
+}
+
+.planUsageButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--lf-font-family);
+}
+
+.planUsageButton:hover .label {
+  color: var(--lf-text-primary);
+}
+
+.planUsageButton:hover .planUsageIcon {
+  color: var(--lf-text-secondary);
+}
+
+.planUsageIcon {
+  color: var(--lf-text-tertiary);
+}
+
+.usageRows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--lf-radius-pill);
+}
+
+.triggerDot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-accent);
+}
+
+.triggerDotWarning {
+  background: var(--lf-warning);
+}
+
+.triggerDotDanger {
+  background: var(--lf-danger);
+}

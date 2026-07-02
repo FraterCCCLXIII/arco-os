@@ -1,0 +1,64 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-4);
+  background:
+    radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.08), transparent 45%),
+    var(--lf-surface-1);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  min-width: 0;
+}
+
+.panelHeader {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.flag {
+  font-size: var(--lf-font-size-md);
+}
+
+.language {
+  flex: 1;
+}
+
+.text {
+  font-size: var(--lf-font-size-sm);
+  line-height: var(--lf-line-height-normal);
+  color: var(--lf-text-secondary);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-2);
+}
+
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-2);
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}

@@ -1,0 +1,116 @@
+.row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lf-space-3);
+  width: 100%;
+  padding: var(--lf-space-3) var(--lf-space-4);
+  border: none;
+  border-bottom: 1px solid var(--lf-border-subtle);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.row:hover {
+  background: var(--lf-surface-2);
+}
+
+.rowUnread {
+  background: var(--lf-accent-muted);
+}
+
+.rowUnread:hover {
+  background: var(--lf-surface-2);
+}
+
+.leading {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.typeIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-surface-3);
+  color: var(--lf-text-secondary);
+}
+
+.unreadDot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-accent);
+  border: 2px solid var(--lf-surface-1);
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.topRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+}
+
+.message {
+  font-size: var(--lf-font-size-md);
+  color: var(--lf-text-secondary);
+}
+
+.messageUnread {
+  color: var(--lf-text-primary);
+  font-weight: 500;
+}
+
+.timestamp {
+  flex-shrink: 0;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.detail {
+  display: block;
+  margin-top: 4px;
+  padding-left: var(--lf-space-3);
+  border-left: 2px solid var(--lf-border-subtle);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.markReadButton {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-top: 2px;
+  border-radius: var(--lf-radius-sm);
+  color: var(--lf-text-disabled);
+  opacity: 0;
+  transition: opacity var(--lf-duration-fast) var(--lf-ease), background var(--lf-duration-fast) var(--lf-ease), color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.row:hover .markReadButton,
+.row:focus-visible .markReadButton {
+  opacity: 1;
+}
+
+.markReadButton:hover {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+}

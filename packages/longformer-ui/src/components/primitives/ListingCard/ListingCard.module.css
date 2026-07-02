@@ -1,0 +1,87 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.iconTile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-3);
+  color: var(--lf-accent);
+  flex-shrink: 0;
+}
+
+.subtitle {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.title {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  line-height: var(--lf-line-height-tight);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lf-space-2);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 var(--lf-space-2);
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-surface-3);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 500;
+}
+
+.divider {
+  margin: 0;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+}
+
+.priceBlock {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lf-space-1);
+  min-width: 0;
+}
+
+.price {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  white-space: nowrap;
+}
+
+.priceMeta {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

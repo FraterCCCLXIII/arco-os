@@ -1,0 +1,377 @@
+/* Tags */
+.tag {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--finance-lime, #d4f547);
+  color: #121212;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.tagOrange {
+  background: var(--finance-orange, #f5a623);
+}
+
+.legendDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+/* Expenses */
+.expenses {
+  gap: var(--lf-space-2);
+}
+
+.expensesPeriod {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.expensesChart {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donutWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.donutCenter {
+  position: absolute;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.legendLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+/* Current balance */
+.currentBalance {
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.balanceTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.balanceIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background: #121212;
+  color: #fff;
+}
+
+.balanceChange {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 700;
+}
+
+.balanceAmount {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.balanceLabel {
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.65;
+}
+
+/* Progress */
+.progress {
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+}
+
+.progressTitle {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.55;
+}
+
+.progressValue {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.progressPill {
+  align-self: flex-start;
+  padding: 6px 12px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--finance-teal, #5ec4b6);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Subscription */
+.subscription {
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+}
+
+.subscriptionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.subscriptionKicker {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.75;
+}
+
+.subscriptionCount {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 700;
+}
+
+.subscriptionTotal {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.subscriptionNext {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+}
+
+/* Performance */
+.performance {
+  gap: var(--lf-space-2);
+}
+
+.performanceHeadline {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.performancePeriod {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.performanceChart {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: var(--lf-space-2);
+  min-height: 80px;
+  padding-top: var(--lf-space-2);
+}
+
+.performanceBarCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  height: 100%;
+}
+
+.performanceBarLabel {
+  font-size: 10px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.performanceBarTrack {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  border-radius: 8px 8px 4px 4px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.performanceBarFill {
+  width: 100%;
+  border-radius: 8px 8px 4px 4px;
+  background: var(--finance-lavender, #b8a9e8);
+}
+
+.performanceFooter {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+/* Balance */
+.balance {
+  gap: var(--lf-space-3);
+}
+
+.balanceHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.balanceTitle {
+  font-size: var(--lf-font-size-md);
+  font-weight: 800;
+}
+
+.balanceToggle {
+  display: flex;
+  padding: 3px;
+  border-radius: var(--lf-radius-pill);
+  background: rgba(0, 0, 0, 0.08);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.balanceToggle span {
+  padding: 4px 8px;
+  border-radius: var(--lf-radius-pill);
+  opacity: 0.55;
+}
+
+.balanceToggleActive {
+  background: #121212;
+  color: #fff;
+  opacity: 1 !important;
+}
+
+.balanceBody {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: var(--lf-space-3);
+  flex: 1;
+  min-height: 0;
+  align-items: center;
+}
+
+.balanceStats {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.balanceStatRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.balanceStatPct {
+  margin-left: auto;
+  opacity: 0.65;
+}
+
+.balanceHighlight {
+  margin-top: var(--lf-space-2);
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.balanceHighlightUnit {
+  font-size: 0.45em;
+  vertical-align: super;
+}
+
+.lineChartWrap {
+  position: relative;
+  min-width: 0;
+}
+
+.lineGrid {
+  stroke: rgba(0, 0, 0, 0.08);
+  stroke-width: 1;
+}
+
+.lineSeries {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lineTooltipStem {
+  stroke: rgba(0, 0, 0, 0.25);
+  stroke-width: 1;
+}
+
+.lineTooltip {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #121212;
+}
+
+.lineLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  opacity: 0.45;
+}
+
+@media (max-width: 640px) {
+  .balanceBody {
+    grid-template-columns: 1fr;
+  }
+}

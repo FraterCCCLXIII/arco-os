@@ -1,0 +1,93 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--lf-space-3);
+}
+
+.symbol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--lf-radius-pill);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 700;
+  color: var(--lf-text-on-accent);
+  background: var(--lf-surface-3);
+}
+
+.tone-accent {
+  background: var(--lf-accent);
+}
+
+.tone-success {
+  background: var(--lf-success);
+}
+
+.tone-warning {
+  background: var(--lf-warning);
+}
+
+.tone-neutral {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+}
+
+.body {
+  min-width: 0;
+}
+
+.name {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.meta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lf-space-2);
+  margin-top: 2px;
+}
+
+.price {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+}
+
+.change {
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: var(--lf-success);
+}
+
+.changeDown {
+  color: var(--lf-danger);
+}
+
+.sparkline {
+  width: 64px;
+  height: 28px;
+}
+
+.sparklineUp {
+  --chart-stroke: var(--lf-success);
+}
+
+.sparklineDown {
+  --chart-stroke: var(--lf-danger);
+}
+
+.sparklineLine {
+  stroke: var(--chart-stroke);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}

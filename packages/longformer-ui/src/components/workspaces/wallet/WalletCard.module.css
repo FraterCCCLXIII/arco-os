@@ -1,0 +1,203 @@
+.card {
+  --wallet-card-height: 168px;
+  --wallet-card-step: 88px;
+  --wallet-card-expanded-height: 236px;
+
+  position: relative;
+  width: 100%;
+  height: var(--wallet-card-height);
+  min-height: var(--wallet-card-height);
+  margin-top: calc(var(--wallet-card-step) - var(--wallet-card-height));
+  border-radius: 32px;
+  overflow: hidden;
+  background: var(--wallet-card-color, var(--lf-surface-2));
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+  transition:
+    height var(--lf-duration-normal) var(--lf-ease),
+    box-shadow var(--lf-duration-normal) var(--lf-ease),
+    filter var(--lf-duration-normal) var(--lf-ease);
+}
+
+.card:first-child {
+  margin-top: 0;
+}
+
+.cardSelected {
+  height: var(--wallet-card-expanded-height);
+  min-height: var(--wallet-card-expanded-height);
+  box-shadow:
+    0 4px 8px rgba(0, 0, 0, 0.08),
+    0 20px 40px rgba(0, 0, 0, 0.16);
+}
+
+.cardDimmed {
+  filter: saturate(0.82) brightness(0.96);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: inherit;
+}
+
+.cardSelect {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--lf-space-2);
+  width: 100%;
+  min-height: 0;
+  padding: var(--lf-space-4) var(--lf-space-5);
+  padding-right: calc(var(--lf-space-5) + 36px);
+  border: none;
+  border-radius: inherit;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+  color: inherit;
+}
+
+.cardSelect:focus-visible {
+  outline: none;
+}
+
+.card:focus-within .cardSelect:focus-visible {
+  outline: 2px solid rgba(0, 0, 0, 0.35);
+  outline-offset: -4px;
+}
+
+.settingsWrap {
+  position: absolute;
+  top: var(--lf-space-3);
+  right: var(--lf-space-3);
+  z-index: 2;
+}
+
+.settingsButton {
+  width: 32px;
+  height: 32px;
+  min-height: 32px;
+  border-radius: var(--lf-radius-pill);
+  background: rgba(255, 255, 255, 0.55);
+  color: rgba(0, 0, 0, 0.72);
+}
+
+.settingsButton:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.72);
+  color: #111;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  min-width: 0;
+}
+
+.avatar {
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.category {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--lf-radius-pill);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.32);
+}
+
+.merchant {
+  margin: 0;
+  min-width: 0;
+  font-size: clamp(1.0625rem, 3.5vw, 1.3125rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #111;
+  letter-spacing: -0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  margin-top: auto;
+  padding-top: var(--lf-space-1);
+}
+
+.date {
+  min-width: 0;
+  font-size: var(--lf-font-size-xs);
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.42);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.amount {
+  flex-shrink: 0;
+  margin-left: auto;
+  font-size: clamp(1.0625rem, 3.2vw, 1.25rem);
+  font-weight: 700;
+  color: #111;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.expanded {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-3) var(--lf-space-5) var(--lf-space-4);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.note {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  line-height: 1.45;
+  color: rgba(0, 0, 0, 0.58);
+}
+
+.quickActions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--lf-space-2);
+}
+
+.quickAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 8px 10px;
+  border: none;
+  border-radius: var(--lf-radius-md);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.72);
+  background: rgba(255, 255, 255, 0.42);
+  cursor: pointer;
+}
+
+.quickAction:hover {
+  background: rgba(255, 255, 255, 0.68);
+}

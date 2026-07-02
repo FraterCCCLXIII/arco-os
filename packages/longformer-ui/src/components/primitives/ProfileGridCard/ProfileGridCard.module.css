@@ -1,0 +1,77 @@
+.card {
+  --profile-tile-bg: var(--lf-surface-2);
+
+  padding: var(--lf-space-4);
+}
+
+[data-lf-theme="light"] .card {
+  --profile-tile-bg: var(--lf-surface-3);
+}
+
+.grid {
+  display: grid;
+  gap: var(--lf-space-3);
+}
+
+.profileTile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-4) var(--lf-space-3);
+  border-radius: var(--lf-radius-lg);
+  background: var(--profile-tile-bg);
+  text-align: center;
+  min-width: 0;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--lf-radius-pill);
+  overflow: hidden;
+  color: #fff;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.username {
+  width: 100%;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  line-height: var(--lf-line-height-tight);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dateRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-xs);
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}

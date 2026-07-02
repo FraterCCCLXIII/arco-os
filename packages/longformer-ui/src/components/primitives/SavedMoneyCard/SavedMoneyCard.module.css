@@ -1,0 +1,63 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.timeframes {
+  display: inline-flex;
+  align-self: flex-start;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-surface-2);
+}
+
+.chartWrap {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--lf-space-2);
+  align-items: stretch;
+}
+
+.yAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--lf-text-tertiary);
+  padding: 4px 0;
+}
+
+.chart {
+  width: 100%;
+  height: 120px;
+}
+
+.gridLine {
+  stroke: var(--lf-border-subtle);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.trendLine {
+  stroke: #ef4444;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.dataPoint {
+  fill: rgba(139, 92, 246, 0.35);
+  stroke: #8b5cf6;
+  stroke-width: 2;
+}
+
+.xAxis {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--lf-space-1);
+  padding-left: 28px;
+  font-size: 10px;
+  color: var(--lf-text-tertiary);
+  text-align: center;
+}

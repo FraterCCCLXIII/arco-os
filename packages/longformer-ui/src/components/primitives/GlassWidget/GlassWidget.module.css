@@ -1,0 +1,699 @@
+.headRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.title {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: var(--lf-font-size-xs);
+  opacity: 0.55;
+}
+
+.iconBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, 0.14);
+  color: #2563eb;
+}
+
+.light .iconBadge {
+  background: rgba(37, 99, 235, 0.12);
+}
+
+.iconBadgeGreen {
+  background: rgba(163, 230, 53, 0.16);
+  color: #84cc16;
+}
+
+.iconBadgeRed {
+  background: rgba(239, 68, 68, 0.16);
+  color: #ef4444;
+}
+
+.toggle {
+  position: relative;
+  width: 44px;
+  height: 26px;
+  border: none;
+  border-radius: var(--lf-radius-pill);
+  background: rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+}
+
+.light .toggle {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.toggleOn {
+  background: #84cc16;
+}
+
+.toggleKnob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.15s ease;
+}
+
+.toggleOn .toggleKnob {
+  transform: translateX(18px);
+}
+
+.network {
+  font-size: var(--lf-font-size-xs);
+  opacity: 0.55;
+  margin-top: 2px;
+}
+
+.habitRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+}
+
+.habitMeta {
+  min-width: 0;
+}
+
+.habitLabel {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 700;
+}
+
+.habitRemaining {
+  margin-top: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #f97316;
+}
+
+.ringGauge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ringTrack {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.12);
+  stroke-width: 4;
+}
+
+.light .ringTrack {
+  stroke: rgba(0, 0, 0, 0.08);
+}
+
+.ringFill {
+  fill: none;
+  stroke: #84cc16;
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.ringFillOrange {
+  stroke: #f97316;
+}
+
+.ringCenter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gateValue {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.gateStatus {
+  margin-top: 4px;
+  font-size: var(--lf-font-size-xs);
+  opacity: 0.55;
+}
+
+.gateCountdown {
+  margin-top: auto;
+  font-size: var(--lf-font-size-lg);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.waveform {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  height: 36px;
+}
+
+.waveBar {
+  flex: 1;
+  min-width: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.recordFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.recordTime {
+  font-size: var(--lf-font-size-md);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.recordButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #ef4444;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 0 0 6px rgba(239, 68, 68, 0.22);
+}
+
+.clockFace {
+  position: relative;
+  width: 100%;
+  max-width: 120px;
+  margin: 0 auto;
+  aspect-ratio: 1;
+}
+
+.clockSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.clockNumeral {
+  font-size: 10px;
+  fill: currentColor;
+  opacity: 0.45;
+}
+
+.clockHand {
+  stroke: currentColor;
+  stroke-linecap: round;
+}
+
+.clockSecond {
+  stroke: #ef4444;
+}
+
+.cameraHead {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.cameraStatus {
+  font-size: var(--lf-font-size-xs);
+  font-weight: 700;
+  color: #ef4444;
+}
+
+.timezoneTop {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.timezoneLocation {
+  font-size: var(--lf-font-size-xs);
+  opacity: 0.55;
+}
+
+.timezoneTime {
+  font-size: var(--lf-font-size-xl);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.dayTrack {
+  height: 6px;
+  border-radius: var(--lf-radius-pill);
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.light .dayTrack {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.dayFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+}
+
+.offsetPill {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: var(--lf-radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.offsetSuccess {
+  background: rgba(132, 204, 22, 0.18);
+  color: #84cc16;
+}
+
+.offsetWarning {
+  background: rgba(249, 115, 22, 0.18);
+  color: #f97316;
+}
+
+.rideHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rideBrand {
+  font-size: var(--lf-font-size-md);
+  font-weight: 800;
+}
+
+.rideEta {
+  padding: 4px 10px;
+  border-radius: var(--lf-radius-pill);
+  background: rgba(0, 0, 0, 0.06);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.dark .rideEta {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.carArt {
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.02));
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .carArt {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+}
+
+.carBody {
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  width: 72px;
+  height: 28px;
+  border-radius: 14px 14px 8px 8px;
+  background: #f5f5f5;
+  box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.08);
+}
+
+.carBody::before,
+.carBody::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #222;
+}
+
+.carBody::before {
+  left: 10px;
+}
+
+.carBody::after {
+  right: 10px;
+}
+
+.vehicleMeta {
+  font-size: var(--lf-font-size-xs);
+  opacity: 0.55;
+}
+
+.chargeHead {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 700;
+}
+
+.chargeBar {
+  height: 14px;
+  border-radius: var(--lf-radius-pill);
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.chargeFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #84cc16, #a3e635);
+}
+
+.flightHeadline {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 700;
+}
+
+.flightRoute {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--lf-space-2);
+  font-size: var(--lf-font-size-xs);
+}
+
+.flightCity {
+  font-weight: 700;
+}
+
+.flightCode {
+  opacity: 0.45;
+}
+
+.flightTrack {
+  position: relative;
+  height: 6px;
+  border-radius: var(--lf-radius-pill);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.flightFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.5));
+}
+
+.flightPlane {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+}
+
+.navTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+}
+
+.navTurn {
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.navEta {
+  font-size: var(--lf-font-size-xs);
+  opacity: 0.55;
+}
+
+.energyHead {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lf-space-2);
+}
+
+.energyPercent {
+  font-size: var(--lf-font-size-xl);
+  font-weight: 800;
+}
+
+.energyChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 56px;
+}
+
+.energyBar {
+  flex: 1;
+  border-radius: 6px 6px 0 0;
+  background: rgba(249, 115, 22, 0.35);
+}
+
+.energyLabel {
+  font-size: 11px;
+  opacity: 0.45;
+}
+
+.musicRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+}
+
+.albumArt {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #fda4af, #fb7185);
+  flex-shrink: 0;
+}
+
+.musicMeta {
+  min-width: 0;
+}
+
+.musicTitle {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.musicArtist {
+  font-size: var(--lf-font-size-xs);
+  opacity: 0.55;
+}
+
+.musicSource {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 10px;
+  opacity: 0.45;
+}
+
+.musicControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-3);
+}
+
+.controlBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.playBtn {
+  width: 36px;
+  height: 36px;
+  background: rgba(0, 0, 0, 0.08);
+  opacity: 1;
+}
+
+.dark .playBtn {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.musicProgress {
+  height: 4px;
+  border-radius: var(--lf-radius-pill);
+  background: rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.dark .musicProgress {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.musicProgressFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #111;
+}
+
+.dark .musicProgressFill {
+  background: #fff;
+}
+
+.scooterHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.scooterDate {
+  font-size: var(--lf-font-size-xs);
+  opacity: 0.55;
+}
+
+.scooterStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--lf-space-2);
+  margin-top: auto;
+}
+
+.scooterStat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.scooterValue {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 800;
+}
+
+.scooterLabel {
+  font-size: 10px;
+  opacity: 0.45;
+}
+
+.activityHero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+}
+
+.activityDistance {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.activityGoalLabel {
+  font-size: 11px;
+  opacity: 0.45;
+  text-align: center;
+}
+
+.activityStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--lf-space-2);
+  margin-top: auto;
+}
+
+.calendarHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.calendarMonth {
+  font-size: var(--lf-font-size-md);
+  font-weight: 800;
+}
+
+.calendarWeekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  font-size: 10px;
+  opacity: 0.45;
+  text-align: center;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.calendarDay {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 50%;
+}
+
+.calendarDayHigh {
+  background: #84cc16;
+  color: #111;
+}
+
+.calendarDayMilestone {
+  background: #f97316;
+  color: #111;
+}
+
+.calendarDayLow {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.18);
+}
+
+.calendarDayNone {
+  opacity: 0.35;
+}
+
+.stretch {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}

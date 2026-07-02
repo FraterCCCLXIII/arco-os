@@ -1,0 +1,46 @@
+.slot {
+  display: flex;
+  gap: var(--lf-space-3);
+  min-width: 0;
+}
+
+.accent {
+  width: 4px;
+  border-radius: var(--lf-radius-pill);
+  flex-shrink: 0;
+}
+
+.accent.success {
+  background: var(--lf-success);
+}
+
+.accent.warning {
+  background: var(--lf-warning);
+}
+
+.accent.accent {
+  background: var(--lf-accent);
+}
+
+.body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+}
+
+.name {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.mode {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.time {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-primary);
+}

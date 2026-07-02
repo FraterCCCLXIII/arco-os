@@ -1,0 +1,43 @@
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+}
+
+.lead {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lf-space-2);
+  min-width: 0;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: var(--lf-font-size-md);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+}
+
+.subtitle {
+  margin-top: 2px;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  line-height: var(--lf-line-height-normal);
+}
+
+.external {
+  display: inline-flex;
+  color: var(--lf-text-tertiary);
+}

@@ -1,0 +1,83 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.subtitle {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.chartWrap {
+  height: 48px;
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 100%;
+}
+
+.bar {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+  background: rgba(115, 103, 240, 0.35);
+}
+
+.lineChart {
+  width: 100%;
+  height: 100%;
+}
+
+.area {
+  fill: rgba(115, 103, 240, 0.16);
+}
+
+.line {
+  stroke: #7367f0;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.footer {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lf-space-2);
+}
+
+.value {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 800;
+  color: var(--lf-text-primary);
+}
+
+.change {
+  padding: 2px 8px;
+  border-radius: var(--lf-radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.changeUp {
+  background: rgba(40, 199, 111, 0.14);
+  color: #28c76f;
+}
+
+.changeDown {
+  background: rgba(234, 84, 85, 0.14);
+  color: #ea5455;
+}

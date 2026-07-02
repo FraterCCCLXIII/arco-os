@@ -1,0 +1,68 @@
+.row {
+  display: flex;
+  gap: var(--lf-space-2);
+  margin-bottom: var(--lf-space-2);
+}
+
+.rowOwn {
+  justify-content: flex-end;
+}
+
+.rowOther {
+  justify-content: flex-start;
+}
+
+.avatarSlot {
+  flex-shrink: 0;
+  width: 28px;
+  align-self: flex-end;
+}
+
+.column {
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rowOwn .column {
+  align-items: flex-end;
+}
+
+.rowOther .column {
+  align-items: flex-start;
+}
+
+.sender {
+  padding: 0 var(--lf-space-1);
+  margin-bottom: 2px;
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: var(--lf-text-tertiary);
+}
+
+.bubble {
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-radius: var(--lf-radius-lg);
+  font-size: var(--lf-font-size-base);
+  line-height: var(--lf-line-height-normal);
+  white-space: pre-wrap;
+}
+
+.bubbleOwn {
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent);
+  border-bottom-right-radius: var(--lf-radius-sm);
+}
+
+.bubbleOther {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+  border-bottom-left-radius: var(--lf-radius-sm);
+}
+
+.timestamp {
+  margin-top: 2px;
+  padding: 0 var(--lf-space-1);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}

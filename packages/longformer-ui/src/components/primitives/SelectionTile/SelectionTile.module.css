@@ -1,0 +1,51 @@
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 72px;
+  padding: var(--lf-space-4);
+  border-radius: var(--lf-radius-xl);
+  border: 1px solid var(--lf-border-default);
+  background: var(--lf-surface-2);
+  color: var(--lf-text-primary);
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  transition:
+    border-color var(--lf-duration-fast) var(--lf-ease),
+    background var(--lf-duration-fast) var(--lf-ease);
+}
+
+.tile:hover {
+  border-color: var(--lf-border-strong);
+}
+
+.selected {
+  border-color: var(--lf-text-primary);
+  background: var(--lf-surface-3);
+}
+
+.label {
+  text-align: center;
+}
+
+.sm {
+  min-height: 64px;
+}
+
+.md {
+  min-height: 72px;
+}
+
+.lg {
+  min-height: 88px;
+}
+
+.wide {
+  grid-column: span 2;
+  min-height: 72px;
+}
+
+.tall {
+  grid-row: span 2;
+  min-height: 152px;
+}

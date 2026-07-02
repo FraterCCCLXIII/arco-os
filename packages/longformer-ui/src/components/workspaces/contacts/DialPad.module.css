@@ -1,0 +1,117 @@
+.pad {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-4);
+  height: 100%;
+  padding: var(--lf-space-4);
+}
+
+.display {
+  flex-shrink: 0;
+  min-height: 40px;
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-2);
+  border: 1px solid var(--lf-border-subtle);
+  font-size: var(--lf-font-size-xl);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: var(--lf-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.placeholder {
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-md);
+  letter-spacing: normal;
+}
+
+.grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--lf-space-2);
+  align-content: center;
+  min-height: 0;
+}
+
+.key {
+  appearance: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  aspect-ratio: 1;
+  max-height: 64px;
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: 50%;
+  background: var(--lf-surface-2);
+  cursor: pointer;
+  transition: background var(--lf-duration-fast) var(--lf-ease);
+}
+
+.key:hover {
+  background: var(--lf-surface-3);
+}
+
+.key:active {
+  background: var(--lf-accent-muted);
+}
+
+.keyDigit {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  line-height: 1;
+}
+
+.keyLetters {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--lf-text-tertiary);
+  line-height: 1;
+}
+
+.keySpacer {
+  display: block;
+}
+
+.actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-4);
+}
+
+.actionSpacer {
+  width: 28px;
+}
+
+.callButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border: none;
+  border-radius: 50%;
+  background: var(--lf-success);
+  color: var(--lf-text-on-accent);
+  cursor: pointer;
+  transition: background var(--lf-duration-fast) var(--lf-ease);
+}
+
+.callButton:hover:not(:disabled) {
+  background: #47c983;
+}
+
+.callButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

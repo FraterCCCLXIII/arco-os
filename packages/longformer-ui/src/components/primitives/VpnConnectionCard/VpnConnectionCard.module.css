@@ -1,0 +1,118 @@
+.card {
+  overflow: hidden;
+}
+
+.mapArea {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+  background:
+    radial-gradient(circle at 30% 40%, rgba(80, 160, 232, 0.25), transparent 55%),
+    radial-gradient(circle at 70% 60%, rgba(0, 120, 212, 0.15), transparent 50%),
+    linear-gradient(180deg, var(--lf-surface-2), var(--lf-surface-1));
+}
+
+.mapGlow {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-success-muted);
+  box-shadow: 0 0 0 8px rgba(34, 197, 94, 0.12);
+}
+
+.toggle {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lf-space-1);
+  width: 72px;
+  height: 72px;
+  border-radius: var(--lf-radius-pill);
+  border: 2px solid var(--lf-border-default);
+  background: var(--lf-surface-1);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+}
+
+.toggleActive {
+  border-color: var(--lf-success);
+  background: var(--lf-success-muted);
+  color: var(--lf-success);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-4);
+}
+
+.detailRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+}
+
+.detailLabel {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.detailValue {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.speedGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--lf-space-2);
+  padding: 0 var(--lf-space-4) var(--lf-space-4);
+}
+
+.speedTile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+  padding: var(--lf-space-3);
+  border-radius: var(--lf-radius-md);
+}
+
+.speed-accent {
+  background: var(--lf-accent-muted);
+}
+
+.speed-success {
+  background: var(--lf-success-muted);
+}
+
+.speedLabel {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.speedValue {
+  font-size: var(--lf-font-size-md);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+}
+
+.speedChart {
+  width: 100%;
+  height: 24px;
+}
+
+.speedLine {
+  stroke: currentColor;
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  opacity: 0.7;
+}

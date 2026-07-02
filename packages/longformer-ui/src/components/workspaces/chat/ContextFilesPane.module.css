@@ -1,0 +1,141 @@
+.pane {
+  height: 100%;
+  display: flex;
+  min-height: 0;
+  min-width: 0;
+  background: var(--lf-surface-1);
+}
+
+.treeResizable {
+  flex-shrink: 0;
+  border-right: 1px solid var(--lf-border-subtle);
+}
+
+.treePane {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--lf-surface-2);
+}
+
+.treeHeader {
+  flex-shrink: 0;
+  padding: var(--lf-space-2) var(--lf-space-3);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--lf-text-tertiary);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.treeScroll {
+  flex: 1;
+  min-height: 0;
+  padding-block: var(--lf-space-1);
+}
+
+.treeRow {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: 4px var(--lf-space-2) 4px 0;
+  border: none;
+  background: transparent;
+  color: var(--lf-text-secondary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-sm);
+  text-align: left;
+  cursor: pointer;
+}
+
+.treeRow:hover {
+  background: var(--lf-surface-hover);
+  color: var(--lf-text-primary);
+}
+
+.treeRowSelected {
+  background: var(--lf-accent-muted);
+  color: var(--lf-text-primary);
+}
+
+.treeChevron {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.treeChevronSpacer {
+  width: 12px;
+  flex-shrink: 0;
+}
+
+.treeLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.editor {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.editorHeader {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-primary);
+}
+
+.editorPath {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.editorScroll {
+  flex: 1;
+  min-height: 0;
+}
+
+.editorContent {
+  margin: 0;
+  padding: var(--lf-space-2) 0;
+  font-family: var(--lf-font-mono, ui-monospace, monospace);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.editorLine {
+  display: flex;
+  gap: var(--lf-space-3);
+  padding-inline: var(--lf-space-2);
+}
+
+.lineNumber {
+  width: 2.5ch;
+  flex-shrink: 0;
+  text-align: right;
+  color: var(--lf-text-tertiary);
+  user-select: none;
+}
+
+.editorLine code {
+  color: var(--lf-text-primary);
+  white-space: pre;
+}
+
+.editorEmpty {
+  flex: 1;
+}

@@ -1,0 +1,90 @@
+.panel {
+  max-width: 640px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-5);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.label {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  color: var(--lf-text-primary);
+}
+
+.hint {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  line-height: var(--lf-line-height-normal);
+}
+
+.templateGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.templateCard {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-3);
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-2);
+  color: var(--lf-text-primary);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--lf-duration-fast) var(--lf-ease),
+    background var(--lf-duration-fast) var(--lf-ease),
+    box-shadow var(--lf-duration-fast) var(--lf-ease);
+}
+
+.templateCard:hover {
+  border-color: var(--lf-border-default);
+  background: var(--lf-surface-3);
+}
+
+.templateCardSelected {
+  border-color: var(--lf-accent-border);
+  background: var(--lf-accent-muted);
+  box-shadow: 0 0 0 1px var(--lf-accent-border);
+}
+
+.templateIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-3);
+  color: var(--lf-accent);
+}
+
+.templateCardSelected .templateIcon {
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent);
+}
+
+.templateLabel {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+}
+
+.templateDescription {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-secondary);
+  line-height: var(--lf-line-height-normal);
+}

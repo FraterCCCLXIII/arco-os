@@ -1,0 +1,94 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-4);
+}
+
+.stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.statRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.statIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--lf-radius-sm);
+  background: rgba(115, 103, 240, 0.12);
+  color: #7367f0;
+}
+
+.statMeta {
+  min-width: 0;
+}
+
+.statLabel {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.statAmount {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+}
+
+.statChange {
+  padding: 2px 8px;
+  border-radius: var(--lf-radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.statChangeUp {
+  background: rgba(40, 199, 111, 0.14);
+  color: #28c76f;
+}
+
+.statChangeDown {
+  background: rgba(234, 84, 85, 0.14);
+  color: #ea5455;
+}
+
+.chart {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--lf-space-2);
+  align-items: end;
+  height: 120px;
+}
+
+.barCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--lf-space-1);
+  height: 100%;
+}
+
+.bar {
+  width: 100%;
+  max-width: 28px;
+  border-radius: 6px 6px 0 0;
+  background: rgba(115, 103, 240, 0.28);
+}
+
+.barActive {
+  background: #7367f0;
+}
+
+.barLabel {
+  font-size: 10px;
+  color: var(--lf-text-tertiary);
+}

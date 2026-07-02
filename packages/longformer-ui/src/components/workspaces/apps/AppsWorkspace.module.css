@@ -1,0 +1,18 @@
+.workspace {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  background: var(--lf-surface-canvas);
+}
+
+.toolbar {
+  padding: 0 var(--lf-space-4) var(--lf-space-3);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+  padding: var(--lf-space-4);
+}

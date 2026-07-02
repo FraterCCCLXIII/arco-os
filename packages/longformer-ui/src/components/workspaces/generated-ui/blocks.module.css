@@ -1,0 +1,298 @@
+.block {
+  margin-bottom: var(--lf-space-4);
+}
+
+.textDefault {
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-base);
+  line-height: var(--lf-line-height-normal);
+}
+
+.textMuted {
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-sm);
+}
+
+.textHeading {
+  color: var(--lf-text-primary);
+  font-size: var(--lf-font-size-lg);
+  font-weight: 600;
+}
+
+.blockTitle {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: var(--lf-space-2);
+}
+
+.blockSubtitle {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  margin-bottom: var(--lf-space-3);
+  line-height: var(--lf-line-height-normal);
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.cardHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-surface-3);
+  color: var(--lf-accent);
+  flex-shrink: 0;
+}
+
+.cardTitle {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.cardDescription {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  line-height: var(--lf-line-height-normal);
+}
+
+.mediaCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.listingCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.statCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.activityCardList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.metricChartCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.selectionTileGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--lf-space-2);
+}
+
+.timelineSteps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.filterSectionList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.sessionCardGrid,
+.insightCardGrid,
+.timezoneCardGrid,
+.meetingCountdownGrid,
+.routeCardGrid,
+.profileSummaryCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.scheduleSlotsCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.scheduleSlotsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--lf-space-4);
+}
+
+.eventCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.deviceCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.expenseCardList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.courseCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border-radius: var(--lf-radius-md);
+  overflow: hidden;
+  border: 1px solid var(--lf-border-subtle);
+}
+
+.formRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-2) var(--lf-space-3);
+  background: var(--lf-surface-1);
+}
+
+.formRow:not(:last-child) {
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.formLabel {
+  font-size: var(--lf-font-size-md);
+  color: var(--lf-text-tertiary);
+}
+
+.formValue {
+  font-size: var(--lf-font-size-md);
+  color: var(--lf-text-primary);
+  font-weight: 500;
+  text-align: right;
+}
+
+.code {
+  margin: 0;
+  padding: var(--lf-space-3);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-sunken);
+  border: 1px solid var(--lf-border-subtle);
+  overflow-x: auto;
+  font-family: var(--lf-font-mono);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  line-height: var(--lf-line-height-normal);
+}
+
+.codeLanguage {
+  display: inline-block;
+  margin-bottom: var(--lf-space-2);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  font-family: var(--lf-font-mono);
+}
+
+.terminal {
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-sunken);
+  border: 1px solid var(--lf-border-subtle);
+  overflow: hidden;
+}
+
+.terminalHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.terminalDot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-border-strong);
+}
+
+.terminalBody {
+  padding: var(--lf-space-3);
+  font-family: var(--lf-font-mono);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-success);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.phoneHomeScreenWrap {
+  display: flex;
+  justify-content: center;
+  padding: var(--lf-space-4) 0;
+}
+
+.dashboardCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.dashboardWideGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--lf-space-3);
+}
+
+.designCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--lf-space-4);
+}
+
+.glassWidgetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--lf-space-4);
+}
+
+.creatorWidgetGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--lf-space-4);
+}

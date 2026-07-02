@@ -1,0 +1,91 @@
+.block {
+  margin-bottom: var(--lf-space-4);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-base);
+  line-height: var(--lf-line-height-normal);
+}
+
+.h1 {
+  font-size: var(--lf-font-size-2xl);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+  margin: var(--lf-space-6) 0 var(--lf-space-3);
+}
+
+.h2 {
+  font-size: var(--lf-font-size-xl);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+  margin: var(--lf-space-5) 0 var(--lf-space-2);
+}
+
+.h3 {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  margin: var(--lf-space-4) 0 var(--lf-space-2);
+}
+
+.list {
+  margin: 0;
+  padding-left: 1.4em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+}
+
+.listItem strong {
+  color: var(--lf-text-primary);
+}
+
+.nestedList {
+  margin: var(--lf-space-1) 0 0;
+  padding-left: 1.4em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+}
+
+.flowSteps {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--lf-space-1);
+  margin: var(--lf-space-3) 0;
+}
+
+.flowStep {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 var(--lf-space-2);
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-danger-muted);
+  color: var(--lf-danger);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.flowArrow {
+  color: var(--lf-text-disabled);
+  display: flex;
+  flex-shrink: 0;
+}
+
+.callout {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-3);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-2);
+  border: 1px solid var(--lf-border-subtle);
+}
+
+.calloutIcon {
+  display: flex;
+  color: var(--lf-text-tertiary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}

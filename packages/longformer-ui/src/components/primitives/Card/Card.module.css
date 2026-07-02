@@ -1,0 +1,29 @@
+.card {
+  background: var(--lf-surface-1);
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-lg);
+  padding: var(--lf-space-4);
+}
+
+.interactive {
+  cursor: pointer;
+  transition: border-color var(--lf-duration-fast) var(--lf-ease), background var(--lf-duration-fast) var(--lf-ease),
+    transform var(--lf-duration-fast) var(--lf-ease);
+}
+
+.interactive:hover {
+  border-color: var(--lf-border-strong);
+  background: var(--lf-surface-2);
+}
+
+.padding-none {
+  padding: 0;
+}
+
+.padding-sm {
+  padding: var(--lf-space-3);
+}
+
+.padding-lg {
+  padding: var(--lf-space-6);
+}

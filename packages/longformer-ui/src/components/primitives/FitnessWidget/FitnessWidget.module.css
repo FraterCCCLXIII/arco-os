@@ -1,0 +1,734 @@
+/* Dot matrix numerals */
+.dotMatrix {
+  font-family: var(--lf-font-dot-matrix, "Share Tech Mono", ui-monospace, monospace);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.dotMatrixSm { font-size: 14px; }
+.dotMatrixMd { font-size: 20px; }
+.dotMatrixLg { font-size: 28px; }
+.dotMatrixXl { font-size: 36px; }
+
+.dotMatrixLight { color: rgba(255, 255, 255, 0.95); }
+.dotMatrixDark { color: #121212; }
+
+/* Shared layout */
+.stack {
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.activityLabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fitness-accent-green, #a4c639);
+}
+
+.activityValueRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lf-space-2);
+}
+
+.activityUnit,
+.activityUnitCenter {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.activityUnitCenter {
+  text-align: center;
+}
+
+.actionBtn {
+  width: 100%;
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-radius: var(--lf-radius-pill);
+  background: transparent;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.actionBtnGreen {
+  border: 1px solid var(--fitness-accent-green, #a4c639);
+  color: var(--fitness-accent-green, #a4c639);
+}
+
+.actionBtnPink {
+  border: 1px solid var(--fitness-accent-pink, #ffb6c1);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Workout photo */
+.workoutPhoto {
+  position: relative;
+  padding: 0 !important;
+}
+
+.workoutPhotoBg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(160deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),
+    linear-gradient(135deg, #3d5a80 0%, #6b8cae 40%, #98c1d9 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.workoutPhotoOverlay {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workoutPhotoBubble {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 88px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #121212;
+  text-align: center;
+}
+
+.workoutPhotoTime {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.workoutPhotoLabel {
+  margin-top: 2px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* Running */
+.runningHead {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.runningValue {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-2);
+}
+
+.runningAdjust {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--fitness-accent-pink, #ffb6c1);
+  color: #121212;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Gym streak */
+.gymStreak {
+  gap: var(--lf-space-2);
+}
+
+.gymStreakHead {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.gymStreakIcon {
+  color: var(--fitness-accent-pink, #ffb6c1);
+}
+
+.gymStreakTitle {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+}
+
+.gymStreakMeta {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.gymStreakWeekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.35);
+  text-align: center;
+}
+
+.gymStreakGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  flex: 1;
+  align-content: center;
+}
+
+.gymDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  justify-self: center;
+}
+
+.gymDotDone {
+  background: var(--fitness-accent-green, #a4c639);
+}
+
+/* Heart rate */
+.heartRate {
+  gap: var(--lf-space-3);
+}
+
+.heartRateHead {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.heartBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(255, 182, 193, 0.18);
+  color: var(--fitness-accent-pink, #ffb6c1);
+}
+
+.heartRateTitle {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+}
+
+.heartRateDate {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.heartRateStats {
+  display: flex;
+  gap: var(--lf-space-4);
+}
+
+.heartRateStats > div {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.heartRateStatLabel,
+.heartRateStatUnit {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.heartRateChartWrap {
+  display: flex;
+  gap: var(--lf-space-2);
+  flex: 1;
+  min-height: 0;
+}
+
+.heartRateYAxis {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.35);
+  padding-bottom: 16px;
+}
+
+.heartRateChart {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.heartRateBars {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  min-height: 60px;
+}
+
+.heartRateBar {
+  flex: 1;
+  border-radius: 2px 2px 0 0;
+  background: var(--fitness-accent-pink, #ffb6c1);
+  opacity: 0.85;
+}
+
+.heartRateAvgLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--fitness-accent-green, #a4c639);
+  pointer-events: none;
+}
+
+.heartRateAvgDot {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--fitness-accent-green, #a4c639);
+}
+
+.heartRateXAxis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--lf-space-1);
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Progress tracker */
+.progressTracker {
+  gap: var(--lf-space-2);
+}
+
+.progressTitle {
+  font-size: var(--lf-font-size-md);
+  font-weight: 700;
+}
+
+.progressGridWrap {
+  display: flex;
+  gap: var(--lf-space-2);
+  flex: 1;
+  min-height: 0;
+}
+
+.progressGrid {
+  flex: 1;
+  display: grid;
+  gap: 6px;
+}
+
+.progressCell {
+  aspect-ratio: 1;
+  border-radius: 999px;
+}
+
+.progressCellDone {
+  background: #121212;
+}
+
+.progressCellOpen {
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.progressRowLabels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.progressColLabels {
+  display: grid;
+  gap: 6px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+/* Music player */
+.musicPlayer {
+  gap: var(--lf-space-3);
+}
+
+.nowPlaying {
+  display: flex;
+  gap: var(--lf-space-3);
+}
+
+.albumArt {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--lf-radius-md);
+  background: linear-gradient(145deg, #2a2a2a, #444);
+  flex-shrink: 0;
+}
+
+.nowPlayingMeta {
+  min-width: 0;
+}
+
+.nowPlayingTitle {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 700;
+}
+
+.nowPlayingArtist {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.nowPlayingHeart {
+  margin-top: var(--lf-space-1);
+  color: var(--fitness-accent-pink, #ffb6c1);
+}
+
+.musicControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-4);
+}
+
+.musicControlBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  cursor: pointer;
+}
+
+.playRing {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playRingTrack {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.12);
+  stroke-width: 3;
+}
+
+.playRingFill {
+  fill: none;
+  stroke: var(--fitness-accent-green, #a4c639);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.playRingIcon {
+  position: absolute;
+  display: flex;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.upNext {
+  margin-top: auto;
+}
+
+.upNextLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: var(--lf-space-2);
+}
+
+.upNextGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--lf-space-2);
+}
+
+.upNextItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.upNextArt {
+  aspect-ratio: 1;
+  border-radius: var(--lf-radius-sm);
+  background: linear-gradient(145deg, #333, #555);
+}
+
+.upNextTitle {
+  font-size: 8px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.upNextArtist {
+  font-size: 7px;
+  color: rgba(255, 255, 255, 0.4);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Steps & streak */
+.stepsStreak {
+  justify-content: space-between;
+  gap: var(--lf-space-4);
+}
+
+.stepsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+}
+
+.stepsLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+/* Weather */
+.weather {
+  gap: var(--lf-space-3);
+}
+
+.weatherCurrent {
+  display: flex;
+  gap: var(--lf-space-3);
+  align-items: flex-start;
+}
+
+.weatherIcon {
+  position: relative;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.weatherSun {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+}
+
+.weatherCloud,
+.weatherCloudSmall {
+  position: absolute;
+  bottom: 2px;
+  right: 0;
+  width: 22px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.weatherCloudSmall {
+  width: 16px;
+  height: 10px;
+}
+
+.weatherHighLow {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 2px;
+}
+
+.weatherLocation {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  margin-top: var(--lf-space-1);
+}
+
+.weatherCondition {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.weatherForecast {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--lf-space-2);
+  margin-top: auto;
+}
+
+.weatherDay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+}
+
+.weatherDayLabel {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.weatherDayHigh {
+  font-weight: 700;
+}
+
+.weatherDayLow {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.weatherDay .weatherIcon {
+  width: 24px;
+  height: 24px;
+  transform: scale(0.75);
+}
+
+/* Weight tracker */
+.weightTracker {
+  gap: var(--lf-space-4);
+  font-family: var(--lf-font-mono);
+}
+
+.weightHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.weightTabs {
+  display: flex;
+  gap: var(--lf-space-3);
+}
+
+.weightTab {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(0, 0, 0, 0.28);
+}
+
+.weightTabActive {
+  color: #121212;
+}
+
+.weightChange {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.weightChartWrap {
+  display: flex;
+  gap: var(--lf-space-2);
+  flex: 1;
+  min-height: 0;
+}
+
+.weightYAxis {
+  position: relative;
+  flex-shrink: 0;
+  width: 20px;
+  align-self: stretch;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: right;
+}
+
+.weightYThreshold {
+  position: absolute;
+  right: 0;
+  color: var(--fitness-weight-alert, #e53935);
+  transform: translateY(50%);
+  line-height: 1;
+}
+
+.weightYBaseline {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  color: #121212;
+  line-height: 1;
+}
+
+.weightChart {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.weightThresholdLine {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1px dashed var(--fitness-weight-alert, #e53935);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.weightBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 100%;
+  min-height: 72px;
+}
+
+.weightBarCol {
+  flex: 1;
+  min-width: 0;
+  max-width: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 2px;
+}
+
+.weightBarBelow {
+  background: #121212;
+  min-height: 1px;
+}
+
+.weightBarAbove {
+  background: var(--fitness-weight-alert, #e53935);
+  min-height: 1px;
+}

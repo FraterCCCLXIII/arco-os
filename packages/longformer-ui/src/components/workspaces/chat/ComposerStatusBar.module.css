@@ -1,0 +1,27 @@
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-2) var(--lf-space-1);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+  min-width: 0;
+}
+
+.model,
+.thinking {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  white-space: nowrap;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}

@@ -1,0 +1,63 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lf-space-3);
+  text-align: center;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.value {
+  font-size: var(--lf-font-size-xl);
+  font-weight: 800;
+  color: var(--lf-text-primary);
+}
+
+.label {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.gaugeWrap {
+  position: relative;
+  width: 100%;
+  max-width: 180px;
+}
+
+.gauge {
+  width: 100%;
+  height: auto;
+}
+
+.track {
+  stroke: var(--lf-surface-3);
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+.fill {
+  stroke: #ff9f43;
+  stroke-width: 10;
+  stroke-linecap: round;
+}
+
+.percent {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  transform: translateX(-50%);
+  font-size: var(--lf-font-size-lg);
+  font-weight: 800;
+  color: var(--lf-text-primary);
+}
+
+.caption {
+  margin: 0;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}

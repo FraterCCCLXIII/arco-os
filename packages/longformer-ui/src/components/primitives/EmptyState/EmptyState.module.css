@@ -1,0 +1,39 @@
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-8) var(--lf-space-6);
+  color: var(--lf-text-secondary);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-2);
+  color: var(--lf-text-tertiary);
+  margin-bottom: var(--lf-space-2);
+}
+
+.title {
+  font-size: var(--lf-font-size-base);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.description {
+  font-size: var(--lf-font-size-md);
+  color: var(--lf-text-tertiary);
+  max-width: 360px;
+}
+
+.actions {
+  display: flex;
+  gap: var(--lf-space-2);
+  margin-top: var(--lf-space-3);
+}

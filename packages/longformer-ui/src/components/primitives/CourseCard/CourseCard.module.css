@@ -1,0 +1,152 @@
+.pill,
+.tile,
+.hero {
+  border-radius: var(--lf-radius-xl);
+  border: 1px solid var(--lf-border-subtle);
+}
+
+.pill {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+  width: 100%;
+  padding: var(--lf-space-3) var(--lf-space-4);
+  text-align: left;
+  cursor: pointer;
+}
+
+.pill-accent {
+  background: var(--lf-accent-muted);
+}
+
+.pill-neutral {
+  background: var(--lf-surface-sunken);
+  color: var(--lf-text-on-accent);
+}
+
+.pill-neutral .pillTitle,
+.pill-neutral .pillSubtitle,
+.pill-neutral .pillChevron {
+  color: var(--lf-text-on-accent);
+}
+
+.pill-warning {
+  background: var(--lf-warning-muted);
+}
+
+.pillIcon,
+.pillChevron,
+.tileIcon,
+.heroIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pillIcon,
+.tileIcon,
+.heroIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-surface-1);
+}
+
+.pillBody {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pillTitle {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.pillSubtitle {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+}
+
+.pillChevron {
+  color: var(--lf-text-tertiary);
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-4);
+  min-height: 160px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-5);
+  min-height: 180px;
+}
+
+.tone-accent {
+  background: var(--lf-accent-muted);
+}
+
+.tone-neutral {
+  background: var(--lf-surface-3);
+}
+
+.tone-warning {
+  background: var(--lf-warning-muted);
+}
+
+.tileTop,
+.heroTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 var(--lf-space-2);
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-surface-1);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.tileInstructor,
+.heroInstructor {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.tileTitle,
+.heroTitle {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+  line-height: var(--lf-line-height-tight);
+}
+
+.tileSubtitle {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.heroAction {
+  align-self: flex-start;
+  border-radius: var(--lf-radius-pill);
+}

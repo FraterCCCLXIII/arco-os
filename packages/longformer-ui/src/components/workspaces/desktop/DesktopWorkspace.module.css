@@ -1,0 +1,37 @@
+.workspace {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--lf-surface-canvas);
+}
+
+.toolbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--lf-space-2) var(--lf-space-4);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-1);
+}
+
+.toolbarPickers {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-2);
+}
+
+.desktop {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin: var(--lf-space-3);
+  border-radius: var(--lf-radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--lf-border-default);
+  box-shadow: var(--lf-shadow-md);
+}

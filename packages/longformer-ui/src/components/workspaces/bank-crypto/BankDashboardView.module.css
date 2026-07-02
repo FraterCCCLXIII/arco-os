@@ -1,0 +1,377 @@
+.dashboard {
+  --bc-bg: #f6f7f9;
+  --bc-surface: #ffffff;
+  --bc-border: rgba(15, 23, 42, 0.08);
+  --bc-text: #1a1d26;
+  --bc-text-muted: #6b7280;
+  --bc-accent: #5266d4;
+  --bc-accent-soft: rgba(82, 102, 212, 0.1);
+  --bc-success: #16a34a;
+
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--bc-bg);
+  color: var(--bc-text);
+  font-family: var(--lf-font-sans, system-ui, sans-serif);
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-4);
+  padding: var(--lf-space-3) var(--lf-space-6);
+  border-bottom: 1px solid var(--bc-border);
+  background: var(--bc-surface);
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  flex: 1;
+  max-width: 360px;
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border: 1px solid var(--bc-border);
+  border-radius: var(--lf-radius-lg);
+  font-size: 0.875rem;
+  color: var(--bc-text-muted);
+}
+
+.kbd {
+  margin-left: auto;
+  padding: 2px 6px;
+  border-radius: var(--lf-radius-sm);
+  background: var(--bc-bg);
+  font-size: 0.6875rem;
+  font-family: inherit;
+}
+
+.topActions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.moveMoneyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border: 1px solid var(--bc-accent);
+  border-radius: var(--lf-radius-lg);
+  background: transparent;
+  color: var(--bc-accent);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--bc-border);
+  border-radius: var(--lf-radius-md);
+  background: var(--bc-surface);
+  color: var(--bc-text-muted);
+  cursor: pointer;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--lf-space-5) var(--lf-space-6);
+}
+
+.welcomeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--lf-space-4);
+}
+
+.welcome {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.customizeLink {
+  border: none;
+  background: transparent;
+  color: var(--bc-accent);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.quickActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lf-space-2);
+  margin-bottom: var(--lf-space-5);
+}
+
+.quickAction {
+  padding: var(--lf-space-2) var(--lf-space-4);
+  border: 1px solid var(--bc-border);
+  border-radius: 999px;
+  background: var(--bc-surface);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--bc-text);
+  cursor: pointer;
+}
+
+.quickActionPrimary {
+  border-color: var(--bc-accent);
+  background: var(--bc-accent);
+  color: #fff;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: var(--lf-space-4);
+}
+
+.balanceCard,
+.accountsCard,
+.movementCard {
+  padding: var(--lf-space-5);
+  border: 1px solid var(--bc-border);
+  border-radius: var(--lf-radius-xl);
+  background: var(--bc-surface);
+}
+
+.movementCard {
+  grid-column: 1 / -1;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--lf-space-3);
+}
+
+.cardHeader h2 {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.cardActions {
+  display: flex;
+  gap: var(--lf-space-1);
+}
+
+.viewToggle {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--lf-radius-md);
+  background: var(--bc-bg);
+}
+
+.viewToggle button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--bc-text-muted);
+  cursor: pointer;
+}
+
+.viewToggleActive {
+  background: var(--bc-surface) !important;
+  color: var(--bc-text) !important;
+  box-shadow: var(--lf-shadow-sm);
+}
+
+.balanceAmount {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.balanceMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+  margin-top: var(--lf-space-2);
+  font-size: 0.8125rem;
+  color: var(--bc-text-muted);
+}
+
+.trendUp {
+  color: var(--bc-success);
+}
+
+.trendDown {
+  color: var(--bc-text-muted);
+}
+
+.chartWrap {
+  margin-top: var(--lf-space-4);
+}
+
+.chartLine {
+  stroke: var(--bc-accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chartLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--lf-space-2);
+  font-size: 0.75rem;
+  color: var(--bc-text-muted);
+}
+
+.tablePlaceholder {
+  margin-top: var(--lf-space-4);
+  padding: var(--lf-space-6);
+  border-radius: var(--lf-radius-md);
+  background: var(--bc-bg);
+  font-size: 0.875rem;
+  color: var(--bc-text-muted);
+  text-align: center;
+}
+
+.accountList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.accountRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-3) 0;
+  border-bottom: 1px solid var(--bc-border);
+}
+
+.accountRow:last-child {
+  border-bottom: none;
+}
+
+.accountIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--lf-radius-md);
+  font-size: 0.875rem;
+}
+
+.accountMeta {
+  flex: 1;
+  min-width: 0;
+}
+
+.accountName {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.accountSuffix {
+  color: var(--bc-text-muted);
+  font-weight: 400;
+}
+
+.accountBalance {
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.periodBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: var(--lf-space-1) var(--lf-space-2);
+  border: 1px solid var(--bc-border);
+  border-radius: var(--lf-radius-md);
+  background: var(--bc-surface);
+  font-size: 0.8125rem;
+  color: var(--bc-text-muted);
+  cursor: pointer;
+}
+
+.movementGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--lf-space-6);
+}
+
+.movementLabel {
+  font-size: 0.8125rem;
+  color: var(--bc-text-muted);
+  margin-bottom: var(--lf-space-1);
+}
+
+.movementTotal {
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: var(--lf-space-4);
+}
+
+.movementIn {
+  color: var(--bc-success);
+}
+
+.movementSubhead {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--bc-text-muted);
+  margin-bottom: var(--lf-space-2);
+}
+
+.movementList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.movementRow {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-2) 0;
+  font-size: 0.875rem;
+}
+
+.movementRow span:last-child {
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .movementGrid {
+    grid-template-columns: 1fr;
+  }
+}

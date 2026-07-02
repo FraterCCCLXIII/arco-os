@@ -1,0 +1,83 @@
+.toolbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  height: 44px;
+  padding: 0 var(--lf-space-4);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-1);
+  overflow-x: auto;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.formatTrigger {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  height: 28px;
+  padding: 0 var(--lf-space-2);
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--lf-text-secondary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-sm);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.formatTrigger:hover {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+}
+
+.formatLabel {
+  min-width: 68px;
+  text-align: left;
+}
+
+.toolButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}
+
+.toolButton:hover:not(:disabled) {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+}
+
+.toolButton:disabled {
+  color: var(--lf-text-disabled);
+  cursor: not-allowed;
+}
+
+.toolButtonPressed {
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.toolButtonPressed:hover:not(:disabled) {
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}

@@ -1,0 +1,86 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.title {
+  font-size: var(--lf-font-size-md);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-primary);
+}
+
+.itemCompleted {
+  color: var(--lf-text-tertiary);
+  text-decoration: line-through;
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--lf-radius-sm);
+  border: 1.5px solid var(--lf-border-default);
+  flex-shrink: 0;
+}
+
+.checkCompleted {
+  border-color: var(--lf-accent);
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.progressBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+}
+
+.progressMeta {
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: var(--lf-accent);
+}
+
+.progressTrack {
+  height: 6px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-surface-3);
+  overflow: hidden;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--lf-accent);
+}
+
+.members {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--lf-space-1) * -1);
+}
+
+.members > * {
+  box-shadow: 0 0 0 2px var(--lf-surface-1);
+}

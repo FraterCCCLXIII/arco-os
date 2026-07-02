@@ -1,0 +1,47 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.longest {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.longest strong {
+  color: var(--lf-text-primary);
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.day {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 0;
+  border-radius: var(--lf-radius-pill);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.dayDone {
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.dayPending {
+  background: var(--lf-surface-2);
+  color: var(--lf-text-tertiary);
+}

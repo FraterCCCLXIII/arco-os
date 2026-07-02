@@ -1,0 +1,56 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+}
+
+.composer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-3);
+  background: var(--lf-surface-2);
+  border: 1px solid var(--lf-border-default);
+  border-radius: var(--lf-radius-lg);
+}
+
+.composer:has(.textarea:focus) {
+  border-color: var(--lf-accent-border);
+}
+
+.textareaRow {
+  padding: 0 var(--lf-space-1);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.controlsLeft,
+.controlsRight {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+}
+
+.modelTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  height: 28px;
+  padding: 0 var(--lf-space-2);
+  border-radius: var(--lf-radius-md);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-sm);
+  cursor: pointer;
+}
+
+.modelTrigger:hover {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-secondary);
+}

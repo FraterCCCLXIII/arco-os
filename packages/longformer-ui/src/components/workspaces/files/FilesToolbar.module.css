@@ -1,0 +1,57 @@
+.toolbar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-2) var(--lf-space-4);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-canvas);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--lf-font-size-lg);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  white-space: nowrap;
+}
+
+.searchWrap {
+  flex: 1;
+  min-width: 0;
+  max-width: 560px;
+}
+
+.search {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  margin-left: auto;
+}
+
+.viewToggle {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 2px;
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-2);
+}
+
+@media (max-width: 720px) {
+  .title {
+    display: none;
+  }
+
+  .searchWrap {
+    max-width: none;
+  }
+
+  .actions > :not(.viewToggle) {
+    display: none;
+  }
+}

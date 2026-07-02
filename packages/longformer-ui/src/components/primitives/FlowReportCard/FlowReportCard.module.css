@@ -1,0 +1,78 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-4);
+}
+
+.diagram {
+  display: grid;
+  grid-template-columns: 1fr 80px 1fr;
+  align-items: center;
+  gap: var(--lf-space-2);
+  min-height: 160px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.nodeRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.bar {
+  width: 4px;
+  height: 28px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-accent);
+  flex-shrink: 0;
+}
+
+.bar-purple {
+  background: #7c3aed;
+}
+
+.bar-lavender {
+  background: #a78bfa;
+}
+
+.bar-cyan {
+  background: #06b6d4;
+}
+
+.bar-blue {
+  background: #6366f1;
+}
+
+.nodeText {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-secondary);
+}
+
+.nodeText strong {
+  color: var(--lf-text-primary);
+  font-weight: 700;
+}
+
+.flows {
+  width: 100%;
+  height: 160px;
+}
+
+.flowPath {
+  fill: none;
+  stroke-width: 18;
+  opacity: 0.35;
+}
+
+.flow-purple {
+  stroke: #8b5cf6;
+}
+
+.flow-cyan {
+  stroke: #67e8f9;
+}

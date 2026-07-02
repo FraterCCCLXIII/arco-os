@@ -1,0 +1,116 @@
+.calendar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.titleButton {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  cursor: pointer;
+  border-radius: var(--lf-radius-sm);
+}
+
+.titleButton:disabled {
+  cursor: default;
+}
+
+.titleButton:not(:disabled):hover {
+  color: var(--lf-accent);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.weekdayRow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.weekdayCell {
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--lf-text-tertiary);
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 2px;
+}
+
+.day {
+  position: relative;
+  appearance: none;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--lf-radius-pill);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-sm);
+  cursor: pointer;
+}
+
+.day:hover {
+  background: var(--lf-surface-3);
+}
+
+.dayOutside {
+  color: var(--lf-text-disabled);
+}
+
+.dayToday {
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent);
+  font-weight: 600;
+}
+
+.dayToday:hover {
+  background: var(--lf-accent-hover);
+}
+
+.daySelected {
+  background: var(--lf-accent-muted);
+  color: var(--lf-text-primary);
+  font-weight: 600;
+}
+
+.dayNumber {
+  line-height: 1;
+}
+
+.dot {
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
+  transform: translateX(-50%);
+}
+
+.dayToday .dot {
+  opacity: 0.85;
+}

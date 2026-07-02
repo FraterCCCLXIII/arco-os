@@ -1,0 +1,58 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-4);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.rowLabel {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.rowLabel strong {
+  color: var(--lf-text-primary);
+}
+
+.track {
+  height: 10px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-surface-3);
+  overflow: hidden;
+}
+
+.fillBlue,
+.fillOrange {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+}
+
+.fillBlue {
+  background: var(--lf-accent);
+}
+
+.fillOrange {
+  background: #f97316;
+}
+
+.striped {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #f97316,
+    #f97316 6px,
+    #fb923c 6px,
+    #fb923c 12px
+  );
+}

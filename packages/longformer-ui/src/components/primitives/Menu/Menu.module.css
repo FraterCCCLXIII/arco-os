@@ -1,0 +1,80 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.panel {
+  position: absolute;
+  top: calc(100% + var(--lf-space-1));
+  min-width: 200px;
+  max-width: 320px;
+  background: var(--lf-surface-2);
+  border: 1px solid var(--lf-border-default);
+  border-radius: var(--lf-radius-md);
+  box-shadow: var(--lf-shadow-lg);
+  padding: var(--lf-space-1);
+  z-index: var(--lf-z-dropdown);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.alignStart {
+  left: 0;
+}
+
+.alignEnd {
+  right: 0;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  width: 100%;
+  padding: var(--lf-space-2);
+  border: none;
+  background: transparent;
+  border-radius: var(--lf-radius-sm);
+  color: var(--lf-text-primary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-md);
+  text-align: left;
+  cursor: pointer;
+}
+
+.item:hover:not(:disabled),
+.itemHighlighted:not(:disabled) {
+  background: var(--lf-surface-3);
+}
+
+.item:disabled {
+  color: var(--lf-text-disabled);
+  cursor: not-allowed;
+}
+
+.itemDanger {
+  color: var(--lf-danger);
+}
+
+.itemIcon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--lf-text-tertiary);
+}
+
+.itemLabel {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemShortcut {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.separator {
+  height: 1px;
+  margin: var(--lf-space-1) var(--lf-space-1);
+  background: var(--lf-border-subtle);
+}

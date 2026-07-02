@@ -1,0 +1,91 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-4);
+  min-height: 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--lf-font-size-xl);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  line-height: var(--lf-line-height-normal);
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.cardHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-3);
+  color: var(--lf-accent);
+  flex-shrink: 0;
+}
+
+.cardTitle {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.cardAuthor {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.cardDescription {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  line-height: var(--lf-line-height-normal);
+  flex: 1;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+  margin-top: var(--lf-space-1);
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+}

@@ -1,0 +1,116 @@
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+  width: 100%;
+  padding: var(--lf-space-3);
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-1);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color var(--lf-duration-fast) var(--lf-ease),
+    box-shadow var(--lf-duration-fast) var(--lf-ease),
+    background var(--lf-duration-fast) var(--lf-ease);
+}
+
+.card:hover {
+  border-color: var(--lf-border-strong);
+  background: var(--lf-surface-2);
+}
+
+.selected {
+  border-color: var(--lf-accent);
+  box-shadow: 0 0 0 1px var(--lf-accent-muted);
+}
+
+.preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--lf-radius-md);
+}
+
+.compact .preview {
+  aspect-ratio: 1;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  color: var(--lf-text-primary);
+}
+
+.meta {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.starButton {
+  position: absolute;
+  top: var(--lf-space-2);
+  right: var(--lf-space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-surface-canvas);
+  color: var(--lf-text-disabled);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity var(--lf-duration-fast) var(--lf-ease);
+}
+
+.card:hover .starButton,
+.card:focus-visible .starButton,
+.starActive {
+  opacity: 1;
+}
+
+.starActive {
+  color: var(--lf-warning);
+}
+
+.neutral {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-secondary);
+}
+
+.accent {
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.success {
+  background: var(--lf-success-muted);
+  color: var(--lf-success);
+}
+
+.warning {
+  background: var(--lf-warning-muted);
+  color: var(--lf-warning);
+}
+
+.danger {
+  background: var(--lf-danger-muted);
+  color: var(--lf-danger);
+}

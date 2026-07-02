@@ -1,0 +1,94 @@
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lf-space-2);
+  width: 100%;
+  padding: var(--lf-space-3) var(--lf-space-3);
+  border: none;
+  border-bottom: 1px solid var(--lf-border-subtle);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--lf-surface-2);
+}
+
+.itemActive {
+  background: var(--lf-surface-2);
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.topRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.sender {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.senderUnread {
+  color: var(--lf-text-primary);
+}
+
+.timestamp {
+  flex-shrink: 0;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.subject {
+  margin-top: 2px;
+  font-size: var(--lf-font-size-md);
+  color: var(--lf-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview {
+  margin-top: 2px;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.unreadDot {
+  flex-shrink: 0;
+  width: 7px;
+  height: 7px;
+  margin-top: 6px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-accent);
+}
+
+.starButton {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lf-text-disabled);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+}
+
+.starActive {
+  color: var(--lf-warning);
+}

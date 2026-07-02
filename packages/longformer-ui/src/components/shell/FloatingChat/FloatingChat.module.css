@@ -1,0 +1,97 @@
+.root {
+  position: fixed;
+  right: var(--lf-space-5);
+  bottom: var(--lf-space-5);
+  z-index: var(--lf-z-overlay);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--lf-space-3);
+  pointer-events: none;
+  transition: bottom var(--lf-duration-normal) var(--lf-ease);
+}
+
+.rootRaised {
+  bottom: calc(var(--lf-space-5) + var(--lf-app-drawer-offset, 84px));
+}
+
+.launcher {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: none;
+  border-radius: 50%;
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent);
+  box-shadow: var(--lf-shadow-overlay);
+  cursor: pointer;
+  pointer-events: auto;
+  transition:
+    transform var(--lf-duration-fast) var(--lf-ease),
+    background var(--lf-duration-fast) var(--lf-ease),
+    box-shadow var(--lf-duration-fast) var(--lf-ease);
+}
+
+.launcher:hover {
+  transform: translateY(-2px);
+  background: var(--lf-accent-hover);
+}
+
+.launcher:active {
+  transform: translateY(0);
+  background: var(--lf-accent-active);
+}
+
+.launcherOpen {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+  box-shadow: var(--lf-shadow-lg);
+}
+
+.launcherOpen:hover {
+  background: var(--lf-surface-4, var(--lf-surface-3));
+}
+
+.panelAnchor {
+  position: fixed;
+  left: 50%;
+  bottom: var(--lf-space-5);
+  transform: translateX(-50%);
+  width: min(640px, calc(100vw - var(--lf-space-4) * 2));
+  max-height: min(480px, calc(100vh - 120px));
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  transition: bottom var(--lf-duration-normal) var(--lf-ease);
+}
+
+.panelAnchorRaised {
+  bottom: calc(var(--lf-space-5) + var(--lf-app-drawer-offset, 84px));
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  height: auto;
+  max-height: min(480px, calc(100vh - 120px));
+  overflow: visible;
+  pointer-events: auto;
+  animation: panelIn var(--lf-duration-normal) var(--lf-ease);
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

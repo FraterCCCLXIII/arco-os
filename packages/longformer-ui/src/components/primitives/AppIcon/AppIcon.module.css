@@ -1,0 +1,114 @@
+.wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lf-space-1);
+  position: relative;
+}
+
+.tile {
+  appearance: none;
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-lg);
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--lf-text-on-accent);
+  box-shadow: var(--lf-shadow-sm);
+  transition: transform var(--lf-duration-fast) var(--lf-ease),
+    box-shadow var(--lf-duration-fast) var(--lf-ease), border-color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.tile:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: var(--lf-shadow-md);
+}
+
+.tile:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.tile.active {
+  border-color: var(--lf-border-strong);
+  box-shadow: 0 0 0 2px var(--lf-accent-border), var(--lf-shadow-md);
+}
+
+.sm .tile {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--lf-radius-md);
+}
+
+.md .tile {
+  width: 44px;
+  height: 44px;
+}
+
+.lg .tile {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--lf-radius-xl);
+}
+
+/* Tone gradients — always derived from semantic tokens, never hardcoded. */
+.neutral {
+  background: linear-gradient(155deg, var(--lf-surface-3), var(--lf-surface-1));
+  color: var(--lf-text-primary);
+}
+
+.accent {
+  background: linear-gradient(155deg, var(--lf-accent-hover), var(--lf-accent-active));
+}
+
+.success {
+  background: linear-gradient(155deg, var(--lf-success), var(--lf-success-muted));
+}
+
+.warning {
+  background: linear-gradient(155deg, var(--lf-warning), var(--lf-warning-muted));
+}
+
+.danger {
+  background: linear-gradient(155deg, var(--lf-danger), var(--lf-danger-muted));
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.glyph {
+  font-size: 1.1em;
+  line-height: 1;
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  box-shadow: 0 0 0 2px var(--lf-surface-canvas);
+}
+
+.runningDot {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  translate: -50% 0;
+  width: 4px;
+  height: 4px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-text-primary);
+}
+
+.caption {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-primary);
+  max-width: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

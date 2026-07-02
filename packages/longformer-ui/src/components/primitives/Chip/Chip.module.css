@@ -1,0 +1,57 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  height: 30px;
+  padding: 0 var(--lf-space-3);
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-surface-2);
+  border: 1px solid var(--lf-border-default);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--lf-duration-fast) var(--lf-ease), border-color var(--lf-duration-fast) var(--lf-ease),
+    color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.chip:hover {
+  background: var(--lf-surface-3);
+  border-color: var(--lf-border-strong);
+  color: var(--lf-text-primary);
+}
+
+.icon {
+  display: flex;
+  color: var(--lf-text-tertiary);
+}
+
+.active {
+  background: var(--lf-accent-muted);
+  border-color: var(--lf-accent-border);
+  color: var(--lf-accent);
+}
+
+.active:hover {
+  background: var(--lf-accent-muted);
+  border-color: var(--lf-accent-border);
+  color: var(--lf-accent);
+}
+
+.active .icon {
+  color: var(--lf-accent);
+}
+
+.remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: calc(var(--lf-space-1) * -1);
+  color: var(--lf-text-tertiary);
+  border-radius: var(--lf-radius-pill);
+}
+
+.remove:hover {
+  color: var(--lf-text-primary);
+}

@@ -1,0 +1,109 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-4);
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+}
+
+.art {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--lf-radius-md);
+  flex-shrink: 0;
+}
+
+.art-neutral {
+  background: linear-gradient(145deg, var(--lf-surface-3), var(--lf-surface-sunken));
+}
+
+.art-accent {
+  background: linear-gradient(145deg, var(--lf-accent-muted), var(--lf-accent));
+}
+
+.art-warning {
+  background: linear-gradient(145deg, var(--lf-warning-muted), var(--lf-warning));
+}
+
+.meta {
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--lf-font-size-md);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+}
+
+.artist {
+  margin-top: var(--lf-space-1);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.source {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  margin-top: var(--lf-space-2);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-secondary);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-2);
+}
+
+.controlButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--lf-radius-pill);
+  background: transparent;
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}
+
+.playButton {
+  width: 40px;
+  height: 40px;
+  background: var(--lf-text-primary);
+  color: var(--lf-surface-1);
+}
+
+.progressRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.time {
+  font-size: var(--lf-font-size-xs);
+  font-variant-numeric: tabular-nums;
+  color: var(--lf-text-tertiary);
+}
+
+.progressTrack {
+  height: 4px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-surface-3);
+  overflow: hidden;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--lf-accent);
+}

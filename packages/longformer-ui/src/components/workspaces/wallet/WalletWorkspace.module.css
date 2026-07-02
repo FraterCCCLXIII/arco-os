@@ -1,0 +1,143 @@
+.workspace {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--lf-surface-canvas);
+}
+
+.header {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--lf-space-5) var(--lf-space-6) var(--lf-space-3);
+}
+
+.titleButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--lf-text-primary);
+}
+
+.titleChevron {
+  margin-top: 4px;
+  color: var(--lf-text-tertiary);
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+}
+
+.phoneFrame {
+  max-width: 430px;
+  margin: 0 auto;
+  padding: var(--lf-space-2) var(--lf-space-5) var(--lf-space-8);
+}
+
+.stack {
+  --wallet-card-height: 168px;
+  --wallet-card-step: 88px;
+
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--lf-space-2);
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.clearSelection {
+  padding: 6px 10px;
+  border: none;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-surface-2);
+  color: var(--lf-text-secondary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clearSelection:hover {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+}
+
+.stackHasSelection {
+  padding-bottom: var(--lf-space-2);
+}
+
+.selectionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  margin-top: var(--lf-space-4);
+  padding: var(--lf-space-3) var(--lf-space-4);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-1);
+  border: 1px solid var(--lf-border-subtle);
+  box-shadow: var(--lf-shadow-sm);
+}
+
+.selectionMeta {
+  min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--lf-space-2);
+}
+
+.selectionLabel {
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--lf-text-tertiary);
+}
+
+.selectionAmount {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-danger);
+}
+
+.periodHint {
+  margin-top: var(--lf-space-4);
+  text-align: center;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.empty {
+  min-height: 320px;
+}
+
+@media (max-width: 640px) {
+  .header {
+    padding-inline: var(--lf-space-4);
+  }
+
+  .phoneFrame {
+    padding-inline: var(--lf-space-4);
+  }
+}

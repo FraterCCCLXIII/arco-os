@@ -1,0 +1,111 @@
+.bar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  height: 28px;
+  padding: 0 var(--lf-space-3);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-primary);
+  user-select: none;
+}
+
+.macos {
+  background: var(--lf-desktop-status-bg);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.windows {
+  height: 32px;
+  background: var(--lf-desktop-status-bg-windows);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.ios,
+.android {
+  height: 24px;
+  background: var(--lf-desktop-status-bg-mobile);
+  backdrop-filter: blur(12px);
+}
+
+.chromeos {
+  background: var(--lf-desktop-status-bg-chromeos);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.left,
+.right,
+.center {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  min-width: 0;
+}
+
+.center {
+  flex: 1;
+  justify-content: center;
+}
+
+.right {
+  flex-shrink: 0;
+}
+
+.appleMark {
+  width: 10px;
+  height: 12px;
+  border-radius: 0 0 5px 5px;
+  background: currentColor;
+  opacity: 0.9;
+}
+
+.winMark {
+  width: 12px;
+  height: 12px;
+  background:
+    linear-gradient(to right, #0078d4 0 50%, #50a0e8 50% 100%) top / 100% 50% no-repeat,
+    linear-gradient(to right, #0078d4 0 50%, #50a0e8 50% 100%) bottom / 100% 50% no-repeat;
+}
+
+.menuApp {
+  font-weight: 600;
+}
+
+.menuItem {
+  color: var(--lf-text-secondary);
+  cursor: default;
+}
+
+.menuItem:hover {
+  color: var(--lf-text-primary);
+}
+
+.searchHint {
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-xs);
+}
+
+.clock,
+.mobileClock {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.date {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-secondary);
+}
+
+.batteryPct {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.notchArea {
+  max-width: 120px;
+  height: 18px;
+  border-radius: 0 0 12px 12px;
+  background: var(--lf-desktop-status-notch);
+}

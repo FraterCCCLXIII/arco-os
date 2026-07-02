@@ -1,0 +1,55 @@
+.card {
+  overflow: hidden;
+}
+
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-6) var(--lf-space-4);
+  color: var(--lf-text-on-accent);
+}
+
+.hero-success {
+  background: linear-gradient(135deg, var(--lf-success), #14b8a6);
+}
+
+.hero-accent {
+  background: linear-gradient(135deg, var(--lf-accent), #6366f1);
+}
+
+.hero-warning {
+  background: linear-gradient(135deg, var(--lf-warning), #f97316);
+}
+
+.percent {
+  font-size: var(--lf-font-size-3xl);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-4);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+}
+
+.label {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.value {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}

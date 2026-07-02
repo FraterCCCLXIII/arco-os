@@ -1,0 +1,15 @@
+{
+  "name": "longformer",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Longformer — a portable UI kit for building AI UI OS style workspaces (Chat, Notes, Email, Generated in-line UI).",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=longformer-demo",
+    "build": "npm run build --workspace=longformer-ui && npm run build --workspace=longformer-demo",
+    "typecheck": "npm run typecheck --workspace=longformer-ui && npm run typecheck --workspace=longformer-demo",
+    "lint": "npm run lint --workspace=longformer-demo"
+  }
+}

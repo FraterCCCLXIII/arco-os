@@ -1,0 +1,24 @@
+.workspace {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.scroll {
+  flex: 1;
+}
+
+.page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--lf-space-8) var(--lf-space-6) var(--lf-space-8);
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--lf-text-primary);
+  margin: 0 0 var(--lf-space-5);
+  line-height: 1.2;
+}

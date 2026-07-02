@@ -1,0 +1,299 @@
+/*
+ * Longformer design tokens.
+ *
+ * Every visual value components use comes from a CSS custom property defined
+ * here. A consuming app can re-skin the entire kit by overriding these
+ * variables (or by shipping its own [data-theme="..."] block) without
+ * touching component code.
+ */
+
+:root,
+[data-lf-theme="dark"] {
+  color-scheme: dark;
+
+  /* Surfaces (elevation ladder, lowest to highest) */
+  --lf-surface-canvas: #0a0a0c;
+  --lf-surface-1: #131316;
+  --lf-surface-2: #1a1a1e;
+  --lf-surface-3: #212126;
+  --lf-surface-overlay: #191a1f;
+  --lf-surface-sunken: #060607;
+  --lf-surface-glass: rgba(255, 255, 255, 0.14);
+
+  /* Borders */
+  --lf-border-subtle: rgba(255, 255, 255, 0.06);
+  --lf-border-default: rgba(255, 255, 255, 0.1);
+  --lf-border-strong: rgba(255, 255, 255, 0.16);
+
+  /* Text */
+  --lf-text-primary: rgba(245, 245, 247, 0.95);
+  --lf-text-secondary: rgba(245, 245, 247, 0.62);
+  --lf-text-tertiary: rgba(245, 245, 247, 0.4);
+  --lf-text-disabled: rgba(245, 245, 247, 0.26);
+  --lf-text-on-accent: #ffffff;
+
+  /* Brand / accent */
+  --lf-accent: #5b8def;
+  --lf-accent-hover: #75a1f3;
+  --lf-accent-active: #4576db;
+  --lf-accent-muted: rgba(91, 141, 239, 0.16);
+  --lf-accent-border: rgba(91, 141, 239, 0.4);
+
+  /* Semantic */
+  --lf-success: #3fbf72;
+  --lf-success-muted: rgba(63, 191, 114, 0.14);
+  --lf-warning: #e3a53c;
+  --lf-warning-muted: rgba(227, 165, 60, 0.14);
+  --lf-danger: #ea5f5f;
+  --lf-danger-muted: rgba(234, 95, 95, 0.14);
+  --lf-info: #5b8def;
+  --lf-info-muted: rgba(91, 141, 239, 0.14);
+
+  /* Focus */
+  --lf-focus-ring: rgba(91, 141, 239, 0.55);
+
+  /* Overlay scrim */
+  --lf-scrim: rgba(0, 0, 0, 0.5);
+
+  /* Shadows */
+  --lf-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --lf-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --lf-shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.55);
+  --lf-shadow-overlay: 0 16px 48px rgba(0, 0, 0, 0.6);
+
+  /* Desktop shell */
+  --lf-desktop-wallpaper:
+    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(91, 141, 239, 0.35), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 80% 70%, rgba(63, 191, 114, 0.22), transparent 50%),
+    linear-gradient(145deg, #0c0c10 0%, #14141c 45%, #0a0a0e 100%);
+  --lf-desktop-wallpaper-mobile:
+    radial-gradient(circle at 50% 0%, rgba(91, 141, 239, 0.4), transparent 45%),
+    linear-gradient(180deg, #1a1a24 0%, #0a0a0c 100%);
+  --lf-desktop-wallpaper-label: rgba(255, 255, 255, 0.08);
+  --lf-desktop-icon-tile-bg: rgba(255, 255, 255, 0.12);
+  --lf-desktop-icon-tile-border: rgba(255, 255, 255, 0.08);
+  --lf-desktop-icon-tile-bg-hover: rgba(255, 255, 255, 0.18);
+  --lf-desktop-icon-label-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+  --lf-desktop-status-bg: rgba(30, 30, 34, 0.72);
+  --lf-desktop-status-bg-windows: rgba(20, 20, 24, 0.92);
+  --lf-desktop-status-bg-mobile: rgba(10, 10, 12, 0.55);
+  --lf-desktop-status-bg-chromeos: rgba(24, 24, 28, 0.88);
+  --lf-desktop-status-notch: rgba(0, 0, 0, 0.85);
+  --lf-desktop-dock-bg: rgba(40, 40, 48, 0.55);
+  --lf-desktop-dock-border: rgba(255, 255, 255, 0.08);
+  --lf-desktop-taskbar-bg: rgba(32, 32, 36, 0.82);
+  --lf-desktop-taskbar-border: rgba(255, 255, 255, 0.06);
+  --lf-desktop-chrome-hover: rgba(255, 255, 255, 0.06);
+  --lf-desktop-chrome-hover-strong: rgba(255, 255, 255, 0.1);
+  --lf-desktop-chrome-active: rgba(255, 255, 255, 0.08);
+  --lf-desktop-chrome-indicator: rgba(255, 255, 255, 0.55);
+  --lf-desktop-ios-dock-bg: rgba(50, 50, 58, 0.45);
+  --lf-desktop-ios-dock-border: rgba(255, 255, 255, 0.06);
+  --lf-desktop-home-indicator: rgba(255, 255, 255, 0.35);
+  --lf-desktop-android-tray-bg: rgba(20, 20, 24, 0.68);
+  --lf-desktop-chromeos-tray-bg: rgba(28, 28, 34, 0.68);
+  --lf-desktop-floating-tray-bg: rgba(32, 32, 36, 0.88);
+  --lf-desktop-floating-tray-border: rgba(255, 255, 255, 0.08);
+  --lf-desktop-tray-divider: rgba(255, 255, 255, 0.12);
+  --lf-desktop-create-btn-border: rgba(255, 255, 255, 0.16);
+  --lf-desktop-create-btn-hover-bg: rgba(255, 255, 255, 0.04);
+}
+
+[data-lf-theme="light"] {
+  color-scheme: light;
+
+  --lf-surface-canvas: #f4f4f6;
+  --lf-surface-1: #ffffff;
+  --lf-surface-2: #f7f7f9;
+  --lf-surface-3: #ececef;
+  --lf-surface-overlay: #ffffff;
+  --lf-surface-sunken: #e9e9ec;
+  --lf-surface-glass: rgba(255, 255, 255, 0.55);
+
+  --lf-border-subtle: rgba(15, 15, 20, 0.06);
+  --lf-border-default: rgba(15, 15, 20, 0.1);
+  --lf-border-strong: rgba(15, 15, 20, 0.18);
+
+  --lf-text-primary: rgba(20, 20, 24, 0.92);
+  --lf-text-secondary: rgba(20, 20, 24, 0.62);
+  --lf-text-tertiary: rgba(20, 20, 24, 0.42);
+  --lf-text-disabled: rgba(20, 20, 24, 0.28);
+  --lf-text-on-accent: #ffffff;
+
+  --lf-accent: #3b6fe0;
+  --lf-accent-hover: #4f80ea;
+  --lf-accent-active: #3160cc;
+  --lf-accent-muted: rgba(59, 111, 224, 0.1);
+  --lf-accent-border: rgba(59, 111, 224, 0.35);
+
+  --lf-success: #1f9d55;
+  --lf-success-muted: rgba(31, 157, 85, 0.1);
+  --lf-warning: #b57a1a;
+  --lf-warning-muted: rgba(181, 122, 26, 0.1);
+  --lf-danger: #d13f3f;
+  --lf-danger-muted: rgba(209, 63, 63, 0.1);
+  --lf-info: #3b6fe0;
+  --lf-info-muted: rgba(59, 111, 224, 0.1);
+
+  --lf-focus-ring: rgba(59, 111, 224, 0.45);
+
+  --lf-scrim: rgba(15, 15, 20, 0.35);
+
+  --lf-shadow-sm: 0 1px 2px rgba(15, 15, 20, 0.08);
+  --lf-shadow-md: 0 4px 12px rgba(15, 15, 20, 0.1);
+  --lf-shadow-lg: 0 12px 32px rgba(15, 15, 20, 0.14);
+  --lf-shadow-overlay: 0 16px 48px rgba(15, 15, 20, 0.18);
+
+  /* Desktop shell */
+  --lf-desktop-wallpaper:
+    radial-gradient(ellipse 80% 60% at 20% 20%, rgba(59, 111, 224, 0.2), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 80% 70%, rgba(31, 157, 85, 0.12), transparent 50%),
+    linear-gradient(145deg, #dde1ea 0%, #eef0f5 42%, #e3e7ef 100%);
+  --lf-desktop-wallpaper-mobile:
+    radial-gradient(circle at 50% 0%, rgba(59, 111, 224, 0.22), transparent 45%),
+    linear-gradient(180deg, #eef0f5 0%, #dfe3eb 100%);
+  --lf-desktop-wallpaper-label: rgba(20, 20, 24, 0.06);
+  --lf-desktop-icon-tile-bg: rgba(255, 255, 255, 0.72);
+  --lf-desktop-icon-tile-border: rgba(15, 15, 20, 0.1);
+  --lf-desktop-icon-tile-bg-hover: rgba(255, 255, 255, 0.92);
+  --lf-desktop-icon-label-shadow: 0 1px 2px rgba(255, 255, 255, 0.65);
+  --lf-desktop-status-bg: rgba(255, 255, 255, 0.72);
+  --lf-desktop-status-bg-windows: rgba(250, 250, 252, 0.94);
+  --lf-desktop-status-bg-mobile: rgba(255, 255, 255, 0.65);
+  --lf-desktop-status-bg-chromeos: rgba(248, 248, 252, 0.92);
+  --lf-desktop-status-notch: rgba(20, 20, 24, 0.88);
+  --lf-desktop-dock-bg: rgba(255, 255, 255, 0.62);
+  --lf-desktop-dock-border: rgba(15, 15, 20, 0.1);
+  --lf-desktop-taskbar-bg: rgba(250, 250, 252, 0.88);
+  --lf-desktop-taskbar-border: rgba(15, 15, 20, 0.08);
+  --lf-desktop-chrome-hover: rgba(15, 15, 20, 0.06);
+  --lf-desktop-chrome-hover-strong: rgba(15, 15, 20, 0.08);
+  --lf-desktop-chrome-active: rgba(15, 15, 20, 0.08);
+  --lf-desktop-chrome-indicator: rgba(15, 15, 20, 0.45);
+  --lf-desktop-ios-dock-bg: rgba(255, 255, 255, 0.58);
+  --lf-desktop-ios-dock-border: rgba(15, 15, 20, 0.08);
+  --lf-desktop-home-indicator: rgba(15, 15, 20, 0.28);
+  --lf-desktop-android-tray-bg: rgba(255, 255, 255, 0.72);
+  --lf-desktop-chromeos-tray-bg: rgba(255, 255, 255, 0.72);
+  --lf-desktop-floating-tray-bg: rgba(255, 255, 255, 0.88);
+  --lf-desktop-floating-tray-border: rgba(15, 15, 20, 0.1);
+  --lf-desktop-tray-divider: rgba(15, 15, 20, 0.12);
+  --lf-desktop-create-btn-border: rgba(15, 15, 20, 0.16);
+  --lf-desktop-create-btn-hover-bg: rgba(15, 15, 20, 0.04);
+}
+
+:root,
+[data-lf-theme] {
+  /* Spacing scale */
+  --lf-space-1: 4px;
+  --lf-space-2: 8px;
+  --lf-space-3: 12px;
+  --lf-space-4: 16px;
+  --lf-space-5: 20px;
+  --lf-space-6: 24px;
+  --lf-space-7: 32px;
+  --lf-space-8: 40px;
+
+  /* Radius */
+  --lf-radius-sm: 6px;
+  --lf-radius-md: 8px;
+  --lf-radius-lg: 12px;
+  --lf-radius-xl: 16px;
+  --lf-radius-pill: 999px;
+
+  /* Typography */
+  --lf-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+  --lf-font-mono: "SF Mono", ui-monospace, "Cascadia Code", Menlo, Consolas, monospace;
+  --lf-font-dot-matrix: "Share Tech Mono", ui-monospace, monospace;
+
+  /* Fitness widget palette */
+  --fitness-bg-dark: #121212;
+  --fitness-bg-light: #ffffff;
+  --fitness-bg-pink: #f9c5d1;
+  --fitness-accent-green: #a4c639;
+  --fitness-accent-pink: #ffb6c1;
+  --fitness-weight-alert: #e53935;
+
+  /* Finance widget palette */
+  --finance-bg-dark: #171717;
+  --finance-bg-lime: #d4f547;
+  --finance-bg-white: #ffffff;
+  --finance-bg-lavender: #c4b5fd;
+  --finance-teal: #5ec4b6;
+  --finance-lavender: #b8a9e8;
+  --finance-lime: #d4f547;
+  --finance-orange: #f5a623;
+
+  /* Banking widget palette */
+  --banking-purple: #c4b5fd;
+  --banking-lime: #d9f99d;
+  --banking-white: #ffffff;
+  --banking-black: #121212;
+  --lf-font-banking: "Space Grotesk", sans-serif;
+  --lf-font-size-xs: 11px;
+  --lf-font-size-sm: 12px;
+  --lf-font-size-md: 13px;
+  --lf-font-size-base: 14px;
+  --lf-font-size-lg: 16px;
+  --lf-font-size-xl: 20px;
+  --lf-font-size-2xl: 26px;
+  --lf-line-height-tight: 1.25;
+  --lf-line-height-normal: 1.5;
+
+  /* Motion */
+  --lf-ease: cubic-bezier(0.2, 0, 0, 1);
+  --lf-duration-fast: 120ms;
+  --lf-duration-normal: 180ms;
+
+  /* Z-index */
+  --lf-z-dropdown: 100;
+  --lf-z-overlay: 200;
+  --lf-z-modal: 300;
+  --lf-z-tooltip: 400;
+  --lf-z-toast: 500;
+}
+
+.lf-root {
+  background: var(--lf-surface-canvas);
+  color: var(--lf-text-primary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-base);
+  line-height: var(--lf-line-height-normal);
+}
+
+/* Overlays portaled outside `.lf-root` inherit typography and theme tokens from here. */
+.lf-portal {
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-base);
+  line-height: var(--lf-line-height-normal);
+  color: var(--lf-text-primary);
+}
+
+.lf-root,
+.lf-root * {
+  box-sizing: border-box;
+}
+
+.lf-focusable:focus-visible {
+  outline: 2px solid var(--lf-focus-ring);
+  outline-offset: 2px;
+}
+
+.lf-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--lf-border-strong) transparent;
+}
+
+.lf-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.lf-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--lf-border-strong);
+  border-radius: var(--lf-radius-pill);
+}
+
+.lf-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}

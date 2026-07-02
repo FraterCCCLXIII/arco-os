@@ -1,0 +1,72 @@
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-3);
+  border-radius: var(--lf-radius-md);
+  border: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-1);
+}
+
+.row + .row {
+  margin-top: var(--lf-space-2);
+}
+
+.checkboxSlot {
+  margin-top: 2px;
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.title {
+  font-size: var(--lf-font-size-md);
+  font-weight: 500;
+  color: var(--lf-text-primary);
+}
+
+.titleCompleted {
+  color: var(--lf-text-tertiary);
+  text-decoration: line-through;
+}
+
+.description {
+  margin-top: 2px;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  margin-top: var(--lf-space-2);
+}
+
+.dueDate {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.priorityLow {
+  color: var(--lf-text-tertiary);
+}
+
+.priorityMedium {
+  color: var(--lf-warning);
+}
+
+.priorityHigh {
+  color: var(--lf-danger);
+}

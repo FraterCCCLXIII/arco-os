@@ -1,0 +1,103 @@
+.wrapper {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: var(--lf-z-overlay);
+  pointer-events: none;
+}
+
+.wrapperPeaked {
+  height: 112px;
+}
+
+.wrapperOpen {
+  inset: 0;
+}
+
+.hoverZone {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  pointer-events: auto;
+}
+
+.wrapperPeaked .hoverZone {
+  inset: 0;
+  height: auto;
+}
+
+.wrapperOpen .hoverZone {
+  inset: 0;
+  height: 100%;
+}
+
+.trayContainer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 var(--lf-space-4) var(--lf-space-3);
+  transform: translateY(calc(100% + 12px));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--lf-duration-fast) var(--lf-ease),
+    opacity var(--lf-duration-fast) var(--lf-ease);
+}
+
+.peakHandle {
+  width: 44px;
+  height: 5px;
+  margin-bottom: var(--lf-space-2);
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-border-strong);
+  opacity: 0;
+  transform: scaleX(0.5);
+  transition:
+    opacity var(--lf-duration-fast) var(--lf-ease),
+    transform var(--lf-duration-fast) var(--lf-ease),
+    margin var(--lf-duration-fast) var(--lf-ease),
+    height var(--lf-duration-fast) var(--lf-ease);
+}
+
+.trayContainerPeaked,
+.trayContainerOpen {
+  transition:
+    transform var(--lf-duration-normal) var(--lf-ease),
+    opacity var(--lf-duration-normal) var(--lf-ease);
+}
+
+.trayContainerPeaked .peakHandle,
+.trayContainerOpen .peakHandle {
+  transition:
+    opacity var(--lf-duration-normal) var(--lf-ease),
+    transform var(--lf-duration-normal) var(--lf-ease),
+    margin var(--lf-duration-normal) var(--lf-ease),
+    height var(--lf-duration-normal) var(--lf-ease);
+}
+
+.trayContainerPeaked {
+  transform: translateY(calc(100% - 18px));
+}
+
+.trayContainerPeaked .peakHandle {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.trayContainerOpen {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.trayContainerOpen .peakHandle {
+  opacity: 0;
+  height: 0;
+  margin-bottom: 0;
+  transform: scaleX(0.5);
+}

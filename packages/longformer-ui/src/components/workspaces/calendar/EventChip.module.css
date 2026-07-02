@@ -1,0 +1,58 @@
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  padding: 2px var(--lf-space-2);
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-surface-3);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-xs);
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.chip:hover {
+  background: var(--lf-surface-2);
+}
+
+.dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: var(--lf-radius-pill);
+  background: currentColor;
+}
+
+.time {
+  flex-shrink: 0;
+  color: var(--lf-text-tertiary);
+}
+
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.accent {
+  color: var(--lf-accent);
+}
+
+.success {
+  color: var(--lf-success);
+}
+
+.warning {
+  color: var(--lf-warning);
+}
+
+.danger {
+  color: var(--lf-danger);
+}
+
+.neutral {
+  color: var(--lf-text-tertiary);
+}

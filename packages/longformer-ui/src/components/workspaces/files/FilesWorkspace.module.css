@@ -1,0 +1,127 @@
+.workspace {
+  height: 100%;
+  display: flex;
+  min-height: 0;
+  background: var(--lf-surface-canvas);
+}
+
+.browser {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.columnHeader {
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 1fr 160px 120px 90px 32px;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-2) var(--lf-space-4);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: var(--lf-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.columnHeaderCell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.columnHeaderSize {
+  text-align: right;
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+}
+
+.gridScroll {
+  padding: var(--lf-space-4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--lf-space-3);
+}
+
+.galleryGrid {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.homeSection {
+  flex-shrink: 0;
+  padding: var(--lf-space-4) var(--lf-space-4) 0;
+}
+
+.sectionHeading {
+  margin: 0 0 var(--lf-space-3);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-secondary);
+}
+
+.homeFolders {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--lf-space-3);
+  padding-bottom: var(--lf-space-3);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.empty {
+  padding: var(--lf-space-8) 0;
+}
+
+.pathBar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2) var(--lf-space-4);
+  border-top: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-sunken);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.previewResizable {
+  border-left: 1px solid var(--lf-border-subtle);
+}
+
+.previewPane {
+  height: 100%;
+  min-height: 0;
+}
+
+@media (max-width: 720px) {
+  .columnHeader {
+    grid-template-columns: 1fr 32px;
+  }
+
+  .columnHeaderOwner,
+  .columnHeaderModified,
+  .columnHeaderSize {
+    display: none;
+  }
+
+  .previewResizable {
+    display: none;
+  }
+}
+
+@media (max-width: 1100px) and (min-width: 721px) {
+  .previewResizable {
+    width: 280px !important;
+  }
+}

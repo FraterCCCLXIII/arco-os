@@ -1,0 +1,46 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+  width: 100%;
+  min-width: 0;
+  padding: var(--lf-space-4);
+  border-radius: 32px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.dark {
+  background: rgba(12, 12, 14, 0.96);
+  color: rgba(255, 255, 255, 0.94);
+}
+
+.light {
+  background: rgba(255, 255, 255, 0.96);
+  color: #111;
+  border-color: rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.sm {
+  padding: var(--lf-space-3) var(--lf-space-4);
+  border-radius: 28px;
+  gap: var(--lf-space-2);
+  min-height: 148px;
+}
+
+.md {
+  min-height: 132px;
+}
+
+.lg {
+  padding: var(--lf-space-5);
+  border-radius: 36px;
+  gap: var(--lf-space-4);
+  min-height: 240px;
+}

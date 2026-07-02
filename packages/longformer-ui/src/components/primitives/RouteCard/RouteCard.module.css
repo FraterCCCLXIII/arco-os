@@ -1,0 +1,68 @@
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--lf-space-4);
+}
+
+.stops {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+  min-width: 0;
+}
+
+.stopLabel {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  margin-bottom: var(--lf-space-1);
+}
+
+.stopAddress {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  line-height: var(--lf-line-height-tight);
+}
+
+.divider {
+  margin: 0;
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--lf-space-1) 0;
+}
+
+.railDot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: var(--lf-radius-pill);
+  flex-shrink: 0;
+}
+
+.railDotPickup {
+  background: var(--lf-accent-active);
+  color: var(--lf-text-on-accent);
+}
+
+.railDotDropoff {
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent);
+}
+
+.railLine {
+  flex: 1;
+  width: 0;
+  margin: var(--lf-space-1) 0;
+  border-left: 1px dashed var(--lf-border-default);
+}

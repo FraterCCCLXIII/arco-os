@@ -1,0 +1,20 @@
+.textarea {
+  width: 100%;
+  resize: none;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--lf-text-primary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-base);
+  line-height: var(--lf-line-height-normal);
+}
+
+.textarea::placeholder {
+  color: var(--lf-text-tertiary);
+}
+
+.textarea:disabled {
+  cursor: not-allowed;
+  color: var(--lf-text-disabled);
+}

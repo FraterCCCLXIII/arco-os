@@ -1,0 +1,103 @@
+.shell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  min-height: 280px;
+  padding: var(--lf-space-4);
+  border-radius: 28px;
+  overflow: hidden;
+  color: #fff;
+  isolation: isolate;
+}
+
+.shell::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--creator-bg);
+}
+
+.shell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--creator-overlay);
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--lf-space-3);
+  min-height: 0;
+}
+
+.magenta {
+  --creator-bg:
+    radial-gradient(circle at 20% 20%, rgba(236, 72, 153, 0.55), transparent 45%),
+    radial-gradient(circle at 80% 80%, rgba(124, 58, 237, 0.45), transparent 50%),
+    linear-gradient(145deg, #1a0a14 0%, #2d1030 40%, #0f0a12 100%);
+  --creator-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.72) 100%);
+}
+
+.sky {
+  --creator-bg: linear-gradient(145deg, #dbeafe 0%, #bfdbfe 45%, #e0e7ff 100%);
+  --creator-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.45) 100%);
+  color: #111;
+}
+
+.studio {
+  --creator-bg:
+    radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.35), transparent 45%),
+    radial-gradient(circle at 20% 80%, rgba(249, 115, 22, 0.35), transparent 40%),
+    linear-gradient(160deg, #0f172a 0%, #1e293b 55%, #0b1220 100%);
+  --creator-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.78) 100%);
+}
+
+.lavender {
+  --creator-bg:
+    radial-gradient(circle at 30% 40%, rgba(167, 139, 250, 0.45), transparent 50%),
+    linear-gradient(155deg, #312e81 0%, #4c1d95 35%, #1e1b4b 100%);
+  --creator-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.65) 100%);
+}
+
+.teal {
+  --creator-bg:
+    radial-gradient(circle at 60% 20%, rgba(45, 212, 191, 0.4), transparent 45%),
+    linear-gradient(150deg, #0e7490 0%, #0891b2 40%, #164e63 100%);
+  --creator-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.7) 100%);
+}
+
+.frost {
+  --creator-bg: linear-gradient(160deg, #f8fafc 0%, #e2e8f0 55%, #f1f5f9 100%);
+  --creator-overlay: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.55) 100%);
+  color: #111;
+}
+
+.sunset {
+  --creator-bg:
+    radial-gradient(circle at 75% 25%, rgba(251, 146, 60, 0.5), transparent 45%),
+    radial-gradient(circle at 15% 85%, rgba(244, 63, 94, 0.4), transparent 40%),
+    linear-gradient(155deg, #431407 0%, #7c2d12 45%, #1c1917 100%);
+  --creator-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.72) 100%);
+}
+
+.emerald {
+  --creator-bg:
+    radial-gradient(circle at 25% 30%, rgba(52, 211, 153, 0.45), transparent 45%),
+    linear-gradient(150deg, #064e3b 0%, #047857 45%, #022c22 100%);
+  --creator-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.68) 100%);
+}
+
+.coral {
+  --creator-bg:
+    radial-gradient(circle at 80% 20%, rgba(251, 113, 133, 0.45), transparent 45%),
+    linear-gradient(155deg, #881337 0%, #be123c 40%, #4c0519 100%);
+  --creator-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.7) 100%);
+}

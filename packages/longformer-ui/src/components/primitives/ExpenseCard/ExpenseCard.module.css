@@ -1,0 +1,76 @@
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-4);
+  padding: var(--lf-space-4) var(--lf-space-5);
+  border-radius: var(--lf-radius-xl);
+  min-height: 88px;
+}
+
+.success {
+  background: var(--lf-success-muted);
+}
+
+.warning {
+  background: var(--lf-warning-muted);
+}
+
+.accent {
+  background: var(--lf-accent-muted);
+}
+
+.danger {
+  background: var(--lf-danger-muted);
+}
+
+.neutral {
+  background: var(--lf-surface-3);
+}
+
+.iconWrap {
+  flex-shrink: 0;
+}
+
+.iconTile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--lf-radius-pill);
+  background: rgba(255, 255, 255, 0.45);
+  color: var(--lf-text-primary);
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.category {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+}
+
+.footer {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+}
+
+.merchant {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+}
+
+.amount {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  white-space: nowrap;
+}

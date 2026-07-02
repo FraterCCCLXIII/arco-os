@@ -1,0 +1,83 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.card {
+  position: fixed;
+  z-index: var(--lf-z-tooltip);
+  min-width: 168px;
+  max-width: 240px;
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-radius: var(--lf-radius-md);
+  border: 1px solid var(--lf-border-default);
+  background: var(--lf-surface-overlay);
+  color: var(--lf-text-primary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-sm);
+  line-height: var(--lf-line-height-normal);
+  box-shadow: var(--lf-shadow-lg);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, calc(-100% - 4px)) scale(0.96);
+  transition:
+    opacity var(--lf-duration-fast) var(--lf-ease),
+    transform var(--lf-duration-fast) var(--lf-ease);
+}
+
+.cardVisible {
+  opacity: 1;
+  transform: translate(-50%, calc(-100% - 8px)) scale(1);
+}
+
+.cardBottom {
+  transform: translate(-50%, 4px) scale(0.96);
+}
+
+.cardBottom.cardVisible {
+  transform: translate(-50%, 8px) scale(1);
+}
+
+.cardRight {
+  transform: translateY(-50%) scale(0.96);
+}
+
+.cardRight.cardVisible {
+  transform: translateY(-50%) scale(1);
+}
+
+.cardTop::after,
+.cardBottom::after,
+.cardRight::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--lf-surface-overlay);
+  border: 1px solid var(--lf-border-default);
+  transform: rotate(45deg);
+}
+
+.cardTop::after {
+  bottom: -5px;
+  left: 50%;
+  margin-left: -5px;
+  border-top: none;
+  border-left: none;
+}
+
+.cardBottom::after {
+  top: -5px;
+  left: 50%;
+  margin-left: -5px;
+  border-bottom: none;
+  border-right: none;
+}
+
+.cardRight::after {
+  left: -5px;
+  top: 50%;
+  margin-top: -5px;
+  border-right: none;
+  border-top: none;
+}

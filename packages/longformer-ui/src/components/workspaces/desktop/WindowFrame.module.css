@@ -1,0 +1,221 @@
+.window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-1);
+  border: 1px solid var(--lf-border-default);
+  box-shadow: var(--lf-shadow-lg);
+  overflow: hidden;
+}
+
+.active {
+  box-shadow: var(--lf-shadow-overlay);
+  border-color: var(--lf-border-strong);
+}
+
+.macos {
+  border-radius: 10px;
+}
+
+.windows {
+  border-radius: var(--lf-radius-md);
+}
+
+.chromeos {
+  border-radius: var(--lf-radius-md);
+}
+
+.ios,
+.android {
+  border-radius: 20px;
+  border: none;
+}
+
+.titleBar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 var(--lf-space-2);
+  background: var(--lf-surface-2);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.titleBarDraggable {
+  cursor: grab;
+  touch-action: none;
+}
+
+.titleBarDraggable:active {
+  cursor: grabbing;
+}
+
+.macos .titleBar {
+  justify-content: center;
+  position: relative;
+}
+
+.trafficLights {
+  position: absolute;
+  left: var(--lf-space-2);
+  display: flex;
+  gap: 6px;
+}
+
+.light {
+  width: 11px;
+  height: 11px;
+  border: none;
+  border-radius: 50%;
+  padding: 0;
+  cursor: pointer;
+}
+
+.closeLight {
+  background: #ff5f57;
+}
+
+.minLight {
+  background: #febc2e;
+}
+
+.maxLight {
+  background: #28c840;
+}
+
+.titleCenter {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  min-width: 0;
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-sm);
+}
+
+.titleText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.winControls {
+  margin-left: auto;
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+}
+
+.winControl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  border: none;
+  background: transparent;
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}
+
+.winControl:hover {
+  background: var(--lf-surface-3);
+}
+
+.winClose:hover {
+  background: var(--lf-danger);
+  color: var(--lf-text-on-accent);
+}
+
+.windows .titleBar {
+  padding-right: 0;
+}
+
+.windows .titleCenter {
+  flex: 1;
+  padding-left: var(--lf-space-2);
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--lf-space-4);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-md);
+}
+
+.ios .content,
+.android .content {
+  padding: var(--lf-space-5);
+}
+
+.resizeHandle {
+  position: absolute;
+  z-index: 2;
+}
+
+.resizeN,
+.resizeS {
+  left: 8px;
+  right: 8px;
+  height: 6px;
+  cursor: ns-resize;
+}
+
+.resizeE,
+.resizeW {
+  top: 8px;
+  bottom: 8px;
+  width: 6px;
+  cursor: ew-resize;
+}
+
+.resizeN {
+  top: 0;
+}
+
+.resizeS {
+  bottom: 0;
+}
+
+.resizeE {
+  right: 0;
+}
+
+.resizeW {
+  left: 0;
+}
+
+.resizeNE,
+.resizeNW,
+.resizeSE,
+.resizeSW {
+  width: 10px;
+  height: 10px;
+}
+
+.resizeNE {
+  top: 0;
+  right: 0;
+  cursor: nesw-resize;
+}
+
+.resizeNW {
+  top: 0;
+  left: 0;
+  cursor: nwse-resize;
+}
+
+.resizeSE {
+  bottom: 0;
+  right: 0;
+  cursor: nwse-resize;
+}
+
+.resizeSW {
+  bottom: 0;
+  left: 0;
+  cursor: nesw-resize;
+}

@@ -1,0 +1,63 @@
+.list {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: 3px;
+  background: var(--lf-surface-2);
+  border-radius: var(--lf-radius-md);
+}
+
+.tab {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--lf-text-tertiary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  padding: 6px var(--lf-space-3);
+  border-radius: var(--lf-radius-sm);
+  cursor: pointer;
+  transition: background var(--lf-duration-fast) var(--lf-ease), color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.tab:hover {
+  color: var(--lf-text-primary);
+}
+
+.tabActive {
+  background: var(--lf-surface-1);
+  color: var(--lf-text-primary);
+  box-shadow: var(--lf-shadow-sm);
+}
+
+.underlineList {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-5);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.underlineTab {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--lf-text-tertiary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-md);
+  font-weight: 500;
+  padding: var(--lf-space-2) 0;
+  margin-bottom: -1px;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color var(--lf-duration-fast) var(--lf-ease), border-color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.underlineTab:hover {
+  color: var(--lf-text-primary);
+}
+
+.underlineTabActive {
+  color: var(--lf-text-primary);
+  border-color: var(--lf-accent);
+}

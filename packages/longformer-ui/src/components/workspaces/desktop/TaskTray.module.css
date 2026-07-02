@@ -1,0 +1,446 @@
+.tray {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+/* macOS dock */
+.macos {
+  padding: var(--lf-space-2) var(--lf-space-4) var(--lf-space-3);
+  background: transparent;
+}
+
+.macosDock {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-radius: var(--lf-radius-xl);
+  background: var(--lf-desktop-dock-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid var(--lf-desktop-dock-border);
+  box-shadow: var(--lf-shadow-lg);
+}
+
+.macosIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+}
+
+.dockDot {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--lf-text-secondary);
+  transform: translateX(-50%);
+}
+
+/* Windows taskbar */
+.windows {
+  justify-content: space-between;
+  gap: var(--lf-space-1);
+  height: 48px;
+  padding: 0 var(--lf-space-1);
+  background: var(--lf-desktop-taskbar-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  backdrop-filter: blur(20px) saturate(1.2);
+  border-top: 1px solid var(--lf-desktop-taskbar-border);
+}
+
+.startButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--lf-text-primary);
+  cursor: pointer;
+  transition: background var(--lf-duration-fast) var(--lf-ease);
+}
+
+.startButton:hover {
+  background: var(--lf-desktop-chrome-hover);
+}
+
+.startButton:active {
+  background: var(--lf-desktop-chrome-hover-strong);
+}
+
+.startMark {
+  width: 14px;
+  height: 14px;
+  border-radius: 1px;
+  background:
+    linear-gradient(to right, #0078d4 0 50%, #50a0e8 50% 100%) top / 100% 50% no-repeat,
+    linear-gradient(to right, #0078d4 0 50%, #50a0e8 50% 100%) bottom / 100% 50% no-repeat;
+}
+
+.taskList {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.taskList::-webkit-scrollbar {
+  display: none;
+}
+
+.taskListInner {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  max-width: 100%;
+  padding: 0 var(--lf-space-1);
+}
+
+.taskButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 40px;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+  transition:
+    background var(--lf-duration-fast) var(--lf-ease),
+    color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.taskButton:hover {
+  background: var(--lf-desktop-chrome-hover);
+}
+
+.taskButtonRunning::after {
+  content: "";
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  width: 4px;
+  height: 3px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-desktop-chrome-indicator);
+  transform: translateX(-50%);
+  transition:
+    width var(--lf-duration-fast) var(--lf-ease),
+    background var(--lf-duration-fast) var(--lf-ease);
+}
+
+.taskButtonActive {
+  background: var(--lf-desktop-chrome-active);
+  color: var(--lf-text-primary);
+}
+
+.taskButtonActive::after {
+  width: 18px;
+  background: var(--lf-accent);
+}
+
+.windowsIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  color: var(--lf-text-on-accent);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.systemTray {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  flex-shrink: 0;
+  padding: 0 var(--lf-space-1);
+  color: var(--lf-text-secondary);
+}
+
+.systemTrayButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  transition: background var(--lf-duration-fast) var(--lf-ease);
+}
+
+.systemTrayButton:hover {
+  background: var(--lf-desktop-chrome-hover);
+}
+
+.systemTrayClock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 64px;
+  height: 40px;
+  margin-left: var(--lf-space-1);
+  padding: 0 var(--lf-space-2);
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--lf-text-primary);
+  cursor: pointer;
+  line-height: 1.1;
+  transition: background var(--lf-duration-fast) var(--lf-ease);
+}
+
+.systemTrayClock:hover {
+  background: var(--lf-desktop-chrome-hover);
+}
+
+.systemTrayTime {
+  font-size: var(--lf-font-size-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.systemTrayDate {
+  font-size: 10px;
+  color: var(--lf-text-secondary);
+}
+
+/* iOS */
+.ios {
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2) var(--lf-space-4) var(--lf-space-1);
+  background: transparent;
+}
+
+.iosDock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-2) var(--lf-space-4);
+  border-radius: var(--lf-radius-xl);
+  background: var(--lf-desktop-ios-dock-bg);
+  -webkit-backdrop-filter: blur(24px) saturate(1.2);
+  backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid var(--lf-desktop-ios-dock-border);
+}
+
+.iosIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+}
+
+.watchNav {
+  display: flex;
+  justify-content: center;
+  gap: var(--lf-space-3);
+  padding-bottom: var(--lf-space-1);
+}
+
+.homeIndicator {
+  width: 120px;
+  height: 4px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-desktop-home-indicator);
+}
+
+/* Android */
+.android {
+  flex-direction: column;
+  gap: var(--lf-space-1);
+  background: var(--lf-desktop-android-tray-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  backdrop-filter: blur(20px) saturate(1.2);
+  border-top: 1px solid var(--lf-border-subtle);
+}
+
+.androidShelf {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-2) var(--lf-space-4);
+}
+
+.androidNav {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 40px;
+  border-top: 1px solid var(--lf-border-subtle);
+}
+
+.androidNavButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}
+
+/* Chrome OS shelf */
+.chromeos {
+  padding: var(--lf-space-4) var(--lf-space-3);
+  background: var(--lf-desktop-chromeos-tray-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  backdrop-filter: blur(20px) saturate(1.2);
+  border-top: 1px solid var(--lf-border-subtle);
+}
+
+.chromeShelf {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+}
+
+.floating {
+  background: transparent;
+  border: none;
+}
+
+.floating.windows,
+.floating.android,
+.floating.chromeos {
+  max-width: 720px;
+  margin: 0 auto;
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-desktop-floating-tray-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  backdrop-filter: blur(20px) saturate(1.2);
+  border: 1px solid var(--lf-desktop-floating-tray-border);
+  box-shadow: var(--lf-shadow-overlay);
+}
+
+.floating.android {
+  border-radius: var(--lf-radius-lg) var(--lf-radius-lg) 0 0;
+}
+
+.floating.macos .macosDock,
+.floating.ios .iosDock {
+  box-shadow: var(--lf-shadow-overlay);
+}
+
+.trayIcon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 10px;
+  color: var(--lf-text-on-accent);
+  cursor: pointer;
+  transition: transform var(--lf-duration-fast) var(--lf-ease);
+}
+
+.trayIcon:hover {
+  transform: translateY(-2px);
+}
+
+.trayIconActive {
+  box-shadow: 0 0 0 2px var(--lf-accent-border);
+}
+
+.toneAccent {
+  background: var(--lf-accent);
+}
+
+.toneSuccess {
+  background: var(--lf-success);
+}
+
+.toneWarning {
+  background: var(--lf-warning);
+}
+
+.toneDanger {
+  background: var(--lf-danger);
+}
+
+.toneNeutral {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+}
+
+.trayDivider {
+  width: 1px;
+  height: 24px;
+  margin: 0 var(--lf-space-1);
+  align-self: center;
+  background: var(--lf-desktop-tray-divider);
+  flex-shrink: 0;
+}
+
+.trayDividerWindows {
+  height: 24px;
+  margin: 0 2px;
+}
+
+.createButtonWindows {
+  width: 44px;
+  height: 40px;
+  border: 1px dashed var(--lf-desktop-create-btn-border);
+  border-radius: var(--lf-radius-sm);
+  color: var(--lf-text-secondary);
+}
+
+.createButtonWindows:hover {
+  transform: none;
+  border-color: var(--lf-accent-border);
+  color: var(--lf-accent);
+  background: var(--lf-desktop-create-btn-hover-bg);
+}
+
+.createButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1.5px dashed var(--lf-border-default);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+  transition:
+    transform var(--lf-duration-fast) var(--lf-ease),
+    border-color var(--lf-duration-fast) var(--lf-ease),
+    color var(--lf-duration-fast) var(--lf-ease),
+    background var(--lf-duration-fast) var(--lf-ease);
+}
+
+.createButton:hover {
+  transform: translateY(-2px);
+  border-color: var(--lf-accent-border);
+  color: var(--lf-accent);
+  background: var(--lf-surface-2);
+}

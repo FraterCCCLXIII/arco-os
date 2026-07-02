@@ -1,0 +1,14 @@
+.scrollArea {
+  overflow: auto;
+  min-height: 0;
+}
+
+.vertical {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.horizontal {
+  overflow-x: auto;
+  overflow-y: hidden;
+}

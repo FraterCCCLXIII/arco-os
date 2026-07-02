@@ -1,0 +1,156 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+}
+
+.title {
+  font-size: var(--lf-font-size-md);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+  max-width: 28ch;
+  line-height: var(--lf-line-height-tight);
+}
+
+.timeframes {
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-surface-2);
+}
+
+.summary {
+  display: flex;
+  align-items: baseline;
+  gap: var(--lf-space-2);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.summary strong {
+  color: var(--lf-text-primary);
+}
+
+.change {
+  padding: 2px 8px;
+  border-radius: var(--lf-radius-pill);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.changeUp {
+  background: rgba(249, 115, 22, 0.14);
+  color: #ea580c;
+}
+
+.changeDown {
+  background: var(--lf-danger-muted);
+  color: var(--lf-danger);
+}
+
+.legend {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--lf-space-4);
+  font-size: 10px;
+  color: var(--lf-text-tertiary);
+}
+
+.legendLine::before,
+.legendBar::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 6px;
+  border-radius: var(--lf-radius-pill);
+  vertical-align: middle;
+}
+
+.legendLine::before {
+  background: var(--lf-accent);
+}
+
+.legendBar::before {
+  background: var(--lf-surface-3);
+}
+
+.chartWrap {
+  position: relative;
+}
+
+.chart {
+  width: 100%;
+  height: 160px;
+}
+
+.gridLine {
+  stroke: var(--lf-border-subtle);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.barMuted {
+  fill: var(--lf-surface-3);
+  opacity: 0.9;
+}
+
+.barActive {
+  fill: var(--lf-accent);
+  opacity: 0.95;
+}
+
+.line {
+  stroke: var(--lf-accent);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}
+
+.dot {
+  fill: #fff;
+  stroke: var(--lf-accent);
+  stroke-width: 2;
+}
+
+.tooltip {
+  position: absolute;
+  transform: translate(-50%, calc(-100% - 12px));
+  min-width: 120px;
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-1);
+  border: 1px solid var(--lf-border-subtle);
+  box-shadow: var(--lf-shadow-md);
+  font-size: 11px;
+  color: var(--lf-text-secondary);
+}
+
+.tooltipTitle {
+  font-weight: 700;
+  color: var(--lf-text-primary);
+  margin-bottom: 4px;
+}
+
+.months {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 2px;
+  font-size: 10px;
+  color: var(--lf-text-tertiary);
+  text-align: center;
+}
+
+.monthActive {
+  color: var(--lf-accent);
+  font-weight: 700;
+}

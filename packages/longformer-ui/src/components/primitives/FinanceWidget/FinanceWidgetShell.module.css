@@ -1,0 +1,35 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  border-radius: 28px;
+  overflow: hidden;
+  padding: var(--lf-space-4);
+}
+
+.bleed {
+  margin: calc(-1 * var(--lf-space-4));
+  width: calc(100% + 2 * var(--lf-space-4));
+  height: calc(100% + 2 * var(--lf-space-4));
+}
+
+.dark {
+  background: var(--finance-bg-dark, #171717);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.lime {
+  background: var(--finance-bg-lime, #d4f547);
+  color: #121212;
+}
+
+.white {
+  background: var(--finance-bg-white, #ffffff);
+  color: #121212;
+}
+
+.lavender {
+  background: var(--finance-bg-lavender, #c4b5fd);
+  color: rgba(255, 255, 255, 0.95);
+}

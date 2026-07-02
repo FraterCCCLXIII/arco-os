@@ -1,0 +1,50 @@
+.wrapper {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: var(--lf-z-overlay);
+  pointer-events: none;
+}
+
+.wrapperOpen {
+  inset: 0;
+}
+
+.hoverZone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  pointer-events: auto;
+}
+
+.wrapperOpen .hoverZone {
+  inset: 0;
+  height: 100%;
+}
+
+.barContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  transform: translateY(calc(-100% - 8px));
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--lf-duration-fast) var(--lf-ease),
+    opacity var(--lf-duration-fast) var(--lf-ease);
+}
+
+.barContainerOpen {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+  transition:
+    transform var(--lf-duration-normal) var(--lf-ease),
+    opacity var(--lf-duration-normal) var(--lf-ease);
+}
+
+.bar {
+  width: 100%;
+}

@@ -1,0 +1,90 @@
+.detail {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-6);
+  padding: var(--lf-space-6);
+  overflow-y: auto;
+}
+
+.empty {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-6);
+  color: var(--lf-text-tertiary);
+  text-align: center;
+}
+
+.emptyTitle {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 600;
+  color: var(--lf-text-secondary);
+}
+
+.emptyHint {
+  max-width: 260px;
+  font-size: var(--lf-font-size-sm);
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lf-space-2);
+  text-align: center;
+}
+
+.heroName {
+  font-size: var(--lf-font-size-xl);
+  font-weight: 700;
+  color: var(--lf-text-primary);
+}
+
+.heroMeta {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  margin-top: var(--lf-space-2);
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-4);
+  max-width: 360px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.fieldLabel {
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: var(--lf-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.fieldValue {
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin-top: var(--lf-space-1);
+  font-size: var(--lf-font-size-md);
+  color: var(--lf-accent);
+  cursor: pointer;
+  text-align: left;
+}
+
+.fieldValue:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,123 @@
+.card {
+  --spent-fill: var(--lf-success);
+  --spent-fill-stripe: #5aad48;
+  --spent-track: var(--lf-surface-3);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-5);
+}
+
+[data-lf-theme="light"] .card {
+  --spent-fill-stripe: #4a9a3f;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-4);
+}
+
+.headline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--lf-space-2);
+  min-width: 0;
+}
+
+.amount {
+  font-size: var(--lf-font-size-xl);
+  font-weight: 800;
+  line-height: var(--lf-line-height-tight);
+  color: var(--lf-text-primary);
+}
+
+.label {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  color: var(--lf-success);
+}
+
+.trendDown {
+  color: var(--lf-danger);
+}
+
+.trendIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+}
+
+.trendValue {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 700;
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--lf-space-2);
+  height: 132px;
+}
+
+.barCol {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lf-space-2);
+  height: 100%;
+  min-width: 0;
+}
+
+.barTrack {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  max-width: 28px;
+  height: 100%;
+  border-radius: var(--lf-radius-md);
+  background: var(--spent-track);
+  overflow: hidden;
+}
+
+.barFill {
+  position: relative;
+  width: 100%;
+  border-radius: var(--lf-radius-md);
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--spent-fill),
+    var(--spent-fill) 4px,
+    var(--spent-fill-stripe) 4px,
+    var(--spent-fill-stripe) 8px
+  );
+}
+
+.barCap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.barLabel {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}

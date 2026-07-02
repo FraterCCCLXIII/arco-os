@@ -1,0 +1,91 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.primary {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--lf-space-3);
+}
+
+.primaryBody {
+  min-width: 0;
+}
+
+.title {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.subtitle {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  margin-top: var(--lf-space-1);
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.divider {
+  margin: 0;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--lf-space-3);
+}
+
+.rowIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-3);
+  color: var(--lf-text-secondary);
+}
+
+.rowBody {
+  min-width: 0;
+}
+
+.rowTitle {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.rowSubtitle {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  margin-top: var(--lf-space-1);
+}
+
+.rowTrailing {
+  text-align: right;
+}
+
+.rowTrailingValue {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.rowTrailingMeta {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  margin-top: var(--lf-space-1);
+}

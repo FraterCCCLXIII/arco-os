@@ -1,0 +1,527 @@
+/* Shared */
+.cardTitle {
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.75;
+}
+
+.cardTitleLight {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.cardMeta {
+  font-size: 10px;
+  opacity: 0.55;
+  margin-top: 2px;
+}
+
+.heroAmount {
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-top: var(--lf-space-1);
+}
+
+.heroAmountSm {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin-top: var(--lf-space-2);
+}
+
+.primaryBtn {
+  width: 100%;
+  margin-top: auto;
+  padding: var(--lf-space-3);
+  border: none;
+  border-radius: var(--lf-radius-pill);
+  background: #121212;
+  color: #fff;
+  font-family: inherit;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.disclaimer {
+  margin-top: var(--lf-space-2);
+  font-size: 9px;
+  line-height: 1.4;
+  opacity: 0.45;
+}
+
+/* Monthly revenue */
+.monthlyRevenue {
+  gap: var(--lf-space-2);
+}
+
+.lineChart {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.lineWhite,
+.lineGold {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lineWhite { stroke: rgba(255, 255, 255, 0.95); }
+.lineGold { stroke: #eab308; }
+.lineWhiteDark { stroke: rgba(255, 255, 255, 0.9); }
+.lineGoldDark { stroke: #ca8a04; }
+
+.lineLabels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  opacity: 0.55;
+}
+
+.legendRow {
+  display: flex;
+  gap: var(--lf-space-3);
+  font-size: 9px;
+  font-weight: 500;
+}
+
+.legendRow span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.legendDotWhite,
+.legendDotGold {
+  width: 12px;
+  height: 0;
+  border-top: 2px solid rgba(255, 255, 255, 0.9);
+}
+
+.legendDotGold {
+  border-top-color: #ca8a04;
+}
+
+/* Transactions */
+.transactions {
+  gap: var(--lf-space-3);
+}
+
+.searchRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  font-size: 11px;
+  opacity: 0.45;
+}
+
+.transactionGroups {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.transactionGroupLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.45;
+  margin-bottom: var(--lf-space-2);
+}
+
+.transactionRow {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--lf-space-2);
+  align-items: center;
+  padding: 6px 0;
+}
+
+.transactionIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+  font-size: 12px;
+}
+
+.transactionMeta {
+  min-width: 0;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.transactionDate {
+  font-size: 9px;
+  font-weight: 500;
+  opacity: 0.45;
+}
+
+.transactionAmount {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* Exchange */
+.exchange {
+  gap: var(--lf-space-2);
+}
+
+.exchangeHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.exchangePair {
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.55;
+}
+
+.exchangeRate {
+  margin: var(--lf-space-2) 0;
+  padding: var(--lf-space-2) 0;
+  border-block: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.exchangeBreakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 10px;
+}
+
+.exchangeBreakdown > div {
+  display: flex;
+  justify-content: space-between;
+  opacity: 0.65;
+}
+
+.exchangeTotal {
+  font-weight: 700;
+  opacity: 1 !important;
+  padding-top: 4px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Crypto list */
+.cryptoList {
+  gap: 0;
+  padding: 0 !important;
+}
+
+.cryptoItem {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.cryptoItem:last-child {
+  border-bottom: none;
+}
+
+.cryptoRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-3) var(--lf-space-4);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+}
+
+.cryptoSymbol {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 10px;
+}
+
+.cryptoName {
+  flex: 1;
+}
+
+.cryptoBody {
+  padding: 0 var(--lf-space-4) var(--lf-space-4);
+}
+
+.cryptoPrice {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 700;
+}
+
+.cryptoChange {
+  font-size: 10px;
+  color: #86efac;
+  margin-bottom: var(--lf-space-2);
+}
+
+.cryptoAboutLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.45;
+  margin-bottom: 4px;
+}
+
+.cryptoAbout {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.5;
+  opacity: 0.65;
+}
+
+/* Pricing */
+.pricingPlans {
+  gap: var(--lf-space-3);
+}
+
+.pricingHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pricingTabs {
+  display: flex;
+  gap: var(--lf-space-3);
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.pricingTabActive {
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.planList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+  flex: 1;
+}
+
+.planCard {
+  padding: var(--lf-space-3);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.planCardHighlight {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.planName {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.65;
+}
+
+.planPrice {
+  font-size: var(--lf-font-size-xl);
+  font-weight: 700;
+  margin: 4px 0;
+}
+
+.planPrice span {
+  font-size: 11px;
+  font-weight: 500;
+  opacity: 0.55;
+}
+
+.planDescription {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.45;
+  opacity: 0.55;
+}
+
+.planBtn {
+  margin-top: var(--lf-space-3);
+  width: 100%;
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border: none;
+  border-radius: var(--lf-radius-pill);
+  background: #fff;
+  color: #121212;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Credit card */
+.creditCard {
+  gap: var(--lf-space-3);
+}
+
+.cardNumber {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  margin-top: var(--lf-space-2);
+}
+
+.cardBrand {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  opacity: 0.45;
+  margin-top: 4px;
+}
+
+.cardDetailsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--lf-space-3);
+  margin-top: auto;
+}
+
+.cardFieldLabel {
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  opacity: 0.45;
+}
+
+.cardFieldValue {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+.cardLimits {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: var(--lf-space-2);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 10px;
+}
+
+.cardLimits > div {
+  display: flex;
+  justify-content: space-between;
+  opacity: 0.65;
+}
+
+.cardLimits strong {
+  font-weight: 700;
+  opacity: 1;
+}
+
+/* Family saving */
+.familySaving {
+  gap: var(--lf-space-2);
+}
+
+.familyHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.dotBarsWrap {
+  position: relative;
+  flex: 1;
+  min-height: 72px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.dotBars {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+}
+
+.dotBarCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 3px;
+  min-height: 100%;
+  justify-content: flex-start;
+}
+
+.dotBarColActive {
+  position: relative;
+}
+
+.dotBarColActive::before {
+  content: "";
+  position: absolute;
+  inset: 0 -4px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  z-index: 0;
+}
+
+.dotBarDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #121212;
+  position: relative;
+  z-index: 1;
+}
+
+.dotBarTooltip {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: #121212;
+  color: #fff;
+  font-size: 9px;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.dotBarTooltip strong {
+  font-size: 10px;
+}

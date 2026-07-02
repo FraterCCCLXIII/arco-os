@@ -1,0 +1,30 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  padding: var(--lf-space-4);
+}
+
+.bleed {
+  margin: calc(-1 * var(--lf-space-4));
+  width: calc(100% + 2 * var(--lf-space-4));
+  height: calc(100% + 2 * var(--lf-space-4));
+}
+
+.dark {
+  background: var(--fitness-bg-dark, #121212);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.light {
+  background: var(--fitness-bg-light, #ffffff);
+  color: #121212;
+}
+
+.pink {
+  background: var(--fitness-bg-pink, #f9c5d1);
+  color: #121212;
+}

@@ -1,0 +1,55 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+  width: 100%;
+  padding: var(--lf-space-3);
+  border: none;
+  border-bottom: 1px solid var(--lf-border-subtle);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.row:hover {
+  background: var(--lf-surface-2);
+}
+
+.rowActive {
+  background: var(--lf-surface-2);
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+}
+
+.name {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.star {
+  flex-shrink: 0;
+  color: var(--lf-warning);
+}
+
+.meta {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

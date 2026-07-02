@@ -1,0 +1,69 @@
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+  width: 100%;
+  padding: var(--lf-space-3) var(--lf-space-3);
+  border: none;
+  border-bottom: 1px solid var(--lf-border-subtle);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.item:hover {
+  background: var(--lf-surface-2);
+}
+
+.itemActive {
+  background: var(--lf-surface-2);
+}
+
+.body {
+  flex: 1;
+  min-width: 0;
+}
+
+.topRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+}
+
+.name {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.timestamp {
+  flex-shrink: 0;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.preview {
+  margin-top: 2px;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.previewUnread {
+  color: var(--lf-text-secondary);
+}
+
+.typing {
+  color: var(--lf-accent);
+  font-style: italic;
+}
+
+.unreadBadge {
+  flex-shrink: 0;
+}

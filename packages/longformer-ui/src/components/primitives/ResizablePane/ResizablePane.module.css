@@ -1,0 +1,19 @@
+.wrapper {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: stretch;
+  min-height: 0;
+  height: 100%;
+}
+
+.handleLeft {
+  flex-direction: row;
+}
+
+.pane {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
