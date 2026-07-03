@@ -34,6 +34,15 @@
   border: none;
 }
 
+.ios.chromeless,
+.android.chromeless {
+  border-radius: 0;
+}
+
+.chromeless .content {
+  border-radius: 0;
+}
+
 .titleBar {
   flex-shrink: 0;
   display: flex;

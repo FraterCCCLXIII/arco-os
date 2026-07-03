@@ -1,8 +1,9 @@
-import type { ReactNode } from "react";
+import { useMemo, useState, type ReactNode } from "react";
 import { cx } from "../../../utils/cx";
 import { Icon, type IconName } from "../../../icons";
 import { Button } from "../../primitives/Button";
 import { ListItem } from "../../primitives/ListItem";
+import { Menu, type MenuItemDescriptor } from "../../primitives/Menu";
 import { ScrollArea } from "../../primitives/ScrollArea";
 import { Avatar, type AvatarStatus } from "../../primitives/Avatar";
 import styles from "./NavSidebar.module.css";
@@ -62,6 +63,134 @@ export function NavSidebarSectionHeader({ title, action, className }: NavSidebar
     <div className={cx(styles.sectionHeader, className)}>
       {title && <span className={styles.sectionHeaderTitle}>{title}</span>}
       {action}
+    </div>
+  );
+}
+
+export interface NavSidebarSectionFilterOption {
+  id: string;
+  label: string;
+}
+
+export interface NavSidebarSectionFilterProps {
+  value: string;
+  options: NavSidebarSectionFilterOption[];
+  onChange: (id: string) => void;
+  "aria-label"?: string;
+}
+
+/** Compact dropdown for switching sidebar list layouts (Recent, Grouped, etc.). */
+export function NavSidebarSectionFilter({
+  value,
+  options,
+  onChange,
+  "aria-label": ariaLabel = "List view",
+}: NavSidebarSectionFilterProps) {
+  const current = options.find((option) => option.id === value);
+
+  const items = useMemo<MenuItemDescriptor[]>(
+    () =>
+      options.map((option) => ({
+        id: option.id,
+        label: (
+          <span className={styles.sectionFilterItem}>
+            <span>{option.label}</span>
+            {option.id === value ? (
+              <span className={styles.sectionFilterCheck} aria-hidden="true">
+                <Icon name="check" size={14} />
+              </span>
+            ) : null}
+          </span>
+        ),
+        onSelect: () => onChange(option.id),
+      })),
+    [onChange, options, value],
+  );
+
+  return (
+    <Menu
+      align="end"
+      trigger={
+        <button type="button" className={styles.sectionFilterTrigger} aria-label={ariaLabel}>
+          <span>{current?.label ?? value}</span>
+          <Icon name="chevron-down" size={12} />
+        </button>
+      }
+      items={items}
+      aria-label={ariaLabel}
+    />
+  );
+}
+
+export interface NavSidebarItemGroup {
+  id: string;
+  label: string;
+  icon?: IconName;
+  items: NavSidebarListItem[];
+}
+
+export interface NavSidebarGroupedItemsProps {
+  groups: NavSidebarItemGroup[];
+  maxVisiblePerGroup?: number;
+  className?: string;
+}
+
+/** Renders sidebar rows grouped under project/repo headers with optional "Show more". */
+export function NavSidebarGroupedItems({
+  groups,
+  maxVisiblePerGroup = 5,
+  className,
+}: NavSidebarGroupedItemsProps) {
+  const [expandedGroups, setExpandedGroups] = useState<Set<string>>(() => new Set());
+
+  function toggleGroup(groupId: string) {
+    setExpandedGroups((current) => {
+      const next = new Set(current);
+      if (next.has(groupId)) next.delete(groupId);
+      else next.add(groupId);
+      return next;
+    });
+  }
+
+  return (
+    <div className={cx(styles.groupedSection, className)}>
+      {groups.map((group) => {
+        const expanded = expandedGroups.has(group.id);
+        const hiddenCount = Math.max(0, group.items.length - maxVisiblePerGroup);
+        const visibleItems = expanded || hiddenCount === 0 ? group.items : group.items.slice(0, maxVisiblePerGroup);
+
+        return (
+          <div key={group.id} className={styles.groupBlock}>
+            <div className={styles.groupHeader}>
+              {group.icon && (
+                <span className={styles.groupHeaderIcon} aria-hidden="true">
+                  <Icon name={group.icon} size={15} />
+                </span>
+              )}
+              <span className={styles.groupHeaderLabel}>{group.label}</span>
+            </div>
+            <div className={styles.groupItems}>
+              {visibleItems.map((item) => (
+                <ListItem
+                  key={item.id}
+                  className={cx(styles.navListItem, item.className)}
+                  leading={item.leading}
+                  label={item.label}
+                  description={item.description}
+                  trailing={item.trailing}
+                  active={item.active}
+                  onClick={item.onClick}
+                />
+              ))}
+            </div>
+            {!expanded && hiddenCount > 0 && (
+              <button type="button" className={styles.groupShowMore} onClick={() => toggleGroup(group.id)}>
+                Show more
+              </button>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

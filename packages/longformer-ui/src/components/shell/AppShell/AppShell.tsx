@@ -109,6 +109,7 @@ export function AppShell({
           maxWidth={contextPanelMaxWidth}
           handleSide="left"
           collapsed={contextPanelCollapsed}
+          clipOverflow={false}
           className={styles.contextPanelResizable}
           paneClassName={styles.contextPanel}
           handleLabel="Resize panel"

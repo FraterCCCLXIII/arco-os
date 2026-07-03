@@ -15,11 +15,24 @@
   border: 1px solid var(--lf-border-default);
   border-radius: var(--lf-radius-lg);
   container-type: inline-size;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .formattingToolbar {
   margin: calc(-1 * var(--lf-space-3)) calc(-1 * var(--lf-space-3)) 0;
+  border-top-left-radius: calc(var(--lf-radius-lg) - 1px);
+  border-top-right-radius: calc(var(--lf-radius-lg) - 1px);
+}
+
+.controls {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+  min-width: 0;
 }
 
 .textareaRow {
@@ -48,15 +61,6 @@
 
 .textarea::-webkit-scrollbar-track {
   background: transparent;
-}
-
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--lf-space-2);
-  min-width: 0;
 }
 
 .controlsLeft,

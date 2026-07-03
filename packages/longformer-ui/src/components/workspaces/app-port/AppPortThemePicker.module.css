@@ -1,0 +1,37 @@
+.picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-2);
+  border: 1px solid var(--lf-border-subtle);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  appearance: none;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  padding: 4px var(--lf-space-2);
+  background: transparent;
+  color: var(--lf-text-tertiary);
+  font-family: var(--lf-font-family);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--lf-text-secondary);
+  background: var(--lf-surface-3);
+}
+
+.tabActive {
+  background: var(--lf-surface-1);
+  color: var(--lf-text-primary);
+  box-shadow: var(--lf-shadow-sm);
+}

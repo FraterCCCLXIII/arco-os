@@ -14,25 +14,8 @@
   display: none;
 }
 
-.widget {
+.slot {
   flex-shrink: 0;
-  min-height: 112px;
-  max-height: 220px;
-  padding: var(--lf-space-3);
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.16);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
-  overflow: hidden;
-}
-
-.widget:nth-child(2n) {
-  min-height: 128px;
-}
-
-.android .widget {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.1);
+  min-width: 0;
+  display: flex;
 }

@@ -187,6 +187,7 @@ export function MobileWindowCarousel({
                 className={cx(styles.windowFrame, transitionClassName)}
                 style={{ zIndex: computeZIndex(window.stackOrder, window.layer) }}
                 legacyContent={legacyContent}
+                chromeless
               >
                 {resolvedContent ?? (
                   <p>

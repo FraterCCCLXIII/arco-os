@@ -52,12 +52,17 @@
   width: 32px;
   height: 32px;
   border-radius: var(--lf-radius-md);
-  background: var(--lf-accent);
-  color: var(--lf-text-on-accent);
-  font-weight: 700;
-  font-size: var(--lf-font-size-sm);
+  background: #fff;
   flex-shrink: 0;
+  overflow: hidden;
+  padding: 1px;
   transition: opacity var(--lf-duration-fast) var(--lf-ease);
+}
+
+.brand svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .collapsed .brandHost:hover .brand,

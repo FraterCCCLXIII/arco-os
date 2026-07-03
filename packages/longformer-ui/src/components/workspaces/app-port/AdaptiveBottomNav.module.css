@@ -1,0 +1,246 @@
+.root {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  border-top: 1px solid var(--lf-border-subtle);
+  background: color-mix(in srgb, var(--lf-surface-2) 92%, var(--lf-surface-1));
+  flex-shrink: 0;
+}
+
+.scroller {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.rootWithDock .scroller {
+  mask-image: linear-gradient(to right, #000 calc(100% - 18px), transparent 100%);
+}
+
+.track {
+  display: flex;
+  align-items: stretch;
+  width: max-content;
+  min-width: 100%;
+  padding: 2px 0;
+}
+
+.tabButton {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 72px;
+  padding: 4px 8px 2px;
+  border: none;
+  border-radius: var(--lf-radius-md);
+  background: transparent;
+  color: var(--lf-text-tertiary);
+  font: inherit;
+  font-size: 10px;
+  line-height: 1.2;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    color var(--lf-duration-fast) var(--lf-ease),
+    transform var(--lf-duration-fast) var(--lf-ease);
+}
+
+.tabIcon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 30px;
+  border-radius: var(--lf-radius-pill);
+  transition:
+    background var(--lf-duration-fast) var(--lf-ease),
+    box-shadow var(--lf-duration-fast) var(--lf-ease),
+    transform var(--lf-duration-fast) var(--lf-ease);
+}
+
+.tabLabel {
+  max-width: 72px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.tabButton:hover:not(.tabButtonActive) {
+  color: var(--lf-text-secondary);
+}
+
+.tabButton:hover:not(.tabButtonActive) .tabIcon {
+  background: color-mix(in srgb, var(--lf-text-primary) 7%, transparent);
+}
+
+.tabButton:active:not(.tabButtonActive) {
+  transform: translateY(1px);
+}
+
+.tabButton:active:not(.tabButtonActive) .tabIcon {
+  background: color-mix(in srgb, var(--lf-text-primary) 11%, transparent);
+  transform: scale(0.96);
+}
+
+.tabButtonActive {
+  color: var(--lf-accent);
+}
+
+.tabButtonActive .tabIcon {
+  background: var(--lf-accent-muted);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--lf-accent) 28%, transparent),
+    0 1px 2px color-mix(in srgb, var(--lf-accent) 18%, transparent);
+}
+
+.tabButtonActive .tabLabel {
+  color: var(--lf-accent);
+  font-weight: 600;
+}
+
+.fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 18px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fadeLeft {
+  left: 0;
+  background: linear-gradient(to right, var(--lf-surface-2), transparent);
+}
+
+.fadeRight {
+  right: 0;
+  background: linear-gradient(to left, var(--lf-surface-2), transparent);
+}
+
+.overflowDock {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0;
+  border-left: 1px solid var(--lf-border-subtle);
+  background: color-mix(in srgb, var(--lf-surface-2) 92%, var(--lf-surface-1));
+}
+
+.overflowDockFade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -16px;
+  width: 16px;
+  background: linear-gradient(to right, transparent, var(--lf-surface-2));
+  pointer-events: none;
+}
+
+.overflowTab {
+  width: 72px;
+}
+
+.overflowIconWrap {
+  position: relative;
+}
+
+.overflowCount {
+  position: absolute;
+  top: -5px;
+  right: -9px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
+  border-radius: 999px;
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent);
+  font-size: 8px;
+  font-weight: 700;
+  line-height: 14px;
+  text-align: center;
+  box-shadow: 0 0 0 1px var(--lf-surface-2);
+}
+
+.tabButtonActive .overflowCount {
+  background: var(--lf-accent-active);
+}
+
+.scrollButton {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: 999px;
+  background: var(--lf-surface-1);
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition:
+    background var(--lf-duration-fast) var(--lf-ease),
+    color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.scrollButton:hover {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+}
+
+.scrollButtonLeft {
+  left: 4px;
+}
+
+.scrollButtonRight {
+  right: 4px;
+}
+
+.modal {
+  min-height: 52px;
+}
+
+.modal .tabButton {
+  min-width: 84px;
+  padding-inline: var(--lf-space-3);
+}
+
+.modal .tabLabel {
+  max-width: 84px;
+}
+
+.phone {
+  min-height: 56px;
+}
+
+.phone .tabIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--lf-radius-md);
+}
+
+.phone .tabButtonActive .tabIcon {
+  border-radius: var(--lf-radius-md);
+}
+
+.phone .track {
+  width: max-content;
+}
+
+.phone .scroller {
+  width: 100%;
+}
+
+@media (hover: none) {
+  .tabButton:hover:not(.tabButtonActive) .tabIcon {
+    background: transparent;
+  }
+}

@@ -85,6 +85,107 @@
   color: var(--lf-text-primary);
 }
 
+.sectionFilterTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  height: 20px;
+  padding: 0 var(--lf-space-1);
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: none;
+  cursor: pointer;
+  transition: background var(--lf-duration-fast) var(--lf-ease), color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.sectionFilterTrigger:hover {
+  background: var(--lf-surface-2);
+  color: var(--lf-text-secondary);
+}
+
+.sectionFilterItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  width: 100%;
+}
+
+.sectionFilterCheck {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--lf-text-primary);
+}
+
+.groupedSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+  min-width: 0;
+}
+
+.groupBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+  min-width: 0;
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: 0 var(--lf-space-2);
+  min-width: 0;
+  color: var(--lf-text-primary);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+}
+
+.groupHeaderIcon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--lf-text-tertiary);
+}
+
+.groupHeaderLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.groupItems {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+  min-width: 0;
+  padding-left: var(--lf-space-2);
+}
+
+.groupShowMore {
+  align-self: flex-start;
+  margin-left: var(--lf-space-2);
+  padding: var(--lf-space-1) var(--lf-space-2);
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-sm);
+  cursor: pointer;
+  transition: background var(--lf-duration-fast) var(--lf-ease), color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.groupShowMore:hover {
+  background: var(--lf-surface-2);
+  color: var(--lf-text-secondary);
+}
+
 .sectionItems {
   display: flex;
   flex-direction: column;

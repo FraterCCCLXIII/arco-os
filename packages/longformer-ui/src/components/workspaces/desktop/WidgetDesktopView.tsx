@@ -15,7 +15,7 @@ export function WidgetDesktopView({ tiles, className }: WidgetDesktopViewProps) 
     <div className={className}>
       <div className={styles.grid}>
         {tiles.map((tile) => (
-          <article
+          <div
             key={tile.id}
             className={styles.tile}
             style={{
@@ -24,7 +24,7 @@ export function WidgetDesktopView({ tiles, className }: WidgetDesktopViewProps) 
             }}
           >
             <WidgetRenderer content={tile.content} />
-          </article>
+          </div>
         ))}
       </div>
     </div>

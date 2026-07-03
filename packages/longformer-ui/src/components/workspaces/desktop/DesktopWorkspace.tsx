@@ -5,7 +5,7 @@ import { StatusBar } from "./StatusBar";
 import { DesktopSurface } from "./DesktopSurface";
 import { TaskTray } from "./TaskTray";
 import { ShellPicker } from "./ShellPicker";
-import { FormFactorPicker } from "./FormFactorPicker";
+import { DEVICE_FORM_FACTOR_ORDER, FormFactorPicker } from "./FormFactorPicker";
 import type { FormFactor, SurfaceRect, SurfaceWindow, WindowPolicy } from "../../../surface-manager";
 import { toSurfaceWindow } from "../../../surface-manager";
 import { FORM_FACTOR_FRAME, formFactorUsesFixedFrame } from "./formFactorFrame";
@@ -135,12 +135,28 @@ export function DesktopWorkspace({
       {(onShellChange || onFormFactorChange) && !fullscreen && (
         <div className={styles.toolbar}>
           {header ?? (
-            <div className={styles.toolbarPickers}>
+            <>
+              <div className={styles.toolbarPickers}>
+                {onFormFactorChange && (
+                  <FormFactorPicker
+                    formFactor={formFactor}
+                    onFormFactorChange={onFormFactorChange}
+                    items={DEVICE_FORM_FACTOR_ORDER}
+                  />
+                )}
+                {onShellChange && <ShellPicker shell={shell} onShellChange={onShellChange} />}
+              </div>
               {onFormFactorChange && (
-                <FormFactorPicker formFactor={formFactor} onFormFactorChange={onFormFactorChange} />
+                <button
+                  type="button"
+                  className={cx("lf-focusable", styles.widgetToggle, formFactor === "widget" && styles.widgetToggleActive)}
+                  aria-pressed={formFactor === "widget"}
+                  onClick={() => onFormFactorChange("widget")}
+                >
+                  Widget
+                </button>
               )}
-              {onShellChange && <ShellPicker shell={shell} onShellChange={onShellChange} />}
-            </div>
+            </>
           )}
         </div>
       )}

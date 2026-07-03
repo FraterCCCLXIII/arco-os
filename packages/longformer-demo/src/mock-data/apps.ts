@@ -17,6 +17,8 @@ export const workspaceApps: AppListing[] = [
   withCanonicalTone({ id: "tasks", label: "Tasks", icon: "check", description: "To-dos & due dates" }),
   withCanonicalTone({ id: "notifications", label: "Notifications", icon: "bell", description: "Alerts & updates" }),
   withCanonicalTone({ id: "desktop", label: "Desktop", icon: "monitor", description: "OS shell simulation" }),
+  withCanonicalTone({ id: "bento", label: "Bento", icon: "grid", description: "Drag-and-drop widget grid" }),
+  withCanonicalTone({ id: "composer", label: "Composer", icon: "sparkles", description: "Generative music creation" }),
 ];
 
 /** Desktop-style apps that also appear in the launcher. */

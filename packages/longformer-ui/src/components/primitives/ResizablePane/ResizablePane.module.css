@@ -18,6 +18,10 @@
   overflow: hidden;
 }
 
+.paneOverflowVisible {
+  overflow: visible;
+}
+
 /* The adjacent resize handle renders the column divider. */
 .wrapper:not(.handleLeft) > .pane {
   border-right: none;

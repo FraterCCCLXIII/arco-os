@@ -6,15 +6,23 @@ export interface FormFactorPickerProps {
   formFactor: FormFactor;
   onFormFactorChange: (formFactor: FormFactor) => void;
   className?: string;
+  items?: FormFactor[];
 }
 
-const FORM_FACTOR_ORDER: FormFactor[] = ["desktop", "tablet", "phone", "watch", "widget"];
+export const DEVICE_FORM_FACTOR_ORDER: FormFactor[] = ["desktop", "tablet", "phone", "watch"];
+
+const FORM_FACTOR_ORDER: FormFactor[] = [...DEVICE_FORM_FACTOR_ORDER, "widget"];
 
 /** Segmented control for switching simulated device form factors. */
-export function FormFactorPicker({ formFactor, onFormFactorChange, className }: FormFactorPickerProps) {
+export function FormFactorPicker({
+  formFactor,
+  onFormFactorChange,
+  className,
+  items = FORM_FACTOR_ORDER,
+}: FormFactorPickerProps) {
   return (
     <div className={cx(styles.picker, className)} role="tablist" aria-label="Form factor">
-      {FORM_FACTOR_ORDER.map((value) => (
+      {items.map((value) => (
         <button
           key={value}
           type="button"

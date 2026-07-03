@@ -8,8 +8,8 @@
 }
 
 .track {
-  --carousel-slide-width: 86%;
-  --carousel-edge-inset: calc((100% - var(--carousel-slide-width)) / 2);
+  --carousel-slide-width: 100%;
+  --carousel-edge-inset: 0;
   display: flex;
   align-items: stretch;
   height: 100%;
@@ -41,20 +41,16 @@
 
 .slide {
   flex: 0 0 var(--carousel-slide-width);
-  scroll-snap-align: center;
+  scroll-snap-align: start;
   scroll-snap-stop: always;
   height: 100%;
-  padding: var(--lf-space-4) var(--lf-space-2) calc(var(--lf-space-5) + 8px);
+  padding: 0;
   display: flex;
   min-width: 0;
-  transition:
-    transform var(--lf-duration-normal) var(--lf-ease),
-    opacity var(--lf-duration-normal) var(--lf-ease);
 }
 
 .slide[data-active="false"] {
-  transform: scale(0.94);
-  opacity: 0.72;
+  opacity: 1;
 }
 
 .windowFrame {
@@ -65,11 +61,11 @@
 }
 
 .ios .slide {
-  padding-top: var(--lf-space-2);
+  padding-top: 0;
 }
 
 .android .slide {
-  padding-top: var(--lf-space-3);
+  padding-top: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

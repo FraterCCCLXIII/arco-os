@@ -4,6 +4,7 @@ import {
   BankCryptoWorkspace,
   CalendarWorkspace,
   ChatWorkspace,
+  ChatSidebar,
   type ConversationTabItem,
   ContactsWorkspace,
   EditorToolbar,
@@ -42,6 +43,10 @@ import {
   SheetsWorkspace,
   ExtensionsWorkspace,
   PassportWorkspace,
+  BentoWorkspace,
+  AppPortWorkspace,
+  ComposerWorkspace,
+  AdaptiveWorkspaceWindowContent,
   type AppsSubpage,
   type BlockFormat,
   type ChatMessage,
@@ -59,6 +64,7 @@ import {
   type TextMark,
 } from "longformer-ui";
 import type { WorkspaceId } from "./workspace-config";
+import { workspaceNavItem } from "./workspace-config";
 import type { SocialNetworkId } from "longformer-ui";
 import { primaryUser, teamMembers } from "./demo-personas";
 
@@ -248,7 +254,7 @@ export interface WorkspaceLayoutViewModel {
   setEmailComposeOpen: (open: boolean) => void;
   handleSendEmailReply: (content: { plain: string; html: string }) => void;
   handleSendEmail: (draft: import("longformer-ui").EmailDraft) => void;
-  chatConversations: { id: string; label: string; meta?: string }[];
+  chatConversations: { id: string; label: string; meta?: string; project?: string }[];
   chatTabs: ConversationTabItem[];
   activeChatTabId: string;
   setActiveChatTabId: (id: string) => void;
@@ -273,29 +279,14 @@ export function buildWorkspaceLayout(
   switch (workspaceId) {
     case "chat":
       sidebar = includeSidebar ? (
-        <NavSidebar
-          primaryAction={{ label: "New chat", icon: "plus", onClick: () => vm.setComposerValue("") }}
-          quickLinks={[
-            { id: "search", label: "Search", icon: "search" },
-            { id: "scheduled", label: "Scheduled", icon: "calendar" },
-            { id: "plugins", label: "Plugins", icon: "grid" },
-          ]}
-          sections={[
-            {
-              id: "conversations",
-              title: "Conversations",
-              items: vm.chatConversations.map((c) => ({
-                id: c.id,
-                label: c.label,
-                trailing: c.meta,
-                active: c.id === vm.activeChatTabId,
-                onClick: vm.chatTabs.some((tab) => tab.id === c.id)
-                  ? () => vm.setActiveChatTabId(c.id)
-                  : undefined,
-              })),
-            },
-          ]}
-          footer={<SidebarUserFooter name={primaryUser.name} meta="Longformer · Plus" />}
+        <ChatSidebar
+          conversations={vm.chatConversations}
+          activeConversationId={vm.activeChatTabId}
+          onConversationSelect={vm.setActiveChatTabId}
+          openConversationIds={vm.chatTabs.map((tab) => tab.id)}
+          onNewChat={() => vm.setComposerValue("")}
+          footerName={primaryUser.name}
+          footerMeta="Longformer · Plus"
         />
       ) : undefined;
       main = (
@@ -980,6 +971,21 @@ export function buildWorkspaceLayout(
       main = <PassportWorkspace data={vm.passportWorkspaceData as never} />;
       break;
 
+    case "bento":
+      sidebar = undefined;
+      main = <BentoWorkspace />;
+      break;
+
+    case "app-port":
+      sidebar = undefined;
+      main = <AppPortWorkspace />;
+      break;
+
+    case "composer":
+      sidebar = undefined;
+      main = <ComposerWorkspace />;
+      break;
+
     case "desktop":
       sidebar = undefined;
       main = vm.renderDesktopWorkspace?.() ?? null;
@@ -1039,8 +1045,23 @@ export function buildWorkspaceLayout(
 export function buildWorkspaceWindowContent(
   appId: string,
   vm: Omit<WorkspaceLayoutViewModel, "workspaceId" | "renderDesktopWorkspace">,
+  viewport: import("longformer-ui").AppPortViewport = "desktop",
 ): ReactNode | null {
   if (appId === "desktop") return null;
-  const { main } = buildWorkspaceLayout({ ...vm, workspaceId: appId as WorkspaceId }, { includeSidebar: false });
-  return main;
+  const { sidebar, main } = buildWorkspaceLayout(
+    { ...vm, workspaceId: appId as WorkspaceId },
+    { includeSidebar: true },
+  );
+  const nav = workspaceNavItem(appId as WorkspaceId);
+  if (!nav) return main;
+
+  return (
+    <AdaptiveWorkspaceWindowContent
+      viewport={viewport}
+      title={nav.label}
+      icon={nav.icon}
+      sidebar={sidebar}
+      main={main}
+    />
+  );
 }

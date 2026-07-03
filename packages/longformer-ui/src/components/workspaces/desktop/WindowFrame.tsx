@@ -25,6 +25,8 @@ export interface WindowFrameProps {
   style?: React.CSSProperties;
   /** Use padded scrollable body for legacy placeholder content. */
   legacyContent?: boolean;
+  /** Hide title-bar chrome so in-app adaptive headers can run edge-to-edge. */
+  chromeless?: boolean;
 }
 
 const RESIZE_EDGES: ResizeEdge[] = ["n", "s", "e", "w", "ne", "nw", "se", "sw"];
@@ -48,18 +50,19 @@ export function WindowFrame({
   className,
   style,
   legacyContent = false,
+  chromeless = false,
 }: WindowFrameProps) {
   const isMobile = shell === "ios" || shell === "android";
 
   return (
     <div
-      className={cx(styles.window, styles[shell], active && styles.active, className)}
+      className={cx(styles.window, styles[shell], active && styles.active, chromeless && styles.chromeless, className)}
       style={style}
       onPointerDown={onFocus}
       role="dialog"
       aria-label={title}
     >
-      {isMobile ? (
+      {isMobile && !chromeless ? (
         <div
           className={cx(styles.titleBar, styles.mobileTitleBar, allowDrag && styles.titleBarDraggable)}
           onPointerDown={allowDrag ? onTitlePointerDown : undefined}

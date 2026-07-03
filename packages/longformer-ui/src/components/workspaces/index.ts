@@ -35,3 +35,6 @@ export * from "./psyche";
 export * from "./sheets";
 export * from "./extensions";
 export * from "./passport";
+export * from "./bento";
+export * from "./app-port";
+export * from "./composer";

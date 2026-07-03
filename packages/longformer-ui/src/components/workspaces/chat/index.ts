@@ -1,3 +1,4 @@
+export * from "./ChatSidebar";
 export * from "./types";
 export * from "./ThinkingBlock";
 export * from "./MessageBubble";

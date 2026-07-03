@@ -1,9 +1,15 @@
 export const chatConversations = [
-  { id: "c1", label: "Plan the summer picnic", meta: "2m" },
-  { id: "c2", label: "Research an office app", meta: "5d" },
-  { id: "c3", label: "Order me a pizza", meta: "5d" },
-  { id: "c4", label: "Find a local acupuncturist", meta: "5d" },
-  { id: "c5", label: "Search the web about Persian empires", meta: "6d" },
+  { id: "c1", label: "Plan the summer picnic", meta: "2m", project: "OpenBook" },
+  { id: "c2", label: "Research an office app", meta: "5d", project: "Sidekicks" },
+  { id: "c3", label: "Order me a pizza", meta: "5d", project: "Sidekicks" },
+  { id: "c4", label: "Find a local acupuncturist", meta: "5d", project: "Sidekicks" },
+  { id: "c5", label: "Search the web about Persian empires", meta: "6d", project: "TCGL" },
+  { id: "c6", label: "Do a backflip", meta: "1mo", project: "Sidekicks" },
+  { id: "c7", label: "Add NemoClaw team to Slack", meta: "3mo", project: "Sidekicks" },
+  { id: "c8", label: "Review this app and suggest fixes", meta: "2mo", project: "TCGL" },
+  { id: "c9", label: "Build Muse EEG client", meta: "3mo", project: "EEG-project" },
+  { id: "c10", label: "Show Figma bar for all-hands", meta: "2mo", project: "All-Hands-UI" },
+  { id: "c11", label: "Prototype figma-html export", meta: "2mo", project: "figma-html" },
 ];
 
 export const mailFolders = [

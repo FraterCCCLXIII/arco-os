@@ -10,18 +10,46 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: var(--lf-space-3);
   padding: var(--lf-space-2) var(--lf-space-4);
   border-bottom: 1px solid var(--lf-divider);
   background: var(--lf-surface-1);
 }
 
 .toolbarPickers {
+  flex: 1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: var(--lf-space-2);
+  min-width: 0;
+}
+
+.widgetToggle {
+  flex-shrink: 0;
+  appearance: none;
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-md);
+  padding: 4px var(--lf-space-3);
+  background: var(--lf-surface-2);
+  color: var(--lf-text-tertiary);
+  font-family: var(--lf-font-family);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.widgetToggle:hover {
+  color: var(--lf-text-secondary);
+  background: var(--lf-surface-3);
+}
+
+.widgetToggleActive {
+  border-color: var(--lf-accent-border);
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
 }
 
 .deviceStage {

@@ -18,9 +18,9 @@ export function MobileHomeWidgetColumn({
   return (
     <div className={cx(styles.column, styles[variant], className)}>
       {widgets.map((widget) => (
-        <article key={widget.id} className={styles.widget}>
+        <div key={widget.id} className={styles.slot}>
           <WidgetRenderer content={widget.content} />
-        </article>
+        </div>
       ))}
     </div>
   );

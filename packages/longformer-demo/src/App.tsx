@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import {
   AppShell,
   NavRail,
+  NavRailBrandMark,
   SidebarUserFooterMenu,
   ChatContextPanel,
   type ChatContextDrawerTab,
@@ -15,7 +16,6 @@ import {
   FloatingChat,
   ThemeProvider,
   useTheme,
-  WorkspaceWindowShell,
   type ChatMessage,
   type TaskItem,
   type NotificationItem,
@@ -40,6 +40,8 @@ import {
   parseISODate,
   toISODate,
   useSurfaceManager,
+  formFactorToAppPortViewport,
+  formFactorPrefersFullscreen,
   buildNotesGraph,
   countBacklinks,
   countNoteWords,
@@ -301,6 +303,10 @@ function LongformerApp() {
   useEffect(() => {
     savePinnedWorkspaceIds(pinnedWorkspaceIds);
   }, [pinnedWorkspaceIds]);
+
+  useEffect(() => {
+    setDesktopFullscreen(formFactorPrefersFullscreen(surface.formFactor));
+  }, [surface.formFactor]);
 
   useEffect(() => {
     setChatTabMessages((prev) => {
@@ -880,7 +886,7 @@ function LongformerApp() {
       }
       expanded={navRailExpanded}
       onExpandedChange={setNavRailExpanded}
-      brand="L"
+      brand={<NavRailBrandMark />}
       footer={
         <SidebarUserFooterMenu
           name={primaryUser.name}
@@ -1165,11 +1171,10 @@ function LongformerApp() {
 
   const renderDesktopWindowContent = useCallback(
     (window: import("longformer-ui").SurfaceWindow) => {
-      const content = buildWorkspaceWindowContent(window.appId, workspaceViewModelBase);
-      if (!content) return null;
-      return <WorkspaceWindowShell>{content}</WorkspaceWindowShell>;
+      const viewport = formFactorToAppPortViewport(surface.formFactor, window.layer);
+      return buildWorkspaceWindowContent(window.appId, workspaceViewModelBase, viewport);
     },
-    [workspaceViewModelBase],
+    [workspaceViewModelBase, surface.formFactor],
   );
 
   const renderDesktopWorkspace = useCallback(

@@ -63,6 +63,7 @@ interface SurfaceWindowViewProps {
   transitionClassName?: string;
   renderWindowContent?: (window: SurfaceWindow) => ReactNode;
   onShowHome?: () => void;
+  chromeless?: boolean;
 }
 
 function SurfaceWindowView({
@@ -82,6 +83,7 @@ function SurfaceWindowView({
   transitionClassName,
   renderWindowContent,
   onShowHome,
+  chromeless = false,
 }: SurfaceWindowViewProps) {
   const drag = useWindowDrag({
     rect: window.rect,
@@ -200,6 +202,7 @@ function SurfaceWindowView({
         opacity: inactiveGlance ? 0.55 : undefined,
       }}
       legacyContent={legacyContent}
+      chromeless={chromeless}
     >
       {resolvedContent ?? (
         <p>
@@ -396,6 +399,7 @@ export function DesktopSurface({
               transitionClassName={transitionClassName}
               renderWindowContent={renderWindowContent}
               onShowHome={mobileHomeHandler}
+              chromeless={formFactor === "phone" && isMobile}
             />
           );
         })}

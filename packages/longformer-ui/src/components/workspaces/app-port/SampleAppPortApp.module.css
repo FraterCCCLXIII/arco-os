@@ -1,0 +1,50 @@
+.detailBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+  padding: var(--lf-space-4);
+}
+
+.detailCopy {
+  margin: 0;
+  font-size: var(--lf-text-sm);
+  line-height: 1.55;
+  color: var(--lf-text-secondary);
+}
+
+.detailEmpty {
+  margin: 0;
+  padding: var(--lf-space-4);
+  font-size: var(--lf-text-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.watchDetailBody {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.watchDetailStatus {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 2px 6px;
+  border-radius: 999px;
+  background: var(--lf-accent-muted);
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--lf-accent);
+}
+
+.watchDetailCopy {
+  margin: 0;
+  font-size: 10px;
+  line-height: 1.45;
+  color: var(--lf-text-secondary);
+}
+
+.watchDetailEmpty {
+  margin: 0;
+  font-size: 10px;
+  color: var(--lf-text-tertiary);
+}

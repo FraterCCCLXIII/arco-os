@@ -28,13 +28,23 @@ export interface MenuProps {
   trigger: ReactElement;
   items: MenuItemDescriptor[];
   align?: "start" | "end";
+  /** Which edge of the trigger the panel opens from. */
+  side?: "top" | "bottom";
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   "aria-label"?: string;
 }
 
 /** A lightweight, dependency-free dropdown menu (model pickers, filters, row "more" menus). */
-export function Menu({ trigger, items, align = "start", open: openProp, onOpenChange, ...aria }: MenuProps) {
+export function Menu({
+  trigger,
+  items,
+  align = "start",
+  side = "bottom",
+  open: openProp,
+  onOpenChange,
+  ...aria
+}: MenuProps) {
   const [openState, setOpenState] = useState(false);
   const open = openProp ?? openState;
   const [highlighted, setHighlighted] = useState(0);
@@ -88,7 +98,11 @@ export function Menu({ trigger, items, align = "start", open: openProp, onOpenCh
         <div
           role="menu"
           aria-label={aria["aria-label"]}
-          className={cx(styles.panel, align === "end" ? styles.alignEnd : styles.alignStart)}
+          className={cx(
+            styles.panel,
+            side === "top" ? styles.panelTop : styles.panelBottom,
+            align === "end" ? styles.alignEnd : styles.alignStart,
+          )}
         >
           {items.map((item, index) => (
             <div key={item.id}>

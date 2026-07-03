@@ -12,6 +12,8 @@ export * from "./WidgetRenderer";
 export * from "./DesktopWorkspace";
 export * from "./wallpaper";
 export * from "./WorkspaceWindowShell";
+export * from "./AdaptiveWorkspaceWindowContent";
+export * from "./formFactorViewport";
 export * from "./formFactorFrame";
 export * from "./MobileHomeScreen";
 export * from "./MobileHomeWidgetColumn";

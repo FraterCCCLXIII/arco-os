@@ -37,7 +37,10 @@ export type WorkspaceId =
   | "psyche"
   | "sheets"
   | "extensions"
-  | "passport";
+  | "passport"
+  | "bento"
+  | "app-port"
+  | "composer";
 
 export interface WorkspaceNavItem {
   id: WorkspaceId;
@@ -60,6 +63,7 @@ export const WORKSPACES: WorkspaceNavItem[] = [
   { id: "wallet", label: "Wallet", icon: "wallet" },
   { id: "bank-crypto", label: "Bank / Crypto", icon: "dollar-sign" },
   { id: "music", label: "Music", icon: "play" },
+  { id: "composer", label: "Composer", icon: "sparkles" },
   { id: "vision", label: "Vision", icon: "video" },
   { id: "reader", label: "Reader", icon: "bookmark" },
   { id: "maps", label: "Maps", icon: "globe" },
@@ -71,6 +75,8 @@ export const WORKSPACES: WorkspaceNavItem[] = [
   { id: "tasks", label: "Tasks", icon: "check" },
   { id: "notifications", label: "Notifications", icon: "bell" },
   { id: "apps", label: "Apps", icon: "app-window" },
+  { id: "bento", label: "Bento", icon: "grid" },
+  { id: "app-port", label: "App Port", icon: "app-window" },
   { id: "extensions", label: "Extensions", icon: "package" },
   { id: "passport", label: "Passport", icon: "lock" },
   { id: "settings", label: "Settings", icon: "settings" },
@@ -116,11 +122,15 @@ export const DEFAULT_PINNED_WORKSPACE_IDS: WorkspaceId[] = [
   "calendar",
   "files",
   "tasks",
+  "bento",
   "desktop",
   "settings",
 ];
 
 const PINNED_STORAGE_KEY = "longformer-nav-pinned";
+
+/** Workspaces that should migrate onto the rail for existing saved layouts. */
+const PINNED_WORKSPACE_MIGRATIONS: WorkspaceId[] = ["bento"];
 
 export function loadPinnedWorkspaceIds(): WorkspaceId[] {
   if (typeof window === "undefined") return DEFAULT_PINNED_WORKSPACE_IDS;
@@ -134,10 +144,25 @@ export function loadPinnedWorkspaceIds(): WorkspaceId[] {
       return DEFAULT_PINNED_WORKSPACE_IDS;
     }
 
-    return parsed;
+    return migratePinnedWorkspaceIds(parsed);
   } catch {
     return DEFAULT_PINNED_WORKSPACE_IDS;
   }
+}
+
+/** Keep stored rail order while inserting newly shipped default pins once. */
+export function migratePinnedWorkspaceIds(stored: WorkspaceId[]): WorkspaceId[] {
+  const known = new Set(WORKSPACES.map((workspace) => workspace.id));
+  const normalized = stored.filter((id) => known.has(id));
+
+  for (const id of PINNED_WORKSPACE_MIGRATIONS) {
+    if (!known.has(id) || normalized.includes(id)) continue;
+    const settingsIndex = normalized.indexOf("settings");
+    if (settingsIndex === -1) normalized.push(id);
+    else normalized.splice(settingsIndex, 0, id);
+  }
+
+  return normalized;
 }
 
 export function savePinnedWorkspaceIds(ids: WorkspaceId[]): void {

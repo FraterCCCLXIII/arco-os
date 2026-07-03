@@ -1,0 +1,36 @@
+.board {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--lf-space-4);
+  background: var(--lf-surface-2);
+}
+
+.gridBackground {
+  position: absolute;
+  inset: var(--lf-space-4);
+  pointer-events: none;
+  border-radius: var(--lf-radius-lg);
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--lf-border-subtle) 70%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--lf-border-subtle) 70%, transparent) 1px, transparent 1px);
+  background-repeat: repeat;
+  opacity: 0.85;
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  align-content: start;
+}
+
+@media (max-width: 960px) {
+  .board {
+    padding: var(--lf-space-3);
+  }
+
+  .gridBackground {
+    inset: var(--lf-space-3);
+  }
+}

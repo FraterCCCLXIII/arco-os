@@ -105,6 +105,7 @@ export function Composer({
             {showModeMenu ? (
               <Menu
                 align="start"
+                side="top"
                 trigger={
                   <button type="button" className={styles.modeTrigger}>
                     <span className={styles.modeLabel}>{activeModeLabel}</span>
@@ -118,6 +119,7 @@ export function Composer({
             {model && modelOptions && (
               <Menu
                 align="start"
+                side="top"
                 trigger={
                   <button type="button" className={styles.modelTrigger}>
                     <span className={styles.modelLabel}>{model}</span>

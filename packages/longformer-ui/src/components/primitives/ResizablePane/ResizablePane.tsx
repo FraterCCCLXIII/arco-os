@@ -15,6 +15,8 @@ export interface ResizablePaneProps {
   /** Which edge shows the drag grip. */
   handleSide?: "left" | "right";
   collapsed?: boolean;
+  /** When false, pane content can extend outside bounds (e.g. dropdown menus). */
+  clipOverflow?: boolean;
   className?: string;
   paneClassName?: string;
   handleLabel?: string;
@@ -31,6 +33,7 @@ export function ResizablePane({
   maxWidth = 520,
   handleSide = "right",
   collapsed = false,
+  clipOverflow = true,
   className,
   paneClassName,
   handleLabel,
@@ -68,7 +71,7 @@ export function ResizablePane({
           className={handleClassName}
         />
       )}
-      <div className={cx(styles.pane, paneClassName)}>{children}</div>
+      <div className={cx(styles.pane, !clipOverflow && styles.paneOverflowVisible, paneClassName)}>{children}</div>
       {handleSide === "right" && (
         <ResizeHandle
           onPointerDown={onPointerDown}
