@@ -10,7 +10,7 @@ export interface BentoGridProps {
   activeId?: string | null;
   onFocus: (id: string) => void;
   onMove: (id: string, next: Pick<BentoItem, "col" | "row">) => void;
-  onResize: (id: string, next: Pick<BentoItem, "colSpan" | "rowSpan">) => void;
+  onResize: (id: string, next: Pick<BentoItem, "col" | "row" | "colSpan" | "rowSpan">) => void;
   className?: string;
 }
 
@@ -24,7 +24,7 @@ export function BentoGrid({ items, activeId, onFocus, onMove, onResize, classNam
         className={styles.gridBackground}
         aria-hidden
         style={{
-          backgroundSize: `calc((100% - ${BENTO_GAP_PX}px * ${BENTO_COLS - 1}) / ${BENTO_COLS}) ${BENTO_ROW_HEIGHT_PX + BENTO_GAP_PX}px`,
+          backgroundSize: `calc((100% - ${BENTO_GAP_PX}px * ${BENTO_COLS - 1}) / ${BENTO_COLS} + ${BENTO_GAP_PX}px) calc(${BENTO_ROW_HEIGHT_PX}px + ${BENTO_GAP_PX}px)`,
         }}
       />
       <div

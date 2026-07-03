@@ -30,7 +30,7 @@ export function TasksWorkspace({
   actions,
   calendar,
   calendarPaneWidth,
-  defaultCalendarPaneWidth = 232,
+  defaultCalendarPaneWidth = 260,
   onCalendarPaneWidthChange,
 }: TasksWorkspaceProps) {
   const openCount = tasks.filter((task) => task.status !== "completed" && task.status !== "cancelled").length;

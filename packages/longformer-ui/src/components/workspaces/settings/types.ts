@@ -1,4 +1,5 @@
 import type { IconName } from "../../../icons";
+import type { WorkspacePickerOption } from "../../shell/WorkspacePicker";
 
 export type SettingsSectionId =
   | "account-info"
@@ -10,8 +11,6 @@ export type SettingsSectionId =
   | "authorized-apps"
   | "connections"
   | "notifications"
-  | "nitro"
-  | "server-boost"
   | "subscriptions"
   | "gift-inventory"
   | "billing"
@@ -99,10 +98,12 @@ export interface SettingsContentSection {
   standing?: SettingsStanding;
 }
 
-export interface SettingsUserProfile {
-  name: string;
-  avatarSrc?: string;
-  editProfilesLabel?: string;
+export interface SettingsWorkspaceData {
+  teamId: string;
+  teams: WorkspacePickerOption[];
+  nav: SettingsNavGroup[];
+  sections: SettingsContentSection[];
+  wallpaperPresets?: SettingsWallpaperPreset[];
 }
 
 export interface SettingsWallpaperPreset {
@@ -110,11 +111,4 @@ export interface SettingsWallpaperPreset {
   label: string;
   url: string;
   credit?: string;
-}
-
-export interface SettingsWorkspaceData {
-  user: SettingsUserProfile;
-  nav: SettingsNavGroup[];
-  sections: SettingsContentSection[];
-  wallpaperPresets?: SettingsWallpaperPreset[];
 }

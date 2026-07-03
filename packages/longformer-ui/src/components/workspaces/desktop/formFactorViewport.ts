@@ -20,8 +20,3 @@ export function formFactorToAppPortViewport(
       return "desktop";
   }
 }
-
-/** Mobile-sized device previews should fill the workspace panel by default. */
-export function formFactorPrefersFullscreen(formFactor: FormFactor): boolean {
-  return formFactor === "phone" || formFactor === "tablet" || formFactor === "watch";
-}

@@ -8,7 +8,6 @@ import type { BentoItem, BentoWidgetTemplate } from "./types";
 import styles from "./BentoWorkspace.module.css";
 
 export interface BentoWorkspaceProps {
-  title?: string;
   initialItems?: BentoItem[];
   catalog?: BentoWidgetTemplate[];
 }
@@ -19,7 +18,6 @@ function createInstanceId(templateId: string) {
 
 /** Interactive bento board — drag, resize, and add/remove widgets on a visible grid. */
 export function BentoWorkspace({
-  title = "Bento",
   initialItems = BENTO_SAMPLE_ITEMS,
   catalog = BENTO_WIDGET_CATALOG,
 }: BentoWorkspaceProps) {
@@ -64,7 +62,7 @@ export function BentoWorkspace({
     );
   }, []);
 
-  const resizeWidget = useCallback((id: string, next: Pick<BentoItem, "colSpan" | "rowSpan">) => {
+  const resizeWidget = useCallback((id: string, next: Pick<BentoItem, "col" | "row" | "colSpan" | "rowSpan">) => {
     setItems((current) =>
       current.map((item) => {
         if (item.id !== id) return item;
@@ -122,17 +120,7 @@ export function BentoWorkspace({
 
   return (
     <div className={styles.workspace}>
-      <header className={styles.header}>
-        <div className={styles.headerLeft}>
-          <span className={styles.titleIcon}>
-            <Icon name="grid" size={18} />
-          </span>
-          <div>
-            <h1 className={styles.title}>{title}</h1>
-            <p className={styles.subtitle}>Drag tiles to move, grab the corner to resize, use the menu to add or remove widgets.</p>
-          </div>
-        </div>
-
+      <div className={styles.menuFloat}>
         <Menu
           aria-label="Widget actions"
           align="end"
@@ -145,7 +133,7 @@ export function BentoWorkspace({
           }
           items={menuItems}
         />
-      </header>
+      </div>
 
       <BentoGrid
         items={items}

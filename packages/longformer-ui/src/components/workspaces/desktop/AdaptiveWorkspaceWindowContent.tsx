@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { IconButton } from "../../primitives/IconButton";
 import { AdaptiveAppLayout } from "../app-port/AdaptiveAppLayout";
 import {
   layoutModeForViewport,
@@ -7,6 +8,7 @@ import {
   type AppPortLayoutMode,
   type AppPortViewport,
 } from "../app-port/types";
+import { SidebarPane } from "../../shell/NavSidebar/SidebarPane";
 import { WorkspaceWindowShell } from "./WorkspaceWindowShell";
 import type { IconName } from "../../../icons";
 import styles from "./AdaptiveWorkspaceWindowContent.module.css";
@@ -20,8 +22,9 @@ export interface AdaptiveWorkspaceWindowContentProps {
 }
 
 /**
- * Wraps a workspace view for desktop window rendering using App Port collapse rules:
- * expanded sidebar + list + detail on desktop, icon-rail split on tablet, stacked push on phone.
+ * Wraps a workspace view for desktop window rendering using App Port collapse rules.
+ * When a native app sidebar is provided, it is rendered directly beside main content
+ * instead of adding a redundant App Port navigation column.
  */
 export function AdaptiveWorkspaceWindowContent({
   viewport,
@@ -75,7 +78,66 @@ export function AdaptiveWorkspaceWindowContent({
     }
   }, [layoutMode, sidebar]);
 
-  if (!sidebar && (layoutMode === "stacked" || layoutMode === "watch")) {
+  if (sidebar) {
+    return (
+      <WorkspaceWindowShell>
+        <div ref={setContainerNode} className={styles.adaptiveRoot}>
+          {layoutMode === "stacked" ? (
+            <div className={styles.stackedNative}>
+              <header className={styles.stackedHeader} data-pane={mobilePane}>
+                {mobilePane === "detail" ? (
+                  <>
+                    <IconButton
+                      icon="chevron-left"
+                      label="Back to sidebar"
+                      onClick={() => setMobilePane("list")}
+                      className={styles.stackedBack}
+                    />
+                    <h2 className={styles.stackedHeaderTitle}>{title}</h2>
+                  </>
+                ) : (
+                  <>
+                    <span className={styles.stackedTitle}>{title}</span>
+                    <span className={styles.stackedSection}>{title}</span>
+                  </>
+                )}
+              </header>
+              <div className={styles.stackedMain}>
+                {mobilePane === "list" ? (
+                  <div
+                    className={styles.stackedSidebar}
+                    onClick={() => setMobilePane("detail")}
+                    onKeyDown={(event) => {
+                      if (event.key === "Enter" || event.key === " ") setMobilePane("detail");
+                    }}
+                  >
+                    {sidebar}
+                  </div>
+                ) : (
+                  <div className={styles.mainPane}>{main}</div>
+                )}
+              </div>
+            </div>
+          ) : (
+            <div className={styles.nativeLayout}>
+              <SidebarPane
+                defaultWidth={layoutMode === "split" ? 240 : 260}
+                minWidth={layoutMode === "split" ? 200 : 220}
+                maxWidth={layoutMode === "split" ? 300 : 360}
+                handleLabel="Resize sidebar"
+                className={styles.sidebarResizable}
+              >
+                {sidebar}
+              </SidebarPane>
+              <div className={styles.mainPane}>{main}</div>
+            </div>
+          )}
+        </div>
+      </WorkspaceWindowShell>
+    );
+  }
+
+  if (layoutMode === "stacked" || layoutMode === "watch") {
     return (
       <WorkspaceWindowShell>
         <div ref={setContainerNode} className={styles.measure}>
@@ -85,7 +147,7 @@ export function AdaptiveWorkspaceWindowContent({
     );
   }
 
-  if (!sidebar && layoutMode === "expanded" && effectiveViewport === "desktop") {
+  if (layoutMode === "expanded" && effectiveViewport === "desktop") {
     return (
       <WorkspaceWindowShell>
         <div ref={setContainerNode} className={styles.measure}>
@@ -95,24 +157,9 @@ export function AdaptiveWorkspaceWindowContent({
     );
   }
 
-  const list = sidebar ?? (
+  const list = (
     <p className={styles.emptyList}>Open sections appear here when this app exposes a sidebar.</p>
   );
-
-  const interactiveList =
-    sidebar && layoutMode === "stacked" ? (
-      <div
-        className={styles.listInteractive}
-        onClick={() => setMobilePane("detail")}
-        onKeyDown={(event) => {
-          if (event.key === "Enter" || event.key === " ") setMobilePane("detail");
-        }}
-      >
-        {list}
-      </div>
-    ) : (
-      list
-    );
 
   return (
     <WorkspaceWindowShell>
@@ -124,10 +171,10 @@ export function AdaptiveWorkspaceWindowContent({
           activeNavId="main"
           onNavChange={() => setMobilePane("list")}
           listTitle={title}
-          list={interactiveList}
+          list={list}
           detailTitle={title}
           detail={main}
-          mobilePane={sidebar ? mobilePane : "detail"}
+          mobilePane="detail"
           onMobilePaneChange={setMobilePane}
           className={styles.layout}
         />

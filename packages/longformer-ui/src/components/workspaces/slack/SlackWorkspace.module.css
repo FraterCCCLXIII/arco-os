@@ -28,21 +28,25 @@
 
 .railWorkspaces {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--lf-space-2);
   width: 100%;
+  padding-block: var(--lf-space-2);
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
 .railWorkspace {
   position: relative;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border: none;
   border-radius: var(--lf-radius-lg);
   background: var(--ws-accent, var(--lf-surface-3));
@@ -50,41 +54,37 @@
   font-size: var(--lf-font-size-sm);
   font-weight: 700;
   cursor: pointer;
-  transition: border-radius 120ms ease, transform 120ms ease;
+  transition:
+    transform var(--lf-duration-fast) var(--lf-ease),
+    filter var(--lf-duration-fast) var(--lf-ease),
+    box-shadow var(--lf-duration-fast) var(--lf-ease);
 }
 
-.railWorkspace:hover {
-  border-radius: var(--lf-radius-md);
+.railWorkspace:hover:not(.railWorkspaceActive) {
+  transform: scale(1.06);
+  filter: brightness(1.12);
 }
 
 .railWorkspaceActive {
-  border-radius: var(--lf-radius-md);
-}
-
-.railWorkspaceActive::before {
-  content: "";
-  position: absolute;
-  left: -10px;
-  width: 3px;
-  height: 20px;
-  border-radius: var(--lf-radius-pill);
-  background: var(--lf-accent);
+  box-shadow: inset 0 0 0 2px rgb(255 255 255 / 0.45);
 }
 
 .railBadge {
   position: absolute;
-  top: -4px;
-  right: -4px;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 5px;
+  top: 3px;
+  right: 3px;
+  min-width: 14px;
+  height: 14px;
+  padding: 0 3px;
   border-radius: 999px;
   background: var(--lf-danger);
   color: var(--lf-text-on-accent);
-  font-size: 10px;
+  font-size: 8px;
   font-weight: 700;
-  line-height: 18px;
+  line-height: 14px;
   text-align: center;
+  pointer-events: none;
+  box-shadow: 0 0 0 2px var(--ws-accent, var(--lf-surface-3));
 }
 
 .railFooter {
@@ -95,8 +95,8 @@
 }
 
 .railAdd {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border: 1px dashed var(--lf-border-default);
   border-radius: var(--lf-radius-lg);
   background: transparent;

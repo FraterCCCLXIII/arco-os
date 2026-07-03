@@ -86,7 +86,7 @@ export function CalendarWorkspace({
   enabledSourceIds,
   onToggleSource,
   sidebarWidth,
-  defaultSidebarWidth = 248,
+  defaultSidebarWidth = 260,
   onSidebarWidthChange,
   actions,
 }: CalendarWorkspaceProps) {

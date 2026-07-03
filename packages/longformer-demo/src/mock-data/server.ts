@@ -1,8 +1,12 @@
 import type { ServerWorkspaceData } from "longformer-ui";
 
 export const serverWorkspaceData: ServerWorkspaceData = {
-  teamName: "Alex's projects",
-  planLabel: "Hobby",
+  teamId: "team-alex",
+  teams: [
+    { id: "team-alex", name: "Alex's projects", planLabel: "Hobby", icon: "terminal" },
+    { id: "team-acme", name: "Acme Corp", planLabel: "Pro", icon: "layers" },
+    { id: "team-studio", name: "Studio Labs", planLabel: "Team", icon: "grid" },
+  ],
   userName: "alexmorgan",
   navItems: [
     { id: "dashboard", label: "Projects", icon: "grid", view: "dashboard" },

@@ -8,7 +8,7 @@ import type {
 } from "longformer-ui";
 
 export const slackWorkspaces: SlackWorkspaceItem[] = [
-  { id: "ws-all-hands", label: "All Hands", initials: "AH", accent: "#611f69", unreadCount: 3 },
+  { id: "ws-meridian", label: "Meridian", initials: "ME", accent: "#611f69", unreadCount: 3 },
   { id: "ws-longformer", label: "Longformer", initials: "LF", accent: "#1264a3" },
   { id: "ws-design", label: "Design Guild", initials: "DG", accent: "#2bac76", unreadCount: 1 },
   { id: "ws-infra", label: "Infra", initials: "IN", accent: "#e01e5a" },
@@ -23,14 +23,14 @@ export const slackNavItems: SlackNavItem[] = [
 ];
 
 export const slackChannels: SlackChannel[] = [
-  { id: "ch-daily-dogfood", name: "daily-dogfood", unread: true },
-  { id: "ch-dev-rel", name: "dev-rel" },
-  { id: "ch-events", name: "events", unread: true, mentionCount: 1 },
-  { id: "ch-general", name: "general" },
-  { id: "ch-infra", name: "infra" },
-  { id: "ch-logistics", name: "logistics-core-app-team" },
-  { id: "ch-product", name: "product-updates" },
-  { id: "ch-random", name: "random" },
+  { id: "ch-daily-dogfood", name: "volunteer-checkins", unread: true },
+  { id: "ch-dev-rel", name: "community-outreach" },
+  { id: "ch-events", name: "summer-picnic", unread: true, mentionCount: 1 },
+  { id: "ch-general", name: "announcements" },
+  { id: "ch-infra", name: "facilities" },
+  { id: "ch-logistics", name: "picnic-planning" },
+  { id: "ch-product", name: "event-updates" },
+  { id: "ch-random", name: "water-cooler" },
 ];
 
 export const slackDirectMessages: SlackDirectMessage[] = [
@@ -124,7 +124,7 @@ export const slackChannelMessages: Record<string, SlackMessage[]> = {
       id: "g1",
       senderId: "sam-patel",
       senderName: "Sam Patel",
-      content: "Welcome to everyone who joined this week 👋 Introduce yourself in #random when you get a chance.",
+      content: "Welcome to everyone who joined this week 👋 Introduce yourself in #water-cooler when you get a chance.",
       timestamp: "Jun 22nd at 9:02 AM",
     },
   ],

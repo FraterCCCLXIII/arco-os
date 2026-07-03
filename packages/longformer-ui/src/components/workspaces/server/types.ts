@@ -108,9 +108,16 @@ export interface DatabaseStorage {
   connections: number;
 }
 
+export interface ServerWorkspaceOption {
+  id: string;
+  name: string;
+  planLabel?: string;
+  icon?: IconName;
+}
+
 export interface ServerWorkspaceData {
-  teamName: string;
-  planLabel: string;
+  teamId: string;
+  teams: ServerWorkspaceOption[];
   userName: string;
   navItems: ServerNavItem[];
   usageMetrics: UsageMetric[];

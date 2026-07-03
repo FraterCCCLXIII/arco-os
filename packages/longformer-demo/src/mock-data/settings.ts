@@ -2,10 +2,12 @@ import type { SettingsWorkspaceData } from "longformer-ui";
 import { DEFAULT_DESKTOP_WALLPAPER_URL } from "longformer-ui";
 
 export const settingsData: SettingsWorkspaceData = {
-  user: {
-    name: "Stargazer",
-    editProfilesLabel: "Edit Profiles",
-  },
+  teamId: "profile-stargazer",
+  teams: [
+    { id: "profile-stargazer", name: "Stargazer", planLabel: "Free", icon: "contact" },
+    { id: "profile-work", name: "Work Account", planLabel: "Nitro", icon: "sparkles" },
+    { id: "profile-gaming", name: "Gaming Server", planLabel: "Boost", icon: "zap" },
+  ],
   nav: [
     {
       id: "user",
@@ -32,8 +34,6 @@ export const settingsData: SettingsWorkspaceData = {
       id: "billing",
       label: "Billing",
       items: [
-        { id: "nitro", label: "Nitro", icon: "sparkles", badge: "1 MONTH FREE" },
-        { id: "server-boost", label: "Server Boost", icon: "zap" },
         { id: "subscriptions", label: "Subscriptions", icon: "wallet" },
         { id: "gift-inventory", label: "Gift Inventory", icon: "package" },
         { id: "billing", label: "Billing", icon: "dollar-sign" },
@@ -213,25 +213,6 @@ export const settingsData: SettingsWorkspaceData = {
           description: "Notify for new direct messages.",
           enabled: true,
         },
-      ],
-    },
-    {
-      id: "nitro",
-      title: "Nitro",
-      intro: "Upgrade your experience with custom profiles, bigger uploads, and HD streaming.",
-      links: [
-        { id: "nitro-basic", label: "Nitro Basic", value: "$2.99/mo" },
-        { id: "nitro-full", label: "Nitro", value: "Try 1 month free" },
-        { id: "nitro-gift", label: "Gift Nitro", value: "Send a gift" },
-      ],
-    },
-    {
-      id: "server-boost",
-      title: "Server Boost",
-      intro: "Boost servers you love to unlock perks for everyone.",
-      links: [
-        { id: "available-boosts", label: "Available boosts", value: "2 boosts" },
-        { id: "boost-history", label: "Boost history", value: "View" },
       ],
     },
     {

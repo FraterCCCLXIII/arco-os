@@ -1,8 +1,8 @@
 import type { WidgetContent } from "../desktop/widget-types";
 
-export const BENTO_COLS = 12;
-export const BENTO_ROW_HEIGHT_PX = 220;
-export const BENTO_GAP_PX = 12;
+export const BENTO_COLS = 24;
+export const BENTO_ROW_HEIGHT_PX = 55;
+export const BENTO_GAP_PX = 8;
 
 export interface BentoItem {
   id: string;

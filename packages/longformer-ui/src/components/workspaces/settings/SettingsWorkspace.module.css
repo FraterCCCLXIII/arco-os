@@ -23,38 +23,6 @@
   flex-shrink: 0;
 }
 
-.profile {
-  display: flex;
-  align-items: center;
-  gap: var(--lf-space-3);
-}
-
-.profileMeta {
-  min-width: 0;
-  flex: 1;
-}
-
-.profileName {
-  font-size: var(--lf-font-size-base);
-  font-weight: 600;
-  line-height: var(--lf-line-height-tight);
-}
-
-.editProfiles {
-  margin-top: 2px;
-  justify-content: flex-start;
-  padding-inline: 0;
-  min-height: 0;
-  height: auto;
-  color: var(--lf-text-secondary);
-  font-size: var(--lf-font-size-xs);
-}
-
-.editProfiles:hover:not(:disabled) {
-  color: var(--lf-text-primary);
-  text-decoration: underline;
-}
-
 .searchInput {
   margin-bottom: 0;
 }
@@ -65,16 +33,26 @@
   gap: var(--lf-space-1);
 }
 
-.navListItem,
-.contentListItem {
+.navListItem {
   font-size: var(--lf-font-size-sm);
   border-radius: var(--lf-radius-md);
 }
 
 .contentListItem {
+  position: relative;
+  font-size: var(--lf-font-size-sm);
   min-height: 52px;
   width: calc(100% + var(--lf-space-4));
   margin-inline: calc(var(--lf-space-2) * -1);
+}
+
+button.contentListItem {
+  border-radius: 0;
+}
+
+button.contentListItem:hover,
+button.contentListItem:focus-visible {
+  border-radius: var(--lf-radius-md);
 }
 
 .subNav {
@@ -113,6 +91,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--lf-space-5) var(--lf-space-8) var(--lf-space-4);
+  background: var(--settings-content-bg);
 }
 
 .mainTitle {
@@ -128,7 +107,7 @@
 
 .mainInner {
   max-width: 740px;
-  padding: 0 var(--lf-space-8) var(--lf-space-8);
+  padding: var(--lf-space-2) var(--lf-space-8) var(--lf-space-8);
 }
 
 .sectionDivider {
@@ -153,8 +132,13 @@
   line-height: var(--lf-line-height-normal);
 }
 
+.sectionIntroLead {
+  margin-top: 0;
+}
+
 .fieldRow,
 .toggleRow {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--lf-space-4);
@@ -171,7 +155,26 @@
 .toggleRow + .fieldRow,
 .contentListItem + .toggleRow,
 .toggleRow + .contentListItem {
-  border-top: 1px solid var(--settings-divider);
+  border-top: none;
+}
+
+.fieldRow + .fieldRow::before,
+.contentListItem + .contentListItem::before,
+.toggleRow + .toggleRow::before,
+.fieldRow + .contentListItem::before,
+.contentListItem + .fieldRow::before,
+.fieldRow + .toggleRow::before,
+.toggleRow + .fieldRow::before,
+.contentListItem + .toggleRow::before,
+.toggleRow + .contentListItem::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--settings-divider);
+  pointer-events: none;
 }
 
 .fieldLabel,

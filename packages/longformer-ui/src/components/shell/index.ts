@@ -8,3 +8,4 @@ export * from "./HoverAssistantBubble";
 export * from "./HoverStatusBar";
 export * from "./HoverNavRail";
 export * from "./FloatingChat";
+export * from "./WorkspacePicker";

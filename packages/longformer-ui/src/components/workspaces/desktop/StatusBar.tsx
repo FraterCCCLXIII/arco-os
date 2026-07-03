@@ -77,7 +77,7 @@ export function StatusBar({ shell, status, className, fullscreen = false, onTogg
       {shell === "macos" && (
         <>
           <div className={styles.left}>
-            <span className={styles.appleMark} aria-hidden="true" />
+            <Icon name="settings" size={13} aria-hidden="true" />
             <span className={styles.menuApp}>{status?.activeAppLabel ?? "Finder"}</span>
             <span className={styles.menuItem}>File</span>
             <span className={styles.menuItem}>Edit</span>

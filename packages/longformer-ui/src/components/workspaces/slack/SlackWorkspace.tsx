@@ -26,7 +26,6 @@ export interface SlackWorkspaceProps {
   workspaces: SlackWorkspaceItem[];
   activeWorkspaceId: string;
   onSelectWorkspace: (id: string) => void;
-  workspaceName: string;
   navItems: SlackNavItem[];
   channels: SlackChannel[];
   directMessages: SlackDirectMessage[];
@@ -61,7 +60,6 @@ export function SlackWorkspace({
   workspaces,
   activeWorkspaceId,
   onSelectWorkspace,
-  workspaceName,
   navItems,
   channels,
   directMessages,
@@ -101,6 +99,9 @@ export function SlackWorkspace({
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages.length, activeConversationId]);
 
+  const activeWorkspaceName =
+    workspaces.find((workspace) => workspace.id === activeWorkspaceId)?.label ?? "Workspace";
+
   return (
     <div className={styles.workspace}>
       <SlackWorkspaceRail
@@ -120,7 +121,7 @@ export function SlackWorkspace({
         handleLabel="Resize channels sidebar"
       >
         <SlackSidebar
-          workspaceName={workspaceName}
+          workspaceName={activeWorkspaceName}
           navItems={navItems}
           channels={channels}
           directMessages={directMessages}

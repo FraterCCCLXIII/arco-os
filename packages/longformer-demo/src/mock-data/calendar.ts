@@ -1,4 +1,5 @@
 import type { CalendarEvent, CalendarSource } from "longformer-ui";
+import { companies, primaryUser, teamMembers } from "../demo-personas";
 
 const now = new Date();
 const y = now.getFullYear();
@@ -10,26 +11,27 @@ function dateOffset(dayOfMonth: number): string {
 }
 
 const today = now.getDate();
+const eventsEmail = `events@${companies.emailDomain}`;
 
 export const calendarSources: CalendarSource[] = [
-  { id: "reading", name: "Reading Schedule", group: "Google", tone: "accent" },
-  { id: "birthdays", name: "Birthdays", group: "Google", tone: "success" },
-  { id: "tasks", name: "Tasks", group: "Google", tone: "warning" },
-  { id: "all-hands", name: "All Hands (engineering)", group: "Google", tone: "danger" },
-  { id: "work", name: "Work", group: "iCloud", tone: "accent" },
-  { id: "home", name: "Home", group: "iCloud", tone: "success" },
-  { id: "finances", name: "Finances", group: "iCloud", tone: "warning" },
-  { id: "family", name: "Family", group: "alex@all-hands.dev", tone: "accent" },
-  { id: "health", name: "Health", group: "alex@all-hands.dev", tone: "success" },
-  { id: "routine", name: "Routine", group: "alex@all-hands.dev", tone: "neutral" },
-  { id: "fathom", name: "alex@studio.fm", group: "alex@studio.fm", tone: "warning" },
-  { id: "holidays-ca", name: "Holidays in Canada", group: "Other", tone: "danger" },
+  { id: "volunteer-shifts", name: "Volunteer Shifts", group: "Google", tone: "accent" },
+  { id: "birthdays", name: "Team Birthdays", group: "Google", tone: "success" },
+  { id: "event-tasks", name: "Event Tasks", group: "Google", tone: "warning" },
+  { id: "picnic-planning", name: "Picnic Planning", group: "Google", tone: "danger" },
+  { id: "work", name: "Meridian Work", group: "iCloud", tone: "accent" },
+  { id: "personal", name: "Personal", group: "iCloud", tone: "success" },
+  { id: "budget", name: "Event Budget", group: "iCloud", tone: "warning" },
+  { id: "family", name: "Family Plans", group: primaryUser.email, tone: "accent" },
+  { id: "wellness", name: "Wellness", group: primaryUser.email, tone: "success" },
+  { id: "routine", name: "Weekly Routine", group: primaryUser.email, tone: "neutral" },
+  { id: "community", name: "Community Forum", group: eventsEmail, tone: "warning" },
+  { id: "holidays", name: "Public Holidays", group: "Other", tone: "danger" },
 ];
 
 export const calendarEvents: CalendarEvent[] = [
   {
     id: "e1",
-    title: "Standup",
+    title: "Morning volunteer check-in",
     date: dateOffset(today),
     startTime: "9:00 AM",
     endTime: "9:30 AM",
@@ -38,18 +40,18 @@ export const calendarEvents: CalendarEvent[] = [
   },
   {
     id: "e2",
-    title: "Design review",
+    title: "Poster design review",
     date: dateOffset(today),
     startTime: "11:30 AM",
     endTime: "12:30 PM",
     tone: "warning",
-    sourceId: "all-hands",
-    location: "us06web.zoom.us",
-    attendees: [{ name: "Riley Chen" }, { name: "Jordan Hayes" }],
+    sourceId: "picnic-planning",
+    location: "Meridian Pavilion",
+    attendees: [{ name: teamMembers.riley.name }, { name: teamMembers.jordan.name }],
   },
   {
     id: "e3",
-    title: "1:1 with Sam",
+    title: "Volunteer shift with Sam",
     date: dateOffset(today),
     startTime: "2:00 PM",
     endTime: "2:45 PM",
@@ -58,23 +60,23 @@ export const calendarEvents: CalendarEvent[] = [
   },
   {
     id: "e10",
-    title: "Engineering Office Hours",
+    title: "Pavilion setup walkthrough",
     date: dateOffset(today),
     startTime: "10:00 AM",
     endTime: "11:00 AM",
     tone: "accent",
-    sourceId: "all-hands",
-    location: "us06web.zoom.us",
+    sourceId: "picnic-planning",
+    location: "Meridian Pavilion",
   },
   {
     id: "e11",
-    title: "Design Sync",
+    title: "Catering vendor call",
     date: dateOffset(today),
     startTime: "11:30 AM",
     endTime: "12:30 PM",
     tone: "neutral",
     sourceId: "work",
-    location: "us06web.zoom.us",
+    location: "Meridian Pavilion",
   },
   {
     id: "e4",
@@ -92,8 +94,8 @@ export const calendarEvents: CalendarEvent[] = [
     startTime: "3:00 PM",
     endTime: "4:00 PM",
     tone: "danger",
-    sourceId: "all-hands",
-    location: "Zoom",
+    sourceId: "picnic-planning",
+    location: "Community room",
   },
   {
     id: "e6",
@@ -103,7 +105,12 @@ export const calendarEvents: CalendarEvent[] = [
     endTime: "11:00 AM",
     tone: "accent",
     sourceId: "work",
-    attendees: [{ name: "Alex Morgan" }, { name: "Riley Chen" }, { name: "Jordan Hayes" }, { name: "Sam Patel" }],
+    attendees: [
+      { name: primaryUser.name },
+      { name: teamMembers.riley.name },
+      { name: teamMembers.jordan.name },
+      { name: teamMembers.sam.name },
+    ],
   },
   {
     id: "e7",
@@ -112,41 +119,41 @@ export const calendarEvents: CalendarEvent[] = [
     startTime: "1:00 PM",
     endTime: "2:00 PM",
     tone: "success",
-    sourceId: "fathom",
+    sourceId: "community",
   },
   {
     id: "e8",
-    title: "No-meeting block",
+    title: "Focus time",
     date: dateOffset(Math.min(today + 5, 28)),
     tone: "neutral",
     sourceId: "routine",
   },
   {
     id: "e12",
-    title: "Independence Day",
+    title: "Canada Day",
     date: dateOffset(Math.min(today + 2, 28)),
     tone: "success",
-    sourceId: "holidays-ca",
+    sourceId: "holidays",
   },
   {
     id: "e13",
-    title: "Independence Day",
+    title: "Canada Day",
     date: dateOffset(Math.min(today + 3, 28)),
     tone: "accent",
-    sourceId: "holidays-ca",
+    sourceId: "holidays",
   },
   {
     id: "e9",
-    title: "Quarterly planning",
+    title: "Picnic budget review",
     date: dateOffset(Math.max(today - 4, 1)),
     startTime: "10:00 AM",
     endTime: "12:00 PM",
     tone: "warning",
-    sourceId: "finances",
+    sourceId: "budget",
   },
   {
     id: "e14",
-    title: "Team lunch",
+    title: "Volunteer team lunch",
     date: dateOffset(Math.max(today - 1, 1)),
     startTime: "12:00 PM",
     endTime: "1:00 PM",
@@ -155,11 +162,11 @@ export const calendarEvents: CalendarEvent[] = [
   },
   {
     id: "e15",
-    title: "Product roadmap review",
+    title: "Signage and layout review",
     date: dateOffset(Math.max(today - 2, 1)),
     startTime: "10:00 AM",
     endTime: "11:00 AM",
     tone: "accent",
-    sourceId: "all-hands",
+    sourceId: "picnic-planning",
   },
 ];

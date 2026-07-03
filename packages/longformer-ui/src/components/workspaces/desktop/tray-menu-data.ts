@@ -29,7 +29,7 @@ export function defaultProfilesForApp(appId: string): TrayAppProfile[] {
   if (appId === "slack") {
     return [
       { id: "longformer", label: "Longformer" },
-      { id: "all-hands", label: "All Hands" },
+      { id: "meridian", label: "Meridian" },
       { id: "design", label: "Product Team" },
     ];
   }

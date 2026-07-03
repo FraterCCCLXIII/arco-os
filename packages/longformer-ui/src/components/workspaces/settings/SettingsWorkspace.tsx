@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import { Icon } from "../../../icons";
-import { Avatar } from "../../primitives/Avatar";
 import { Badge } from "../../primitives/Badge";
 import { Button } from "../../primitives/Button";
 import { Card } from "../../primitives/Card";
@@ -10,6 +9,7 @@ import { Input } from "../../primitives/Input";
 import { ListItem } from "../../primitives/ListItem";
 import { ScrollArea } from "../../primitives/ScrollArea";
 import { NavSidebar, SidebarPane } from "../../shell/NavSidebar";
+import { WorkspacePicker } from "../../shell/WorkspacePicker";
 import { cx } from "../../../utils/cx";
 import type {
   SettingsContentSection,
@@ -20,7 +20,6 @@ import type {
   SettingsSectionId,
   SettingsStanding,
   SettingsToggleRow,
-  SettingsUserProfile,
   SettingsWallpaperPreset,
   SettingsWorkspaceData,
 } from "./types";
@@ -42,6 +41,8 @@ export interface SettingsWorkspaceProps {
   desktopWallpaperUrl?: string;
   onDesktopWallpaperChange?: (url: string) => void;
   wallpaperPresets?: SettingsWallpaperPreset[];
+  teamId?: string;
+  onTeamChange?: (teamId: string) => void;
 }
 
 function findNavItem(groups: SettingsNavGroup[], sectionId: SettingsSectionId): SettingsNavItem | undefined {
@@ -216,6 +217,7 @@ function ContentSection({
   onRevealField,
   toggleStates,
   onToggleChange,
+  showTitle = true,
 }: {
   section: SettingsContentSection;
   sectionRef?: (node: HTMLElement | null) => void;
@@ -223,11 +225,18 @@ function ContentSection({
   onRevealField?: (fieldId: string) => void;
   toggleStates?: Record<string, boolean>;
   onToggleChange?: (toggleId: string, enabled: boolean) => void;
+  showTitle?: boolean;
 }) {
   return (
-    <section id={section.id} ref={sectionRef} className={styles.contentSection}>
-      <h2 className={styles.sectionTitle}>{section.title}</h2>
-      {section.intro && <p className={styles.sectionIntro}>{section.intro}</p>}
+    <section
+      id={section.id}
+      ref={sectionRef}
+      className={styles.contentSection}
+    >
+      {showTitle && <h2 className={styles.sectionTitle}>{section.title}</h2>}
+      {section.intro && (
+        <p className={cx(styles.sectionIntro, !showTitle && styles.sectionIntroLead)}>{section.intro}</p>
+      )}
 
       {section.fields?.map((row) => (
         <FieldRow
@@ -345,16 +354,20 @@ export function SettingsWorkspace({
   desktopWallpaperUrl,
   onDesktopWallpaperChange,
   wallpaperPresets,
+  teamId,
+  onTeamChange,
 }: SettingsWorkspaceProps) {
   const [internalSectionId, setInternalSectionId] = useState<SettingsSectionId>(defaultSectionId);
   const [internalSearchQuery, setInternalSearchQuery] = useState("");
   const [internalRevealedFields, setInternalRevealedFields] = useState<Set<string>>(() => new Set());
   const [internalToggleStates, setInternalToggleStates] = useState<Record<string, boolean>>({});
+  const [internalTeamId, setInternalTeamId] = useState(data.teamId);
 
   const activeSectionId = controlledSectionId ?? internalSectionId;
   const searchQuery = controlledSearchQuery ?? internalSearchQuery;
   const revealedFields = controlledRevealedFields ?? internalRevealedFields;
   const toggleStates = controlledToggleStates ?? internalToggleStates;
+  const activeTeamId = teamId ?? internalTeamId;
 
   const sectionRefs = useRef(new Map<SettingsSectionId, HTMLElement | null>());
 
@@ -380,6 +393,7 @@ export function SettingsWorkspace({
 
   const resolvedWallpaperPresets = wallpaperPresets ?? data.wallpaperPresets ?? [];
   const showWallpaperPanel = activeSectionId === "wallpaper" && resolvedWallpaperPresets.length > 0;
+  const showSectionTitles = visibleSections.length > 1;
 
   const expandedParentId = parentNavItem(data.nav, activeSectionId)?.id;
 
@@ -415,6 +429,11 @@ export function SettingsWorkspace({
     setInternalToggleStates((prev) => ({ ...prev, [toggleId]: enabled }));
   };
 
+  const handleTeamChange = (nextTeamId: string) => {
+    onTeamChange?.(nextTeamId);
+    if (!teamId) setInternalTeamId(nextTeamId);
+  };
+
   return (
     <div className={styles.workspace}>
       <SidebarPane handleLabel="Resize settings sidebar" className={styles.sidebarResizable}>
@@ -422,7 +441,12 @@ export function SettingsWorkspace({
           className={styles.sidebar}
         header={
           <>
-            <ProfileHeader user={data.user} />
+            <WorkspacePicker
+              value={activeTeamId}
+              options={data.teams}
+              onChange={handleTeamChange}
+              defaultIcon="contact"
+            />
             <Input
               type="search"
               placeholder="Search"
@@ -464,7 +488,6 @@ export function SettingsWorkspace({
           <div className={styles.mainInner}>
             {showWallpaperPanel && onDesktopWallpaperChange ? (
               <section id="wallpaper" className={styles.contentSection}>
-                <h2 className={styles.sectionTitle}>Wallpaper</h2>
                 <SettingsWallpaperPanel
                   presets={resolvedWallpaperPresets}
                   activeUrl={desktopWallpaperUrl ?? resolvedWallpaperPresets[0]?.url ?? ""}
@@ -477,6 +500,7 @@ export function SettingsWorkspace({
                   {index > 0 && <Divider className={styles.sectionDivider} />}
                   <ContentSection
                     section={section}
+                    showTitle={showSectionTitles}
                     sectionRef={(node) => {
                       sectionRefs.current.set(section.id, node);
                     }}
@@ -495,26 +519,10 @@ export function SettingsWorkspace({
   );
 }
 
-function ProfileHeader({ user }: { user: SettingsUserProfile }) {
-  return (
-    <div className={styles.profile}>
-      <Avatar name={user.name} src={user.avatarSrc} size="md" />
-      <div className={styles.profileMeta}>
-        <div className={styles.profileName}>{user.name}</div>
-        <Button variant="ghost" size="sm" className={styles.editProfiles}>
-          <Icon name="edit" size={12} />
-          {user.editProfilesLabel ?? "Edit Profiles"}
-        </Button>
-      </div>
-    </div>
-  );
-}
-
 export type {
   SettingsWorkspaceData,
   SettingsSectionId,
   SettingsNavGroup,
   SettingsContentSection,
-  SettingsUserProfile,
   SettingsWallpaperPreset,
 };

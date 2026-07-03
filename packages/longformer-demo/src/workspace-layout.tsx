@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import {
   AppsWorkspace,
   BankCryptoWorkspace,
+  CalendarSidebar,
   CalendarWorkspace,
   ChatWorkspace,
   ChatSidebar,
@@ -23,6 +24,7 @@ import {
   SlackWorkspace,
   SocialWorkspace,
   ScheduleWorkspace,
+  ScrollArea,
   TasksWorkspace,
   WalletWorkspace,
   MusicWorkspace,
@@ -267,6 +269,21 @@ export interface WorkspaceLayoutViewModel {
   renderDesktopWorkspace?: () => ReactNode;
 }
 
+function selectCalendarDate(
+  iso: string,
+  month: number,
+  year: number,
+  onMonthChange: (month: number, year: number) => void,
+  onSelectDate: (date: string) => void,
+) {
+  const [yearPart, monthPart] = iso.split("-").map(Number);
+  const targetMonth = monthPart - 1;
+  if (targetMonth !== month || yearPart !== year) {
+    onMonthChange(targetMonth, yearPart);
+  }
+  onSelectDate(iso);
+}
+
 export function buildWorkspaceLayout(
   vm: WorkspaceLayoutViewModel,
   options: WorkspaceLayoutOptions = {},
@@ -335,7 +352,6 @@ export function buildWorkspaceLayout(
           workspaces={vm.slackWorkspaces as never}
           activeWorkspaceId={vm.activeSlackWorkspaceId}
           onSelectWorkspace={vm.setActiveSlackWorkspaceId}
-          workspaceName="All Hands"
           navItems={vm.slackNavItems as never}
           channels={vm.slackChannels as never}
           directMessages={vm.slackDirectMessages as never}
@@ -610,7 +626,28 @@ export function buildWorkspaceLayout(
       break;
 
     case "tasks":
-      sidebar = undefined;
+      sidebar = includeSidebar ? (
+        <ScrollArea style={{ height: "100%", padding: "var(--lf-space-4) var(--lf-space-3)" }}>
+          <MiniCalendar
+            month={vm.calendarMonth}
+            year={vm.calendarYear}
+            onPrevMonth={vm.handlePrevMonth}
+            onNextMonth={vm.handleNextMonth}
+            onToday={vm.handleToday}
+            selectedDate={vm.selectedDate}
+            onSelectDate={(iso) =>
+              selectCalendarDate(
+                iso,
+                vm.calendarMonth,
+                vm.calendarYear,
+                vm.handleCalendarMonthChange,
+                vm.setSelectedDate,
+              )
+            }
+            highlightedDates={vm.tasks.map((task) => task.dueDateISO).filter((iso): iso is string => Boolean(iso))}
+          />
+        </ScrollArea>
+      ) : undefined;
       main = (
         <TasksWorkspace
           tasks={vm.tasks}
@@ -622,18 +659,6 @@ export function buildWorkspaceLayout(
                   : task,
               ),
             )
-          }
-          calendar={
-            <MiniCalendar
-              month={vm.calendarMonth}
-              year={vm.calendarYear}
-              onPrevMonth={vm.handlePrevMonth}
-              onNextMonth={vm.handleNextMonth}
-              onToday={vm.handleToday}
-              selectedDate={vm.selectedDate}
-              onSelectDate={vm.setSelectedDate}
-              highlightedDates={vm.tasks.map((task) => task.dueDateISO).filter((iso): iso is string => Boolean(iso))}
-            />
           }
         />
       );
@@ -652,8 +677,39 @@ export function buildWorkspaceLayout(
       );
       break;
 
-    case "calendar":
-      sidebar = undefined;
+    case "calendar": {
+      const calendarHighlightedDates = Array.from(
+        new Set(
+          (vm.calendarEvents as { date: string; sourceId?: string }[])
+            .filter((event) => !event.sourceId || vm.enabledCalendarSourceIds.includes(event.sourceId))
+            .map((event) => event.date),
+        ),
+      );
+      sidebar = includeSidebar ? (
+        <ScrollArea style={{ height: "100%", padding: "var(--lf-space-4) var(--lf-space-3)" }}>
+          <CalendarSidebar
+            month={vm.calendarMonth}
+            year={vm.calendarYear}
+            onPrevMonth={vm.handlePrevMonth}
+            onNextMonth={vm.handleNextMonth}
+            onToday={vm.handleToday}
+            selectedDate={vm.selectedDate}
+            onSelectDate={(iso) =>
+              selectCalendarDate(
+                iso,
+                vm.calendarMonth,
+                vm.calendarYear,
+                vm.handleCalendarMonthChange,
+                vm.setSelectedDate,
+              )
+            }
+            highlightedDates={calendarHighlightedDates}
+            sources={vm.calendarSources as never}
+            enabledSourceIds={vm.enabledCalendarSourceIds}
+            onToggleSource={vm.handleToggleCalendarSource}
+          />
+        </ScrollArea>
+      ) : undefined;
       main = (
         <CalendarWorkspace
           month={vm.calendarMonth}
@@ -676,11 +732,11 @@ export function buildWorkspaceLayout(
           onSelectDate={vm.setSelectedDate}
           sources={vm.calendarSources as never}
           enabledSourceIds={vm.enabledCalendarSourceIds}
-          onToggleSource={vm.handleToggleCalendarSource}
           onNewEvent={() => undefined}
         />
       );
       break;
+    }
 
     case "schedule":
       sidebar = includeSidebar ? (

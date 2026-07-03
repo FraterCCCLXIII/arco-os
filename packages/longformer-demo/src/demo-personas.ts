@@ -6,8 +6,7 @@ export const primaryUser = {
   email: "alex@meridian.dev",
   handle: "@alexmorgan",
   githubUsername: "alexmorgan",
-  calendarAllHands: "alex@all-hands.dev",
-  calendarStudio: "alex@studio.fm",
+  eventsCalendar: "events@meridian.dev",
 } as const;
 
 export const teamMembers = {

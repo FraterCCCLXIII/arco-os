@@ -5,8 +5,8 @@ export const BENTO_WIDGET_CATALOG: BentoWidgetTemplate[] = [
   {
     templateId: "allocation",
     label: "Allocation",
-    colSpan: 3,
-    rowSpan: 1,
+    colSpan: 6,
+    rowSpan: 4,
     content: {
       type: "stat",
       props: {
@@ -21,8 +21,8 @@ export const BENTO_WIDGET_CATALOG: BentoWidgetTemplate[] = [
   {
     templateId: "debt-payoff",
     label: "Debt payoff",
-    colSpan: 6,
-    rowSpan: 2,
+    colSpan: 12,
+    rowSpan: 8,
     content: {
       type: "metricChart",
       props: {
@@ -36,8 +36,8 @@ export const BENTO_WIDGET_CATALOG: BentoWidgetTemplate[] = [
   {
     templateId: "cash-flow",
     label: "Cash flow",
-    colSpan: 3,
-    rowSpan: 1,
+    colSpan: 6,
+    rowSpan: 4,
     content: {
       type: "kpi",
       icon: "folder",
@@ -49,8 +49,8 @@ export const BENTO_WIDGET_CATALOG: BentoWidgetTemplate[] = [
   {
     templateId: "stocks",
     label: "Stocks",
-    colSpan: 4,
-    rowSpan: 2,
+    colSpan: 8,
+    rowSpan: 8,
     content: {
       type: "stockList",
       items: [
@@ -63,8 +63,8 @@ export const BENTO_WIDGET_CATALOG: BentoWidgetTemplate[] = [
   {
     templateId: "music",
     label: "Music player",
-    colSpan: 5,
-    rowSpan: 1,
+    colSpan: 10,
+    rowSpan: 4,
     content: {
       type: "musicPlayer",
       props: {
@@ -82,8 +82,8 @@ export const BENTO_WIDGET_CATALOG: BentoWidgetTemplate[] = [
   {
     templateId: "calendar",
     label: "Calendar",
-    colSpan: 4,
-    rowSpan: 2,
+    colSpan: 8,
+    rowSpan: 8,
     content: {
       type: "calendarSchedule",
       props: {
@@ -135,8 +135,8 @@ export const BENTO_WIDGET_CATALOG: BentoWidgetTemplate[] = [
   {
     templateId: "insight",
     label: "Insight",
-    colSpan: 3,
-    rowSpan: 1,
+    colSpan: 6,
+    rowSpan: 4,
     content: {
       type: "insight",
       props: {
@@ -148,8 +148,8 @@ export const BENTO_WIDGET_CATALOG: BentoWidgetTemplate[] = [
   {
     templateId: "link-bank",
     label: "Link bank",
-    colSpan: 4,
-    rowSpan: 1,
+    colSpan: 8,
+    rowSpan: 4,
     content: {
       type: "cta",
       icon: "external-link",
@@ -161,15 +161,15 @@ export const BENTO_WIDGET_CATALOG: BentoWidgetTemplate[] = [
   {
     templateId: "glass-clock",
     label: "Analog clock",
-    colSpan: 2,
-    rowSpan: 1,
+    colSpan: 4,
+    rowSpan: 4,
     content: { type: "glassWidget", props: { variant: "analogClock", hours: 10, minutes: 25 } },
   },
   {
     templateId: "design-weather",
     label: "Weather",
-    colSpan: 5,
-    rowSpan: 1,
+    colSpan: 10,
+    rowSpan: 4,
     content: {
       type: "designCard",
       props: {
@@ -191,28 +191,28 @@ export const BENTO_SAMPLE_ITEMS: BentoItem[] = [
     label: "Allocation",
     col: 1,
     row: 1,
-    colSpan: 3,
-    rowSpan: 1,
+    colSpan: 6,
+    rowSpan: 4,
     content: BENTO_WIDGET_CATALOG[0].content,
   },
   {
     id: "cash-flow-1",
     templateId: "cash-flow",
     label: "Cash flow",
-    col: 4,
+    col: 7,
     row: 1,
-    colSpan: 3,
-    rowSpan: 1,
+    colSpan: 6,
+    rowSpan: 4,
     content: BENTO_WIDGET_CATALOG[2].content,
   },
   {
     id: "debt-payoff-1",
     templateId: "debt-payoff",
     label: "Debt payoff",
-    col: 7,
+    col: 13,
     row: 1,
-    colSpan: 6,
-    rowSpan: 2,
+    colSpan: 12,
+    rowSpan: 8,
     content: BENTO_WIDGET_CATALOG[1].content,
   },
   {
@@ -220,19 +220,19 @@ export const BENTO_SAMPLE_ITEMS: BentoItem[] = [
     templateId: "insight",
     label: "Insight",
     col: 1,
-    row: 2,
-    colSpan: 3,
-    rowSpan: 1,
+    row: 5,
+    colSpan: 6,
+    rowSpan: 4,
     content: BENTO_WIDGET_CATALOG[6].content,
   },
   {
     id: "glass-clock-1",
     templateId: "glass-clock",
     label: "Analog clock",
-    col: 4,
-    row: 2,
-    colSpan: 2,
-    rowSpan: 1,
+    col: 7,
+    row: 5,
+    colSpan: 4,
+    rowSpan: 4,
     content: BENTO_WIDGET_CATALOG[8].content,
   },
   {
@@ -240,29 +240,29 @@ export const BENTO_SAMPLE_ITEMS: BentoItem[] = [
     templateId: "stocks",
     label: "Stocks",
     col: 1,
-    row: 3,
-    colSpan: 4,
-    rowSpan: 2,
+    row: 9,
+    colSpan: 8,
+    rowSpan: 8,
     content: BENTO_WIDGET_CATALOG[3].content,
   },
   {
     id: "music-1",
     templateId: "music",
     label: "Music player",
-    col: 5,
-    row: 3,
-    colSpan: 5,
-    rowSpan: 1,
+    col: 9,
+    row: 9,
+    colSpan: 10,
+    rowSpan: 4,
     content: BENTO_WIDGET_CATALOG[4].content,
   },
   {
     id: "design-weather-1",
     templateId: "design-weather",
     label: "Weather",
-    col: 5,
-    row: 4,
-    colSpan: 5,
-    rowSpan: 1,
+    col: 9,
+    row: 13,
+    colSpan: 10,
+    rowSpan: 4,
     content: BENTO_WIDGET_CATALOG[9].content,
   },
 ];

@@ -114,6 +114,65 @@ export function deltaToGridSpan(deltaX: number, deltaY: number, metrics: BentoGr
   return { dCol, dRow };
 }
 
+export type BentoResizeHandle = "n" | "s" | "e" | "w" | "nw" | "ne" | "sw" | "se";
+
+export function applyResizeDelta(
+  start: BentoItem,
+  dCol: number,
+  dRow: number,
+  handle: BentoResizeHandle,
+): Pick<BentoItem, "col" | "row" | "colSpan" | "rowSpan"> {
+  const eastCol = start.col + start.colSpan - 1;
+  const southRow = start.row + start.rowSpan - 1;
+
+  let col = start.col;
+  let row = start.row;
+  let colSpan = start.colSpan;
+  let rowSpan = start.rowSpan;
+
+  if (handle.includes("e")) {
+    colSpan = start.colSpan + dCol;
+  }
+  if (handle.includes("w")) {
+    colSpan = start.colSpan - dCol;
+  }
+  if (handle.includes("s")) {
+    rowSpan = start.rowSpan + dRow;
+  }
+  if (handle.includes("n")) {
+    rowSpan = start.rowSpan - dRow;
+  }
+
+  colSpan = Math.max(1, colSpan);
+  rowSpan = Math.max(1, rowSpan);
+
+  if (handle.includes("w")) {
+    col = eastCol - colSpan + 1;
+  }
+  if (handle.includes("n")) {
+    row = southRow - rowSpan + 1;
+  }
+
+  return { col, row, colSpan, rowSpan };
+}
+
+export function resizeCursor(handle: BentoResizeHandle): string {
+  switch (handle) {
+    case "n":
+    case "s":
+      return "ns-resize";
+    case "e":
+    case "w":
+      return "ew-resize";
+    case "nw":
+    case "se":
+      return "nwse-resize";
+    case "ne":
+    case "sw":
+      return "nesw-resize";
+  }
+}
+
 export function maxGridRow(items: BentoItem[]) {
   if (items.length === 0) return 4;
   return Math.max(...items.map((item) => item.row + item.rowSpan - 1), 4);

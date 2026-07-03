@@ -53,14 +53,6 @@
   flex-shrink: 0;
 }
 
-.appleMark {
-  width: 10px;
-  height: 12px;
-  border-radius: 0 0 5px 5px;
-  background: currentColor;
-  opacity: 0.9;
-}
-
 .winMark {
   width: 12px;
   height: 12px;

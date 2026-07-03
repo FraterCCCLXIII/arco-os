@@ -41,7 +41,6 @@ import {
   toISODate,
   useSurfaceManager,
   formFactorToAppPortViewport,
-  formFactorPrefersFullscreen,
   buildNotesGraph,
   countBacklinks,
   countNoteWords,
@@ -303,10 +302,6 @@ function LongformerApp() {
   useEffect(() => {
     savePinnedWorkspaceIds(pinnedWorkspaceIds);
   }, [pinnedWorkspaceIds]);
-
-  useEffect(() => {
-    setDesktopFullscreen(formFactorPrefersFullscreen(surface.formFactor));
-  }, [surface.formFactor]);
 
   useEffect(() => {
     setChatTabMessages((prev) => {

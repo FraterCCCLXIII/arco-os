@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Icon } from "../../../icons";
 import { Avatar } from "../../primitives/Avatar";
 import { NavSidebar } from "../../shell/NavSidebar";
+import { WorkspacePicker } from "../../shell/WorkspacePicker";
 import { cx } from "../../../utils/cx";
 import type { ServerView, ServerWorkspaceData } from "./types";
 import styles from "./ServerSidebar.module.css";
@@ -9,10 +11,20 @@ export interface ServerSidebarProps {
   data: ServerWorkspaceData;
   view: ServerView;
   onViewChange: (view: ServerView) => void;
+  teamId?: string;
+  onTeamChange?: (teamId: string) => void;
 }
 
 /** Coolify-style global nav — team switcher, search, and infrastructure sections. */
-export function ServerSidebar({ data, view, onViewChange }: ServerSidebarProps) {
+export function ServerSidebar({ data, view, onViewChange, teamId, onTeamChange }: ServerSidebarProps) {
+  const [internalTeamId, setInternalTeamId] = useState(data.teamId);
+  const activeTeamId = teamId ?? internalTeamId;
+
+  function handleTeamChange(nextTeamId: string) {
+    onTeamChange?.(nextTeamId);
+    if (!teamId) setInternalTeamId(nextTeamId);
+  }
+
   const primaryItems = data.navItems.filter((item) =>
     ["dashboard", "deployments", "storage", "servers"].includes(item.view),
   );
@@ -25,16 +37,11 @@ export function ServerSidebar({ data, view, onViewChange }: ServerSidebarProps) 
       className={styles.sidebar}
       header={
         <>
-          <button type="button" className={styles.teamPicker}>
-            <span className={styles.teamIcon}>
-              <Icon name="terminal" size={14} />
-            </span>
-            <span className={styles.teamLabel}>
-              <span className={styles.teamName}>{data.teamName}</span>
-              <span className={styles.planTag}>{data.planLabel}</span>
-            </span>
-            <Icon name="chevron-down" size={14} />
-          </button>
+          <WorkspacePicker
+            value={activeTeamId}
+            options={data.teams}
+            onChange={handleTeamChange}
+          />
 
           <div className={styles.search}>
             <Icon name="search" size={14} />
