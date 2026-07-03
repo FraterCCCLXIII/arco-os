@@ -1,0 +1,102 @@
+.drawer {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--lf-surface-1);
+  border: 1px solid var(--lf-border-default);
+  border-bottom: none;
+  border-radius: var(--lf-radius-lg) var(--lf-radius-lg) 0 0;
+  /* Bottom strip hides behind the composer card (see Composer drawer slot). */
+  padding-bottom: var(--lf-radius-lg);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.headerActions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  flex-shrink: 0;
+  padding-right: var(--lf-space-2);
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  padding: 0 var(--lf-space-3);
+  background: transparent;
+  border: none;
+  border-radius: calc(var(--lf-radius-lg) - 1px) calc(var(--lf-radius-lg) - 1px) var(--lf-radius-sm) var(--lf-radius-sm);
+  color: var(--lf-text-primary);
+  font-size: var(--lf-font-size-md);
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+
+.trigger:hover {
+  background: var(--lf-surface-2);
+}
+
+.chevron {
+  display: inline-flex;
+  color: var(--lf-text-tertiary);
+  transition: transform var(--lf-duration-fast) var(--lf-ease);
+}
+
+.chevronClosed {
+  transform: rotate(-90deg);
+}
+
+.title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--lf-duration-normal) var(--lf-ease);
+}
+
+.bodyOpen {
+  grid-template-rows: 1fr;
+}
+
+.bodyClip {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.bodyScroll {
+  overflow-y: auto;
+}
+
+.bodyContent {
+  padding: 0 var(--lf-space-3) var(--lf-space-3);
+}
+
+/* Stacked drawers — applied by `ComposerDrawerStack`. */
+.drawerStackFollows {
+  position: relative;
+  /* Slide up over the previous drawer's bottom overlap strip (see composer tuck). */
+  margin-top: calc(-1 * var(--lf-radius-lg));
+}
+
+.drawerDanger {
+  border-color: color-mix(in srgb, var(--lf-danger) 35%, var(--lf-border-default));
+}
+
+.drawerDanger .trigger {
+  color: var(--lf-danger);
+}

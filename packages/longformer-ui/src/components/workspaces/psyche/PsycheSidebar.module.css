@@ -3,51 +3,8 @@
   overflow: hidden;
 }
 
-.brand {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: var(--lf-space-1) var(--lf-space-2);
-  min-width: 0;
-}
-
-.brandRow {
-  display: flex;
-  align-items: center;
-  gap: var(--lf-space-2);
-  min-width: 0;
-  font-size: var(--lf-font-size-md);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: var(--lf-text-primary);
-}
-
-.brandRow > span:last-child {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.brandIcon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: var(--lf-radius-md);
-  background: color-mix(in srgb, var(--lf-accent) 18%, transparent);
-  color: var(--lf-accent);
-}
-
-.tagline {
-  padding-left: calc(28px + var(--lf-space-2));
-  font-size: var(--lf-font-size-xs);
-  color: var(--lf-text-tertiary);
-  line-height: 1.35;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+.searchInput {
+  margin-bottom: 0;
 }
 
 .docBadge {

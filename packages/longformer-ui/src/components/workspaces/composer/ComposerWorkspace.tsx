@@ -109,11 +109,10 @@ export function ComposerWorkspace({ data = COMPOSER_SAMPLE_DATA }: ComposerWorks
       <div className={styles.body}>
         <SidebarPane handleLabel="Resize composer navigation" defaultWidth={240} minWidth={200} maxWidth={300}>
           <ComposerNavSidebar
-            productName={data.productName}
-            user={data.user}
             navItems={data.navItems}
             activeView={activeView}
             onViewChange={setActiveView}
+            onNew={() => setActiveView("create")}
           />
         </SidebarPane>
 

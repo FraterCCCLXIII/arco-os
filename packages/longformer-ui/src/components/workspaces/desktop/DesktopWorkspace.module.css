@@ -8,7 +8,8 @@
 
 .toolbar {
   flex-shrink: 0;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: var(--lf-space-3);
   padding: var(--lf-space-2) var(--lf-space-4);

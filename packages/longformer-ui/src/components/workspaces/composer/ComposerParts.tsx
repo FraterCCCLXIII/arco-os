@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react";
 import { Icon } from "../../../icons";
 import { cx } from "../../../utils/cx";
 import { Button } from "../../primitives/Button";
@@ -7,8 +8,8 @@ import { Input } from "../../primitives/Input";
 import { Menu, type MenuItemDescriptor } from "../../primitives/Menu";
 import { ScrollArea } from "../../primitives/ScrollArea";
 import { Tabs } from "../../primitives/Tabs";
-import { Textarea } from "../../primitives/Textarea";
 import { NavSidebar } from "../../shell/NavSidebar";
+import { Composer as ChatComposer } from "../chat/Composer";
 import type {
   ComposerArtTone,
   ComposerMode,
@@ -17,7 +18,6 @@ import type {
   ComposerNavView,
   ComposerNowPlaying,
   ComposerTrack,
-  ComposerUser,
 } from "./types";
 import styles from "./ComposerWorkspace.module.css";
 
@@ -40,49 +40,43 @@ const MODEL_OPTIONS: { id: ComposerModelVersion; label: string }[] = [
 ];
 
 export interface ComposerNavSidebarProps {
-  productName: string;
-  user: ComposerUser;
   navItems: ComposerNavItem[];
   activeView: ComposerNavView;
   onViewChange: (view: ComposerNavView) => void;
+  onNew?: () => void;
 }
 
 export function ComposerNavSidebar({
-  productName,
-  user,
   navItems,
   activeView,
   onViewChange,
+  onNew,
 }: ComposerNavSidebarProps) {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredNavItems = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return navItems;
+    return navItems.filter((item) => item.label.toLowerCase().includes(query));
+  }, [navItems, searchQuery]);
+
   return (
     <NavSidebar
       className={styles.navSidebar}
       header={
-        <div className={styles.sidebarHeader}>
-          <div className={styles.brandBlock}>
-            <div className={styles.brandMark}>
-              <Icon name="sparkles" size={18} />
-            </div>
-            <span className={styles.brandName}>{productName}</span>
-          </div>
-
-          <div className={styles.profileCard}>
-            <div className={styles.profileAvatar}>{user.name.slice(0, 1).toUpperCase()}</div>
-            <div className={styles.profileMeta}>
-              <span className={styles.profileName}>{user.name}</span>
-              <span className={styles.profilePlan}>{user.plan}</span>
-            </div>
-          </div>
-
-          {user.upgradeLabel ? (
-            <Button variant="secondary" fullWidth className={styles.upgradeBtn}>
-              <Icon name="zap" size={15} />
-              {user.upgradeLabel}
-            </Button>
-          ) : null}
-        </div>
+        <Input
+          type="search"
+          placeholder="Search"
+          value={searchQuery}
+          onChange={(event) => setSearchQuery(event.target.value)}
+          aria-label="Search composer"
+          startSlot={<Icon name="search" size={14} />}
+          className={styles.navSearchField}
+          wrapperClassName={styles.navSearchInput}
+        />
       }
-      quickLinks={navItems.map((item) => ({
+      primaryAction={{ label: "New", icon: "plus", onClick: onNew }}
+      quickLinks={filteredNavItems.map((item) => ({
         id: item.id,
         label: item.label,
         icon: item.icon,
@@ -192,29 +186,32 @@ export function ComposerCreationPanel({
           <span className={styles.promptLabel}>Song Description</span>
           <IconButton icon="refresh" label="Randomize prompt" size="sm" />
         </div>
-        <Textarea
-          className={styles.promptInput}
+        <ChatComposer
+          className={styles.promptComposer}
+          surfaceClassName={styles.promptComposerSurface}
           value={prompt}
-          onChange={(event) => onPromptChange(event.target.value)}
+          onChange={onPromptChange}
+          onSubmit={onCreate}
           placeholder="Describe the song you want to create…"
-          maxHeight={220}
-          aria-label="Song description"
+          disabled={creating}
+          inputAriaLabel="Song description"
+          footer={
+            <div className={styles.promptActions}>
+              <Button variant="secondary" size="sm" className={styles.lyricsBtn}>
+                <Icon name="plus" size={14} />
+                Lyrics
+              </Button>
+              <button
+                type="button"
+                className={cx(styles.instrumentalToggle, instrumental && styles.instrumentalToggleActive)}
+                aria-pressed={instrumental}
+                onClick={() => onInstrumentalChange(!instrumental)}
+              >
+                Instrumental
+              </button>
+            </div>
+          }
         />
-      </div>
-
-      <div className={styles.promptActions}>
-        <Button variant="secondary" size="sm" className={styles.lyricsBtn}>
-          <Icon name="plus" size={14} />
-          Lyrics
-        </Button>
-        <button
-          type="button"
-          className={cx(styles.instrumentalToggle, instrumental && styles.instrumentalToggleActive)}
-          aria-pressed={instrumental}
-          onClick={() => onInstrumentalChange(!instrumental)}
-        >
-          Instrumental
-        </button>
       </div>
 
       <ScrollArea className={styles.suggestionScroll}>
@@ -235,7 +232,6 @@ export function ComposerCreationPanel({
         variant="primary"
         size="lg"
         fullWidth
-        className={styles.createBtn}
         disabled={creating || prompt.trim().length === 0}
         onClick={onCreate}
       >
@@ -314,50 +310,49 @@ export function ComposerLibraryPanel({
       </header>
 
       <ScrollArea className={styles.trackList}>
-        {filteredTracks.map((track) => (
-          <article
-            key={track.id}
-            className={cx(styles.trackRow, activeTrackId === track.id && styles.trackRowActive)}
-          >
-            <button
-              type="button"
-              className={styles.trackMain}
-              onClick={() => onSelectTrack(track.id)}
+        <div className={styles.trackListInner}>
+          {filteredTracks.map((track) => (
+            <article
+              key={track.id}
+              className={cx(styles.trackRow, activeTrackId === track.id && styles.trackRowActive)}
             >
-              <div className={styles.trackArtWrap}>
+              <button
+                type="button"
+                className={styles.trackMain}
+                onClick={() => onSelectTrack(track.id)}
+              >
                 <span className={artClass(track.artTone, "md")} aria-hidden="true" />
-                <span className={styles.trackDuration}>{track.duration}</span>
+                <span className={styles.trackMeta}>
+                  <span className={styles.trackTitleRow}>
+                    <span className={styles.trackTitle}>{track.title}</span>
+                    <span className={styles.trackVersion}>{track.version}</span>
+                  </span>
+                  <span className={styles.trackDescription}>{track.description}</span>
+                </span>
+              </button>
+              <span className={styles.trackDuration}>{track.duration}</span>
+              <div className={styles.trackActions}>
+                <IconButton
+                  icon="thumbs-up"
+                  label={track.liked ? "Unlike" : "Like"}
+                  size="sm"
+                  className={track.liked ? styles.actionActive : undefined}
+                />
+                <IconButton icon="star" label="Dislike" size="sm" />
+                <IconButton icon="external-link" label="Share" size="sm" />
+                <Menu
+                  align="end"
+                  trigger={
+                    <button type="button" className={styles.moreBtn} aria-label={`More actions for ${track.title}`}>
+                      <Icon name="more-vertical" size={16} />
+                    </button>
+                  }
+                  items={trackMenuItems(track)}
+                />
               </div>
-              <div className={styles.trackMeta}>
-                <div className={styles.trackTitleRow}>
-                  <span className={styles.trackTitle}>{track.title}</span>
-                  <span className={styles.trackVersion}>{track.version}</span>
-                </div>
-                <p className={styles.trackDescription}>{track.description}</p>
-              </div>
-            </button>
-
-            <div className={styles.trackActions}>
-              <IconButton
-                icon="thumbs-up"
-                label={track.liked ? "Unlike" : "Like"}
-                size="sm"
-                className={track.liked ? styles.actionActive : undefined}
-              />
-              <IconButton icon="star" label="Dislike" size="sm" />
-              <IconButton icon="external-link" label="Share" size="sm" />
-              <Menu
-                align="end"
-                trigger={
-                  <button type="button" className={styles.moreBtn} aria-label={`More actions for ${track.title}`}>
-                    <Icon name="more-vertical" size={16} />
-                  </button>
-                }
-                items={trackMenuItems(track)}
-              />
-            </div>
-          </article>
-        ))}
+            </article>
+          ))}
+        </div>
       </ScrollArea>
     </section>
   );

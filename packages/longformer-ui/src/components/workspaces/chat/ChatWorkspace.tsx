@@ -3,6 +3,7 @@ import { ScrollArea } from "../../primitives/ScrollArea";
 import type { MenuItemDescriptor } from "../../primitives/Menu";
 import type { TabItem } from "../../primitives/Tabs";
 import { Composer } from "./Composer";
+import type { ComposerDrawerToggle } from "./ComposerAttachMenu";
 import { MessageBubble } from "./MessageBubble";
 import { PromptChips } from "./PromptChips";
 import { ConversationTabBar, type ConversationTabItem } from "./ConversationTabBar";
@@ -30,6 +31,13 @@ export interface ChatWorkspaceProps {
   modelOptions?: MenuItemDescriptor[];
   usage?: UsageStats;
   onPlanUsageClick?: () => void;
+  /** Docked panel above the composer input — pair with `ComposerDrawer`. */
+  composerDrawer?: ReactNode;
+  /** Plus-button menu: attach files and toggle composer drawer panels. */
+  onAddFile?: () => void;
+  drawerToggles?: ComposerDrawerToggle[];
+  /** Docked banner below the composer input — pair with `ComposerNotice`. */
+  composerNotice?: ReactNode;
   disabled?: boolean;
   navItems?: TabItem[];
   activeNavId?: string;
@@ -61,6 +69,10 @@ export function ChatWorkspace({
   modelOptions,
   usage,
   onPlanUsageClick,
+  composerDrawer,
+  onAddFile,
+  drawerToggles,
+  composerNotice,
   disabled = false,
   navItems,
   activeNavId,
@@ -105,6 +117,9 @@ export function ChatWorkspace({
               disabled={disabled}
               model={model}
               modelOptions={modelOptions}
+              onAddFile={onAddFile}
+              drawerToggles={drawerToggles}
+              notice={composerNotice}
               usage={usage}
               onPlanUsageClick={onPlanUsageClick}
               {...composerModeProps}
@@ -137,6 +152,10 @@ export function ChatWorkspace({
             disabled={disabled}
             model={model}
             modelOptions={modelOptions}
+            drawer={composerDrawer}
+            onAddFile={onAddFile}
+            drawerToggles={drawerToggles}
+            notice={composerNotice}
             usage={usage}
             onPlanUsageClick={onPlanUsageClick}
             {...composerModeProps}

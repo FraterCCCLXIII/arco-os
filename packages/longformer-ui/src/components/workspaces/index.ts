@@ -38,3 +38,4 @@ export * from "./passport";
 export * from "./bento";
 export * from "./app-port";
 export * from "./composer";
+export * from "./generator";

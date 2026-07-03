@@ -1,0 +1,111 @@
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  min-width: 0;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lf-space-2);
+  min-width: 0;
+  font-size: var(--lf-font-size-md);
+  color: var(--lf-text-primary);
+}
+
+.rowCompleted {
+  color: var(--lf-text-secondary);
+}
+
+.rowLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--lf-text-tertiary);
+}
+
+.indicatorCompleted {
+  width: 14px;
+  height: 14px;
+  margin: 2px 1px 0;
+  border-radius: 50%;
+  background: var(--lf-success-muted);
+  color: var(--lf-success);
+}
+
+.indicatorActive {
+  color: var(--lf-text-secondary);
+  animation: composer-task-spin 1s linear infinite;
+}
+
+.indicatorPending {
+  width: 14px;
+  height: 14px;
+  margin: 2px 1px 0;
+  border: 1.5px dashed var(--lf-border-strong);
+  border-radius: 50%;
+}
+
+@keyframes composer-task-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicatorActive {
+    animation: none;
+  }
+}
+
+.completedToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-md);
+  text-align: left;
+  cursor: pointer;
+}
+
+.completedToggle:hover {
+  color: var(--lf-text-primary);
+}
+
+.completedChevron {
+  display: inline-flex;
+  color: var(--lf-text-tertiary);
+  transition: transform var(--lf-duration-fast) var(--lf-ease);
+}
+
+.completedChevronOpen {
+  transform: rotate(180deg);
+}

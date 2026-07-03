@@ -172,7 +172,8 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--lf-space-2);
-  margin: 0 var(--lf-space-1) var(--lf-space-2);
+  width: 100%;
+  margin: 0 0 var(--lf-space-2);
   padding: var(--lf-space-2) var(--lf-space-3);
   border: 1px solid var(--lf-accent-border);
   border-radius: var(--lf-radius-md);
@@ -190,17 +191,40 @@
   border-color: var(--lf-border-strong);
 }
 
-.channelHash {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 16px;
-  color: var(--lf-text-tertiary);
-  font-weight: 500;
+.channelIcon {
+  overflow: hidden;
 }
 
-.unreadListItem .channelHash {
-  color: var(--lf-text-secondary);
+.channelIcon_sidebar {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+}
+
+.channelIcon_header {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+}
+
+.channelIconGlyph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.channelIcon_header .channelIconGlyph {
+  font-size: 15px;
+}
+
+.channelIconImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .dmAvatar {

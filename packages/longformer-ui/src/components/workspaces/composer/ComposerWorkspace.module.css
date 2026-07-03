@@ -50,85 +50,41 @@
   flex: 1;
   display: flex;
   min-height: 0;
+  --lf-divider: var(--composer-border);
 }
 
 .navSidebar {
   height: 100%;
   background: var(--composer-bg);
-  border-right: 1px solid var(--composer-border);
+  color: var(--composer-text);
+
+  --lf-surface-1: var(--composer-bg);
+  --lf-surface-2: var(--composer-hover-bg);
+  --lf-surface-3: var(--composer-bg-highlight);
+  --lf-surface-sunken: var(--composer-bg-highlight);
+  --lf-divider: var(--composer-border);
+  --lf-border-subtle: var(--composer-border);
+  --lf-border-strong: var(--composer-scrollbar-thumb);
+  --lf-text-primary: var(--composer-text);
+  --lf-text-secondary: var(--composer-text-subtle);
+  --lf-text-tertiary: var(--composer-text-muted);
 }
 
-.brandBlock {
-  display: flex;
-  align-items: center;
-  gap: var(--lf-space-2);
+.navSidebar :global(.lf-scrollbar) {
+  scrollbar-color: var(--composer-scrollbar-thumb) transparent;
 }
 
-.sidebarHeader {
-  display: flex;
-  flex-direction: column;
-  gap: var(--lf-space-3);
+.navSidebar :global(.lf-scrollbar)::-webkit-scrollbar-thumb {
+  background: var(--composer-scrollbar-thumb);
 }
 
-.upgradeBtn {
-  gap: var(--lf-space-2);
-  justify-content: flex-start;
+.navSearchInput {
+  background: var(--composer-bg-highlight);
+  border-color: var(--composer-border);
 }
 
-.brandMark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--lf-radius-md);
-  background: var(--composer-accent-muted);
-  color: var(--composer-accent);
-}
-
-.brandName {
-  font-size: var(--lf-font-size-lg);
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.profileCard {
-  display: flex;
-  align-items: center;
-  gap: var(--lf-space-3);
-  padding: var(--lf-space-3);
-  border-radius: var(--lf-radius-lg);
-  background: var(--composer-card-bg);
-}
-
-.profileAvatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--lf-radius-pill);
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  font-size: var(--lf-font-size-sm);
-  font-weight: 700;
-}
-
-.profileMeta {
-  min-width: 0;
-}
-
-.profileName {
-  display: block;
-  font-size: var(--lf-font-size-md);
-  font-weight: 600;
-}
-
-.profilePlan {
-  display: block;
-  margin-top: 2px;
-  font-size: var(--lf-font-size-xs);
-  color: var(--composer-text-subtle);
+.navSearchField {
+  color: var(--composer-text);
 }
 
 .navFooter {
@@ -160,7 +116,6 @@
 
 .creationResizable {
   flex-shrink: 0;
-  border-right: 1px solid var(--composer-border);
 }
 
 .creationPane {
@@ -244,11 +199,40 @@
   color: var(--composer-text-subtle);
 }
 
-.promptInput {
+.promptComposer {
   flex: 1;
+  min-height: 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.promptComposerSurface {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   min-height: 140px;
   background: var(--composer-bg-highlight);
   border-color: var(--composer-border);
+  --lf-surface-2: var(--composer-bg-highlight);
+  --lf-surface-3: var(--composer-hover-bg);
+  --lf-border-default: var(--composer-border);
+  --lf-border-strong: var(--composer-scrollbar-thumb);
+  --lf-text-primary: var(--composer-text);
+  --lf-text-secondary: var(--composer-text-subtle);
+  --lf-text-tertiary: var(--composer-text-muted);
+}
+
+.promptComposerSurface [class*="textareaRow"] {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.promptComposerSurface [class*="textarea"] {
+  flex: 1;
+  min-height: 120px;
   color: var(--composer-text);
 }
 
@@ -289,16 +273,6 @@
   gap: var(--lf-space-2);
 }
 
-.createBtn {
-  gap: var(--lf-space-2);
-  background: var(--composer-accent);
-  border-color: transparent;
-}
-
-.createBtn:hover:not(:disabled) {
-  background: var(--composer-accent-hover);
-}
-
 .libraryPanel {
   flex: 1;
   min-width: 0;
@@ -306,6 +280,22 @@
   flex-direction: column;
   min-height: 0;
   background: var(--composer-bg);
+  color: var(--composer-text);
+
+  --lf-surface-1: var(--composer-bg);
+  --lf-surface-2: var(--composer-hover-bg);
+  --lf-surface-3: var(--composer-bg-highlight);
+  --lf-text-primary: var(--composer-text);
+  --lf-text-secondary: var(--composer-text-subtle);
+  --lf-text-tertiary: var(--composer-text-muted);
+}
+
+.libraryPanel :global(.lf-scrollbar) {
+  scrollbar-color: var(--composer-scrollbar-thumb) transparent;
+}
+
+.libraryPanel :global(.lf-scrollbar)::-webkit-scrollbar-thumb {
+  background: var(--composer-scrollbar-thumb);
 }
 
 .libraryHeader {
@@ -395,18 +385,28 @@
 .trackList {
   flex: 1;
   min-height: 0;
-  padding: var(--lf-space-2) var(--lf-space-3);
+}
+
+.trackListInner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+  padding: var(--lf-space-2) var(--lf-space-4) var(--lf-space-4);
 }
 
 .trackRow {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 112px;
   align-items: center;
   gap: var(--lf-space-3);
-  padding: var(--lf-space-2);
-  border-radius: var(--lf-radius-lg);
+  min-height: 72px;
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-radius: var(--lf-radius-md);
+  transition: background var(--lf-duration-fast) var(--lf-ease);
 }
 
-.trackRow:hover {
+.trackRow:hover,
+.trackRow:focus-within {
   background: var(--composer-hover-bg);
 }
 
@@ -418,34 +418,19 @@
   display: flex;
   align-items: center;
   gap: var(--lf-space-3);
-  flex: 1;
   min-width: 0;
   border: none;
   background: transparent;
   color: inherit;
   text-align: left;
   cursor: pointer;
-}
-
-.trackArtWrap {
-  position: relative;
-  flex-shrink: 0;
-}
-
-.trackDuration {
-  position: absolute;
-  right: 6px;
-  bottom: 6px;
-  padding: 2px 6px;
-  border-radius: var(--lf-radius-sm);
-  background: rgba(0, 0, 0, 0.72);
-  color: #fff;
-  font-size: 10px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
+  padding: 0;
 }
 
 .trackMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   min-width: 0;
   flex: 1;
 }
@@ -458,8 +443,10 @@
 }
 
 .trackTitle {
+  min-width: 0;
   font-size: var(--lf-font-size-md);
   font-weight: 600;
+  line-height: var(--lf-line-height-tight);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -474,22 +461,54 @@
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .trackDescription {
-  margin: 4px 0 0;
   color: var(--composer-text-subtle);
   font-size: var(--lf-font-size-sm);
+  line-height: var(--lf-line-height-tight);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+.trackDuration {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  min-width: 36px;
+  font-size: var(--lf-font-size-xs);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--composer-text-muted);
+  text-align: right;
+  transition: opacity var(--lf-duration-fast) var(--lf-ease);
+}
+
 .trackActions {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
   display: flex;
   align-items: center;
   gap: 2px;
-  flex-shrink: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--lf-duration-fast) var(--lf-ease);
+}
+
+.trackRow:hover .trackDuration,
+.trackRow:focus-within .trackDuration,
+.trackRowActive .trackDuration {
+  opacity: 0;
+}
+
+.trackRow:hover .trackActions,
+.trackRow:focus-within .trackActions,
+.trackRowActive .trackActions {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .moreBtn {

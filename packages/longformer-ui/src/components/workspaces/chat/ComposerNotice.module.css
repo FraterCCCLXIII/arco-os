@@ -1,0 +1,96 @@
+.notice {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  min-width: 0;
+  min-height: 34px;
+  padding: var(--lf-space-1) var(--lf-space-3);
+  /* Top strip hides behind the composer card (see Composer notice slot). */
+  padding-top: calc(var(--lf-space-1) + var(--lf-radius-lg));
+  background: var(--lf-surface-1);
+  border: 1px solid var(--lf-border-default);
+  border-top: none;
+  border-radius: 0 0 var(--lf-radius-lg) var(--lf-radius-lg);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-md);
+}
+
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.message {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.action {
+  flex-shrink: 0;
+  padding: 0 var(--lf-space-1);
+  background: transparent;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  color: var(--lf-accent);
+  font-size: var(--lf-font-size-md);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.action:hover {
+  color: var(--lf-accent-hover);
+  text-decoration: underline;
+}
+
+.dismiss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 2px;
+  background: transparent;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  color: var(--lf-text-tertiary);
+  cursor: pointer;
+}
+
+.dismiss:hover {
+  color: var(--lf-text-primary);
+}
+
+.toneInfo {
+  background: var(--lf-info-muted);
+  border-color: var(--lf-accent-border);
+  color: var(--lf-text-primary);
+}
+
+.toneSuccess {
+  background: var(--lf-success-muted);
+  border-color: var(--lf-border-default);
+  color: var(--lf-text-primary);
+}
+
+.toneWarning {
+  background: var(--lf-warning-muted);
+  border-color: var(--lf-border-default);
+  color: var(--lf-text-primary);
+}
+
+.toneWarning .action {
+  color: var(--lf-warning);
+}
+
+.toneDanger {
+  background: var(--lf-danger-muted);
+  border-color: var(--lf-border-default);
+  color: var(--lf-text-primary);
+}
+
+.toneDanger .action {
+  color: var(--lf-danger);
+}

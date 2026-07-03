@@ -23,14 +23,14 @@ export const slackNavItems: SlackNavItem[] = [
 ];
 
 export const slackChannels: SlackChannel[] = [
-  { id: "ch-daily-dogfood", name: "volunteer-checkins", unread: true },
-  { id: "ch-dev-rel", name: "community-outreach" },
-  { id: "ch-events", name: "summer-picnic", unread: true, mentionCount: 1 },
-  { id: "ch-general", name: "announcements" },
-  { id: "ch-infra", name: "facilities" },
-  { id: "ch-logistics", name: "picnic-planning" },
-  { id: "ch-product", name: "event-updates" },
-  { id: "ch-random", name: "water-cooler" },
+  { id: "ch-daily-dogfood", name: "volunteer-checkins", unread: true, icon: { emoji: "✅", hue: "green" } },
+  { id: "ch-dev-rel", name: "community-outreach", icon: { emoji: "🤝", hue: "teal" } },
+  { id: "ch-events", name: "summer-picnic", unread: true, mentionCount: 1, icon: { emoji: "☀️", hue: "amber" } },
+  { id: "ch-general", name: "announcements", icon: { emoji: "📣", hue: "rose" } },
+  { id: "ch-infra", name: "facilities", icon: { emoji: "🏢", hue: "slate" } },
+  { id: "ch-logistics", name: "picnic-planning", icon: { emoji: "🧺", hue: "orange" } },
+  { id: "ch-product", name: "event-updates", icon: { emoji: "📅", hue: "blue" } },
+  { id: "ch-random", name: "water-cooler", icon: { emoji: "💬", hue: "violet" } },
 ];
 
 export const slackDirectMessages: SlackDirectMessage[] = [

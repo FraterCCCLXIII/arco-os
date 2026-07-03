@@ -1,0 +1,39 @@
+.wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.panel {
+  width: 240px;
+}
+
+.sectionLabel {
+  padding: var(--lf-space-1) var(--lf-space-2) var(--lf-space-1);
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-3);
+  min-height: 34px;
+  padding: var(--lf-space-2);
+  border-radius: var(--lf-radius-sm);
+  cursor: pointer;
+}
+
+.toggleRow:hover {
+  background: var(--lf-surface-3);
+}
+
+.toggleLabel {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--lf-font-size-md);
+  color: var(--lf-text-primary);
+}

@@ -1,0 +1,24 @@
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--lf-text-primary);
+  cursor: default;
+  user-select: none;
+}
+
+.text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.hint {
+  font-size: var(--lf-font-size-xs);
+  font-weight: 400;
+  color: var(--lf-text-tertiary);
+  line-height: var(--lf-line-height-normal);
+}

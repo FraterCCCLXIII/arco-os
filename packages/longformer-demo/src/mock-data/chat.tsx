@@ -1,4 +1,13 @@
-import { ChatInlineSurface, type ChatMessage, type PromptChipItem, type UsageStats } from "longformer-ui";
+import {
+  ChatInlineSurface,
+  type ChatMessage,
+  type ComposerErrorItem,
+  type ComposerFileChangeItem,
+  type ComposerQueuedItem,
+  type ComposerTaskItem,
+  type PromptChipItem,
+  type UsageStats,
+} from "longformer-ui";
 import {
   officeSuiteCompareSchema,
   officeSuiteListSchema,
@@ -14,6 +23,44 @@ export const demoUsage: UsageStats = {
   fiveHourPercent: 0,
   weeklyPercent: 0,
 };
+
+/** Agent task progress shown in the drawer docked above the chat composer. */
+export const agentTaskDrawerTitle = "Task 4 of 5 in progress";
+export const agentTaskItems: ComposerTaskItem[] = [
+  { id: "t1", label: "Scaffold project and install dependencies", status: "completed" },
+  { id: "t2", label: "Set up design tokens and theme switcher", status: "completed" },
+  { id: "t3", label: "Create chat data model and mock transcripts", status: "completed" },
+  { id: "t4", label: "Build builder UI (prompt + live preview + code)", status: "active" },
+  { id: "t5", label: "Wire up page, layout, fonts and verify in browser", status: "pending" },
+];
+
+/** User messages queued while the agent is busy. */
+export const queuedMessageDrawerTitle = "2 messages queued";
+export const queuedMessageItems: ComposerQueuedItem[] = [
+  { id: "q1", label: "Summarize volunteer sign-up sheet" },
+  { id: "q2", label: "Draft rain backup venue email" },
+];
+
+/** Agent/tool failures surfaced above the composer. */
+export const errorMessageDrawerTitle = "1 error needs attention";
+export const errorMessageItems: ComposerErrorItem[] = [
+  {
+    id: "e1",
+    label: "Failed to fetch permit status",
+    detail: "City permits API returned 503 — retrying in 30s",
+  },
+];
+
+/** Agent file edits shown in the composer drawer stack. */
+export const fileChangeDrawerTitle = "6 Files";
+export const fileChangeItems: ComposerFileChangeItem[] = [
+  { id: "f1", path: "ComposerDrawerStack.tsx", additions: 38, kind: "tsx" },
+  { id: "f2", path: "ComposerDrawerStack.module.css", additions: 6, kind: "css" },
+  { id: "f3", path: "ComposerQueuedList.tsx", additions: 31, kind: "tsx" },
+  { id: "f4", path: "ComposerQueuedList.module.css", additions: 37, kind: "css" },
+  { id: "f5", path: "ComposerErrorList.module.css", additions: 53, kind: "css" },
+  { id: "f6", path: "ComposerErrorList.tsx", additions: 35, kind: "tsx" },
+];
 
 export const promptChips: PromptChipItem[] = [
   { id: "volunteer-digest", label: "Volunteer digest", icon: "sparkles" },

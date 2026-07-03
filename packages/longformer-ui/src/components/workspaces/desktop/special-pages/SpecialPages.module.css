@@ -1,0 +1,458 @@
+.page {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--lf-space-6);
+  background: var(--lf-surface-canvas);
+  color: var(--lf-text-primary);
+}
+
+.signInPage {
+  position: relative;
+  overflow: hidden;
+}
+
+.signInBackdrop {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.signInPage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--lf-surface-canvas) 72%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+.signInPage > .card {
+  position: relative;
+  z-index: 1;
+}
+
+.wizardStack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lf-space-4);
+  width: 100%;
+  max-width: 420px;
+}
+
+.wizardStack > .card {
+  width: 100%;
+}
+
+.centered {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lf-space-4);
+  text-align: center;
+}
+
+.wide {
+  max-width: 480px;
+}
+
+.logoMark {
+  display: block;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--lf-font-size-lg);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  line-height: 1.5;
+}
+
+.loader {
+  color: var(--lf-accent);
+  animation: special-page-spin 1s linear infinite;
+}
+
+@keyframes special-page-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.progressTrack {
+  width: 100%;
+  max-width: 200px;
+  height: 3px;
+  border-radius: var(--lf-radius-full);
+  background: var(--lf-surface-3);
+  overflow: hidden;
+}
+
+.progressFill {
+  width: 42%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--lf-accent);
+  animation: special-page-progress 1.6s ease-in-out infinite;
+}
+
+@keyframes special-page-progress {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(280%);
+  }
+}
+
+.card {
+  width: 100%;
+  max-width: 360px;
+}
+
+.wideCard {
+  max-width: 440px;
+}
+
+.wizardCard {
+  max-width: 420px;
+}
+
+.cardHeader,
+.cardBody,
+.cardFooter {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+}
+
+.cardHeader {
+  padding: var(--lf-space-5) var(--lf-space-5) var(--lf-space-3);
+  align-items: center;
+  text-align: center;
+}
+
+.cardBody {
+  padding: var(--lf-space-4) var(--lf-space-5);
+}
+
+.cardFooter {
+  padding: var(--lf-space-4) var(--lf-space-5) var(--lf-space-5);
+  border-top: 1px solid var(--lf-divider);
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+  text-align: left;
+}
+
+.footerNote {
+  margin: 0;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.planList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  width: 100%;
+}
+
+.planListCompact {
+  gap: var(--lf-space-1);
+}
+
+.planCard {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--lf-space-3);
+  align-items: center;
+  width: 100%;
+  padding: var(--lf-space-4);
+  border-radius: var(--lf-radius-lg);
+  border: 1px solid var(--lf-border-default);
+  background: var(--lf-surface-2);
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    border-color var(--lf-duration-fast) var(--lf-ease),
+    background var(--lf-duration-fast) var(--lf-ease),
+    box-shadow var(--lf-duration-fast) var(--lf-ease);
+}
+
+.planCard:hover {
+  border-color: var(--lf-border-strong);
+}
+
+.planCardSelected {
+  border-color: var(--lf-accent-border);
+  background: var(--lf-accent-muted);
+  box-shadow: 0 0 0 1px var(--lf-accent-border);
+}
+
+.planCardCompact {
+  padding: var(--lf-space-3);
+}
+
+.planRadio {
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--lf-radius-full);
+  border: 2px solid var(--lf-border-strong);
+  color: transparent;
+  flex-shrink: 0;
+  transition:
+    border-color var(--lf-duration-fast) var(--lf-ease),
+    background var(--lf-duration-fast) var(--lf-ease),
+    color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.planRadioSelected {
+  border-color: var(--lf-accent);
+  background: var(--lf-accent);
+  color: var(--lf-text-on-accent, #fff);
+}
+
+.planContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+  min-width: 0;
+}
+
+.planHeader {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--lf-space-2);
+}
+
+.planName {
+  font-size: var(--lf-font-size-md);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.planBadge {
+  flex-shrink: 0;
+}
+
+.planDescription {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  line-height: 1.4;
+}
+
+.planPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.planPriceAmount {
+  font-size: var(--lf-font-size-lg);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.planPricePeriod {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.planFeaturePanel {
+  width: 100%;
+  padding: var(--lf-space-4);
+  border-radius: var(--lf-radius-lg);
+  border: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-1);
+}
+
+.planFeatureTitle {
+  margin: 0 0 var(--lf-space-3);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--lf-text-tertiary);
+}
+
+.featureList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  text-align: left;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+}
+
+.featureItem svg {
+  flex-shrink: 0;
+  color: var(--lf-accent);
+}
+
+.wizardProgress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+  width: 100%;
+}
+
+.stepSegments {
+  display: flex;
+  gap: var(--lf-space-1);
+  width: 100%;
+}
+
+.stepSegment {
+  flex: 1;
+  height: 3px;
+  border-radius: var(--lf-radius-full);
+  background: var(--lf-surface-3);
+  transition: background var(--lf-duration-fast) var(--lf-ease);
+}
+
+.stepSegmentFilled {
+  background: var(--lf-accent);
+  opacity: 0.45;
+}
+
+.stepSegmentActive {
+  opacity: 1;
+}
+
+.stepLabels {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--lf-space-1);
+}
+
+.stepLabel {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  transition: color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.stepLabelActive {
+  color: var(--lf-text-primary);
+  font-weight: 500;
+}
+
+.wizardHeading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-1);
+  width: 100%;
+}
+
+.wizardEyebrow {
+  font-size: var(--lf-font-size-xs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--lf-accent);
+}
+
+.wizardPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+  width: 100%;
+  padding: var(--lf-space-4);
+  border-radius: var(--lf-radius-lg);
+  border: 1px solid var(--lf-border-subtle);
+  background: var(--lf-surface-1);
+}
+
+.themePicker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.themePickerLabel {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  color: var(--lf-text-primary);
+}
+
+.themeSwatches {
+  display: flex;
+  gap: var(--lf-space-2);
+}
+
+.themeSwatch {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lf-radius-full);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition:
+    transform var(--lf-duration-fast) var(--lf-ease),
+    box-shadow var(--lf-duration-fast) var(--lf-ease);
+}
+
+.themeSwatch:hover {
+  transform: scale(1.06);
+}
+
+.themeSwatchSelected {
+  box-shadow:
+    0 0 0 2px var(--lf-surface-canvas),
+    0 0 0 4px var(--lf-text-primary);
+}
+
+.wizardActions {
+  display: flex;
+  gap: var(--lf-space-2);
+  width: 100%;
+}
+
+.wizardActions > :last-child {
+  flex: 1;
+}
+
+.errorIcon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--lf-radius-full);
+  background: var(--lf-danger-muted);
+  color: var(--lf-danger);
+}

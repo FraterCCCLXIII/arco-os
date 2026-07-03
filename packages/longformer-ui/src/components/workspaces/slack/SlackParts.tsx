@@ -1,4 +1,6 @@
 import { Fragment } from "react";
+import { appIconHueClass, resolveAppIconHue } from "../../../app-tones";
+import tileStyles from "../../../app-tones/app-icon-tile.module.css";
 import { cx } from "../../../utils/cx";
 import { Icon, type IconName } from "../../../icons";
 import { Avatar } from "../../primitives/Avatar";
@@ -15,7 +17,7 @@ import {
   ComposerFormattingToolbar,
 } from "../chat/ComposerFormattingToolbar";
 import { useComposerFormattingToolbar } from "../chat/useComposerFormattingToolbar";
-import type { SlackMember, SlackMessage, SlackNavItem } from "./types";
+import type { SlackChannel, SlackMember, SlackMessage, SlackNavItem } from "./types";
 import styles from "./SlackWorkspace.module.css";
 
 export interface SlackComposerProps {
@@ -177,10 +179,44 @@ export function SlackProfilePanel({ member, onClose }: SlackProfilePanelProps) {
   );
 }
 
+function resolveChannelGlyph(channel: Pick<SlackChannel, "id" | "name" | "icon">): string {
+  if (channel.icon?.emoji) return channel.icon.emoji;
+  return channel.name.slice(0, 1).toUpperCase();
+}
+
+function resolveChannelHue(channel: Pick<SlackChannel, "id" | "icon">) {
+  return channel.icon?.hue ?? resolveAppIconHue(channel.id);
+}
+
+export interface SlackChannelIconProps {
+  channel: Pick<SlackChannel, "id" | "name" | "icon">;
+  size?: "sidebar" | "header";
+  className?: string;
+}
+
+export function SlackChannelIcon({ channel, size = "sidebar", className }: SlackChannelIconProps) {
+  const image = channel.icon?.image;
+
+  return (
+    <span
+      className={cx(
+        appIconHueClass(resolveChannelHue(channel), cx(tileStyles.xs, styles.channelIcon, styles[`channelIcon_${size}`], className)),
+      )}
+      aria-hidden="true"
+    >
+      {image ? (
+        <img src={image} alt="" className={styles.channelIconImage} />
+      ) : (
+        <span className={styles.channelIconGlyph}>{resolveChannelGlyph(channel)}</span>
+      )}
+    </span>
+  );
+}
+
 export interface SlackSidebarProps {
   workspaceName: string;
   navItems: SlackNavItem[];
-  channels: Array<{ id: string; name: string; unread?: boolean; mentionCount?: number }>;
+  channels: SlackChannel[];
   directMessages: Array<{ id: string; name: string; avatarSrc?: string; status?: "online" | "away" | "offline"; unreadCount?: number; isGroup?: boolean }>;
   activeConversationId?: string;
   onSelectConversation: (id: string) => void;
@@ -238,7 +274,7 @@ export function SlackSidebar({
       items: channels.map((channel) => ({
         id: channel.id,
         label: channel.name,
-        leading: <span className={styles.channelHash}>#</span>,
+        leading: <SlackChannelIcon channel={channel} />,
         trailing: channel.mentionCount ? <CountBadge count={channel.mentionCount} /> : undefined,
         active: channel.id === activeConversationId,
         className: cx(styles.channelListItem, channel.unread && styles.unreadListItem),

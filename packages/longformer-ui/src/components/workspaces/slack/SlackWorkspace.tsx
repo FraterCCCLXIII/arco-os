@@ -10,6 +10,7 @@ import {
   SlackMessageList,
   SlackProfilePanel,
   SlackSidebar,
+  SlackChannelIcon,
   SlackWorkspaceRail,
 } from "./SlackParts";
 import type {
@@ -87,6 +88,10 @@ export function SlackWorkspace({
 }: SlackWorkspaceProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const hasConversation = Boolean(activeConversationId);
+  const activeChannel = useMemo(
+    () => channels.find((channel) => channel.id === activeConversationId),
+    [activeConversationId, channels],
+  );
 
   const composerPlaceholder = useMemo(() => {
     if (channels.some((channel) => channel.id === activeConversationId)) {
@@ -146,9 +151,7 @@ export function SlackWorkspace({
             <header className={styles.channelHeader}>
               <div className={styles.channelHeaderIdentity}>
                 <div className={styles.channelHeaderTitle}>
-                  {channels.some((channel) => channel.id === activeConversationId) && (
-                    <Icon name="hash" size={16} />
-                  )}
+                  {activeChannel && <SlackChannelIcon channel={activeChannel} size="header" />}
                   {conversationTitle.replace(/^#/, "")}
                 </div>
                 {conversationTopic && <div className={styles.channelHeaderTopic}>{conversationTopic}</div>}

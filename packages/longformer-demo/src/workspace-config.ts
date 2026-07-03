@@ -40,7 +40,8 @@ export type WorkspaceId =
   | "passport"
   | "bento"
   | "app-port"
-  | "composer";
+  | "composer"
+  | "generator";
 
 export interface WorkspaceNavItem {
   id: WorkspaceId;
@@ -64,6 +65,7 @@ export const WORKSPACES: WorkspaceNavItem[] = [
   { id: "bank-crypto", label: "Bank / Crypto", icon: "dollar-sign" },
   { id: "music", label: "Music", icon: "play" },
   { id: "composer", label: "Composer", icon: "sparkles" },
+  { id: "generator", label: "Generator", icon: "code" },
   { id: "vision", label: "Vision", icon: "video" },
   { id: "reader", label: "Reader", icon: "bookmark" },
   { id: "maps", label: "Maps", icon: "globe" },

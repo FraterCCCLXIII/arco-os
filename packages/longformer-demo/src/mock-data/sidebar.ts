@@ -1,15 +1,15 @@
 export const chatConversations = [
-  { id: "c1", label: "Plan the summer picnic", meta: "2m", project: "OpenBook" },
-  { id: "c2", label: "Research an office app", meta: "5d", project: "Sidekicks" },
-  { id: "c3", label: "Order me a pizza", meta: "5d", project: "Sidekicks" },
-  { id: "c4", label: "Find a local acupuncturist", meta: "5d", project: "Sidekicks" },
-  { id: "c5", label: "Search the web about Persian empires", meta: "6d", project: "TCGL" },
-  { id: "c6", label: "Do a backflip", meta: "1mo", project: "Sidekicks" },
-  { id: "c7", label: "Add NemoClaw team to Slack", meta: "3mo", project: "Sidekicks" },
-  { id: "c8", label: "Review this app and suggest fixes", meta: "2mo", project: "TCGL" },
-  { id: "c9", label: "Build Muse EEG client", meta: "3mo", project: "EEG-project" },
-  { id: "c10", label: "Show Figma bar for all-hands", meta: "2mo", project: "All-Hands-UI" },
-  { id: "c11", label: "Prototype figma-html export", meta: "2mo", project: "figma-html" },
+  { id: "c1", label: "Plan the summer picnic", meta: "2m", project: "Event Planning" },
+  { id: "c2", label: "Research an office app", meta: "5d", project: "Assistant" },
+  { id: "c3", label: "Order me a pizza", meta: "5d", project: "Assistant" },
+  { id: "c4", label: "Book wellness appointments", meta: "5d", project: "Assistant" },
+  { id: "c5", label: "Summarize venue permit rules", meta: "6d", project: "Research" },
+  { id: "c6", label: "Plan team icebreakers", meta: "1mo", project: "Assistant" },
+  { id: "c7", label: "Set up volunteer Slack channel", meta: "3mo", project: "Assistant" },
+  { id: "c8", label: "Audit picnic supply checklist", meta: "2mo", project: "Research" },
+  { id: "c9", label: "Build volunteer check-in kiosk", meta: "3mo", project: "Field Ops" },
+  { id: "c10", label: "Design event signage mockups", meta: "2mo", project: "Design" },
+  { id: "c11", label: "Prototype event RSVP page", meta: "2mo", project: "Web" },
 ];
 
 export const mailFolders = [

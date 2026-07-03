@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import {
   AppsWorkspace,
   BankCryptoWorkspace,
@@ -6,6 +6,15 @@ import {
   CalendarWorkspace,
   ChatWorkspace,
   ChatSidebar,
+  ComposerDrawer,
+  ComposerDrawerStack,
+  ComposerErrorList,
+  ComposerFileChangeActions,
+  ComposerFileChangeList,
+  ComposerNotice,
+  ComposerQueuedList,
+  ComposerTaskList,
+  type ComposerDrawerToggle,
   type ConversationTabItem,
   ContactsWorkspace,
   EditorToolbar,
@@ -48,6 +57,7 @@ import {
   BentoWorkspace,
   AppPortWorkspace,
   ComposerWorkspace,
+  GeneratorWorkspace,
   AdaptiveWorkspaceWindowContent,
   type AppsSubpage,
   type BlockFormat,
@@ -69,6 +79,154 @@ import type { WorkspaceId } from "./workspace-config";
 import { workspaceNavItem } from "./workspace-config";
 import type { SocialNetworkId } from "longformer-ui";
 import { primaryUser, teamMembers } from "./demo-personas";
+import {
+  agentTaskDrawerTitle,
+  agentTaskItems,
+  errorMessageDrawerTitle,
+  errorMessageItems,
+  fileChangeDrawerTitle,
+  fileChangeItems,
+  queuedMessageDrawerTitle,
+  queuedMessageItems,
+} from "./mock-data/chat";
+
+type DemoDrawerVisibility = {
+  fileChanges: boolean;
+  errors: boolean;
+  queued: boolean;
+  tasks: boolean;
+};
+
+const defaultDrawerVisibility: DemoDrawerVisibility = {
+  fileChanges: true,
+  errors: true,
+  queued: true,
+  tasks: true,
+};
+
+interface DemoChatWorkspaceProps {
+  messages: ChatMessage[];
+  composerValue: string;
+  onComposerChange: (value: string) => void;
+  onSubmit: () => void;
+  tabs: ConversationTabItem[];
+  activeTabId: string;
+  onTabChange: (id: string) => void;
+  onTabClose?: (id: string) => void;
+  onNewConversation?: () => void;
+  promptChips: { id: string; label: string }[];
+  onPromptChipSelect: (item: { id: string; label: string }) => void;
+  model: string;
+  modelMenuItems: { id: string; label: string; onSelect?: () => void }[];
+  usage: import("longformer-ui").UsageStats;
+  projectLabel?: ReactNode;
+  navItems?: { id: string; label: string }[];
+  activeNavId?: string;
+  onNavChange?: (id: string) => void;
+}
+
+/** Chat workspace demo shell — drawer visibility toggles live in the + attach menu. */
+function DemoChatWorkspace(props: DemoChatWorkspaceProps) {
+  const [drawerVisibility, setDrawerVisibility] = useState<DemoDrawerVisibility>(defaultDrawerVisibility);
+
+  function setDrawerVisible(id: keyof DemoDrawerVisibility, visible: boolean) {
+    setDrawerVisibility((current) => ({ ...current, [id]: visible }));
+  }
+
+  const drawerToggles: ComposerDrawerToggle[] = [
+    {
+      id: "fileChanges",
+      label: "File changes",
+      visible: drawerVisibility.fileChanges,
+      onVisibleChange: (visible) => setDrawerVisible("fileChanges", visible),
+    },
+    {
+      id: "errors",
+      label: "Errors",
+      visible: drawerVisibility.errors,
+      onVisibleChange: (visible) => setDrawerVisible("errors", visible),
+    },
+    {
+      id: "queued",
+      label: "Queued messages",
+      visible: drawerVisibility.queued,
+      onVisibleChange: (visible) => setDrawerVisible("queued", visible),
+    },
+    {
+      id: "tasks",
+      label: "Task progress",
+      visible: drawerVisibility.tasks,
+      onVisibleChange: (visible) => setDrawerVisible("tasks", visible),
+    },
+  ];
+
+  return (
+    <ChatWorkspace
+      messages={props.messages}
+      composerValue={props.composerValue}
+      onComposerChange={props.onComposerChange}
+      onSubmit={props.onSubmit}
+      tabs={props.tabs}
+      activeTabId={props.activeTabId}
+      onTabChange={props.onTabChange}
+      onTabClose={props.onTabClose}
+      onNewConversation={props.onNewConversation}
+      promptChips={props.promptChips}
+      onPromptChipSelect={props.onPromptChipSelect}
+      model={props.model}
+      modelOptions={props.modelMenuItems}
+      usage={props.usage}
+      projectLabel={props.projectLabel}
+      navItems={props.navItems}
+      activeNavId={props.activeNavId}
+      onNavChange={props.onNavChange}
+      composerDrawer={
+        <ComposerDrawerStack>
+          {drawerVisibility.fileChanges ? (
+            <ComposerDrawer
+              title={fileChangeDrawerTitle}
+              defaultOpen
+              actions={
+                <ComposerFileChangeActions onStop={() => undefined} onReview={() => undefined} />
+              }
+            >
+              <ComposerFileChangeList items={fileChangeItems} />
+            </ComposerDrawer>
+          ) : null}
+          {drawerVisibility.errors ? (
+            <ComposerDrawer title={errorMessageDrawerTitle} tone="danger" defaultOpen={false}>
+              <ComposerErrorList items={errorMessageItems} />
+            </ComposerDrawer>
+          ) : null}
+          {drawerVisibility.queued ? (
+            <ComposerDrawer title={queuedMessageDrawerTitle} defaultOpen={false}>
+              <ComposerQueuedList items={queuedMessageItems} />
+            </ComposerDrawer>
+          ) : null}
+          {drawerVisibility.tasks ? (
+            <ComposerDrawer title={agentTaskDrawerTitle}>
+              <ComposerTaskList items={agentTaskItems} />
+            </ComposerDrawer>
+          ) : null}
+        </ComposerDrawerStack>
+      }
+      onAddFile={() => undefined}
+      drawerToggles={drawerToggles}
+      composerNotice={<DemoComposerNotice />}
+    />
+  );
+}
+
+/** Example of a dismissible bottom notification docked below the chat composer. */
+function DemoComposerNotice() {
+  const [dismissed, setDismissed] = useState(false);
+  if (dismissed) return null;
+  return (
+    <ComposerNotice actionLabel="Upgrade Plan" onDismiss={() => setDismissed(true)}>
+      Upgrade to Team to unlock all of Longformer&rsquo;s features and more credits
+    </ComposerNotice>
+  );
+}
 
 export interface WorkspaceLayoutOptions {
   /** Include workspace sidebars (false for desktop window embedding). */
@@ -307,7 +465,7 @@ export function buildWorkspaceLayout(
         />
       ) : undefined;
       main = (
-        <ChatWorkspace
+        <DemoChatWorkspace
           messages={vm.messages}
           composerValue={vm.composerValue}
           onComposerChange={vm.setComposerValue}
@@ -320,7 +478,7 @@ export function buildWorkspaceLayout(
           promptChips={vm.promptChips}
           onPromptChipSelect={(item) => vm.setComposerValue(item.label)}
           model={vm.model}
-          modelOptions={vm.modelMenuItems}
+          modelMenuItems={vm.modelMenuItems}
           usage={vm.demoUsage}
           projectLabel="Longformer"
           navItems={vm.chatNavItems}
@@ -1040,6 +1198,11 @@ export function buildWorkspaceLayout(
     case "composer":
       sidebar = undefined;
       main = <ComposerWorkspace />;
+      break;
+
+    case "generator":
+      sidebar = undefined;
+      main = <GeneratorWorkspace />;
       break;
 
     case "desktop":

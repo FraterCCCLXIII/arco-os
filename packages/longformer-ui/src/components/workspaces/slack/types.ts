@@ -1,4 +1,14 @@
+import type { AppIconHue } from "../../../app-tones/app-tones";
 import type { AvatarStatus } from "../../primitives/Avatar";
+
+export interface SlackChannelIconConfig {
+  /** Emoji or short glyph shown inside the channel tile. */
+  emoji?: string;
+  /** Tile background hue; defaults from the channel id when omitted. */
+  hue?: AppIconHue;
+  /** Optional image URL; takes precedence over `emoji`. */
+  image?: string;
+}
 
 export interface SlackWorkspaceItem {
   id: string;
@@ -20,6 +30,7 @@ export interface SlackNavItem {
 export interface SlackChannel {
   id: string;
   name: string;
+  icon?: SlackChannelIconConfig;
   unread?: boolean;
   mentionCount?: number;
 }

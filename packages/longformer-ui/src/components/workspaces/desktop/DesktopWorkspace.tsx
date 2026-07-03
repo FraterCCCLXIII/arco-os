@@ -5,7 +5,9 @@ import { StatusBar } from "./StatusBar";
 import { DesktopSurface } from "./DesktopSurface";
 import { TaskTray } from "./TaskTray";
 import { ShellPicker } from "./ShellPicker";
+import { SpecialPagePicker } from "./SpecialPagePicker";
 import { DEVICE_FORM_FACTOR_ORDER, FormFactorPicker } from "./FormFactorPicker";
+import { SpecialPageView, type SpecialPageId } from "./special-pages";
 import type { FormFactor, SurfaceRect, SurfaceWindow, WindowPolicy } from "../../../surface-manager";
 import { toSurfaceWindow } from "../../../surface-manager";
 import { FORM_FACTOR_FRAME, formFactorUsesFixedFrame } from "./formFactorFrame";
@@ -54,6 +56,9 @@ export interface DesktopWorkspaceProps {
   onFullscreenChange?: (fullscreen: boolean) => void;
   defaultFullscreen?: boolean;
   wallpaperUrl?: string;
+  specialPage?: SpecialPageId;
+  onSpecialPageChange?: (page: SpecialPageId) => void;
+  defaultSpecialPage?: SpecialPageId;
 }
 
 /**
@@ -98,9 +103,22 @@ export function DesktopWorkspace({
   onFullscreenChange,
   defaultFullscreen = false,
   wallpaperUrl,
+  specialPage: controlledSpecialPage,
+  onSpecialPageChange,
+  defaultSpecialPage = "desktop",
 }: DesktopWorkspaceProps) {
   const [internalFullscreen, setInternalFullscreen] = useState(defaultFullscreen);
+  const [internalSpecialPage, setInternalSpecialPage] = useState<SpecialPageId>(defaultSpecialPage);
   const fullscreen = controlledFullscreen ?? internalFullscreen;
+  const specialPage = controlledSpecialPage ?? internalSpecialPage;
+  const showingSpecialPage = specialPage !== "desktop";
+
+  function handleSpecialPageChange(page: SpecialPageId) {
+    onSpecialPageChange?.(page);
+    if (controlledSpecialPage === undefined) {
+      setInternalSpecialPage(page);
+    }
+  }
 
   function handleToggleFullscreen() {
     const next = !fullscreen;
@@ -132,10 +150,11 @@ export function DesktopWorkspace({
 
   return (
     <div className={cx(styles.workspace, fullscreen && styles.workspaceFullscreen)}>
-      {(onShellChange || onFormFactorChange) && !fullscreen && (
+      {(onShellChange || onFormFactorChange || !fullscreen) && !fullscreen && (
         <div className={styles.toolbar}>
           {header ?? (
             <>
+              <SpecialPagePicker page={specialPage} onPageChange={handleSpecialPageChange} />
               <div className={styles.toolbarPickers}>
                 {onFormFactorChange && (
                   <FormFactorPicker
@@ -174,56 +193,62 @@ export function DesktopWorkspace({
               : undefined
           }
         >
-          <StatusBar
-            shell={shell}
-            status={mergedStatus}
-            fullscreen={fullscreen}
-            onToggleFullscreen={handleToggleFullscreen}
-          />
-          <DesktopSurface
-            shell={shell}
-            formFactor={formFactor}
-            policy={policy}
-            icons={desktopIcons}
-            apps={apps}
-            windows={displayWindows}
-            activeWindowId={activeWindowId}
-            onSelectIcon={onSelectDesktopIcon}
-            onLaunchApp={onLaunchApp}
-            onFocusWindow={onFocusWindow}
-            onCloseWindow={onCloseWindow}
-            onMinimizeWindow={onMinimizeWindow}
-            onMaximizeWindow={onMaximizeWindow}
-            onMoveWindow={onMoveWindow}
-            onResizeWindow={onResizeWindow}
-            onNextGlance={onNextGlance}
-            onPrevGlance={onPrevGlance}
-            onShowMobileHome={onMinimizeAll}
-            widgetTiles={widgetTiles}
-            renderWindowContent={renderWindowContent}
-            wallpaperUrl={wallpaperUrl}
-          />
-          <TaskTray
-            shell={shell}
-            formFactor={formFactor}
-            apps={trayApps ?? apps}
-            overflowApps={trayOverflowApps}
-            windows={trayWindows}
-            activeWindowId={activeWindowId}
-            onLaunchApp={onLaunchApp}
-            onFocusWindow={onFocusWindow}
-            onMinimizeWindow={onMinimizeWindow}
-            onCloseWindow={onCloseWindow}
-            onCreateApp={onCreateApp}
-            onReorder={onTrayReorder}
-            onUndock={onTrayUndock}
-            onMoveToTray={onMoveToTray}
-            onPopPhoneStack={onPopPhoneStack}
-            onMinimizeAll={onMinimizeAll}
-            onNextGlance={onNextGlance}
-            onPrevGlance={onPrevGlance}
-            homeVisible={homeVisible}
-          />
+          {showingSpecialPage ? (
+            <SpecialPageView page={specialPage} />
+          ) : (
+            <>
+              <StatusBar
+                shell={shell}
+                status={mergedStatus}
+                fullscreen={fullscreen}
+                onToggleFullscreen={handleToggleFullscreen}
+              />
+              <DesktopSurface
+                shell={shell}
+                formFactor={formFactor}
+                policy={policy}
+                icons={desktopIcons}
+                apps={apps}
+                windows={displayWindows}
+                activeWindowId={activeWindowId}
+                onSelectIcon={onSelectDesktopIcon}
+                onLaunchApp={onLaunchApp}
+                onFocusWindow={onFocusWindow}
+                onCloseWindow={onCloseWindow}
+                onMinimizeWindow={onMinimizeWindow}
+                onMaximizeWindow={onMaximizeWindow}
+                onMoveWindow={onMoveWindow}
+                onResizeWindow={onResizeWindow}
+                onNextGlance={onNextGlance}
+                onPrevGlance={onPrevGlance}
+                onShowMobileHome={onMinimizeAll}
+                widgetTiles={widgetTiles}
+                renderWindowContent={renderWindowContent}
+                wallpaperUrl={wallpaperUrl}
+              />
+              <TaskTray
+                shell={shell}
+                formFactor={formFactor}
+                apps={trayApps ?? apps}
+                overflowApps={trayOverflowApps}
+                windows={trayWindows}
+                activeWindowId={activeWindowId}
+                onLaunchApp={onLaunchApp}
+                onFocusWindow={onFocusWindow}
+                onMinimizeWindow={onMinimizeWindow}
+                onCloseWindow={onCloseWindow}
+                onCreateApp={onCreateApp}
+                onReorder={onTrayReorder}
+                onUndock={onTrayUndock}
+                onMoveToTray={onMoveToTray}
+                onPopPhoneStack={onPopPhoneStack}
+                onMinimizeAll={onMinimizeAll}
+                onNextGlance={onNextGlance}
+                onPrevGlance={onPrevGlance}
+                homeVisible={homeVisible}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>
