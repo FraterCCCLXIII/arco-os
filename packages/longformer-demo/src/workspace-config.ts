@@ -41,7 +41,10 @@ export type WorkspaceId =
   | "bento"
   | "app-port"
   | "composer"
-  | "generator";
+  | "generator"
+  | "wireframe"
+  | "nodal"
+  | "creative-studio";
 
 export interface WorkspaceNavItem {
   id: WorkspaceId;
@@ -90,6 +93,9 @@ export const WORKSPACES: WorkspaceNavItem[] = [
   { id: "life-planning", label: "Life Planning", icon: "target" },
   { id: "psyche", label: "Psyche", icon: "sparkles" },
   { id: "generated", label: "Design System", icon: "layers" },
+  { id: "wireframe", label: "Wireframe", icon: "layers" },
+  { id: "nodal", label: "Nodal", icon: "target" },
+  { id: "creative-studio", label: "Creative Studio", icon: "edit" },
 ];
 
 const WORKSPACE_TONES: Partial<Record<WorkspaceId, DesktopApp["tone"]>> = Object.fromEntries(

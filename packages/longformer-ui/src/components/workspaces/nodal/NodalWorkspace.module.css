@@ -1,0 +1,155 @@
+.workspace {
+  --nodal-grid-dot: color-mix(in srgb, var(--lf-text-tertiary) 35%, transparent);
+}
+
+.canvasWrap {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  background-color: var(--lf-surface-canvas);
+  background-image: radial-gradient(circle, var(--nodal-grid-dot) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.connectorLayer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.connector {
+  fill: none;
+  stroke: var(--lf-text-primary);
+  stroke-width: 2;
+  marker-end: url(#nodal-arrow);
+}
+
+.node {
+  position: absolute;
+  box-sizing: border-box;
+  border: 2px solid var(--lf-border-strong);
+  background: var(--lf-surface-1);
+  cursor: grab;
+  user-select: none;
+}
+
+.node:active {
+  cursor: grabbing;
+}
+
+.nodeRectangle {
+  border-radius: var(--lf-radius-lg);
+}
+
+.nodeCircle {
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nodeSticky {
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-warning-muted);
+  border-color: var(--lf-warning);
+}
+
+.nodeSelected {
+  outline: 2px solid var(--lf-accent);
+  outline-offset: 2px;
+}
+
+.nodeLabel {
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-secondary);
+  text-align: center;
+  padding: var(--lf-space-2);
+}
+
+.contextToolbar {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: var(--lf-space-1) var(--lf-space-2);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-3);
+  color: var(--lf-text-primary);
+  border: 1px solid var(--lf-border-default);
+  box-shadow: var(--lf-shadow-md);
+  transform: translate(-50%, -100%);
+  z-index: 2;
+}
+
+.contextDivider {
+  width: 1px;
+  height: 20px;
+  margin: 0 2px;
+  background: var(--lf-border-default);
+}
+
+.toolAccent {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--lf-radius-sm);
+  border: 1px solid var(--lf-border-default);
+}
+
+.zoomWidget {
+  position: absolute;
+  right: var(--lf-space-4);
+  bottom: var(--lf-space-4);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: var(--lf-space-1);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-overlay);
+  border: 1px solid var(--lf-border-default);
+  box-shadow: var(--lf-shadow-md);
+  z-index: 3;
+}
+
+.zoomLevel {
+  min-width: 36px;
+  padding: 0 var(--lf-space-1);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-secondary);
+  text-align: center;
+}
+
+.timer {
+  padding: 4px 10px;
+  border-radius: var(--lf-radius-pill);
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 500;
+}
+
+.fileMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  min-width: 0;
+}
+
+.fileName {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .fileMeta {
+    display: none;
+  }
+}

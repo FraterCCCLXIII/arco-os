@@ -58,6 +58,9 @@ import {
   AppPortWorkspace,
   ComposerWorkspace,
   GeneratorWorkspace,
+  WireframeWorkspace,
+  NodalWorkspace,
+  CreativeStudioWorkspace,
   AdaptiveWorkspaceWindowContent,
   type AppsSubpage,
   type BlockFormat,
@@ -1249,6 +1252,21 @@ export function buildWorkspaceLayout(
           onSendEmail={vm.handleSendEmail}
         />
       );
+      break;
+
+    case "wireframe":
+      sidebar = undefined;
+      main = <WireframeWorkspace />;
+      break;
+
+    case "nodal":
+      sidebar = undefined;
+      main = <NodalWorkspace />;
+      break;
+
+    case "creative-studio":
+      sidebar = undefined;
+      main = <CreativeStudioWorkspace />;
       break;
 
     case "generated":

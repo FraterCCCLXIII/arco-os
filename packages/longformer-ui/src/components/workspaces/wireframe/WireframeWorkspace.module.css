@@ -1,0 +1,51 @@
+.colorRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.colorSwatch {
+  width: 16px;
+  height: 16px;
+  border-radius: var(--lf-radius-sm);
+  border: 1px solid var(--lf-border-default);
+  background: var(--lf-surface-sunken);
+}
+
+.colorValue {
+  font-size: var(--lf-font-size-xs);
+  font-family: var(--lf-font-mono);
+  color: var(--lf-text-secondary);
+}
+
+.exportRow {
+  display: flex;
+  gap: var(--lf-space-2);
+}
+
+.exportSelect {
+  flex: 1;
+  min-width: 0;
+  padding: var(--lf-space-1) var(--lf-space-2);
+  border: 1px solid var(--lf-border-default);
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-surface-1);
+  color: var(--lf-text-primary);
+  font-size: var(--lf-font-size-xs);
+}
+
+.zoomLabel {
+  flex-shrink: 0;
+  padding: var(--lf-space-2) var(--lf-space-3);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+  text-align: right;
+  border-bottom: 1px solid var(--lf-border-default);
+}
+
+.panelScroll {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}

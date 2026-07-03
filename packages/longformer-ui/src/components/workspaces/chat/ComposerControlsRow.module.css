@@ -1,0 +1,154 @@
+.controls {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--lf-space-2);
+  width: 100%;
+  min-width: 0;
+}
+
+.controlsLeft {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.controlsLeftWithOverflow .scroller {
+  mask-image: linear-gradient(to right, #000 calc(100% - 14px), transparent 100%);
+}
+
+.scroller {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.track {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  width: max-content;
+  max-width: 100%;
+}
+
+.controlItem {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+.controlItemHidden {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 14px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.fadeLeft {
+  left: 0;
+  background: linear-gradient(to right, var(--lf-surface-2), transparent);
+}
+
+.fadeRight {
+  right: 0;
+  background: linear-gradient(to left, var(--lf-surface-2), transparent);
+}
+
+.overflowDock {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding-left: var(--lf-space-1);
+}
+
+.overflowDockFade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -12px;
+  width: 12px;
+  background: linear-gradient(to right, transparent, var(--lf-surface-2));
+  pointer-events: none;
+}
+
+.controlsRight {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: var(--lf-space-1);
+  grid-column: 2;
+}
+
+.modeTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  height: 28px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 var(--lf-space-2);
+  border-radius: var(--lf-radius-md);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-sm);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.modeLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modeTrigger:hover {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-secondary);
+}
+
+.modelTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  height: 28px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0 var(--lf-space-2);
+  border-radius: var(--lf-radius-md);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-sm);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.modelLabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modelTrigger:hover {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-secondary);
+}

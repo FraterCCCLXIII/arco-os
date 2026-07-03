@@ -48,17 +48,6 @@
   border-top-right-radius: calc(var(--lf-radius-lg) - 1px);
 }
 
-.controls {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--lf-space-2);
-  min-width: 0;
-}
-
 .textareaRow {
   min-width: 0;
   padding: 0 var(--lf-space-1);
@@ -85,99 +74,4 @@
 
 .textarea::-webkit-scrollbar-track {
   background: transparent;
-}
-
-.controlsLeft,
-.controlsRight {
-  display: flex;
-  align-items: center;
-  gap: var(--lf-space-1);
-}
-
-.controlsLeft {
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-.controlsRight {
-  flex-shrink: 0;
-  margin-left: auto;
-}
-
-.modeTrigger {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--lf-space-1);
-  height: 28px;
-  min-width: 0;
-  max-width: 100%;
-  padding: 0 var(--lf-space-2);
-  border-radius: var(--lf-radius-md);
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--lf-text-tertiary);
-  font-size: var(--lf-font-size-sm);
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.modeLabel {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.modeTrigger:hover {
-  background: var(--lf-surface-3);
-  color: var(--lf-text-secondary);
-}
-
-.modelTrigger {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--lf-space-1);
-  height: 28px;
-  min-width: 0;
-  max-width: 100%;
-  padding: 0 var(--lf-space-2);
-  border-radius: var(--lf-radius-md);
-  background: transparent;
-  border: 1px solid transparent;
-  color: var(--lf-text-tertiary);
-  font-size: var(--lf-font-size-sm);
-  cursor: pointer;
-  flex-shrink: 1;
-}
-
-.modelLabel {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.modelTrigger:hover {
-  background: var(--lf-surface-3);
-  color: var(--lf-text-secondary);
-}
-
-@container (max-width: 320px) {
-  .modeTrigger,
-  .modelTrigger {
-    padding: 0 var(--lf-space-1);
-  }
-}
-
-@container (max-width: 260px) {
-  .modelLabel {
-    display: none;
-  }
-
-  .modelTrigger {
-    width: 28px;
-    justify-content: center;
-    padding: 0;
-    flex-shrink: 0;
-  }
 }

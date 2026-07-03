@@ -1,0 +1,144 @@
+.artboard {
+  width: min(280px, 45%);
+  aspect-ratio: 9 / 16;
+  background: var(--lf-surface-1);
+  box-shadow: var(--lf-shadow-lg);
+  border: 1px solid var(--lf-border-subtle);
+}
+
+.colorWheel {
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 180px;
+  margin: 0 auto var(--lf-space-2);
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--lf-danger),
+    var(--lf-warning),
+    var(--lf-success),
+    var(--lf-info),
+    var(--lf-accent),
+    var(--lf-app-hue-violet-solid),
+    var(--lf-danger)
+  );
+  position: relative;
+}
+
+.colorWheelInner {
+  position: absolute;
+  inset: 18%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--lf-surface-1) 0%, transparent 70%);
+}
+
+.colorRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+}
+
+.colorSwatch {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--lf-radius-sm);
+  border: 1px solid var(--lf-border-default);
+  background: var(--lf-success);
+  flex-shrink: 0;
+}
+
+.fieldRow {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  margin-bottom: var(--lf-space-2);
+}
+
+.fieldLabel {
+  flex-shrink: 0;
+  width: 48px;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-secondary);
+}
+
+.textDecorRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.transformGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--lf-space-2);
+}
+
+.transformField {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.transformLabel {
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.navigatorPreview {
+  aspect-ratio: 9 / 16;
+  max-height: 120px;
+  margin: 0 auto;
+  background: var(--lf-surface-1);
+  border: 1px solid var(--lf-border-default);
+  box-shadow: inset 0 0 0 8px var(--lf-surface-sunken);
+}
+
+.historyList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.historyItem {
+  padding: var(--lf-space-1) 0;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-secondary);
+  border-bottom: 1px solid var(--lf-border-subtle);
+}
+
+.historyItemActive {
+  color: var(--lf-accent);
+}
+
+.bottomPanel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.bottomBody {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--lf-space-3);
+}
+
+.panelScroll {
+  flex: 1;
+  min-height: 0;
+}
+
+.fillSwatchSuccess {
+  background: var(--lf-success);
+}
+
+.exportSelect {
+  flex: 1;
+  min-width: 0;
+  padding: var(--lf-space-1) var(--lf-space-2);
+  border: 1px solid var(--lf-border-default);
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-surface-1);
+  color: var(--lf-text-primary);
+  font-size: var(--lf-font-size-xs);
+}

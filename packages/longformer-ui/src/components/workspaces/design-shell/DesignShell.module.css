@@ -1,0 +1,368 @@
+.workspace {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--lf-surface-canvas);
+  color: var(--lf-text-primary);
+}
+
+.topBar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  min-height: 40px;
+  padding: 0 var(--lf-space-3);
+  border-bottom: 1px solid var(--lf-border-default);
+  background: var(--lf-surface-1);
+}
+
+.topBarSpacer {
+  flex: 1;
+  min-width: 0;
+}
+
+.topBarGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  flex-shrink: 0;
+}
+
+.topBarDivider {
+  width: 1px;
+  height: 20px;
+  background: var(--lf-border-default);
+  flex-shrink: 0;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.sidePanel {
+  flex-shrink: 0;
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--lf-surface-2);
+  border-color: var(--lf-border-default);
+}
+
+.sidePanelLeft {
+  border-right: 1px solid var(--lf-border-default);
+}
+
+.sidePanelRight {
+  border-left: 1px solid var(--lf-border-default);
+}
+
+.panelHeader {
+  flex-shrink: 0;
+  padding: var(--lf-space-3);
+  border-bottom: 1px solid var(--lf-border-default);
+}
+
+.panelTitle {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  color: var(--lf-text-primary);
+}
+
+.panelMeta {
+  margin: var(--lf-space-1) 0 0;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-secondary);
+}
+
+.section {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--lf-border-default);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.sectionHeader {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2) var(--lf-space-3);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: var(--lf-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sectionBody {
+  flex: 1;
+  min-height: 0;
+}
+
+.listItem {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  width: 100%;
+  padding: var(--lf-space-1) var(--lf-space-3);
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--lf-text-primary);
+  font-size: var(--lf-font-size-xs);
+  text-align: left;
+  cursor: pointer;
+}
+
+.listItem:hover {
+  background: var(--lf-desktop-chrome-hover);
+}
+
+.listItemActive {
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.rail {
+  flex-shrink: 0;
+  width: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: var(--lf-space-2) 0;
+  border-right: 1px solid var(--lf-border-default);
+  background: var(--lf-surface-1);
+}
+
+.railButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  width: 40px;
+  padding: 6px 0;
+  border: none;
+  border-radius: var(--lf-radius-sm);
+  background: transparent;
+  color: var(--lf-text-secondary);
+  font-size: 9px;
+  cursor: pointer;
+}
+
+.railButton:hover,
+.railButtonActive {
+  background: var(--lf-desktop-chrome-hover);
+  color: var(--lf-text-primary);
+}
+
+.toolRail {
+  flex-shrink: 0;
+  width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--lf-space-2) 0;
+  border-right: 1px solid var(--lf-border-default);
+  background: var(--lf-surface-1);
+}
+
+.canvasArea {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--lf-surface-sunken);
+}
+
+.rulerRow {
+  flex-shrink: 0;
+  display: flex;
+  height: 22px;
+}
+
+.rulerCorner {
+  flex-shrink: 0;
+  width: 22px;
+  background: var(--lf-surface-2);
+  border-right: 1px solid var(--lf-border-default);
+  border-bottom: 1px solid var(--lf-border-default);
+}
+
+.rulerHorizontal {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: var(--lf-surface-2);
+  border-bottom: 1px solid var(--lf-border-default);
+}
+
+.rulerVertical {
+  flex-shrink: 0;
+  width: 22px;
+  position: relative;
+  overflow: hidden;
+  background: var(--lf-surface-2);
+  border-right: 1px solid var(--lf-border-default);
+}
+
+.rulerTick {
+  position: absolute;
+  font-size: 8px;
+  color: var(--lf-text-tertiary);
+  line-height: 1;
+}
+
+.rulerTickH {
+  top: 8px;
+  transform: translateX(-50%);
+}
+
+.rulerTickV {
+  left: 2px;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: left center;
+}
+
+.canvasRow {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.canvas {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.canvasCentered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: var(--lf-space-8);
+}
+
+.toolDock {
+  position: absolute;
+  left: 50%;
+  bottom: var(--lf-space-4);
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: var(--lf-space-1);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-overlay);
+  border: 1px solid var(--lf-border-default);
+  box-shadow: var(--lf-shadow-lg);
+  z-index: 2;
+}
+
+.toolDockGroup {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.toolDockDivider {
+  width: 1px;
+  height: 24px;
+  margin: 0 var(--lf-space-1);
+  background: var(--lf-border-default);
+}
+
+.toolDockActive {
+  background: var(--lf-accent-muted);
+  color: var(--lf-accent);
+}
+
+.propertyGroup {
+  padding: 0 var(--lf-space-3) var(--lf-space-4);
+}
+
+.propertyLabel {
+  margin: 0 0 var(--lf-space-2);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 600;
+  color: var(--lf-text-secondary);
+}
+
+.statusBar {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 28px;
+  padding: 0 var(--lf-space-3);
+  border-top: 1px solid var(--lf-border-default);
+  background: var(--lf-surface-1);
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-secondary);
+}
+
+.topBarTabs {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.panelTabBar {
+  flex-shrink: 0;
+  padding: 0 var(--lf-space-3);
+  border-bottom: 1px solid var(--lf-border-default);
+}
+
+.panelTabBarFlush {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.appBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--lf-radius-sm);
+  background: linear-gradient(135deg, var(--lf-app-hue-violet-from), var(--lf-app-hue-violet-to));
+  color: var(--lf-text-on-accent);
+  font-size: var(--lf-font-size-xs);
+  font-weight: 700;
+}
+
+.fillSwatch {
+  width: 28px;
+  height: 28px;
+  margin-top: auto;
+  border-radius: var(--lf-radius-sm);
+  border: 2px solid var(--lf-border-default);
+  cursor: pointer;
+}
+
+@media (max-width: 960px) {
+  .sidePanel {
+    display: none;
+  }
+}

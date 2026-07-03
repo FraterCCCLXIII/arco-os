@@ -1,17 +1,13 @@
-import { useMemo, useRef, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { cx } from "../../../utils/cx";
-import { Icon } from "../../../icons";
 import { Textarea } from "../../primitives/Textarea";
-import { IconButton } from "../../primitives/IconButton";
-import { Menu, type MenuItemDescriptor } from "../../primitives/Menu";
+import { type MenuItemDescriptor } from "../../primitives/Menu";
 import type { TabItem } from "../../primitives/Tabs";
 import { ComposerStatusBar } from "./ComposerStatusBar";
-import {
-  ComposerFormattingToggle,
-  ComposerFormattingToolbar,
-} from "./ComposerFormattingToolbar";
-import { ComposerEmojiPicker, insertTextAtCursor } from "./ComposerEmojiPicker";
-import { ComposerAttachMenu, type ComposerDrawerToggle } from "./ComposerAttachMenu";
+import { ComposerFormattingToolbar } from "./ComposerFormattingToolbar";
+import { insertTextAtCursor } from "./ComposerEmojiPicker";
+import { type ComposerDrawerToggle } from "./ComposerAttachMenu";
+import { ComposerControlsRow } from "./ComposerControlsRow";
 import type { UsageStats } from "./UsagePopover";
 import { useComposerFormattingToolbar } from "./useComposerFormattingToolbar";
 import styles from "./Composer.module.css";
@@ -74,28 +70,12 @@ export function Composer({
   const { visible: formattingToolbarVisible, toggle: toggleFormattingToolbar } =
     useComposerFormattingToolbar();
 
-  function handleInsertEmoji(emoji: string) {
-    insertTextAtCursor(textareaRef, value, emoji, onChange);
-  }
-
   function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       if (value.trim().length > 0) onSubmit();
     }
   }
-
-  const showModeMenu = navItems && navItems.length > 0 && activeNavId && onNavChange;
-  const activeModeLabel = navItems?.find((item) => item.id === activeNavId)?.label;
-  const modeMenuItems = useMemo<MenuItemDescriptor[]>(
-    () =>
-      navItems?.map((item) => ({
-        id: item.id,
-        label: item.label,
-        onSelect: () => onNavChange?.(item.id),
-      })) ?? [],
-    [navItems, onNavChange],
-  );
 
   return (
     <div className={cx(styles.stack, className)}>
@@ -118,59 +98,21 @@ export function Composer({
             aria-label={inputAriaLabel}
           />
         </div>
-        <div className={styles.controls}>
-          <div className={styles.controlsLeft}>
-            <ComposerAttachMenu
-              disabled={disabled}
-              onAddFile={onAddFile}
-              drawerToggles={drawerToggles}
-            />
-            <ComposerEmojiPicker disabled={disabled} onSelect={handleInsertEmoji} />
-            <ComposerFormattingToggle
-              visible={formattingToolbarVisible}
-              onToggle={toggleFormattingToolbar}
-            />
-            {showModeMenu ? (
-              <Menu
-                align="start"
-                side="top"
-                trigger={
-                  <button type="button" className={styles.modeTrigger}>
-                    <span className={styles.modeLabel}>{activeModeLabel}</span>
-                    <Icon name="chevron-down" size={13} />
-                  </button>
-                }
-                items={modeMenuItems}
-                aria-label="Conversation mode"
-              />
-            ) : null}
-            {model && modelOptions && (
-              <Menu
-                align="start"
-                side="top"
-                trigger={
-                  <button type="button" className={styles.modelTrigger}>
-                    <span className={styles.modelLabel}>{model}</span>
-                    <Icon name="chevron-down" size={13} />
-                  </button>
-                }
-                items={modelOptions}
-                aria-label="Choose model"
-              />
-            )}
-          </div>
-          <div className={styles.controlsRight}>
-            <IconButton icon="mic" label="Voice input" size="sm" />
-            <IconButton
-              icon="send"
-              label="Send message"
-              variant="primary"
-              size="sm"
-              disabled={disabled || value.trim().length === 0}
-              onClick={onSubmit}
-            />
-          </div>
-        </div>
+        <ComposerControlsRow
+          disabled={disabled}
+          onAddFile={onAddFile}
+          drawerToggles={drawerToggles}
+          onInsertEmoji={(emoji) => insertTextAtCursor(textareaRef, value, emoji, onChange)}
+          formattingVisible={formattingToolbarVisible}
+          onToggleFormatting={toggleFormattingToolbar}
+          navItems={navItems}
+          activeNavId={activeNavId}
+          onNavChange={onNavChange}
+          model={model}
+          modelOptions={modelOptions}
+          onSubmit={onSubmit}
+          canSubmit={value.trim().length > 0}
+        />
         {footer}
       </div>
       {notice && <div className={styles.noticeSlot}>{notice}</div>}
