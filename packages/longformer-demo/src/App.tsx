@@ -4,8 +4,8 @@
  * panel, and the hover chrome used outside the desktop workspace.
  *
  * This file owns *composition only*: state lives in the slice hooks, mock
- * data in mock-data/, and workspace routing in workspace-layout.tsx. When
- * the real agent backend lands, it replaces slices — not this shell.
+ * data in mock-data/, and workspace routing in workspaces/registry.tsx.
+ * When the real agent backend lands, it replaces slices — not this shell.
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
@@ -42,7 +42,8 @@ import {
   type WorkspaceId,
 } from "./workspace-config";
 import { useWorkspaceNavigation } from "./useWorkspaceNavigation";
-import { buildWorkspaceLayout, buildWorkspaceWindowContent } from "./workspace-layout";
+import { buildWorkspaceLayout, buildWorkspaceWindowContent } from "./workspaces/registry";
+import type { WorkspaceViewModel } from "./workspaces/types";
 import {
   allWidgetTiles,
   staticWorkspaceData,
@@ -140,7 +141,7 @@ function LongformerApp() {
   // bag when a slice identity changes — the layout switch then re-renders
   // just the active workspace.
   // -------------------------------------------------------------------------
-  const workspaceViewModelBase = useMemo(
+  const workspaceViewModelBase = useMemo<WorkspaceViewModel>(
     () => ({
       setWorkspaceId,
       ...chat,
