@@ -1,0 +1,26 @@
+# CI safety net — typecheck, lint, and build on every push and PR.
+# TypeScript strictness is currently the project's only automated guard;
+# running it in CI means a broken push is caught even when nobody ran the
+# checks locally. Reference clones and the proto/ Python experiment are
+# untracked/ignored, so this only exercises the three npm workspaces.
+name: CI
+
+on:
+  push:
+    branches: [master, prototype-m1]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run build --workspace=longformer-demo
+      - run: npm run build --workspace=longformer-www
