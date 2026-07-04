@@ -338,6 +338,13 @@ const icons: Record<IconName, LucideIcon> = {
   "picture-in-picture": PictureInPicture2,
 };
 
+/**
+ * Runtime list of every icon name. Schema validators (e.g. the generated-UI
+ * block registry) use this to reject agent JSON that references glyphs the
+ * kit doesn't ship, instead of failing silently at render time.
+ */
+export const ICON_NAMES = Object.keys(icons) as IconName[];
+
 /** Icons that read better filled (e.g. an active "starred" state) than stroked. */
 const FILLED_ICONS: ReadonlySet<IconName> = new Set(["star", "dot", "sparkles", "heart"]);
 

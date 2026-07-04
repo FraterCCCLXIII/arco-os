@@ -1,4 +1,5 @@
 import type { GeneratedBlock } from "../generated-ui/types";
+import { blockTypesForFamily } from "../generated-ui/registry";
 
 /** Top-level realms that organize the design system catalog. */
 export type DesignSystemRealm = "foundations" | "library" | "reference";
@@ -123,105 +124,63 @@ export interface CardFamily {
   blockTypes: GeneratedBlock["type"][];
 }
 
+// Family membership derives from the block registry (each `defineBlock` entry
+// declares its family), so the catalog can never disagree with the renderer.
+// Only the labels and descriptions live here.
 export const CARD_FAMILIES: CardFamily[] = [
   {
     id: "metrics",
     label: "Metrics & charts",
     description: "KPIs, trend lines, gauges, and progress readouts.",
-    blockTypes: [
-      "statCards",
-      "metricChartCards",
-      "miniStatChartCards",
-      "statisticsProgressCards",
-      "targetChartCards",
-      "quizScoreCards",
-      "timeSpentCards",
-      "weeklyStreakCards",
-      "globalRankingCards",
-      "enrollmentChartCards",
-    ],
+    blockTypes: blockTypesForFamily("metrics"),
   },
   {
     id: "commerce",
     label: "Commerce & listings",
     description: "Marketplace tiles, media cards, and listing rows.",
-    blockTypes: ["cardGrid", "mediaCards", "listingCards", "assetShowcaseCards"],
+    blockTypes: blockTypesForFamily("commerce"),
   },
   {
     id: "finance",
     label: "Finance & markets",
     description: "Expenses, crypto, flow reports, and market sentiment.",
-    blockTypes: [
-      "expenseCards",
-      "cryptoMarketCards",
-      "flowReportCards",
-      "savedMoneyCards",
-      "fearGreedCards",
-      "expenseGaugeCards",
-      "earningReportsCards",
-      "salesOverviewCards",
-      "spentThisMonthCards",
-    ],
+    blockTypes: blockTypesForFamily("finance"),
   },
   {
     id: "productivity",
     label: "Productivity",
     description: "Tasks, calendars, events, routes, and schedules.",
-    blockTypes: [
-      "taskChecklistCards",
-      "calendarScheduleCards",
-      "eventCards",
-      "scheduleSlots",
-      "routeCards",
-      "meetingCountdownCards",
-      "timelineSteps",
-      "selectionTiles",
-    ],
+    blockTypes: blockTypesForFamily("productivity"),
   },
   {
     id: "social",
     label: "Social & content",
     description: "Sessions, profiles, news, music, and translation.",
-    blockTypes: [
-      "sessionCards",
-      "profileSummaryCards",
-      "profileGridCards",
-      "newsFeedCards",
-      "musicPlayerCards",
-      "videoPlayerCards",
-      "translationCards",
-      "insightCards",
-      "courseCards",
-    ],
+    blockTypes: blockTypesForFamily("social"),
   },
   {
     id: "device",
     label: "Device & system",
     description: "Hardware status, VPN, battery, and timezone utilities.",
-    blockTypes: ["deviceCards", "batteryStatusCards", "vpnConnectionCards", "timezoneCards", "activityCards"],
+    blockTypes: blockTypesForFamily("device"),
   },
   {
     id: "dashboard",
     label: "Dashboard analytics",
     description: "Executive summaries and operational dashboards.",
-    blockTypes: [
-      "activeProjectsCards",
-      "subscribersChartCards",
-      "webinarCtaCards",
-      "filterSections",
-    ],
+    blockTypes: blockTypesForFamily("dashboard"),
   },
   {
     id: "design-media",
     label: "Design & media",
     description: "Palettes, design cards, and visual showcases.",
-    blockTypes: ["colorPaletteCards", "designCards"],
+    blockTypes: blockTypesForFamily("design-media"),
   },
   {
     id: "collections",
     label: "Collections",
     description: "Responsive grids and carousels of mixed widget tiles.",
-    blockTypes: ["cardCollection"],
+    blockTypes: blockTypesForFamily("collections"),
   },
 ];
 
@@ -239,13 +198,13 @@ export const WIDGET_FAMILIES: WidgetFamily[] = [
     id: "glass",
     label: "Glass widgets",
     description: "Frosted, phone-native tiles for ambient information.",
-    blockTypes: ["glassWidgets"],
+    blockTypes: blockTypesForFamily("glass-widgets"),
   },
   {
     id: "creator",
     label: "Creator widgets",
     description: "Courses, streams, newsletters, and coaching slots.",
-    blockTypes: ["creatorWidgets"],
+    blockTypes: blockTypesForFamily("creator-widgets"),
   },
   {
     id: "banking-finance",
