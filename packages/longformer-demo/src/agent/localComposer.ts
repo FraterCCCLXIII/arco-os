@@ -1,0 +1,258 @@
+/**
+ * Local surface composer — a deterministic, offline stand-in for the agent.
+ *
+ * When no LLM is configured the demo still needs "type a prompt, get UI" to
+ * work, so this module pattern-matches the prompt against a handful of
+ * intents and assembles a plausible block payload for each. It deliberately
+ * returns untyped JSON (`unknown`), not `GeneratedBlock[]`: the output flows
+ * through the same `parseGeneratedSurface` validation boundary as real agent
+ * output, so the prototype exercises the production path end to end.
+ */
+
+// ---------------------------------------------------------------------------
+// Intent matching
+//
+// First keyword hit wins, top to bottom; the last entry is a catch-all
+// dashboard so every prompt produces something visual.
+// ---------------------------------------------------------------------------
+
+interface Intent {
+  id: string;
+  keywords: RegExp;
+  /** Builds the surface's blocks; `topic` is the cleaned-up prompt text. */
+  compose: (topic: string) => unknown[];
+  summary: (topic: string) => string;
+}
+
+/** Title-case the first letter for display inside generated block titles. */
+function display(topic: string): string {
+  const trimmed = topic.trim().replace(/[.?!]+$/, "");
+  if (!trimmed) return "Your request";
+  return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
+}
+
+const INTENTS: Intent[] = [
+  {
+    id: "tasks",
+    keywords: /\b(task|todo|to-do|checklist|chores?|errands?)\b/i,
+    summary: () => "Here's a task checklist to track that — check items off as you go.",
+    compose: (topic) => [
+      {
+        id: "lc-tasks",
+        type: "taskChecklistCards",
+        cards: [
+          {
+            id: "tc1",
+            title: display(topic),
+            items: [
+              { label: "Break the work into concrete steps", completed: true },
+              { label: "Schedule the first block of focus time", completed: false },
+              { label: "Line up anything you need from others", completed: false },
+              { label: "Review progress at the end of the day", completed: false },
+            ],
+            progress: 25,
+            progressLabel: "1 of 4",
+            actionLabel: "Add task",
+          },
+        ],
+      },
+      {
+        id: "lc-tasks-steps",
+        type: "timelineSteps",
+        title: "Suggested order",
+        steps: [
+          { id: "s1", label: "Plan", completed: true, showConnector: true },
+          { id: "s2", label: "Execute", showConnector: true },
+          { id: "s3", label: "Review", showConnector: false },
+        ],
+      },
+    ],
+  },
+  {
+    id: "schedule",
+    keywords: /\b(schedule|calendar|meeting|appointment|agenda|plan (my|the) (day|week))\b/i,
+    summary: () => "I sketched a schedule view with the key sessions blocked in.",
+    compose: (topic) => [
+      {
+        id: "lc-schedule-events",
+        type: "eventCards",
+        title: display(topic),
+        cards: [
+          {
+            id: "ev1",
+            label: "Morning",
+            title: "Deep work block",
+            startTime: "9:00 AM",
+            endTime: "11:00 AM",
+            timeLeft: { icon: "clock", label: "Starts in 20 min" },
+          },
+          {
+            id: "ev2",
+            label: "Afternoon",
+            title: "Review & sync",
+            startTime: "2:00 PM",
+            endTime: "2:45 PM",
+          },
+        ],
+      },
+      {
+        id: "lc-schedule-slots",
+        type: "scheduleSlots",
+        title: "Open slots",
+        slots: [
+          { id: "sl1", name: "Focus time", mode: "Solo", timeRange: "11:15 AM – 12:30 PM", tone: "accent" },
+          { id: "sl2", name: "Office hours", mode: "Drop-in", timeRange: "4:00 PM – 5:00 PM", tone: "success" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "budget",
+    keywords: /\b(budget|expens\w*|spend\w*|cost|money|financ\w*)\b/i,
+    summary: () => "Here's a spending snapshot with the biggest categories called out.",
+    compose: (topic) => [
+      {
+        id: "lc-budget-stats",
+        type: "statCards",
+        title: display(topic),
+        cards: [
+          { id: "b1", label: "This month", value: "$1,842", caption: "of $2,400 budget", icon: "wallet", tone: "accent", visualization: { type: "ring", percent: 77 } },
+          { id: "b2", label: "Largest category", value: "Dining", caption: "$486 so far", icon: "shopping-cart", tone: "warning" },
+          { id: "b3", label: "vs last month", value: "-8%", caption: "Trending down", icon: "dollar-sign", tone: "success" },
+        ],
+      },
+      {
+        id: "lc-budget-insights",
+        type: "insightCards",
+        cards: [
+          {
+            id: "bi1",
+            label: "Suggestion",
+            title: "Dining is pacing 22% over budget",
+            description: "Shifting two meals a week to groceries keeps the month on track.",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "trip",
+    keywords: /\b(trip|travel|vacation|flight|itinerar\w*|visit\w*|weekend in)\b/i,
+    summary: () => "I put together a first-pass itinerary with stays worth a look.",
+    compose: (topic) => [
+      {
+        id: "lc-trip-media",
+        type: "mediaCards",
+        title: display(topic),
+        cards: [
+          {
+            id: "tm1",
+            tone: "accent",
+            title: "Boutique stay, old town",
+            description: "Walkable to the main sights, rooftop breakfast included.",
+            badges: [{ icon: "star", label: "4.8" }],
+            actionLabel: "View stay",
+          },
+          {
+            id: "tm2",
+            tone: "success",
+            title: "Guesthouse by the water",
+            description: "Quiet neighborhood, easy transit into the center.",
+            badges: [{ icon: "star", label: "4.6" }],
+            actionLabel: "View stay",
+          },
+        ],
+      },
+      {
+        id: "lc-trip-steps",
+        type: "timelineSteps",
+        title: "Itinerary skeleton",
+        steps: [
+          { id: "d1", label: "Day 1 — arrive, old town walk", completed: false, showConnector: true },
+          { id: "d2", label: "Day 2 — museums & markets", completed: false, showConnector: true },
+          { id: "d3", label: "Day 3 — day trip, pack & depart", completed: false, showConnector: false },
+        ],
+      },
+    ],
+  },
+  {
+    id: "form",
+    keywords: /\b(form|sign[- ]?up|register|survey|intake|rsvp)\b/i,
+    summary: () => "Here's a draft of the form fields — tell me what to add or drop.",
+    compose: (topic) => [
+      {
+        id: "lc-form",
+        type: "form",
+        title: display(topic),
+        fields: [
+          { id: "f1", label: "Full name", value: "" },
+          { id: "f2", label: "Email", value: "" },
+          { id: "f3", label: "How did you hear about us?", value: "" },
+        ],
+      },
+      {
+        id: "lc-form-tiles",
+        type: "selectionTiles",
+        title: "Optional fields",
+        tiles: [
+          { id: "t1", label: "Phone", size: "sm" },
+          { id: "t2", label: "Company", size: "sm", selected: true },
+          { id: "t3", label: "Dietary needs", size: "sm" },
+        ],
+      },
+    ],
+  },
+  {
+    id: "dashboard",
+    keywords: /./,
+    summary: () => "I generated a quick dashboard for that — want me to go deeper on any tile?",
+    compose: (topic) => [
+      {
+        id: "lc-dash-heading",
+        type: "text",
+        text: display(topic),
+        tone: "heading",
+      },
+      {
+        id: "lc-dash-stats",
+        type: "statCards",
+        cards: [
+          { id: "d1", label: "Status", value: "On track", caption: "Updated just now", icon: "check", tone: "success" },
+          { id: "d2", label: "Progress", value: "64%", icon: "target", tone: "accent", visualization: { type: "ring", percent: 64 } },
+          { id: "d3", label: "This week", value: "12", caption: "items moved", icon: "zap", tone: "neutral" },
+        ],
+      },
+      {
+        id: "lc-dash-insights",
+        type: "insightCards",
+        cards: [
+          {
+            id: "di1",
+            label: "Next step",
+            title: "Pick one focus for tomorrow",
+            description: "Momentum compounds — a single named priority beats a long list.",
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export interface LocalComposition {
+  /** Untyped surface JSON, ready for `parseGeneratedSurface`. */
+  surfaceJson: unknown;
+  /** Conversational reply text that accompanies the surface. */
+  summary: string;
+}
+
+/** Compose a surface for a prompt using the first matching intent. */
+export function composeLocalSurface(prompt: string): LocalComposition {
+  const intent = INTENTS.find((candidate) => candidate.keywords.test(prompt)) ?? INTENTS[INTENTS.length - 1];
+  return {
+    surfaceJson: {
+      id: `local-${intent.id}-${Date.now()}`,
+      blocks: intent.compose(prompt),
+    },
+    summary: intent.summary(prompt),
+  };
+}

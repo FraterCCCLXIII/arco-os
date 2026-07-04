@@ -6,11 +6,13 @@
  */
 import { useCallback, useMemo, useState } from "react";
 import {
+  ChatInlineSurface,
   chatMessageText,
   type ChatMessage,
   type ComposerTypeaheadItem,
   type PromptChipItem,
 } from "longformer-ui";
+import { generateSurface } from "../agent/generateSurface";
 import {
   assistantConversationNavItems,
   assistantConversationTabs,
@@ -100,35 +102,56 @@ export function useAssistantState() {
     setAssistantComposerValue(item.text);
   }, []);
 
-  /** Send composer text, then simulate the agent reply (static demo). */
+  /**
+   * Send composer text through the same generative-UI loop the main chat
+   * uses — one agent contract, two surfaces (spec D6).
+   */
   const handleAssistantSubmit = useCallback(() => {
-    if (!assistantComposerValue.trim()) return;
+    const prompt = assistantComposerValue.trim();
+    if (!prompt) return;
+    const tabId = activeAssistantTabId;
+    const stamp = Date.now();
+    const pendingId = `aa-${stamp}`;
     const userMessage: ChatMessage = {
-      id: `au-${Date.now()}`,
+      id: `au-${stamp}`,
       role: "user",
-      content: assistantComposerValue,
+      content: prompt,
+      timestamp: "Just now",
+    };
+    const pendingMessage: ChatMessage = {
+      id: pendingId,
+      role: "agent",
+      content: "Designing a surface for that…",
       timestamp: "Just now",
     };
     setAssistantTabMessages((prev) => ({
       ...prev,
-      [activeAssistantTabId]: [...(prev[activeAssistantTabId] ?? []), userMessage],
+      [tabId]: [...(prev[tabId] ?? []), userMessage, pendingMessage],
     }));
     setAssistantComposerValue("");
-    setTimeout(() => {
+
+    void generateSurface(prompt).then((result) => {
+      const reply: ChatMessage = {
+        id: pendingId,
+        role: "agent",
+        content: (
+          <>
+            <p>{result.summary}</p>
+            {result.surface && result.surface.blocks.length > 0 && (
+              <ChatInlineSurface
+                label={result.engine === "llm" ? "Generated UI" : "Generated UI · local engine"}
+                schema={result.surface}
+              />
+            )}
+          </>
+        ),
+        timestamp: "Just now",
+      };
       setAssistantTabMessages((prev) => ({
         ...prev,
-        [activeAssistantTabId]: [
-          ...(prev[activeAssistantTabId] ?? []),
-          {
-            id: `aa-${Date.now()}`,
-            role: "agent",
-            content:
-              "This is a static demo panel, so I can't fetch anything real yet — wire this up to your agent backend to get live answers about whatever workspace is open.",
-            timestamp: "Just now",
-          },
-        ],
+        [tabId]: (prev[tabId] ?? []).map((message) => (message.id === pendingId ? reply : message)),
       }));
-    }, 400);
+    });
   }, [assistantComposerValue, activeAssistantTabId]);
 
   const handleAssistantNewTab = useCallback(() => {

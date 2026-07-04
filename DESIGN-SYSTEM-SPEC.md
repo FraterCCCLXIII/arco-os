@@ -320,9 +320,9 @@ Assume the model will sometimes be wrong (hallucination), sometimes be steered (
 
 ## 6. Short-term plan (prototype — weeks, low risk)
 
-1. **Add a registry + Zod schemas** for the existing 59 blocks; refactor `GeneratedSurface`'s `switch` to `registry[type].render`. (Mechanical, high leverage.)
-2. **Generate the system prompt from the registry** — even a simple serializer unblocks reliable generation *today*.
-3. **Add runtime validation + repair** on generated schemas.
+1. ✅ **Add a registry + Zod schemas** for the existing 59 blocks; refactor `GeneratedSurface`'s `switch` to `registry[type].render`. *(Done: `generated-ui/registry/` — `defineBlock` table with 14 strict schemas, envelope checks for the rest, families derived by the design-system ontology.)*
+2. ✅ **Generate the system prompt from the registry** — even a simple serializer unblocks reliable generation *today*. *(Done: `describeBlockCatalog()` feeds the demo's `generateSurface` system prompt.)*
+3. ✅ **Add runtime validation + repair** on generated schemas. *(Done: `parseGeneratedSurface` drops-and-reports invalid blocks; chat/assistant submit runs prompt → engine (LLM or local composer) → validation → inline render.)*
 4. **Spike OpenUI in Chat**: `react-lang` + `react-headless`, one small Longformer component library registered into OpenUI, stream a couple of block types end-to-end.
 5. Keep Vite + CSS Modules + npm workspaces as-is. No Tailwind yet.
 6. Feed `examples` from the registry into the Design System workspace as the living catalog.

@@ -2,16 +2,19 @@
  * Chat workspace state — conversation tabs, per-tab message history, the
  * composer, and every message-level action (copy, edit, fork, feedback…).
  *
- * This is the demo stand-in for the future agent session store: when the
- * OpenClaw gateway lands, `handleSubmit`'s fake reply is replaced by a real
- * stream while the rest of this slice's shape stays the same.
+ * Submitting a prompt runs the real generative-UI loop: `generateSurface`
+ * produces block JSON (LLM when configured, local composer otherwise), the
+ * registry validates it, and the reply renders it inline. When the OpenClaw
+ * gateway lands, only the engine behind `generateSurface` changes.
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  ChatInlineSurface,
   chatMessageText,
   type ChatMessage,
   type ComposerTypeaheadItem,
 } from "longformer-ui";
+import { generateSurface } from "../agent/generateSurface";
 import {
   chatConversationNavItems,
   chatConversationTabs,
@@ -47,35 +50,60 @@ export function useChatState() {
     });
   }, []);
 
-  /** Send the composer text, then simulate an agent reply after a short delay. */
+  /**
+   * Send the composer text, then run the generative-UI loop: a pending agent
+   * message appears immediately and is swapped in place for the validated
+   * generated surface once the engine responds.
+   */
   const handleSubmit = useCallback(() => {
-    if (!composerValue.trim()) return;
+    const prompt = composerValue.trim();
+    if (!prompt) return;
+    const tabId = activeChatTabId;
+    const stamp = Date.now();
+    const pendingId = `a-${stamp}`;
     const userMessage: ChatMessage = {
-      id: `u-${Date.now()}`,
+      id: `u-${stamp}`,
       role: "user",
-      content: composerValue,
+      content: prompt,
+      timestamp: "Just now",
+    };
+    const pendingMessage: ChatMessage = {
+      id: pendingId,
+      role: "agent",
+      content: "Designing a surface for that…",
       timestamp: "Just now",
     };
     setChatTabMessages((prev) => ({
       ...prev,
-      [activeChatTabId]: [...(prev[activeChatTabId] ?? []), userMessage],
+      [tabId]: [...(prev[tabId] ?? []), userMessage, pendingMessage],
     }));
     setComposerValue("");
-    setTimeout(() => {
+
+    void generateSurface(prompt).then((result) => {
+      if (result.warnings.length) {
+        console.warn("Some generated blocks were rejected by validation:", result.warnings);
+      }
+      const reply: ChatMessage = {
+        id: pendingId,
+        role: "agent",
+        content: (
+          <>
+            <p>{result.summary}</p>
+            {result.surface && result.surface.blocks.length > 0 && (
+              <ChatInlineSurface
+                label={result.engine === "llm" ? "Generated UI" : "Generated UI · local engine"}
+                schema={result.surface}
+              />
+            )}
+          </>
+        ),
+        timestamp: "Just now",
+      };
       setChatTabMessages((prev) => ({
         ...prev,
-        [activeChatTabId]: [
-          ...(prev[activeChatTabId] ?? []),
-          {
-            id: `a-${Date.now()}`,
-            role: "agent",
-            content:
-              "Got it — this is a static demo, so I can't actually run that yet, but here's where the reply would stream in.",
-            timestamp: "Just now",
-          },
-        ],
+        [tabId]: (prev[tabId] ?? []).map((message) => (message.id === pendingId ? reply : message)),
       }));
-    }, 400);
+    });
   }, [composerValue, activeChatTabId]);
 
   const handleChatMessageCopy = useCallback((message: ChatMessage) => {
