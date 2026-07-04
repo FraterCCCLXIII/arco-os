@@ -1,0 +1,27 @@
+/** Tailwind class map — converted from EnrollmentChartCard.module.css */
+const styles: Record<string, string> = {
+  barActive: "[fill:var(--lf-accent)] opacity-[0.95]",
+  barMuted: "[fill:var(--lf-surface-3)] opacity-[0.9]",
+  card: "flex flex-col gap-lf-3",
+  change: "p-[2px_8px] rounded-lf-pill text-[11px] font-bold",
+  changeDown: "bg-lf-danger-muted text-lf-danger",
+  changeUp: "bg-[rgba(249,_115,_22,_0.14)] text-[#ea580c]",
+  chart: "w-full h-[160px]",
+  chartWrap: "relative",
+  dot: "[fill:#fff] [stroke:var(--lf-accent)] [stroke-width:2]",
+  gridLine: "[stroke:var(--lf-border-subtle)] [stroke-width:1] [stroke-dasharray:4_4] [vector-effect:non-scaling-stroke]",
+  legend: "flex justify-end gap-lf-4 text-[10px] text-lf-text-tertiary",
+  legendBar: "before:before:[content:\"\"] before:before:inline-block before:before:w-[8px] before:before:h-[8px] before:before:mr-[6px] before:before:rounded-lf-pill before:before:[vertical-align:middle] before:before:bg-lf-surface-3",
+  legendLine: "before:before:[content:\"\"] before:before:inline-block before:before:w-[8px] before:before:h-[8px] before:before:mr-[6px] before:before:rounded-lf-pill before:before:[vertical-align:middle] before:before:bg-lf-accent",
+  line: "[stroke:var(--lf-accent)] [stroke-width:2] [vector-effect:non-scaling-stroke]",
+  monthActive: "text-lf-accent font-bold",
+  months: "grid grid-cols-[repeat(12,_minmax(0,_1fr))] gap-[2px] text-[10px] text-lf-text-tertiary text-center",
+  summary: "flex items-baseline gap-lf-2 text-lf-sm text-lf-text-tertiary",
+  "summary strong": "text-lf-text-primary",
+  timeframes: "inline-flex [flex-shrink:0] gap-[2px] p-[2px] rounded-lf-pill bg-lf-surface-2",
+  title: "text-lf-md font-bold text-lf-text-primary max-w-[28ch] leading-[var(--lf-line-height-tight)]",
+  tooltip: "absolute [transform:translate(-50%,_calc(-100%_-_12px))] min-w-[120px] p-[var(--lf-space-2)_var(--lf-space-3)] rounded-lf-md bg-lf-surface-1 border border-solid border-lf-border-subtle shadow-lf-md text-[11px] text-lf-text-secondary",
+  tooltipTitle: "font-bold text-lf-text-primary mb-[4px]",
+  top: "flex items-start justify-between gap-lf-3",
+};
+export default styles;

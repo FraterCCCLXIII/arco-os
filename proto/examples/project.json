@@ -1,0 +1,56 @@
+{
+  "app_id": "projects",
+  "name": "Projects",
+  "version": "0.1.0",
+  "description": "Portfolio tracker with status, priority, progress, and ownership.",
+  "entities": {
+    "project": {
+      "fields": {
+        "name": { "type": "string", "label": "Project", "primary": true },
+        "status": {
+          "type": "enum",
+          "label": "Status",
+          "primary": true,
+          "enum_values": ["planning", "active", "blocked", "done"]
+        },
+        "priority": {
+          "type": "enum",
+          "label": "Priority",
+          "enum_values": ["low", "medium", "high", "critical"]
+        },
+        "progress": { "type": "number", "label": "Progress %" },
+        "due_date": { "type": "date", "label": "Due" },
+        "owner": { "type": "string", "label": "Owner" },
+        "summary": { "type": "text", "label": "Summary" },
+        "budget": { "type": "number", "label": "Budget", "sensitive": true }
+      }
+    }
+  },
+  "actions": [
+    {
+      "action_id": "create_project",
+      "verb": "create",
+      "entity": "project",
+      "required_scope": "projects:write"
+    },
+    {
+      "action_id": "update_project",
+      "verb": "update",
+      "entity": "project",
+      "required_scope": "projects:write"
+    },
+    {
+      "action_id": "archive_project",
+      "verb": "complete",
+      "entity": "project",
+      "required_scope": "projects:write"
+    },
+    {
+      "action_id": "delete_project",
+      "verb": "delete",
+      "entity": "project",
+      "required_scope": "projects:write",
+      "destructive": true
+    }
+  ]
+}

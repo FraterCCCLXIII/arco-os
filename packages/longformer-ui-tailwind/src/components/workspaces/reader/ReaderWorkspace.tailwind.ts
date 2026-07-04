@@ -1,0 +1,25 @@
+/** Tailwind class map — converted from ReaderWorkspace.module.css */
+const styles: Record<string, string> = {
+  bookAuthor: "text-lf-sm text-lf-text-tertiary",
+  bookMeta: "min-w-0",
+  bookTitle: "font-semibold text-lf-text-primary whitespace-nowrap overflow-hidden text-ellipsis",
+  chapterBody: "text-lf-text-secondary leading-[1.75]",
+  chapterBodyLg: "text-lf-lg",
+  chapterBodyMd: "text-lf-md",
+  chapterBodySm: "text-lf-sm",
+  chapterTitle: "mb-lf-4 text-lf-xl font-bold text-lf-text-primary",
+  fontChips: "flex gap-lf-1",
+  libraryHeader: "[flex-shrink:0] flex items-center gap-lf-2 h-[44px] p-[0_var(--lf-space-4)] border-b border-lf-divider font-semibold text-lf-text-primary",
+  libraryList: "p-lf-2",
+  libraryPane: "h-full flex flex-col bg-lf-surface-sunken",
+  libraryScroll: "flex-1",
+  main: "flex-1 min-w-0 flex flex-col min-h-0 bg-lf-surface-canvas",
+  progressBar: "[flex-shrink:0] h-[3px] bg-lf-divider",
+  progressFill: "h-full bg-lf-accent transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-[var(--lf-duration-fast)] ease-[var(--lf-ease)]",
+  readerPage: "max-w-[640px] m-[0_auto] p-[var(--lf-space-6)_var(--lf-space-5)_var(--lf-space-8)]",
+  readerScroll: "flex-1",
+  toolbar: "[flex-shrink:0] flex items-center justify-between gap-lf-3 h-[44px] p-[0_var(--lf-space-4)] border-b border-lf-divider",
+  toolbarActions: "flex items-center gap-lf-2",
+  workspace: "h-full flex min-h-0",
+};
+export default styles;

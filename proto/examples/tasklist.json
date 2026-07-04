@@ -1,0 +1,41 @@
+{
+  "app_id": "tasklist",
+  "name": "Tasks",
+  "version": "0.1.0",
+  "description": "Simple task list.",
+  "entities": {
+    "task": {
+      "fields": {
+        "title": { "type": "string", "label": "Title", "primary": true },
+        "notes": { "type": "text", "label": "Notes" },
+        "due_date": { "type": "date", "label": "Due" },
+        "status": {
+          "type": "enum",
+          "label": "Status",
+          "enum_values": ["open", "in_progress", "done"]
+        }
+      }
+    }
+  },
+  "actions": [
+    {
+      "action_id": "create_task",
+      "verb": "create",
+      "entity": "task",
+      "required_scope": "tasklist:write"
+    },
+    {
+      "action_id": "complete_task",
+      "verb": "complete",
+      "entity": "task",
+      "required_scope": "tasklist:write"
+    },
+    {
+      "action_id": "delete_task",
+      "verb": "delete",
+      "entity": "task",
+      "required_scope": "tasklist:write",
+      "destructive": true
+    }
+  ]
+}

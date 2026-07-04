@@ -87,26 +87,6 @@
   color: var(--composer-text);
 }
 
-.navFooter {
-  display: flex;
-  flex-direction: column;
-  gap: var(--lf-space-1);
-}
-
-.footerLink {
-  border: none;
-  background: transparent;
-  padding: 6px 0;
-  color: var(--composer-text-muted);
-  font-size: var(--lf-font-size-xs);
-  text-align: left;
-  cursor: pointer;
-}
-
-.footerLink:hover {
-  color: var(--composer-text);
-}
-
 .mainArea {
   flex: 1;
   display: flex;

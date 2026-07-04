@@ -1,0 +1,26 @@
+/** Tailwind class map — converted from DeploymentsView.module.css */
+const styles: Record<string, string> = {
+  actionBtn: "inline-flex items-center gap-lf-1 p-[var(--lf-space-1)_var(--lf-space-2)] border border-solid border-lf-border-subtle rounded-lf-md bg-transparent text-lf-xs font-medium cursor-pointer text-lf-text-secondary",
+  actionBtnDanger: "ml-auto text-lf-warning",
+  authorCol: "flex items-center gap-lf-2 text-lf-xs text-lf-text-secondary",
+  branch: "inline-flex items-center gap-[4px]",
+  commitCol: "flex flex-col gap-[2px] min-w-0",
+  commitHash: "font-mono text-lf-xs text-lf-accent",
+  commitMsg: "text-lf-xs text-lf-text-secondary overflow-hidden text-ellipsis whitespace-nowrap",
+  duration: "text-lf-text-tertiary",
+  env: "capitalize",
+  filterBtn: "inline-flex items-center gap-lf-2 p-[var(--lf-space-2)_var(--lf-space-3)] border border-solid border-lf-border-subtle rounded-lf-lg bg-lf-surface-1 text-lf-sm cursor-pointer text-lf-text-primary",
+  header: "flex items-start justify-between gap-lf-4 mb-lf-6",
+  list: "flex flex-col gap-lf-3",
+  metaCol: "flex flex-col gap-[2px] text-lf-xs text-lf-text-tertiary",
+  page: "p-lf-6 max-w-[1100px] p-lf-4",
+  projectCol: "flex flex-col gap-lf-1",
+  projectName: "text-lf-sm font-semibold",
+  row: "flex flex-col gap-lf-3",
+  rowActions: "flex gap-lf-2 pt-lf-2 border-t border-lf-divider",
+  rowMain: "grid grid-cols-[1.2fr_2fr_1fr_1fr_0.8fr] gap-lf-4 items-center grid-cols-[1fr_1fr] grid-cols-[1fr]",
+  subtitle: "m-0 text-lf-sm text-lf-text-secondary",
+  timeCol: "flex flex-col gap-[2px] text-lf-xs text-lf-text-tertiary text-right text-left",
+  title: "m-[0_0_var(--lf-space-1)] text-lf-2xl font-semibold [letter-spacing:-0.02em]",
+};
+export default styles;

@@ -1,0 +1,26 @@
+/** Tailwind class map — converted from StatCard.module.css */
+const styles: Record<string, string> = {
+  accent: "[--stat-fg:var(--lf-text-on-accent)] [--stat-fg-muted:rgba(255,_255,_255,_0.72)] [--stat-chip-bg:rgba(255,_255,_255,_0.2)] [--stat-track:rgba(255,_255,_255,_0.28)] [--stat-fill:var(--lf-text-on-accent)] text-[var(--stat-fg)] bg-lf-accent",
+  bar: "flex-1 min-w-[4px] rounded-[var(--lf-radius-sm)_var(--lf-radius-sm)_0_0] bg-[var(--stat-track)]",
+  bars: "flex items-end gap-lf-1 h-[48px] mt-auto",
+  caption: "text-lf-sm text-[var(--stat-fg-muted)]",
+  card: "flex flex-col gap-lf-3 p-lf-5 rounded-lf-xl min-h-[140px]",
+  danger: "[--stat-fg:var(--lf-text-on-accent)] [--stat-fg-muted:rgba(255,_255,_255,_0.72)] [--stat-chip-bg:rgba(255,_255,_255,_0.2)] [--stat-track:rgba(255,_255,_255,_0.28)] [--stat-fill:var(--lf-text-on-accent)] text-[var(--stat-fg)] bg-lf-danger",
+  dotFilled: "bg-[var(--stat-fill)]",
+  dotItem: "w-full aspect-[1] rounded-lf-pill bg-[var(--stat-track)]",
+  dots: "grid grid-cols-[repeat(7,_1fr)] gap-lf-1 mt-auto",
+  head: "flex items-center gap-lf-2",
+  iconTile: "flex items-center justify-center w-[24px] h-[24px] rounded-lf-sm bg-[var(--stat-chip-bg)] [flex-shrink:0]",
+  label: "text-lf-sm font-semibold text-[var(--stat-fg-muted)]",
+  neutral: "[--stat-fg:var(--lf-text-primary)] [--stat-fg-muted:var(--lf-text-tertiary)] [--stat-chip-bg:var(--lf-surface-3)] [--stat-track:var(--lf-border-default)] [--stat-fill:var(--lf-accent)] bg-lf-surface-2 text-[var(--stat-fg)]",
+  ring: "relative w-[72px] h-[72px]",
+  ringProgress: "[fill:none] [stroke:var(--stat-fill)] [stroke-width:3] [stroke-linecap:round] transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-[var(--lf-duration-fast)] ease-[var(--lf-ease)]",
+  ringRow: "flex flex-col items-center gap-lf-2 m-[var(--lf-space-1)_0]",
+  ringSvg: "w-full h-full [transform:rotate(-90deg)]",
+  ringTrack: "[fill:none] [stroke:var(--stat-track)] [stroke-width:3]",
+  ringValue: "absolute inset-0 flex items-center justify-center text-lf-lg font-bold",
+  success: "[--stat-fg:var(--lf-text-on-accent)] [--stat-fg-muted:rgba(255,_255,_255,_0.72)] [--stat-chip-bg:rgba(255,_255,_255,_0.2)] [--stat-track:rgba(255,_255,_255,_0.28)] [--stat-fill:var(--lf-text-on-accent)] text-[var(--stat-fg)] bg-lf-success",
+  value: "text-lf-2xl font-bold leading-[var(--lf-line-height-tight)]",
+  warning: "[--stat-fg:var(--lf-text-on-accent)] [--stat-fg-muted:rgba(255,_255,_255,_0.72)] [--stat-chip-bg:rgba(255,_255,_255,_0.2)] [--stat-track:rgba(255,_255,_255,_0.28)] [--stat-fill:var(--lf-text-on-accent)] text-[var(--stat-fg)] bg-lf-warning",
+};
+export default styles;

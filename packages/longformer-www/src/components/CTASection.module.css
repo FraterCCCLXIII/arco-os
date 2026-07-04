@@ -14,7 +14,7 @@
   padding: 2.5rem 1.75rem;
   border-radius: var(--lf-radius-lg);
   background: var(--lf-text);
-  color: #fafaf5;
+  color: #faf6ee;
   text-align: center;
 }
 
@@ -37,7 +37,7 @@
   max-width: 36rem;
   font-size: 1rem;
   line-height: 1.6;
-  color: rgba(250, 250, 245, 0.78);
+  color: rgba(250, 246, 238, 0.78);
 }
 
 .actions {
@@ -49,21 +49,21 @@
 }
 
 .actions .buttonPrimary {
-  background: #fafaf5;
-  border-color: #fafaf5;
+  background: #faf6ee;
+  border-color: #faf6ee;
   color: var(--lf-text);
 }
 
 .actions .buttonSecondary {
   background: transparent;
-  border-color: rgba(250, 250, 245, 0.35);
-  color: #fafaf5;
+  border-color: rgba(250, 246, 238, 0.35);
+  color: #faf6ee;
 }
 
 .footer {
   margin-top: 4rem;
   padding: 2.5rem 1.25rem 3rem;
-  border-top: 1px solid rgba(67, 78, 63, 0.12);
+  border-top: 1px solid rgba(138, 75, 47, 0.12);
 }
 
 .footerInner {

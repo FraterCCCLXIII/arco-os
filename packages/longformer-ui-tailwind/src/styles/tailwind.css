@@ -1,0 +1,143 @@
+@import "tailwindcss";
+@import "../tokens/theme.css";
+
+/* Scan component class maps and TSX for Tailwind utilities */
+@source "../**/*.{ts,tsx}";
+
+@theme {
+  /* Spacing — maps to --lf-space-* tokens */
+  --spacing-lf-1: var(--lf-space-1);
+  --spacing-lf-2: var(--lf-space-2);
+  --spacing-lf-3: var(--lf-space-3);
+  --spacing-lf-4: var(--lf-space-4);
+  --spacing-lf-5: var(--lf-space-5);
+  --spacing-lf-6: var(--lf-space-6);
+  --spacing-lf-7: var(--lf-space-7);
+  --spacing-lf-8: var(--lf-space-8);
+
+  /* Radius */
+  --radius-lf-sm: var(--lf-radius-sm);
+  --radius-lf-md: var(--lf-radius-md);
+  --radius-lf-lg: var(--lf-radius-lg);
+  --radius-lf-xl: var(--lf-radius-xl);
+  --radius-lf-pill: var(--lf-radius-pill);
+
+  /* Typography */
+  --font-sans: var(--lf-font-family);
+  --font-mono: var(--lf-font-mono);
+  --text-lf-xs: var(--lf-font-size-xs);
+  --text-lf-sm: var(--lf-font-size-sm);
+  --text-lf-md: var(--lf-font-size-md);
+  --text-lf-base: var(--lf-font-size-base);
+  --text-lf-lg: var(--lf-font-size-lg);
+  --text-lf-xl: var(--lf-font-size-xl);
+  --text-lf-2xl: var(--lf-font-size-2xl);
+
+  /* Surfaces */
+  --color-lf-surface-canvas: var(--lf-surface-canvas);
+  --color-lf-surface-1: var(--lf-surface-1);
+  --color-lf-surface-2: var(--lf-surface-2);
+  --color-lf-surface-3: var(--lf-surface-3);
+  --color-lf-surface-overlay: var(--lf-surface-overlay);
+  --color-lf-surface-sunken: var(--lf-surface-sunken);
+  --color-lf-surface-glass: var(--lf-surface-glass);
+
+  /* Borders */
+  --color-lf-border-subtle: var(--lf-border-subtle);
+  --color-lf-border-default: var(--lf-border-default);
+  --color-lf-border-strong: var(--lf-border-strong);
+  --color-lf-divider: var(--lf-divider);
+
+  /* Text */
+  --color-lf-text-primary: var(--lf-text-primary);
+  --color-lf-text-secondary: var(--lf-text-secondary);
+  --color-lf-text-tertiary: var(--lf-text-tertiary);
+  --color-lf-text-disabled: var(--lf-text-disabled);
+  --color-lf-text-on-accent: var(--lf-text-on-accent);
+
+  /* Accent & semantic */
+  --color-lf-accent: var(--lf-accent);
+  --color-lf-accent-hover: var(--lf-accent-hover);
+  --color-lf-accent-active: var(--lf-accent-active);
+  --color-lf-accent-muted: var(--lf-accent-muted);
+  --color-lf-accent-border: var(--lf-accent-border);
+  --color-lf-success: var(--lf-success);
+  --color-lf-success-muted: var(--lf-success-muted);
+  --color-lf-warning: var(--lf-warning);
+  --color-lf-warning-muted: var(--lf-warning-muted);
+  --color-lf-danger: var(--lf-danger);
+  --color-lf-danger-muted: var(--lf-danger-muted);
+  --color-lf-info: var(--lf-info);
+  --color-lf-info-muted: var(--lf-info-muted);
+  --color-lf-focus-ring: var(--lf-focus-ring);
+  --color-lf-scrim: var(--lf-scrim);
+
+  /* Shadows */
+  --shadow-lf-sm: var(--lf-shadow-sm);
+  --shadow-lf-md: var(--lf-shadow-md);
+  --shadow-lf-lg: var(--lf-shadow-lg);
+  --shadow-lf-overlay: var(--lf-shadow-overlay);
+
+  /* Z-index */
+  --z-index-lf-dropdown: var(--lf-z-dropdown);
+  --z-index-lf-overlay: var(--lf-z-overlay);
+  --z-index-lf-modal: var(--lf-z-modal);
+  --z-index-lf-tooltip: var(--lf-z-tooltip);
+  --z-index-lf-toast: var(--lf-z-toast);
+}
+
+@layer components {
+  .lf-root {
+    @apply bg-lf-surface-canvas text-lf-text-primary font-sans text-lf-base leading-normal;
+  }
+
+  .lf-root,
+  .lf-root * {
+    @apply box-border;
+  }
+
+  .lf-portal {
+    @apply font-sans text-lf-base leading-normal text-lf-text-primary;
+  }
+
+  .lf-focusable:focus-visible:not(input):not(textarea):not(select):not([contenteditable="true"]) {
+    outline: 2px solid var(--lf-focus-ring);
+    outline-offset: 2px;
+  }
+
+  .lf-root :is(input, textarea, select, [contenteditable="true"]):focus,
+  .lf-root :is(input, textarea, select, [contenteditable="true"]):focus-visible {
+    @apply outline-none shadow-none;
+  }
+
+  .lf-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--lf-border-strong) transparent;
+  }
+
+  .lf-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .lf-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--lf-border-strong);
+    border-radius: var(--lf-radius-pill);
+  }
+
+  .lf-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .lf-scrollbar-hidden {
+    @apply overflow-y-hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .lf-scrollbar-hidden::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+}

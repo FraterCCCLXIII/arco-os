@@ -10,6 +10,7 @@ export const navLinks = [
   { label: "Architecture", href: "#architecture" },
   { label: "Principles", href: "#principles" },
   { label: "FAQ", href: "#faq" },
+  { label: "Spec", href: "/spec.html" },
 ] as const;
 
 export const integrations = [

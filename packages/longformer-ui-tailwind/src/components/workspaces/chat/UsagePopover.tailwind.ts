@@ -1,0 +1,25 @@
+/** Tailwind class map — converted from UsagePopover.module.css */
+const styles: Record<string, string> = {
+  divider: "h-[1px] bg-lf-divider",
+  label: "text-lf-sm text-lf-text-secondary",
+  panel: "fixed w-[280px] bg-lf-surface-overlay border border-solid border-lf-border-default rounded-lf-md shadow-lf-lg p-lf-3 z-lf-tooltip flex flex-col gap-lf-3 font-sans leading-[var(--lf-line-height-normal)]",
+  planUsageButton: "flex items-center justify-between w-full p-0 border-none bg-transparent cursor-pointer font-sans hover:text-lf-text-primary hover:text-lf-text-secondary",
+  planUsageIcon: "text-lf-text-tertiary",
+  progressFill: "h-full rounded-[inherit] bg-lf-accent transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-[var(--lf-duration-fast)] ease-[var(--lf-ease)]",
+  progressFillOver: "bg-lf-danger",
+  progressTrack: "h-[4px] rounded-lf-pill bg-lf-surface-3 overflow-hidden",
+  row: "flex items-center justify-between gap-lf-2",
+  section: "flex flex-col gap-lf-2",
+  trigger: "inline-flex items-center gap-lf-2 min-h-[20px] p-[0_var(--lf-space-1)] border-none bg-transparent cursor-pointer rounded-lf-md font-sans hover:text-lf-text-secondary",
+  triggerDot: "w-[8px] h-[8px] rounded-lf-pill bg-lf-accent",
+  triggerDotDanger: "bg-lf-danger",
+  triggerDotWarning: "bg-lf-warning",
+  triggerLabel: "text-lf-sm text-lf-text-tertiary whitespace-nowrap",
+  triggerLabelDanger: "text-lf-danger",
+  triggerLabelWarning: "text-lf-warning",
+  usageRows: "flex flex-col gap-lf-2",
+  value: "inline-flex items-center gap-lf-1 text-lf-sm text-lf-text-primary",
+  valueMuted: "text-lf-sm text-lf-text-secondary",
+  wrapper: "relative inline-flex",
+};
+export default styles;

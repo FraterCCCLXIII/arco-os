@@ -1,0 +1,980 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  	<head>
+        <meta charset="utf-8" />
+        
+        <title>
+            
+            A2UI v0.9: The New Standard for Portable, Framework-Agnostic Generative UI
+            
+            
+            - Google Developers Blog
+            
+        </title>
+        <meta property="og:title" content="A2UI v0.9: The New Standard for Portable, Framework-Agnostic Generative UI- Google Developers Blog" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+	<meta name="description" content="Discover A2UI v0.9, the framework-agnostic standard for Generative UI. Learn how the new Agent SDK, shared web-core library, and cross-platform renderers allow AI agents to drive your existing design system on any device with low-latency streaming." />
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="Google for Developers Blog - News about Web, Mobile, AI and Cloud" property="twitter:title"/>
+  <meta property="og:title" content="A2UI v0.9: The New Standard for Portable, Framework-Agnostic Generative UI" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Google for Developers Blog",
+      "item": "https://developers.googleblog.com/"
+    },{
+      "@type": "ListItem",
+      "position": 2,
+      "name": "A2UI v0.9: The New Standard for Portable, Framework-Agnostic Generative UI",
+      "item": "https://developers.googleblog.com/a2ui-v0-9-generative-ui/"
+    }]
+  }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "A2UI v0.9: The New Standard for Portable, Framework-Agnostic Generative UI",
+      "description": "A2UI v0.9 introduces a framework-agnostic standard designed to help AI agents generate real-time, tailored UI widgets using a company’s existing design system. This update simplifies the developer experience with a new Agent SDK for Python, a shared web-core library, and official support for renderers like React, Flutter, and Angular. By decoupling UI intent from specific platforms, the release enables seamless, low-latency streaming of generative interfaces across web and mobile applications. Integrating with broader ecosystems like AG2 and Vercel, A2UI v0.9 aims to move generative UI from experimental demos to production-ready digital products.",
+      "image": "https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/Hero.2e16d0ba.fill-800x400.jpg",
+      "datePublished": "2026-04-17",
+      "author": [
+        
+        
+          { "@type": "Person", "name": "Google A2UI Team", "url": "/search/?author=Google+A2UI+Team" }
+        
+        
+      ]
+    }
+  </script>
+  
+  <meta content="https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/Featured.2e16d0ba.fill-1200x600.jpg" property="og:image"/>
+  
+
+
+        
+        
+
+        <!-- Google Tag Manager -->
+        <script type="text/javascript" nonce="vVbKKTu0ZLWNgaCkuPTQPw==" src="https://storage.googleapis.com/gweb-developer-goog-blog-cms-assets/site/20260519-162827/js/analytics.js"></script>
+        <!-- End Google Tag Manager -->
+
+        
+        <link href="//www.gstatic.com/glue/v27_1/glue.min.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://storage.googleapis.com/gweb-developer-goog-blog-cms-assets/site/20260519-162827/css/dgc_blog.css">
+        <link rel="icon" href="https://storage.googleapis.com/gweb-developer-goog-blog-assets/meta/favicon.ico" type="image/x-icon">
+        <link rel="apple-touch-icon" href="https://storage.googleapis.com/gweb-developer-goog-blog-assets/meta/apple-touch-icon.png">
+
+        
+				<link rel="preconnect" href="https://fonts.googleapis.com">
+				<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+				<link rel="preload" href="https://fonts.googleapis.com/css2?family=Product+Sans&family=Google+Sans+Display:ital@0;1&family=Google+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Google+Sans+Text:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap" as="style">
+				<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Product+Sans&family=Google+Sans+Display:ital@0;1&family=Google+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&family=Google+Sans+Text:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap">
+        <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght,MONO@0,300..800,1;1,300..800,1&amp;family=Google+Sans+Flex:opsz,wght@6..144,1..1000&amp;display=swap" rel="stylesheet" data-page-link="">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap">
+
+        
+        <link href="https://www.gstatic.com/glue/cookienotificationbar/cookienotificationbar.min.css" rel="stylesheet">
+
+        
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="https://storage.googleapis.com/gweb-developer-goog-blog-cms-assets/site/20260519-162827/css/blog_detail.css"
+  />
+  <link type="text/css" href="https://storage.googleapis.com/gweb-developer-goog-blog-cms-assets/site/20260519-162827/css/prism.css" rel="stylesheet" />
+
+    </head>
+
+    <body id="main-content" class="glue-body ">
+        <!-- Google Tag Manager (noscript) -->
+        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WVTLDSL "
+        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+        <!-- End Google Tag Manager (noscript) -->
+
+        
+
+				
+        
+
+<!-- HTML -->
+<header class="dgc-header">
+  <div class="dgc-header-inner">
+    <button class="hamburger" aria-haspopup="true" aria-expanded="false" aria-label="Open Menu">
+      <svg role="presentation" aria-hidden="true" class="glue-icon">
+        <use href="/glue-icon/#menu"></use>
+      </svg>
+    </button>
+    <div class="product-name-wrapper">
+      <a href="https://developers.google.com/" class="site-logo-link" data-label="Site logo">
+        <img src="https://storage.googleapis.com/gweb-developer-goog-blog-cms-assets/site/20260519-162827/images/g-dev.svg" class="site-logo" alt="Google for Developers">
+      </a>
+    </div>
+    <div class="desktop-nav-wrapper">
+      <div class="upper-tabs-wrapper">
+        <div class="upper-tabs">
+          <nav class="tabs" aria-label="Upper Tabs">
+            <div class="tab">
+              <a
+                href="//developers.google.com/community"
+                class="top-nav-title">
+                Community/Events
+              </a>
+            </div>
+            <div class="tab">
+              <a
+                href="//developers.google.com/solutions/catalog"
+                class="top-nav-title">
+                Learn
+              </a>
+            </div>
+            <div class="tab">
+              <a
+                href="//developers.googleblog.com"
+                class="top-nav-title">
+                Blog
+              </a>
+            </div>
+            <div class="tab">
+              <a
+                href="https://www.youtube.com/user/GoogleDevelopers"
+                class="top-nav-title">
+                YouTube
+              </a>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="dgc-header-search">
+    <div class="search-wrapper glue-page">
+      <div class="glue-grid">
+        <form id="search-form"  action="/search/" method="get" class="search-content glue-grid__col glue-grid__col--span-4-sm glue-grid__col--span-9-md glue-grid__col--span-7-lg">
+          <div class="search-input-wrapper">
+            <svg role="presentation" aria-hidden="true" class="glue-icon search-icon">
+              <use href="/glue-icon/#search"></use>
+            </svg>
+            <input
+              type="text"
+              name="query"
+              
+              placeholder="Search all articles..."
+              aria-label="Search"
+              class="search-input-field"
+            />
+          </div>
+          <button class="glue-button glue-button--high-emphasis">
+            Search
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-drawer" top-level-nav>
+  <nav class="nav-content" aria-label="Side menu">
+    <div class="mobile-header">
+      <button class="nav-close-btn nav-btn" aria-label="Close navigation">
+        <svg role="presentation" aria-hidden="true" class="glue-icon">
+          <use href="/glue-icon/#close"></use>
+        </svg>
+      </button>
+      <button class="nav-back-btn nav-btn hidden" aria-label="Back to Menu">
+        <svg role="presentation" aria-hidden="true" class="glue-icon">
+          <use href="/glue-icon/#arrow-back"></use>
+        </svg>
+      </button>
+      <div class="product-name-wrapper">
+        <a href="https://developers.google.com/" class="site-logo-link" data-label="Site logo">
+          <img src="https://storage.googleapis.com/gweb-developer-goog-blog-cms-assets/site/20260519-162827/images/g-dev.svg" class="site-logo" alt="Google for Developers">
+        </a>
+      </div>
+    </div>
+    <div class="nav-wrapper">
+      <div class="mobile-nav-top">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="//developers.google.com/community" class="nav-title" data-label="Tab: Community/Events">
+              <span class="nav-text" tooltip="">
+                Community/Events
+             </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="//developers.google.com/solutions/catalog" class="nav-title" data-label="Tab: Learn">
+              <span class="nav-text" tooltip="">
+                Learn
+             </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="//developers.googleblog.com" class="nav-title" data-label="Tab: Blog">
+              <span class="nav-text" tooltip="">
+                Blog
+             </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="https://www.youtube.com/user/GoogleDevelopers" class="nav-title" data-label="Tab: YouTube">
+              <span class="nav-text" tooltip="">
+                YouTube
+             </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="backdrop"></div>
+
+        
+  <div class="blog-detail-container">
+
+    
+      <section class="tags-container glue-page glue-spacer-5-top">
+        <div class="glue-eyebrow"></div>
+      </section>
+    
+
+    <section class="heading-container glue-page  glue-spacer-1-top">
+      <h1 class="glue-headline glue-headline--headline-1">A2UI v0.9: The New Standard for Portable, Framework-Agnostic Generative UI</h1>
+    </section>
+
+    <section class="summary-container glue-page glue-spacer-4-top">
+      <div class="date-time">
+        <div class="published-date glue-font-weight-medium">APRIL 17, 2026</div>
+      </div>
+    </section>
+
+    <section class="glue-page glue-grid glue-spacer-1-top">
+
+      <section class="author-container glue-grid__col glue-grid__col--span-4-sm glue-grid__col--span-10-md">
+      
+        
+          <div class="author-obj">
+            <a class="glue-font-weight-medium" href="/search/?author=Google+A2UI+Team">Google A2UI Team</a>
+            
+            
+          </div>
+        
+
+      
+      </section>
+      <section class="social-container glue-grid__col glue-grid__col--span-4-sm glue-grid__col--span-2-md">
+        <button id="social-button" class="glue-button glue-button--low-emphasis glue-button--icon" aria-haspopup="true" aria-expanded="false">
+          <svg role="presentation" aria-hidden="true" class="glue-icon">
+            <use href="/glue-icon/#share"></use>
+          </svg>
+          <span>Share</span>
+        </button>
+        <ul id="social-menu" class="glue-elevation-level-1" role="menu" aria-labelledby="social-button">
+          <li>
+            <a href="https://www.facebook.com/sharer/sharer.php?u={url}"
+                title="Share on Facebook" target="_blank" rel="noopener">
+              <svg role="presentation" aria-hidden="true"
+                  class="glue-icon glue-icon--social glue-icon--32px">
+                <use href="/glue-icon/#post-facebook"></use>
+              </svg>
+              <span>Facebook</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://twitter.com/intent/tweet?text={url}"
+                title="Share on Twitter" target="_blank" rel="noopener">
+              <svg role="presentation" aria-hidden="true"
+                  class="glue-icon glue-icon--social glue-icon--32px">
+                <use href="/glue-icon/#twitter-x"></use>
+              </svg>
+              <span>Twitter</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/shareArticle?url={url}&amp;mini=true" title="Share on LinkedIn" target="_blank" rel="noopener">
+              <svg role="presentation" aria-hidden="true"
+                  class="glue-icon glue-icon--social glue-icon--32px">
+                <use href="/glue-icon/#post-linkedin"></use>
+              </svg>
+              <span>LinkedIn</span>
+            </a>
+          </li>
+          <li>
+            <a href="mailto:name@example.com?subject=Check%20out%20this%20site&body=Check%20out%20{url}" title="Send via Email">
+              <svg role="presentation" aria-hidden="true"
+                  class="glue-icon glue-icon--social glue-icon--32px">
+                <use href="/glue-icon/#email"></use>
+              </svg>
+              <span>Mail</span>
+            </a>
+          </li>
+          <li>
+            <a href="#" title="Get shareable link" data-link="" data-copy-text="Copy Link" data-copied-text="Copied!">
+              <svg role="presentation" aria-hidden="true"
+                  class="glue-icon glue-icon--social glue-icon--32px">
+                <use href="/glue-icon/#link"></use>
+              </svg>
+              <span></span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    
+    <section class="blocks-container glue-page glue-spacer-3-top">
+      <div class="block">
+          
+
+<img
+    class="banner-image"
+    src="https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/Hero.original.jpg"
+    alt="Hero"
+/>  <div class="inner-block-content rich-content">
+    <p data-block-key="6mowm">Generative UI allows AI agents to generate tailored UI widgets in real-time, matching the interface to the user’s specific interaction. But to move from demos to production, we need a clean separation of concerns. A2UI v0.9 is our answer; a framework-agnostic standard for declaring UI intent. It allows local or remote agents to communicate with any client application using a common language, ensuring your agent can generate your UI using your existing component catalog on any device.</p><h2 data-block-key="yu4pi" id=""><b>Agents can “speak” UI with your design system, no need to change.</b></h2>
+</div>   
+
+<div class="inner-block-content video-block">
+    
+        <video  autoplay="" loop="" muted="" playsinline="" poster="https://storage.googleapis.com/gweb-developer-goog-blog-assets/original_videos/wagtailvideo-4pjfmx5w_thumb.jpg">
+<source src='https://storage.googleapis.com/gweb-developer-goog-blog-assets/original_videos/a2ui-component-catalogs.mp4' type='video/mp4'>
+<p>Sorry, your browser doesn't support playback for this video</p>
+
+</video>
+    
+    
+</div>  <div class="inner-block-content rich-content">
+    <p data-block-key="5cw4u">A2UI is designed to work on web, mobile, and anywhere else your users are.</p><h2 data-block-key="7zrmt" id="what&#x27;s-new-in-a2ui-v0.9"><b>What&#x27;s New in A2UI v0.9</b></h2><p data-block-key="ens6l">This release focuses on making it easier than ever to build agents and integrate with your existing frontends. This release hardens our internal abstractions, simplifies streaming, and improves developer experience.</p><p data-block-key="88ra5"></p><ul><li data-block-key="e5sge"><b>From &quot;Standard&quot; to &quot;Basic&quot;:</b> Frontend developers don&#x27;t want new components. They already have a design system and components they use. Agents should respond dynamically, using existing front ends. We renamed our optional component set to &#x27;Basic&#x27; to make this more clear. Check out the <a href="https://a2ui.org/concepts/catalogs">component catalog</a> docs and code samples, connect A2UI to your awesome front ends.</li><li data-block-key="ak6dn"><b>A Shared Web-Core Library:</b> On the client side, we&#x27;ve introduced a shared <a href="https://github.com/google/A2UI/tree/main/renderers/web_core">web-core</a> library which vastly simplifies any browser UI renderer. We&#x27;ve also landed the official React renderer and version-bumped all <a href="https://a2ui.org/reference/renderers/">A2UI supported renderers</a> (Flutter, Lit, Angular, and React), while carving out a dedicated spot for <a href="https://a2ui.org/ecosystem/renderers/">community renderers</a>.</li><li data-block-key="5dd65"><b>The Agent SDK:</b> Building the agent side of the equation just got a lot easier with <a href="https://a2ui.org/reference/agents/">A2UI Agent SDK</a>. We’ve optimized the generation pipeline with new caching layers to ensure a high-performance, low-latency UI experience.</li><li data-block-key="7se9q"><b>New Language Features:</b> A2UI 0.9 adds client-defined functions (perfect for validation), client-to-server data syncing to support collaborative editing with your agent, improved error handling, and a simplified, modular schema.</li><li data-block-key="3t8s1"><b>Simplified Transports:</b> We&#x27;ve refined our transport interfaces so connecting your agents and clients is much smoother. A2UI over MCP, Websockets, REST, AG UI, A2A, or whatever you want.</li></ul>
+</div>   
+
+<div class="inner-block-content video-block">
+    
+        <video  autoplay="" loop="" muted="" playsinline="" poster="https://storage.googleapis.com/gweb-developer-goog-blog-assets/original_videos/wagtailvideo-b95trh8r_thumb.jpg">
+<source src='https://storage.googleapis.com/gweb-developer-goog-blog-assets/original_videos/a2ui_scroller_Composer_2.mp4' type='video/mp4'>
+<p>Sorry, your browser doesn't support playback for this video</p>
+
+</video>
+    
+    
+        
+            <div class="video-description">This example shows a replay of streaming chunks, slowing down and replaying scenarios across renderers</div>
+        
+    
+</div>  <div class="inner-block-content rich-content">
+    <p data-block-key="5cw4u">Adding A2UI to any python agent is now a simple pip install or uv add away (go and kotlin coming soon).</p>
+</div>  <div class="inner-block-content code-block line-numbers">
+    <pre><code class="language-shell">pip install a2ui-agent-sdk</code></pre>
+    <div class="language-block glue-font-weight-medium">
+        Shell
+    </div>
+    <div class="copy-code-block">
+        <span class="hidden">Copied</span>
+        <button class="copy-clipboard">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#202124"><path d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z"/></svg>
+        </button>
+    </div>
+    <div class="dark-mode-block">
+        <button class="dark-mode-toggle">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#202124"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"/></svg>
+        </button>
+    </div>
+    
+</div>  <div class="inner-block-content rich-content">
+    <p data-block-key="5cw4u">Integrating A2UI into your existing agent is a straightforward 5-step process. Here’s the &quot;Hello World&quot; of A2UI integration:</p>
+</div>  <div class="inner-block-content code-block line-numbers">
+    <pre><code class="language-python"># Step 1: Define your catalog (basic or bring your own) with optional examples
+my_catalog = CatalogConfig.from_path(
+    name=&quot;&lt;MY_CATALOG_NAME&gt;&quot;,
+    catalog_path=(&quot;file:///path/to/catalog.json&quot;),
+    # Optional: help LLM with &quot;few-shot&quot; learning
+    examples_path=&quot;path/to/examples/folder/*.json&quot;
+),
+
+# Step 2: Initialize the Schema Manager to manage A2UI Spec versions
+schema_manager = A2uiSchemaManager(
+    version=&quot;0.9&quot;,
+    catalogs=[my_catalog],
+)
+
+# 3. Generate the System Prompt, handles A2UI instructions
+system_instruction = schema_manager.generate_system_prompt(
+    role_description=&quot;You are a helpful assistant great at generating UI...&quot;,
+) 
+
+# Step 4: Initialize your LLM Agent with the generated instructions
+my_agent = AnyAgentFrameworkLLMAgent(instruction=system_instruction, ...)
+
+# Step 5. Execute and Stream the UI
+def handle_turn(user_query):
+    llm_response = my_agent.respond(user_query)
+
+    # In your executor the SDK helps parse, fix, and validate the LLM&#x27;s JSON on the fly
+
+    selected_catalog = schema_manager.get_selected_catalog()
+    final_parts = parse_response_to_parts(llm_response, selected_catalog.validator)
+    yield {
+        &quot;is_task_complete&quot;: True,
+        &quot;parts&quot;: final_parts,
+    }</code></pre>
+    <div class="language-block glue-font-weight-medium">
+        Python
+    </div>
+    <div class="copy-code-block">
+        <span class="hidden">Copied</span>
+        <button class="copy-clipboard">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#202124"><path d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z"/></svg>
+        </button>
+    </div>
+    <div class="dark-mode-block">
+        <button class="dark-mode-toggle">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#202124"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"/></svg>
+        </button>
+    </div>
+    
+</div>  <div class="inner-block-content rich-content">
+    <p data-block-key="6cj3z"><b>Go Beyond the Basics</b></p><p data-block-key="uodc">While the example above shows a simple static integration, the A2UI agent SDK is built for production-grade complexity. Out of the box, it supports:</p><p data-block-key="bf365"></p><ul><li data-block-key="787j1"><b>Version Negotiation:</b> Dynamically select the best A2UI specification version based on the client&#x27;s capabilities.</li><li data-block-key="c9vkj"><b>Dynamic Catalogs:</b> Switch between multiple catalog schemas at runtime to match specific user permissions or device constraints.</li><li data-block-key="ba2pu"><b>Resilient Streaming:</b> Incrementally parse and heal LLM output, allowing the client to render UI components as they are being generated—no waiting for the full JSON block.</li></ul><p data-block-key="dmd7q"></p><p data-block-key="1bjb1">Explore our<a href="https://github.com/google/A2UI"> Agent Samples</a> to see these advanced features in action.</p><p data-block-key="85rhb">We are working on some neat things like better MCP Apps integrations, progressive disclosure “skills” for A2UI, human intent abstractions, PII support, and a lot more. Take a look at our updated <a href="https://a2ui.org/roadmap/">roadmap</a> and be sure to show us what <b>you</b> are working on.</p><h2 data-block-key="r7ndr" id="the-growing-generative-ui-ecosystem"><b>The Growing Generative UI Ecosystem</b></h2><p data-block-key="teb">A standard is only as good as the ecosystem around it, and the landscape is evolving rapidly.</p>
+</div>  <div class="inner-block-content yt-video">
+    <div class="glue-video">
+        <div
+            class="glue-video__container glue-video__container--inline"
+            data-glue-yt-video-vid="ps-gn4j3_g8"
+            >
+        </div>
+        <div class="glue-video__nojs">
+          <p><a href="https://www.youtube.com/watch?v=ps-gn4j3_g8">Link to Youtube Video</a>
+          (visible only when JS is disabled)</p>
+        </div>
+    </div>
+    
+</div>  <div class="inner-block-content rich-content">
+    <ul><li data-block-key="jvmvp"><b>AG2:</b> Built by the creators of AutoGen, created <a href="https://docs.ag2.ai/latest/docs/user-guide/reference-agents/a2uiagent/">A2UIAgent</a> as a native integrations of A2UI, see it in action in the above video.</li><li data-block-key="9h0pi"><b>A2A 1.0:</b> Agent-to-Agent (A2A) <a href="https://a2a-protocol.org/latest/announcing-1.0/">1.0 protocol has officially launched</a>. It serves as a robust transport for remote agents communicating with other agents, or simply connecting agents directly to frontends.</li><li data-block-key="e5034"><b>Vercel&#x27;s json-renderer:</b> Vercel recently launched <a href="https://json-render.dev/docs/a2ui">json-renderer which supports A2UI</a> as a proof of concept. This could become a dedicated renderer for A2UI for the Vercel community.</li><li data-block-key="77tjv"><b>Oracle’s Agent Spec:</b> recently shipped <a href="https://blogs.oracle.com/ai-and-datascience/announcing-agent-spec-for-a2ui-copilotkit-ag-ui">Agent Spec + AG UI + A2UI + AG UI</a> support; Agent Spec defines what runs, AG‑UI carries the interaction, and A2UI defines what the user touches. Swap implementations at any layer while keeping the experience stable.</li><li data-block-key="ii5h"><b>AG-UI:</b> Support for connecting a broad spectrum of GenUI capabilities into agentic web apps, including A2UI, MCP Apps and Open Generative UI.</li></ul><p data-block-key="98lkc"></p><p data-block-key="696bo">We&#x27;re seeing incredible implementations of A2UI across the industry. Here are a few recent sightings:</p><h2 data-block-key="27504" id="personal-health-companion"><b>Personal Health Companion</b></h2><p data-block-key="5mr1r">The GenUI Personal Health Companion is an open-source app designed to eliminate &quot;data silos&quot; and &quot;navigation fatigue&quot; by replacing static dashboards with a modular, AI-driven interface. Developed by <a href="https://rebelappstudio.com/">Rebel App Studio</a>, <a href="https://codemate.com/creative-tech/">Codemate’s</a> specialist Flutter team, this solution leverages real-time data orchestration to bridge the gap between fragmented medical records and wearable telemetry. Rather than forcing users to dig through sub-menus, the app utilizes a central LLM-powered chat that can dynamically generate UI widgets on the fly, surfacing critical lab results, vaccine expirations, or clinic locations based on immediate context. By grounding AI insights directly in the user’s unique health data, the app transforms passive health tracking into a proactive, intent-driven assistant built for the modern digital patient.</p><p data-block-key="9qimo">Dive deeper into how the Health Companion was built on <a href="https://codemate.com/articles/flutter-genui-demo/">Codemate’s blog</a>—and explore the <a href="https://github.com/rebelappstudio/genui_personal_health_companion">open-source demo on GitHub</a>.</p>
+</div>   
+
+<div class="inner-block-content video-block">
+    
+        <video  autoplay="" loop="" muted="" playsinline="" poster="https://storage.googleapis.com/gweb-developer-goog-blog-assets/original_videos/wagtailvideo-y6tl01h3_thumb.jpg">
+<source src='https://storage.googleapis.com/gweb-developer-goog-blog-assets/original_videos/frame-l.mp4' type='video/mp4'>
+<p>Sorry, your browser doesn't support playback for this video</p>
+
+</video>
+    
+    
+</div>  <div class="inner-block-content rich-content">
+    <h2 data-block-key="m475t" id="personal-financial-planner"><b>Personal Financial Planner</b></h2><p data-block-key="89bcq">The Life Goal Simulator is an interactive demonstration of how Generative UI bridges the gap between consumer expectations and the static experiences currently offered by the financial services industry. Built by <a href="https://verygood.ventures/">Very Good Ventures</a> (VGV)—a Flutter and GenUI consultancy trusted by brands like Toyota and GEICO—the app moves beyond traditional, one-size-fits-all interfaces by putting the user’s life at the center of the experience. By selecting a persona and a goal, such as saving for retirement or a first home, users hand the wheel to Gemini, which utilizes the Flutter GenUI SDK to generate a native-feeling, real-time UI from a curated catalog of interactive widgets like sliders, bar charts, and multi-selects.</p><p data-block-key="13g7">Check out the <a href="https://github.com/VGVentures/genui_life_goal_simulator">open-source code</a> for this demo, and you can also see a <a href="https://gcn26demo.vgv.ai/">live interactive demo</a> of this experience.</p>
+</div>   
+
+<div class="inner-block-content video-block">
+    
+        <video  autoplay="" loop="" muted="" playsinline="" poster="https://storage.googleapis.com/gweb-developer-goog-blog-assets/original_videos/wagtailvideo-i5zaceos_thumb.jpg">
+<source src='https://storage.googleapis.com/gweb-developer-goog-blog-assets/original_videos/VGV_2.mp4' type='video/mp4'>
+<p>Sorry, your browser doesn't support playback for this video</p>
+
+</video>
+    
+    
+</div>  <div class="inner-block-content rich-content">
+    <h3 data-block-key="1rayq" id="a2ui-with-any-agent-framework-(via-ag-ui)"><b>A2UI with any Agent Framework (via AG-UI)</b></h3><p data-block-key="bcgfc">Any agent that already speaks AG-UI can drive A2UI v0.9 on day zero. No custom integration is required. This works through AG-UI&#x27;s middleware system: a small piece of code that plugs into your existing agent pipeline. It teaches your agent how to speak A2UI, wires the responses correctly, and handles streaming, converting the agent&#x27;s output into components your UI can render immediately, using A2UI&#x27;s built-in renderers or your own custom components.</p>
+</div>   
+
+<div class="inner-block-content video-block">
+    
+        <video  autoplay="" loop="" muted="" playsinline="" poster="https://storage.googleapis.com/gweb-developer-goog-blog-assets/original_videos/wagtailvideo-gm1t8nwe_thumb.jpg">
+<source src='https://storage.googleapis.com/gweb-developer-goog-blog-assets/original_videos/A2UI_-_AG-UI_Starter.mp4' type='video/mp4'>
+<p>Sorry, your browser doesn't support playback for this video</p>
+
+</video>
+    
+    
+</div>  <div class="inner-block-content rich-content">
+    <p data-block-key="0iayf">Get this starter template running in your machine</p>
+</div>  <div class="inner-block-content code-block line-numbers">
+    <pre><code class="language-shell">npx copilotkit@latest create my-app --framework a2ui</code></pre>
+    <div class="language-block glue-font-weight-medium">
+        Shell
+    </div>
+    <div class="copy-code-block">
+        <span class="hidden">Copied</span>
+        <button class="copy-clipboard">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#202124"><path d="M360-240q-33 0-56.5-23.5T280-320v-480q0-33 23.5-56.5T360-880h360q33 0 56.5 23.5T800-800v480q0 33-23.5 56.5T720-240H360Zm0-80h360v-480H360v480ZM200-80q-33 0-56.5-23.5T120-160v-560h80v560h440v80H200Zm160-240v-480 480Z"/></svg>
+        </button>
+    </div>
+    <div class="dark-mode-block">
+        <button class="dark-mode-toggle">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#202124"><path d="M480-120q-150 0-255-105T120-480q0-150 105-255t255-105q14 0 27.5 1t26.5 3q-41 29-65.5 75.5T444-660q0 90 63 153t153 63q55 0 101-24.5t75-65.5q2 13 3 26.5t1 27.5q0 150-105 255T480-120Zm0-80q88 0 158-48.5T740-375q-20 5-40 8t-40 3q-123 0-209.5-86.5T364-660q0-20 3-40t8-40q-78 32-126.5 102T200-480q0 116 82 198t198 82Zm-10-270Z"/></svg>
+        </button>
+    </div>
+    
+</div>  <div class="inner-block-content rich-content">
+    <h2 data-block-key="t3qsl" id="get-started"><b>Get Started</b></h2><p data-block-key="35bqn">Ready to unshackle your agents and let them drive your front end with whatever components you have?</p><p data-block-key="aid6n">Check out our new <a href="https://a2ui-composer.ag-ui.com/theater?scenario=restaurant-finder">A2UI Theater</a> for a replay or dive into the <a href="http://a2ui.org/">A2UI.org</a> for docs, samples and dev guides to start building flexible, portable generative UIs today.</p>
+</div> 
+      </div>
+    </section>
+    
+
+    <section class="navigation-container glue-page glue-spacer-6-top">
+      <div class="posted-in-section">
+        <div class="posted-in-section__heading">
+          <span class="glue-caption">
+            posted in:
+          </span>
+        </div>
+        <div class="posted-in-section__tags">
+          <ul>
+              
+                  <li>
+                      <a href="/search/?technology_categories=Mobile" class="glue-caption">Mobile</a>
+                  </li>
+              
+                  <li>
+                      <a href="/search/?technology_categories=Web" class="glue-caption">Web</a>
+                  </li>
+              
+                  <li>
+                      <a href="/search/?technology_categories=AI" class="glue-caption">AI</a>
+                  </li>
+              
+                  <li>
+                      <a href="/search/?content_type_categories=How-To+Guides" class="glue-caption">How-To Guides</a>
+                  </li>
+              
+                  <li>
+                      <a href="/search/?content_type_categories=Announcements" class="glue-caption">Announcements</a>
+                  </li>
+              
+              
+                  <li>
+                      <a href="/search/?tag=Explore" class="glue-caption">Explore</a>
+                  </li>
+              
+                  <li>
+                      <a href="/search/?tag=Solve" class="glue-caption">Solve</a>
+                  </li>
+              
+                  <li>
+                      <a href="/search/?tag=Learn" class="glue-caption">Learn</a>
+                  </li>
+              
+          </ul>
+      </div>
+      </div>
+      <div class="buttons-section">
+        <div class="buttons-section__left">
+          <a href="/build-better-ai-agents-5-developer-tips-from-the-agent-bake-off/" class="glue-button--icon glue-elevation-level-1 " aria-label="Previous">
+            <svg role="presentation" aria-hidden="true" class="glue-icon">
+              <use href="/glue-icon/#chevron-left"></use>
+            </svg>
+          </a>
+          <span class="caption ">Previous</span>
+        </div>
+        <div class="buttons-section__right">
+          <span class="caption ">Next</span>
+          <a href="/torchtpu-running-pytorch-natively-on-tpus-at-google-scale/" class="glue-button--icon glue-elevation-level-1 "  aria-label="Next">
+            <svg role="presentation" aria-hidden="true" class="glue-icon">
+              <use href="/glue-icon/#chevron-right"></use>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="related-posts-container glue-page glue-spacer-6-top glue-spacer-3-bottom">
+      <span class="glue-headline glue-headline--headline-3">Related Posts</span>
+      <div class="related-posts-container__carousel glue-page glue-spacer-5-top">
+        <div class="glue-carousel glue-carousel--cards glue-carousel-related-posts" aria-label="Related Posts">
+          <!-- Previous -->
+          <button class="glue-carousel__button glue-carousel__button--prev"
+              aria-label="Go to the previous slide">
+            <svg role="presentation" aria-hidden="true" class="glue-icon glue-icon--32px">
+              <use href="/glue-icon/#chevron-left"></use>
+            </svg>
+          </button>
+          <!-- Next -->
+          <button class="glue-carousel__button glue-carousel__button--next"
+              aria-label="Go to the next slide">
+            <svg role="presentation" aria-hidden="true" class="glue-icon glue-icon--32px">
+              <use href="/glue-icon/#chevron-right"></use>
+            </svg>
+          </button>
+          <!-- List -->
+          <div class="glue-carousel__viewport">
+            <div class="glue-carousel__list">
+              
+                <a class="glue-card glue-carousel__item" href="/bringing-gemma-4-12b-to-your-laptop-unlocking-local-agentic-workflows-with-google-ai-edge/">
+                  <div aria-label="Bringing Gemma 4 12B to your Laptop: Unlocking Local, Agentic Workflows with Google AI Edge" class="glue-card__inner">
+                    <picture class="glue-card__asset">
+                      <img alt="Bringing Gemma 4 12B to your Laptop: Unlocking Local, Agentic Workflows with Google AI Edge" src="https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/banner_final_1.2e16d0ba.fill-800x400.png">
+                    </picture>
+                    <div class="glue-card__content">
+                      <div class="glue-card__tags glue-spacer-2-top">
+                        
+                            
+                            
+                            <span class="glue-label">Mobile</span>
+                            
+                            <span class="glue-label">Web</span>
+                            
+                            
+                            <span class="glue-label">Announcements</span>
+                            
+                            <span class="glue-label">Learn</span>
+                            
+                        
+                      </div>
+                      <p class="glue-headline glue-headline--headline-5">Bringing Gemma 4 12B to your Laptop: Unlocking Local, Agentic Workflows with Google AI Edge</p>
+                      <div class="glue-card__cta-custom glue-spacer-3-top">
+                        <span class="glue-cta">JUNE 3, 2026</span>
+                        <svg aria-hidden="true" class="glue-icon glue-icon--24px" role="presentation">
+                          <use href="/glue-icon/#arrow-forward"></use>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              
+                <a class="glue-card glue-carousel__item" href="/why-we-built-adk-20/">
+                  <div aria-label="Why we built ADK 2.0" class="glue-card__inner">
+                    <picture class="glue-card__asset">
+                      <img alt="Why we built ADK 2.0" src="https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/gfd-why-adk2-banner.2e16d0ba.fill-800x400.png">
+                    </picture>
+                    <div class="glue-card__content">
+                      <div class="glue-card__tags glue-spacer-2-top">
+                        
+                            
+                            
+                            <span class="glue-label">AI</span>
+                            
+                            <span class="glue-label">Cloud</span>
+                            
+                            
+                            <span class="glue-label">How-To Guides</span>
+                            
+                            <span class="glue-label">Best Practices</span>
+                            
+                        
+                      </div>
+                      <p class="glue-headline glue-headline--headline-5">Why we built ADK 2.0</p>
+                      <div class="glue-card__cta-custom glue-spacer-3-top">
+                        <span class="glue-cta">JULY 1, 2026</span>
+                        <svg aria-hidden="true" class="glue-icon glue-icon--24px" role="presentation">
+                          <use href="/glue-icon/#arrow-forward"></use>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              
+                <a class="glue-card glue-carousel__item" href="/driving-the-agent-quality-flywheel-from-your-coding-agent/">
+                  <div aria-label="Driving the Agent Quality Flywheel from Your Coding Agent" class="glue-card__inner">
+                    <picture class="glue-card__asset">
+                      <img alt="Driving the Agent Quality Flywheel from Your Coding Agent" src="https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/flywheel-blog-hero-image.2e16d0ba.fill-800x400.png">
+                    </picture>
+                    <div class="glue-card__content">
+                      <div class="glue-card__tags glue-spacer-2-top">
+                        
+                            
+                            
+                            <span class="glue-label">AI</span>
+                            
+                            <span class="glue-label">Cloud</span>
+                            
+                            
+                            <span class="glue-label">How-To Guides</span>
+                            
+                            <span class="glue-label">Announcements</span>
+                            
+                        
+                      </div>
+                      <p class="glue-headline glue-headline--headline-5">Driving the Agent Quality Flywheel from Your Coding Agent</p>
+                      <div class="glue-card__cta-custom glue-spacer-3-top">
+                        <span class="glue-cta">JUNE 30, 2026</span>
+                        <svg aria-hidden="true" class="glue-icon glue-icon--24px" role="presentation">
+                          <use href="/glue-icon/#arrow-forward"></use>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              
+                <a class="glue-card glue-carousel__item" href="/enhance-security-and-trust-new-session-metadata-in-sign-in-with-google/">
+                  <div aria-label="Enhance Security and Trust: New Session Metadata in Sign in with Google" class="glue-card__inner">
+                    <picture class="glue-card__asset">
+                      <img alt="Enhance Security and Trust: New Session Metadata in Sign in with Google" src="https://storage.googleapis.com/gweb-developer-goog-blog-assets/images/banner-usability-safety-updates-go.2e16d0ba.fill-800x400.png">
+                    </picture>
+                    <div class="glue-card__content">
+                      <div class="glue-card__tags glue-spacer-2-top">
+                        
+                            
+                            
+                            <span class="glue-label">Mobile</span>
+                            
+                            <span class="glue-label">Web</span>
+                            
+                            
+                            <span class="glue-label">Announcements</span>
+                            
+                            <span class="glue-label">Best Practices</span>
+                            
+                        
+                      </div>
+                      <p class="glue-headline glue-headline--headline-5">Enhance Security and Trust: New Session Metadata in Sign in with Google</p>
+                      <div class="glue-card__cta-custom glue-spacer-3-top">
+                        <span class="glue-cta">JUNE 16, 2026</span>
+                        <svg aria-hidden="true" class="glue-icon glue-icon--24px" role="presentation">
+                          <use href="/glue-icon/#arrow-forward"></use>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              
+            </div>
+          </div>
+          <!-- Navigation dots -->
+          <div class="glue-carousel__navigation" aria-label="Choose a page"
+               data-glue-carousel-navigation-label="Selected tab $glue_carousel_page_number$ of $glue_carousel_page_total$">
+          </div>
+        </div>
+      </div>
+    </section>
+    
+  </div>
+
+
+				
+				
+
+<div class="footer-linkboxes__wrapper">
+  <nav class="footer-linkboxes" aria-label="Footer links">
+    <ul class="footer-linkboxes__list">
+      <li class="footer-linkbox">
+        <span class="footer-linkbox-heading">
+          Connect
+        </span>
+        <ul class="footer-linkbox-list">
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//googledevelopers.blogspot.com" class="footer-linkbox-list__link">
+                Blog
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="https://goo.gle/3FReQXN" class="footer-linkbox-list__link">
+                Bluesky
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="https://goo.gle/googlefordevs" class="footer-linkbox-list__link">
+                Instagram
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="https://goo.gle/gdevs-li" class="footer-linkbox-list__link">
+                LinkedIn
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="https://goo.gle/gdevs-tw" class="footer-linkbox-list__link">
+                X (Twitter)
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="https://goo.gle/developers" class="footer-linkbox-list__link">
+                YouTube
+              </a>
+            </li>
+          
+        </ul>
+      </li>
+      <li class="footer-linkbox">
+        <span class="footer-linkbox-heading">
+          Programs
+        </span>
+        <ul class="footer-linkbox-list">
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//developers.google.com/program" class="footer-linkbox-list__link">
+                Google Developer Program
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//developers.google.com/community/gdg" class="footer-linkbox-list__link">
+                Google Developer Groups
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//developers.google.com/community/experts" class="footer-linkbox-list__link">
+                Google Developer Experts
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//developers.google.com/community/accelerators" class="footer-linkbox-list__link">
+                Accelerators
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//www.womentechmakers.com" class="footer-linkbox-list__link">
+                Women Techmakers
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//developers.google.com/community/nvidia" class="footer-linkbox-list__link">
+                Google Cloud &amp; NVIDIA
+              </a>
+            </li>
+          
+        </ul>
+      </li>
+      <li class="footer-linkbox">
+        <span class="footer-linkbox-heading">
+          Developer consoles
+        </span>
+        <ul class="footer-linkbox-list">
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//console.developers.google.com" class="footer-linkbox-list__link">
+                Google API Console
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//console.cloud.google.com" class="footer-linkbox-list__link">
+                Google Cloud Platform Console
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//play.google.com/apps/publish" class="footer-linkbox-list__link">
+                Google Play Console
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//console.firebase.google.com" class="footer-linkbox-list__link">
+                Firebase Console
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//console.actions.google.com" class="footer-linkbox-list__link">
+                Actions on Google Console
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//cast.google.com/publish" class="footer-linkbox-list__link">
+                Cast SDK Developer Console
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//chrome.google.com/webstore/developer/dashboard" class="footer-linkbox-list__link">
+                Chrome Web Store Dashboard
+              </a>
+            </li>
+          
+            <li class="footer-linkbox-list__item">
+              <a href="//console.home.google.com/" class="footer-linkbox-list__link">
+                Google Home Developer Console
+              </a>
+            </li>
+          
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</div>
+<div class="footer-utility__wrapper">
+  <div>
+    <nav class="footer-sites" aria-label="Other Google Developers websites">
+      <a href="https://developers.google.com/" class="site-logo-link" data-label="Site logo">
+        <img src="https://storage.googleapis.com/gweb-developer-goog-blog-cms-assets/site/20260519-162827/images/g-dev.svg" class="site-logo" alt="Google for Developers">
+      </a>
+      <ul class="footer-sites-list">
+        <li class="footer-sites-item">
+          <a href="//developer.android.com" class="footer-sites-link">
+            Android
+          </a>
+        </li>
+        <li class="footer-sites-item">
+          <a href="//developer.chrome.com/home" class="footer-sites-link">
+            Chrome
+          </a>
+        </li>
+        <li class="footer-sites-item">
+          <a href="//firebase.google.com" class="footer-sites-link">
+            Firebase
+          </a>
+        </li>
+        <li class="footer-sites-item">
+          <a href="//cloud.google.com" class="footer-sites-link">
+            Google Cloud Platform
+          </a>
+        </li>
+        <li class="footer-sites-item">
+          <a href="//developers.google.com/products" class="footer-sites-link">
+            All products
+          </a>
+        </li>
+        <li class="footer-sites-item">
+          <button aria-hidden="true" class="glue-cookie-notification-bar-control footer-sites-link">
+            Manage cookies
+          </button>
+        </li>
+      </ul>
+    </nav>
+    <nav class="footer-utility-links">
+      <ul class="footer-utility-list">
+        <li class="footer-utility-item">
+          <a href="//developers.google.com/terms/site-terms" class="footer-utility-link">
+            Terms
+          </a>
+        </li>
+        <li class="footer-utility-item">
+          <a href="//policies.google.com/privacy" class="footer-utility-link">
+            Privacy
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+
+        
+				
+
+        
+        <script nonce="vVbKKTu0ZLWNgaCkuPTQPw==" src="https://www.youtube.com/player_api"></script>
+        <script nonce="vVbKKTu0ZLWNgaCkuPTQPw==" src="//www.gstatic.com/glue/v27_1/glue.min.js"></script>
+        <script nonce="vVbKKTu0ZLWNgaCkuPTQPw==" type="text/javascript" src="https://storage.googleapis.com/gweb-developer-goog-blog-cms-assets/site/20260519-162827/js/dgc_blog.js"></script>
+
+        <script nonce="vVbKKTu0ZLWNgaCkuPTQPw==" src="https://www.gstatic.com/glue/cookienotificationbar/cookienotificationbar.min.js"
+            data-glue-cookie-notification-bar-category="2A"
+            data-glue-cookie-notification-bar-site-id="developers.googleblog.com"></script>
+
+        
+  <script src="https://storage.googleapis.com/gweb-developer-goog-blog-cms-assets/site/20260519-162827/js/blog_detail.js" nonce="vVbKKTu0ZLWNgaCkuPTQPw=="></script>
+  <script src="https://storage.googleapis.com/gweb-developer-goog-blog-cms-assets/site/20260519-162827/js/prism.js" nonce="vVbKKTu0ZLWNgaCkuPTQPw=="></script>
+
+    </body>
+</html>

@@ -1,0 +1,27 @@
+/** Tailwind class map — converted from SheetsWorkspace.module.css */
+const styles: Record<string, string> = {
+  allSheetsButton: "inline-flex items-center justify-center w-[28px] h-[28px] border-none rounded-lf-sm bg-transparent text-lf-text-secondary cursor-pointer hover:bg-lf-surface-3 hover:text-lf-text-primary",
+  appBadge: "flex items-center justify-center w-[36px] h-[36px] rounded-lf-md bg-[color-mix(in_srgb,_var(--lf-accent)_16%,_transparent)] text-lf-accent",
+  avatarStack: "flex",
+  gridRegion: "flex-1 min-h-0 flex",
+  main: "flex-1 min-w-0 min-h-0 flex flex-col",
+  menuBar: "flex flex-wrap gap-[2px] mt-[2px]",
+  menuItem: "border-none rounded-lf-sm p-[2px_var(--lf-space-2)] bg-transparent text-lf-text-secondary font-sans text-lf-sm cursor-pointer hover:bg-lf-surface-3 hover:text-lf-text-primary",
+  sheetSummary: "ml-auto pl-lf-3 pb-lf-2 text-lf-text-tertiary text-lf-xs whitespace-nowrap overflow-hidden text-ellipsis",
+  sheetTab: "inline-flex items-center h-[28px] max-w-[160px] p-[0_var(--lf-space-3)] border border-solid border-transparent [border-bottom:none] rounded-[var(--lf-radius-md)_var(--lf-radius-md)_0_0] bg-transparent text-lf-text-tertiary font-sans text-lf-sm font-medium whitespace-nowrap cursor-pointer [flex-shrink:0] transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-[var(--lf-duration-fast)] ease-[var(--lf-ease)] hover:bg-lf-surface-3 hover:text-lf-text-secondary",
+  sheetTabActive: "h-[30px] mt-[-1px] bg-lf-surface-canvas border-lf-divider text-lf-text-primary hover:bg-lf-surface-canvas hover:text-lf-text-primary",
+  sheetTabControls: "flex items-center gap-lf-1 mb-[2px] [flex-shrink:0]",
+  sheetTabLabel: "min-w-0 overflow-hidden text-ellipsis whitespace-nowrap",
+  sheetTabs: "[flex-shrink:0] flex items-end gap-lf-2 h-[36px] p-[0_var(--lf-space-3)] border-t border-lf-divider bg-lf-surface-2",
+  sidebarResizable: "[flex-shrink:0] hidden",
+  starActive: "text-lf-accent",
+  tabList: "flex items-end gap-[2px] min-w-0 [overflow-x:auto]",
+  title: "m-0 text-lf-lg font-medium [letter-spacing:-0.02em] whitespace-nowrap overflow-hidden text-ellipsis",
+  titleActions: "flex items-center gap-lf-2 [flex-shrink:0] pt-[2px]",
+  titleBar: "[flex-shrink:0] flex items-start justify-between gap-lf-4 p-[var(--lf-space-2)_var(--lf-space-4)_0]",
+  titleBlock: "min-w-0",
+  titleLeft: "flex items-start gap-lf-3 min-w-0",
+  titleRow: "flex items-center gap-lf-1",
+  workspace: "flex h-full min-h-0 bg-lf-surface-canvas text-lf-text-primary",
+};
+export default styles;

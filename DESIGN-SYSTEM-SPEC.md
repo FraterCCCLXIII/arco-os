@@ -18,6 +18,8 @@
    - [D6 — Two renderers, one registry](#d6--two-renderers-one-registry-bridge-static--streaming)
    - [D7 — Cross-device & cross-platform](#d7--cross-device--cross-platform)
    - [D8 — Adaptivity model (informed by Android adaptive apps)](#d8--adaptivity-model-informed-by-android-adaptive-apps)
+   - [D9 — Execution model: the logic ladder](#d9--execution-model-the-logic-ladder-declarative-first-wasm-for-real-code)
+   - [D10 — Security architecture](#d10--security-the-ai-is-never-the-security-boundary)
 4. [Recommended architecture](#4-recommended-architecture)
 5. [AI generation flow (target)](#5-ai-generation-flow-target)
 6. [Short-term plan (prototype)](#6-short-term-plan-prototype--weeks-low-risk)
@@ -26,7 +28,8 @@
 9. [Adoption & standardization strategy](#9-adoption--standardization-strategy-what-it-takes-to-become-a-community-standard)
 10. [Product build strategy — the lean flagship app](#10-product-build-strategy--the-lean-flagship-app)
     - [10.6 Install story](#106-install-story--one-app-engines-install-themselves) · [10.7 Generated-app lifecycle](#107-generated-app-lifecycle--apps-as-first-class-family-members) · [10.8 Portability & marketplace](#108-portability--marketplace--apps-that-outlive-the-platform) · [10.9 External services as heads](#109-external-services-as-heads--the-social-app-test-case)
-11. [Appendix — decision summary](#11-appendix--decision-summary)
+11. [Reference case study — matrix-os](#11-reference-case-study--matrix-os-app--code-the-other-philosophy-shipped)
+12. [Appendix — decision summary](#12-appendix--decision-summary)
 
 ---
 
@@ -75,7 +78,7 @@ The three payload specs embody **two philosophies**, and the difference is decis
 - **Native-first / "UI-as-data"** — agent emits an abstract component blueprint (JSON); the client renders it with **its own native, themed components**. This is **exactly the Longformer model** (schema/blocks → our themed components, per D5). **A2UI** (Google, Apache-2.0, cross-platform — already in Google's GenUI SDK for Flutter and Gemini Enterprise, CopilotKit day-zero support) is the leading native-first spec, and multiple 2026 analyses call it the convergence winner. **OpenUI** is also native-first but delivered as a streaming *language* optimized for token efficiency.
 - **Resource-first / iframe** — a tool returns a URI to pre-built HTML/JS rendered in a **sandboxed iframe**. **MCP Apps / MCP-UI** (official MCP extension, Jan 2026). Great for *third-party / untrusted* tool UIs and security isolation, but it **does not use our design system** (each app ships its own HTML → can't be uniformly themed or made adaptive). Complementary, not a substitute.
 
-Prior art worth studying for the "JSON schema → cross-platform native render" pattern: **DivKit** (Yandex, open-source SDUI, iOS/Android/Web) and **Microsoft Adaptive Cards**.
+Prior art worth studying for the "JSON schema → cross-platform native render" pattern: **DivKit** (Yandex, open-source SDUI, iOS/Android/Web) and **Microsoft Adaptive Cards**. For the *opposite* philosophy shipped as a real product — AI generates full app **code** rather than UI-as-data — see the **matrix-os case study** (§11).
 
 Sources: [QubitTool — A2UI vs AG-UI vs Vercel](https://qubittool.com/blog/a2ui-vs-ag-ui-vercel-agent-ui-comparison) · [CopilotKit — State of Agentic UI](https://www.copilotkit.ai/blog/the-state-of-agentic-ui-comparing-ag-ui-mcp-ui-and-a2ui-protocols) · [innFactory — A2UI vs MCP-UI](https://innfactory.ai/en/blog/a2ui-vs-mcp-ui-comparison-of-user-interfaces-for-agentic-ai/) · [MCP Apps announcement](https://blog.modelcontextprotocol.io/posts/2026-01-26-mcp-apps/) · [MCP-UI](https://mcpui.dev/guide/introduction.html) · [DivKit](https://github.com/divkit/divkit).
 
@@ -173,6 +176,8 @@ This is the convergence point of your current schema approach and OpenUI: both s
 
 Short-term the two renderers coexist; long-term both read the registry so a block authored once is renderable by either path. This is the "bridge OpenUI Lang ↔ Longformer blocks" from planning, made concrete.
 
+**Streaming-render mechanics (from the VS Code chat renderer, the most-shipped AI chat UI):** treat a streamed response as an array of *typed content parts*, each part implementing an identity check (`hasSameContent(prev)`) so incremental updates re-render only the parts that changed — never the whole transcript. Progressive word-budget rendering applies to markdown parts only; structured blocks render atomically. And one session should render across many surfaces (chat workspace, inline overlay, quick pick) via a `location` parameter on the same widget, rather than per-surface session forks. See `reference/LEARNINGS.md` §15.1.
+
 ### D7 — Cross-device & cross-platform
 
 - **Now (web, all form factors):** tokens + `SurfaceManager` policies already do this; blocks must *declare* `formFactors` (D5) so the generator only offers valid blocks per surface, and blocks adapt layout via token-driven breakpoints/container queries.
@@ -206,7 +211,7 @@ defineBlock({
   type: "statCards",
   // …schema, description, examples, render…
   adaptivity: {
-    inputProfiles: ["pointer", "touch"],   // was: formFactors
+    inputProfiles: ["pointer", "touch"],   // was: formFactors — extensible: "voice" and "controller" (d-pad/TV) are planned future modalities
     minWidth: 220,                          // px the block needs before it must reflow
     idealColumns: { compact: 1, medium: 2, expanded: 4 },
     onCompact: "stack",                     // stack | scroll | summarize | hide-secondary
@@ -215,6 +220,65 @@ defineBlock({
 ```
 
 This lets the AI target **canonical layouts + size-class hints** rather than pixel coordinates — which is exactly what makes a single generated app "adaptive by construction" across phone, tablet, desktop window, watch glance, and widget.
+
+Note on modalities: `inputProfiles` must stay an **open, extensible set**. Size classes cover *space*; input profiles cover *interaction*. Voice-only and controller/D-pad (TV, handheld gaming) are known future profiles — blocks should not hardcode assumptions that break when a new profile is added, and the registry should filter/adapt the AI's vocabulary per profile the same way it does per size class.
+
+### D9 — Execution model: the logic ladder (declarative-first, WASM for real code)
+
+Generated apps will not stay display-only — the AI *makes apps*, and some genuinely need logic: state, computation, background refresh, custom transforms. The trap is jumping straight to "AI writes code → find somewhere to run it." Instead: a **logic ladder** where each level buys more power at higher review/sandbox cost, and the generator always targets the **lowest level that satisfies the request**.
+
+| Level | What the AI emits | Executes where | Trust / sandbox |
+|---|---|---|---|
+| **L0 — Static blocks** | Block JSON (pure data) | Nothing executes | Schema validation only (trust Tier 1, §10.7) |
+| **L1 — Declarative reactive** | `$state`, expressions, data bindings, SQL against app-scoped SQLite, scheduled refresh, action intents | Interpreted by the runtime — every operation is a typed primitive; no arbitrary code on the wire | Bounded vocabulary; statically analyzable; capability-scoped intents |
+| **L2 — Sandboxed UI code** | HTML/JS resource | MCP Apps iframe | Browser sandbox; badged "external"; can't be themed (trust Tier 3) |
+| **L3 — Sandboxed app logic** | Small named functions ("app functions") | **WASM/WASI component host** embedded in the plugin (or Tauri wrapper) | Capability tokens per D10 — no ambient FS/network; ms cold-start; resource limits; portable across desktop/mobile |
+| **Engines** | — (not generated; vetted real software) | uvx / compose / supervised processes (§10.6) | Health/lifecycle cards in Settings; own sandboxing |
+
+Rules:
+
+- **Declarative-first.** L1 is the OpenUI durable-app model already shipped in openclaw-os (`$state` / `Query` / `Mutation` / scheduled SQL) — it covers dashboards, trackers, CRUD, and most of the generated long tail. The §8 "interactivity contract" question is really *"how rich does L1 get"* — invest in widening L1's typed vocabulary before reaching for L3.
+- **L3 exists because "the AI makes real apps" is the product thesis.** A scoring function, a parser, a game loop, an integration transform can't be expressed declaratively. When needed, the agent writes the function and it runs as a WASM/WASI component with **explicitly granted capabilities declared in the manifest**. Never jiti-loaded TS in the gateway process (that path is for trusted, human-installed plugins only), never Node child processes with ambient authority, never per-generated-app containers (wrong regime for cold-start, memory, mobile).
+- **Containers are engine-tier only** (§10.6). Docker/Podman/k8s are for vetted heavy backends the app installs for itself, not for AI-generated app logic.
+- **Interim path before the WASM host exists:** AI-written backend logic can run in the agent-server sandbox (Code workspace) — acceptable for developer-facing use, **not** for one-click marketplace installs.
+- **Manifest addition** (extends the §10.7 AppManifest):
+
+```jsonc
+"logic": {
+  "level": "declarative",            // "declarative" | "ui-sandbox" | "wasm"
+  "functions": [
+    { "name": "scoreTrip", "wasm": "sha256:…", "capabilities": ["entity:task:read"] }
+  ],
+  "limits": { "cpuMs": 50, "memMb": 32, "timeoutMs": 1000 }
+}
+```
+
+- **Marketplace grades by level.** L0/L1 review is automated schema validation; L3 review is a **capability audit, not a code audit** — the reviewer checks what the function is *allowed to touch*, not what every line does. This keeps the §10.8 "safe community marketplace" claim honest once apps carry logic.
+
+### D10 — Security: the AI is never the security boundary
+
+Assume the model will sometimes be wrong (hallucination), sometimes be steered (prompt injection, compromised weights, emergent misbehavior), and the system will be attacked. Three distinct threat models, three distinct mitigation sets, one principle: **deterministic, capability-scoped systems code wraps the AI; the AI's output is a request, never a command.**
+
+**1. Hallucination (honest-but-wrong):**
+
+- **No direct writes.** The agent emits proposed actions against typed schemas (the §10.8 intents); out-of-schema output is rejected before execution — the same principle as D5's validate-before-render, applied to mutations. The cleanest shipped reference is NanoClaw's "container proposes, host executes" model (agent writes typed intent rows; the trusted host validates and applies — see `reference/LEARNINGS.md` §9).
+- **Deterministic confirmation gates** for irreversible actions (send, delete, pay, share, deploy) — rule-based checks, never another AI call, regardless of how confident the model sounds. Remembered approval decisions follow VS Code's shipped pattern: scoped **session | workspace | profile**, keyed by a **hash of tool + params** (never raw params as storage keys) — `reference/LEARNINGS.md` §15.1.
+- **Audit + undo on the graph itself.** Every AI-initiated mutation is logged user-visibly and is undoable within a window — soft-delete/versioning on the entity store, not just app-level undo. This is what makes "why did you move my meeting?" answerable.
+
+**2. Rogue / compromised agent:**
+
+- **Capability tokens, not ambient authority.** No component — including the agent orchestrator — holds a standing "access everything" credential. Each task receives scoped, expiring grants (`entity:task:read`, `network:api.example.com`); a fully compromised orchestrator can only do the sum of the tokens it was handed.
+- **Plan/execute separation.** The planning model never holds filesystem/network/exec access itself; it emits structured intents that a non-AI enforcement layer executes against policy.
+- **Anomaly detection on the action stream** (later phase; the audit log is its prerequisite) — a personal agent suddenly touching financial entities at 3am trips a pattern check independent of whether each request looked reasonable in isolation.
+
+**3. External attackers (the sensitive-data concern):**
+
+- **Local-first + E2E encryption** for anything that syncs; the entity store encrypted at rest with **per-scope keys**, so a compromised app scope yields that scope, not the whole graph.
+- **Sandbox per level (D9) and per trust tier (§10.7)** — a compromised third-party app can't pivot into other apps' data.
+- **Model-provider DLP.** The LLM routing layer minimizes/redacts what leaves the device based on the task's scope — the router is also the data-loss-prevention checkpoint, not just a latency/cost policy engine.
+- **Marketplace defenses:** automated schema/capability scanning plus staged rollout for new and updated apps (§10.8).
+
+**Enterprise mode is a policy profile, not a fork:** the same substrate with routing locked to local/on-prem models and full audit logging enabled. "Business" is a permission profile on the personal product, never a separate codebase.
 
 ---
 
@@ -263,6 +327,7 @@ This lets the AI target **canonical layouts + size-class hints** rather than pix
 5. Keep Vite + CSS Modules + npm workspaces as-is. No Tailwind yet.
 6. Feed `examples` from the registry into the Design System workspace as the living catalog.
 7. **Adaptivity spike:** convert 2–3 blocks to **container-query size classes** and add the `adaptivity` field (D8) to their manifests; verify they reflow correctly inside a resized desktop window, a tablet pane, and the phone stack.
+8. **Runtime package boundary (cheap now, unretrofittable later):** keep renderer + registry + `ActionBinder`/`EntityProvider` interfaces free of shell imports from day one, even inside the monorepo — this is what makes the §10.8 portability ladder (embed/CDN/PWA/eject) real instead of aspirational.
 
 ---
 
@@ -284,7 +349,7 @@ This lets the AI target **canonical layouts + size-class hints** rather than pix
 - **Interactivity contract:** generated blocks currently render display-only. How do actions/mutations flow back (OpenUI Query/Mutation vs Longformer event bus vs agent tool round-trip)? Needs a standard "action" primitive on the wire.
 - **Data binding:** static snapshot data vs live-bound (block references an entity ID from the shared store). Impacts caching and the entity-store work in the planning doc.
 - **How much of OpenUI `react-ui` do we use** vs render everything through Longformer components? Recommend: use OpenUI as pipeline, render Longformer components — but confirm charts/tables aren't worth adopting from `react-ui`.
-- **Registry as the AI's "app store":** should the AI be able to *author new blocks* (compose primitives) at runtime, or only assemble existing ones? Big product lever.
+- **Registry as the AI's "app store":** should the AI be able to *author new blocks* (compose primitives) at runtime, or only assemble existing ones? Big product lever. (If yes, D9's WASM path is the execution substrate for any block that carries logic; pure-composition blocks stay L0/L1 data.)
 - **Versioning/theming per app:** do generated apps get their own theme scope (token overrides) so multiple "apps" can look distinct within one shell?
 - **Doc/catalog tooling:** Storybook vs your existing Design System workspace as the canonical catalog.
 - **Size-class thresholds:** what width/height breakpoints define Compact/Medium/Expanded for our surfaces (Android uses ~600/840dp width)? Do watch/widget get their own classes below Compact?
@@ -295,6 +360,9 @@ This lets the AI target **canonical layouts + size-class hints** rather than pix
 - **AppManifest formalization (§10.7/10.8):** when does the manifest become part of the versioned spec (§9.2)? The `actions`/`data`/`portability` fields need schema definitions before the marketplace can exist.
 - **Action intent vocabulary:** is there a standard set of intents (`task.create`, `calendar.add`, …) or free-form intents with JSON-schema payloads? A small standard vocabulary maximizes app interoperability across hosts.
 - **Manifest signing & identity:** what signs marketplace manifests (author keys, registry attestation)? Needed before shared apps can be trusted.
+- **L1 expressiveness ceiling (D9):** which typed primitives does the declarative level get (aggregations, date math, conditional visibility, derived state)? Every primitive added to L1 keeps another class of apps out of L3.
+- **Parking lot — idle-compute mesh:** desktop GPU serving inference for phone/watch on the same network ("your device fleet, pooled"). Genuinely novel, not needed for v1.
+- **Parking lot — graph federation:** family/team graphs as CRDT-synced subsets of personal graphs with real permission boundaries. Depends on the entity store shipping first.
 
 ---
 
@@ -387,7 +455,7 @@ The design system needs community adoption (§9), but we are *also* building a r
 
 ### 10.1 The prime directive: compose, don't rebuild
 
-Every capability in the ~50-workspace prototype maps to an existing, mature open-source project. Rebuilding any of them is how the product bloats and dies. The rule: **Longformer owns the shell, the design system, and the generative-UI surface. Everything else is an engine we mount.**
+Every capability in the 35-workspace prototype maps to an existing, mature open-source project. Rebuilding any of them is how the product bloats and dies. The rule: **Longformer owns the shell, the design system, and the generative-UI surface. Everything else is an engine we mount.**
 
 | Capability | Don't rebuild | Reuse instead | Integration mode |
 |---|---|---|---|
@@ -405,7 +473,7 @@ License note: agent-canvas and openclaw-os are MIT (safe to embed); Odysseus is 
 
 Bloat is the default failure mode of "OS-like" apps (compare: Open WebUI ships RBAC + SCIM + 9 vector DBs; agent-canvas ships HeroUI + Monaco + xterm). We avoid it structurally, not by discipline:
 
-1. **The demo's ~50 workspaces are a design catalog, not a product backlog.** The product ships with a *core seven*: **Chat (agent), Generated/Apps, Desktop, Notes, Tasks/Calendar, Files, Settings**. Everything else exists only as blocks/templates the AI can generate on demand — that's the product thesis anyway: *don't hand-build 50 apps; make the AI able to generate them*.
+1. **The demo's 35 workspaces are a design catalog, not a product backlog** (routing plan per workspace: `Project-planning.md` → Workspace viability matrix). The product ships with a *core seven*: **Chat (agent), Generated/Apps, Desktop, Notes, Tasks/Calendar, Files, Settings**. Everything else exists only as blocks/templates the AI can generate on demand — that's the product thesis anyway: *don't hand-build 50 apps; make the AI able to generate them*.
 2. **Every non-core capability is a detachable engine.** If removing a feature requires touching the shell, it was integrated wrong. Engines mount per workspace (Code = agent-canvas embed; Email = Odysseus tools) and lazy-load: heavy deps (Monaco, xterm, chart libs) arrive only when their workspace opens.
 3. **One dependency budget, enforced.** The core shell keeps roughly its current footprint (React + lucide + our kit; no state library until Phase 2, then only Zustand + TanStack Query per the planning doc). New deps need a reason the registry/adapters can't cover.
 4. **No speculative platform features.** No RBAC, SSO, multi-tenant, i18n scaffolding until a real user needs them. Single-user self-hosted first — the same sequencing Open WebUI, Odysseus, and openclaw-os all followed while growing.
@@ -511,6 +579,14 @@ Portability falls out of the same property: data can be re-rendered anywhere the
 
 Rung 5 is strategically the most interesting: the D3 spec-pluggable emitters mean marketplace apps aren't locked into our platform — **"build an app in Longformer, use it in Claude"** is an adoption hook none of the current gen-UI players emphasize.
 
+**The independence principle: apps aren't made portable — the *runtime* is.** A Tier-1/2 app is inert manifest data; it can no more be locked in than a markdown file. What creates real independence is (a) shipping the renderer + registry + the two adapter seams below as a standalone, versioned `longformer-runtime` package with **zero shell imports**, and (b) the discipline that **the shell itself consumes the runtime through the same `ActionBinder`/`EntityProvider` seams** — no privileged in-platform path. If the shell cheats, the seams rot and rungs 2–5 quietly break. (Contrast matrix-os: its apps depend on an injected `window.MatrixOS` bridge existing, so an app only runs where the shell runs.) This package boundary costs almost nothing now and is nearly impossible to retrofit later.
+
+**Rung 6 — eject to code (one-way door).** `lf export --standalone` compiles a manifest into a real project: the runtime, the resolved block components, snapshot data or connector config — plain React/HTML the owner can host anywhere, edit by hand, and never touch Longformer again. Ejecting forfeits prompt-patchability (hand-edited code can't be regenerated), which is an honest trade the user chooses. Three reasons this rung earns its place:
+
+1. **It's the credible anti-lock-in answer.** "Your app is data" sounds like lock-in to a skeptic until there's a one-command door out.
+2. **It covers the matrix-os use case without adopting its cost.** An app that genuinely outgrows the block vocabulary ejects to code (or starts at Tier 3); the 90% that stay data never need a build pipeline.
+3. **It's cheap by construction.** The exporter walks the manifest and emits imports from the same registry the renderer uses — the registry's render mappings double as the codegen templates. D5's "one source of truth" pays for itself again.
+
 **The portability contract** — two manifest fields declared abstractly rather than wired to platform internals:
 
 - **Actions → intents, not tool calls.** A button declares `{ "action": "task.create", "payload": <schema> }`; the *host* binds it: in-platform → agent tool; embedded → host callback; standalone → HTTP/MCP endpoint the manifest names; offline → queued or disabled. One `ActionBinder` interface in the runtime.
@@ -548,6 +624,7 @@ The engine pattern generalizes beyond the §10.1 table: **anything with an open 
 What this class of integration requires from the manifest/runtime (feeds §8 open questions):
 
 - **Account connections:** OAuth flows need a redirect surface — the single-origin gateway plugin handles this, but manifests must declare `requires account connection: <service>` so install-time UX can prompt for it.
+- **Engine/backend declarations:** supervised engines (and any L3 app functions, per D9) declare their **compute, data-access, and network-egress needs in the manifest**, so provisioning is policy-checkable before anything starts — this is the same capability model as D10, applied at install time instead of call time.
 - **Realtime data:** Mastodon streaming / Nostr subscriptions push data over our AG-UI/WebSocket layer into **live-bound** blocks — this makes the §8 "snapshot vs live data binding" question concrete.
 - **Entity mapping:** posts/profiles/DMs map into the shared entity store like notes and contacts do — which is what lets the agent operate across social + calendar + notes in one context (e.g. summarize your feed, draft replies, generate a topic dashboard bound to your social data).
 
@@ -555,7 +632,59 @@ The product angle worth noting: a p2p social engine + this shell + the agent = a
 
 ---
 
-## 11. Appendix — decision summary
+## 11. Reference case study — matrix-os ("app = code", the other philosophy, shipped)
+
+> Source: [HamedMP/matrix-os](https://github.com/HamedMP/matrix-os), cloned into `reference/matrix-os` (Jul 2026). An AGPL-3.0 hosted "cloud computer": AI kernel on a personal VPS, browser desktop shell (windows/dock/launcher/terminal/files, spatial Canvas mode), apps generated from natural language. Built with Claude Opus, 3,000+ tests, live product. **⚠ AGPL — design reference only; never vendor or port its code** (same arm's-length rule as Odysseus, §10.1).
+
+Why it matters: it is the same product shape as ours with the **opposite generation philosophy**. Where we say *an app is data* (validated block JSON → native themed components, §10.7), matrix-os says *an app is code*: a Builder agent writes a full Vite + React project to `~/apps/<slug>/`, runs `pnpm build`, and the shell runs `dist/` in a sandboxed null-origin iframe with an injected `window.MatrixOS` bridge. Their whole model corresponds to our **Tier 3**; our Tiers 1–2 have no equivalent there.
+
+### 11.1 Concept overlap
+
+| Concept | matrix-os | This spec | |
+|---|---|---|---|
+| OS shell metaphor | Browser desktop; windows, dock, launcher; Canvas (zoom/pan) + Dev modes | AppShell + SurfaceManager (desktop/phone/watch/widget) | shared |
+| Unit of AI generation | Full Vite React app, built per app | Block JSON against a typed registry (D4/D5) | **divergent** |
+| App manifest | `matrix.json`: name, slug, version, runtime, build, `storage.tables`, icon, `listingTrust` | AppManifest (§10.7): identity, surface.blocks, data, actions, meta | shared |
+| Design tokens | `DESIGN.md` YAML hand-synced into CSS/TS/Swift; Tailwind v4 `@theme` | `--lf-*` single source; Style Dictionary later (D1/D7) | shared |
+| Theming generated UI | Shell injects `--matrix-*` vars into every app iframe, live-updated | Generated output *is* native themed components | **divergent** |
+| Trust tiers | `listingTrust`: first_party / verified_partner / community + install gates | Tier 1/2/3 (§10.7) | shared |
+| App data | One Postgres per owner, one schema per app, declared in manifest; `db` bridge | Shared entity store + data bindings w/ fallbacks (§10.8) | shared |
+| AI design guidance | Prompt discipline (always-on prompt + knowledge file + skills, "No exceptions") | Registry-generated prompt + schema **validation** (D5) | **divergent** |
+| Marketplace | `publish_app`/`fork_app`/`install_app`, `forked_from` provenance, gallery specs | npm-for-manifests registry, signed manifests (§9.4/§10.8) | shared |
+| Adaptivity | Separate MobileShell < 768px; apps self-size in iframe; no size classes | Size classes, container queries, canonical layouts (D8) | **divergent** |
+| Compose, don't rebuild | Mounts xterm.js, code-server, Pipedream Connect, Clerk, Postgres | Engines per §10.1 | shared |
+
+### 11.2 Mechanics to adopt (as design, not code)
+
+| Idea (matrix-os) | Detail | Feeds |
+|---|---|---|
+| **`storage.tables` in the manifest** | Declared column types (`text`, `boolean`, `timestamptz`, `jsonb`…), auto `id`/`created_at`/`updated_at`, lazy schema provisioning on first query | The abstract `data` field of our AppManifest (§10.7) |
+| **`db` bridge API shape** | `find/findOne/insert/update/delete/count/onChange`, Mongo-style filters, written optimistic-UI + reconcile-on-change rules | EntityProvider / data-binding contract (§10.8); the §8 snapshot-vs-live question |
+| **Theme bridge for sandboxed apps** | `THEME_VAR_MAP` maps shell vars → `--matrix-*` aliases injected into null-origin iframes; MutationObserver pushes theme updates; apps write `var(--matrix-bg, fallback)` | Exactly what our **Tier-3 / MCP-Apps embeds** need to opt into theming (§10.7, D3) |
+| **Sandbox security model** | `srcdoc` iframe, `origin: null`, `sandbox="allow-scripts allow-forms allow-popups"`, CSP `connect-src 'self'`, per-app session cookie, all I/O via postMessage — direct fetches *physically blocked* | A documented, shipped model for the Tier-3 sandbox and the §9.5 enterprise security gate |
+| **Layered AI guidance** | Small always-injected prompt section → knowledge file on demand → full skills via `load_skill` | Token-budget pattern for D5's generated prompt: compact always-on block menu + per-block detail loaded when needed |
+| **Install/fork provenance** | `installed_from` / `forked_from {author, slug, version}`, server-computed `distributionStatus` (rejected if hand-authored), community installs behind a flag | Marketplace integrity (§9.4/§10.8) |
+| **`runtimeState` lifecycle enum** | Apps report `ready / needs_build / build_failed / process_idle / process_failed` to the launcher | Engine health cards (§10.6) — adopt the enum idea (Tier-1 apps have no build to fail) |
+| **Icon discipline** | Manifest icon required or the tile renders broken; builder skill pins one art style; shell owns corner radius | §10.7 step 3 — generated apps feel first-party in the launcher |
+| **`design/` folder as AI-readable catalog** | Foundations/components markdown with YAML frontmatter linking each doc to tokens | D5 docs output — theirs is hand-written and drifts; ours generates from the registry |
+
+### 11.3 What their repo validates about our decisions
+
+Their visible pain points are live evidence for the choices this spec already makes:
+
+- **Token drift is real.** `DESIGN.md` says background `#FAFAF5`; the shipped CSS and UI package use `#FAFAF9`; public docs still describe a retired palette. Their design README literally instructs "update both files." → validates the D5 single-source registry (kill drift) and non-negotiable #4.
+- **Two UI stacks fork by default.** Shell = shadcn/Radix/Tailwind on `--background` tokens; generated apps = a separate `@matrix-os/ui` on `--matrix-*` tokens, aligned by hand. → validates D6 (one registry, two renderers, same components).
+- **Consistency by prompt, not contract.** Design rules are enforced by "ALWAYS load and follow… No exceptions" in a skill file; nothing validates output, so a model that ignores the skill ships off-brand UI. Our blocks are validated data; off-schema output is rejected before render. → validates non-negotiable #1 (bounded generation surface).
+- **Per-app code lifecycle is heavy.** Every generated app needs `pnpm install` + build (180s timeouts), build caching, `needs_build` states, a dispatcher, a process manager. Tier-1 manifests are render-ready the moment they're generated and patchable by prompt with no rebuild. → validates §10.7 ("an app is data, not code").
+- **Nobody owns adaptivity.** Mobile is a wholly separate shell; desktop windows just go fullscreen under 768px; apps self-size inside their iframe. No size classes, canonical layouts, or reflow model anywhere. → validates D8 as a genuine differentiator and the §9.1 claim that the adaptive component-contract layer is the open position — a serious shipped "AI OS" still has no bounded component contract.
+
+### 11.4 Caution — don't over-index on their gaps
+
+matrix-os optimizes for a different thesis: *arbitrary software on your own VPS*, where full code generation is the point. Their model handles "build me a game" cases a block vocabulary can't express. That is exactly why this spec keeps **Tier 3** rather than dismissing codegen: adopt their sandbox + theme bridge there, and let Tiers 1–2 cover everything that should be themed, adaptive, and validated by construction.
+
+---
+
+## 12. Appendix — decision summary
 
 | Question | Decision | One-liner |
 |---|---|---|
@@ -567,9 +696,11 @@ The product angle worth noting: a p2p social engine + this shell + the agent = a
 | Renderers | **Two paths, one registry** | Static JSON and streaming Lang share components. |
 | Cross-platform | **Tokens as portable contract; Style Dictionary later** | AI targets contracts, not CSS. |
 | Adaptivity | **Break by window size class (container queries), not device type; canonical layouts** | Fluid-by-construction; blocks declare size/reflow hints. |
+| Execution model | **Logic ladder: declarative-first (L1); MCP-Apps iframe for UI code; capability-scoped WASM/WASI for real app logic; containers = engines only** | The AI targets the lowest level that satisfies the request. |
+| Security | **Three threat models; capability tokens; plan/execute separation; deterministic gates; audit + undo; per-scope encryption; DLP at the model router** | The AI is never the security boundary. |
 | Standardization | **Compose with the winning specs (A2UI/AG-UI/OpenUI); publish an open spec + conformance suite; zero switching cost** | Own the adaptive component-contract layer; a library is used, a standard is implemented by others. |
-| Product build | **Lean flagship: shell + 7 core workspaces; everything else = engines (OpenClaw, agent-canvas, Joplin, Odysseus) or AI-generated** | Compose, don't rebuild; the demo's 50 workspaces are a catalog, not a backlog. |
+| Product build | **Lean flagship: shell + 7 core workspaces; everything else = engines (OpenClaw, agent-canvas, Joplin, Odysseus) or AI-generated** | Compose, don't rebuild; the demo's 35 workspaces are a catalog, not a backlog. |
 | Install story | **One command/container (gateway + plugin); Tauri wrapper for desktop; engines self-provision on first use** | The user installs one app; the app installs its own backends. |
 | Generated apps | **App = AppManifest (data, not code) → `app_create` → appears in Apps/Desktop/phone/widgets; 3 trust tiers** | Core workspaces and generated apps converge on one manifest format. |
-| Portability | **Abstract intents + data bindings with fallbacks; standalone runtime; export to npm/CDN/PWA/MCP App/A2UI; npm-for-manifests marketplace** | Apps are signed, versioned JSON — they outlive the platform. |
+| Portability | **Abstract intents + data bindings with fallbacks; standalone runtime (shell consumes it through the same seams — no privileged path); export to npm/CDN/PWA/MCP App/A2UI; one-way eject-to-code; npm-for-manifests marketplace** | Apps are signed, versioned JSON — they outlive the platform; the runtime, not the app, carries the portability. |
 | External services | **Open API/protocol → connected service or supervised p2p engine (as marketplace apps); closed platforms → Tier-3 embed at best** | The shell is a presentation OS; the boundary rule is "open protocol," not popularity. |

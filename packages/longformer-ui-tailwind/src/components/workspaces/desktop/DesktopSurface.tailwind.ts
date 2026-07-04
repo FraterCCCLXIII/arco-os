@@ -1,0 +1,26 @@
+/** Tailwind class map — converted from DesktopSurface.module.css */
+const styles: Record<string, string> = {
+  android: "",
+  android_wallpaperGradient: "[background-image:var(--lf-desktop-wallpaper-image,_var(--lf-desktop-wallpaper-mobile))]",
+  desktopIcon: "flex flex-col items-center gap-lf-1 w-[72px] border-none bg-transparent cursor-pointer text-lf-text-primary hover:[transform:translateY(-2px)_scale(1.04)]",
+  iconGrid: "absolute top-[var(--lf-space-5)] left-[var(--lf-space-5)] flex flex-col flex-wrap gap-lf-4 max-h-[calc(100%_-_var(--lf-space-8))] z-[1]",
+  iconLabel: "text-[11px] text-center [text-shadow:var(--lf-desktop-icon-label-shadow)] leading-[1.2]",
+  iconTile: "rounded-[12px] transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-[var(--lf-duration-fast)] ease-[var(--lf-ease)]",
+  inactiveGlance: "[filter:saturate(0.85)]",
+  ios: "",
+  ios_wallpaperGradient: "[background-image:var(--lf-desktop-wallpaper-image,_var(--lf-desktop-wallpaper-mobile))]",
+  macos: "",
+  mobileAppsOpen: "bg-lf-surface-sunken",
+  mobileAppsOpen_wallpaper: "hidden",
+  surface: "relative flex-1 min-h-0 overflow-hidden",
+  surface_macos: "mb-[calc(-1_*_var(--lf-macos-dock-chrome-height))] pb-[var(--lf-macos-dock-chrome-height)]",
+  wallpaper: "absolute inset-0",
+  wallpaperGradient: "absolute inset-0 bg-lf-surface-sunken [background-image:var(--lf-desktop-wallpaper-image,_var(--lf-desktop-wallpaper))] [background-size:cover] [background-position:center] [background-repeat:no-repeat]",
+  watch: "rounded-[36px]",
+  widgetBoard: "absolute inset-0 z-[2]",
+  windowClose: "[animation:lfWindowClose_240ms_cubic-bezier(0.4,_0,_1,_1)_forwards] pointer-events-none [animation:none]",
+  windowEnter: "[animation:lfWindowOpen_280ms_cubic-bezier(0.16,_1,_0.3,_1)_both] [animation:none]",
+  windowFrame: "[will-change:transform,_opacity] [will-change:auto]",
+  windowMinimize: "[animation:lfWindowMinimize_320ms_cubic-bezier(0.4,_0,_0.6,_1)_forwards] pointer-events-none [transform-origin:bottom_center] [animation:none]",
+};
+export default styles;

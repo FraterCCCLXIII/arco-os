@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TemplateSelection",
+  "description": "The ONLY thing the model is allowed to produce. It picks a template_id from the fixed grammar and maps manifest fields/actions into that template's slots. It never emits markup, CSS, or free-form layout. Any response that fails to validate against this schema is rejected and retried, never rendered.",
+  "type": "object",
+  "required": ["template_id", "slot_mapping", "rationale"],
+  "properties": {
+    "template_id": {
+      "type": "string",
+      "description": "Must be one of the template_id values from templates.json, and must be listed under device_class_defaults for the target device_class."
+    },
+    "slot_mapping": {
+      "type": "object",
+      "description": "Keys must exactly match the chosen template's declared slots. Values are field names or action_ids drawn from the manifest — never invented strings, never raw content.",
+      "additionalProperties": {
+        "type": ["string", "array"]
+      }
+    },
+    "rationale": {
+      "type": "string",
+      "description": "One sentence, for logging/audit only. Never shown to end user as-is.",
+      "maxLength": 240
+    }
+  }
+}

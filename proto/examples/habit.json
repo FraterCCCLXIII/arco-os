@@ -1,0 +1,30 @@
+{
+  "app_id": "habits",
+  "name": "Habits",
+  "version": "0.1.0",
+  "description": "Daily habit streak tracker.",
+  "entities": {
+    "habit": {
+      "fields": {
+        "name": { "type": "string", "label": "Habit", "primary": true },
+        "streak_days": { "type": "number", "label": "Streak", "primary": true },
+        "done_today": { "type": "boolean", "label": "Done today" }
+      }
+    }
+  },
+  "actions": [
+    {
+      "action_id": "mark_done",
+      "verb": "update",
+      "entity": "habit",
+      "required_scope": "habits:write"
+    },
+    {
+      "action_id": "delete_habit",
+      "verb": "delete",
+      "entity": "habit",
+      "required_scope": "habits:write",
+      "destructive": true
+    }
+  ]
+}

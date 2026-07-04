@@ -1,0 +1,78 @@
+{
+  "_comment": "This is the entire universe of layouts the system can render. The AI never invents a new template — it only picks one of these and fills its slots. Grow this list deliberately over time; do NOT let the model free-generate markup. Each template lists which device_classes it supports and how it degrades.",
+
+  "templates": [
+    {
+      "template_id": "list_view",
+      "description": "Scrollable list of records with avatars, badges, optional meta column, and per-row action affordance.",
+      "slots": ["title_field", "subtitle_field", "meta_field", "item_action_id"],
+      "device_classes": ["desktop", "tablet", "phone"],
+      "min_fields": 1
+    },
+    {
+      "template_id": "detail_card",
+      "description": "Single record hero header, labeled field grid, and action button bar.",
+      "slots": ["header_field", "body_fields", "action_ids"],
+      "device_classes": ["desktop", "tablet", "phone"],
+      "min_fields": 1
+    },
+    {
+      "template_id": "form",
+      "description": "Typed editable fields for a create/update action with submit/cancel chrome.",
+      "slots": ["field_order", "submit_action_id"],
+      "device_classes": ["desktop", "tablet", "phone"],
+      "min_fields": 1
+    },
+    {
+      "template_id": "dashboard_tile",
+      "description": "Compact summary tile: headline metric + sublabel for embedding in another surface.",
+      "slots": ["headline_field", "sublabel_field"],
+      "device_classes": ["desktop", "tablet"],
+      "min_fields": 1
+    },
+    {
+      "template_id": "glance_view",
+      "description": "Minimal watch display: primary metric (ring for numbers), optional secondary badge, one action.",
+      "slots": ["primary_field", "secondary_field", "single_action_id"],
+      "device_classes": ["watch"],
+      "min_fields": 1
+    },
+    {
+      "template_id": "tv_focus_list",
+      "description": "Large-type, D-pad navigable list with focus state and action hints.",
+      "slots": ["title_field", "item_action_id"],
+      "device_classes": ["tv"],
+      "min_fields": 1
+    },
+    {
+      "template_id": "list_detail",
+      "description": "Master-detail split: scrollable list pane plus selected-record detail with actions. Canonical tablet/desktop layout.",
+      "slots": [
+        "list_title_field",
+        "list_subtitle_field",
+        "meta_field",
+        "detail_header_field",
+        "detail_body_fields",
+        "list_item_action_id",
+        "detail_action_ids"
+      ],
+      "device_classes": ["desktop", "tablet"],
+      "min_fields": 1
+    },
+    {
+      "template_id": "stat_dashboard",
+      "description": "Metric dashboard: title, grid of stat cards from numeric/enum fields, action bar.",
+      "slots": ["title_field", "metric_fields", "sublabel_field", "action_ids"],
+      "device_classes": ["desktop", "tablet"],
+      "min_fields": 1
+    }
+  ],
+
+  "device_class_defaults": {
+    "watch": ["glance_view"],
+    "phone": ["list_view", "detail_card", "form"],
+    "tablet": ["list_view", "detail_card", "form", "dashboard_tile", "list_detail", "stat_dashboard"],
+    "desktop": ["list_view", "detail_card", "form", "dashboard_tile", "list_detail", "stat_dashboard"],
+    "tv": ["tv_focus_list"]
+  }
+}

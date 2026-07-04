@@ -4,3 +4,25 @@ dist/
 .DS_Store
 .env
 .env.*
+.vercel
+
+# Python artifacts
+__pycache__/
+*.pyc
+proto/capabilities.db
+
+# Cloned reference repositories (research only — keep notes/docs, not the 2.4GB of clones)
+reference/agent-canvas/
+reference/crewai/
+reference/hermes-webui/
+reference/matrix-os/
+reference/nanoclaw/
+reference/nemoclaw/
+reference/openclaw-os/
+reference/openui/
+reference/puter/
+reference/shadcn-ui/
+reference/vscode/
+reference/adaptive-ui/androidx-adaptive/
+reference/adaptive-ui/adaptive-apps-samples/
+reference/generative-ui/ag-ui/

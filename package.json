@@ -8,9 +8,12 @@
   ],
   "scripts": {
     "dev": "npm run dev --workspace=longformer-demo",
+    "dev:tailwind": "npm run dev --workspace=longformer-demo-tailwind",
     "dev:www": "npm run dev --workspace=longformer-www",
     "build": "npm run build --workspace=longformer-ui && npm run build --workspace=longformer-demo && npm run build --workspace=longformer-www",
+    "build:tailwind": "npm run typecheck --workspace=longformer-ui-tailwind && npm run build --workspace=longformer-demo-tailwind",
     "typecheck": "npm run typecheck --workspace=longformer-ui && npm run typecheck --workspace=longformer-demo && npm run typecheck --workspace=longformer-www",
+    "typecheck:tailwind": "npm run typecheck --workspace=longformer-ui-tailwind && npm run typecheck --workspace=longformer-demo-tailwind",
     "lint": "npm run lint --workspace=longformer-demo"
   }
 }

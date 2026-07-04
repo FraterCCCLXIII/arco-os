@@ -4,8 +4,8 @@ type IsometricTileProps = {
   variant: number;
 };
 
-const WARM = { top: "#f4dcc4", left: "#a85a1e", right: "#d06f25" };
-const COOL = { top: "#efeee2", left: "rgba(50, 53, 46, 0.72)", right: "rgba(67, 78, 63, 0.55)" };
+const WARM = { top: "#f6ddc4", left: "#a04a1c", right: "#d2622a" };
+const COOL = { top: "#f1e9db", left: "rgba(51, 40, 31, 0.72)", right: "rgba(138, 75, 47, 0.55)" };
 
 function cube(x: number, y: number, size: number, colors: typeof WARM) {
   const h = size * 0.55;

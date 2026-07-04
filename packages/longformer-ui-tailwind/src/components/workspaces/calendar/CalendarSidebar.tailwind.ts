@@ -1,0 +1,25 @@
+/** Tailwind class map — converted from CalendarSidebar.module.css */
+const styles: Record<string, string> = {
+  groupHeader: "p-[0_var(--lf-space-1)] mb-lf-1 text-lf-xs font-semibold text-lf-text-tertiary",
+  miniCalendar: "[flex-shrink:0]",
+  sidebar: "flex flex-col gap-lf-4 w-full min-w-0",
+  sourceBox: "inline-flex items-center justify-center w-[16px] h-[16px] [flex-shrink:0] rounded-[4px] border border-solid border-lf-border-strong bg-transparent text-transparent transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-[var(--lf-duration-fast)] ease-[var(--lf-ease)]",
+  sourceGroup: "flex flex-col gap-[2px]",
+  sourceInput: "absolute opacity-0 w-[1px] h-[1px]",
+  sourceLabel: "min-w-0 overflow-hidden text-ellipsis whitespace-nowrap text-lf-sm text-lf-text-primary",
+  sourceRow: "flex items-center gap-lf-2 min-h-[28px] p-[2px_var(--lf-space-1)] rounded-lf-md cursor-pointer transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-[var(--lf-duration-fast)] ease-[var(--lf-ease)] hover:bg-lf-surface-2",
+  sourceRowChecked: "",
+  sourceRowChecked_sourceBox: "text-lf-text-on-accent",
+  sources: "flex flex-col gap-lf-4",
+  toneAccent: "",
+  toneAccent_sourceRowChecked_sourceBox: "bg-lf-accent border-lf-accent",
+  toneDanger: "",
+  toneDanger_sourceRowChecked_sourceBox: "bg-lf-danger border-lf-danger",
+  toneNeutral: "",
+  toneNeutral_sourceRowChecked_sourceBox: "bg-lf-text-tertiary border-lf-text-tertiary",
+  toneSuccess: "",
+  toneSuccess_sourceRowChecked_sourceBox: "bg-lf-success border-lf-success",
+  toneWarning: "",
+  toneWarning_sourceRowChecked_sourceBox: "bg-lf-warning border-lf-warning",
+};
+export default styles;

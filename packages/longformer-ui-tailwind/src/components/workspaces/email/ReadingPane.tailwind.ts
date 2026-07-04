@@ -1,0 +1,26 @@
+/** Tailwind class map — converted from ReadingPane.module.css */
+const styles: Record<string, string> = {
+  header: "[flex-shrink:0] p-[var(--lf-space-4)_var(--lf-space-5)] border-b border-lf-divider",
+  headerActions: "flex gap-lf-1 mt-lf-2",
+  message: "flex gap-lf-3",
+  messageBody: "flex-1 min-w-0",
+  messageContent: "text-lf-text-secondary text-lf-base leading-[var(--lf-line-height-normal)]",
+  "messageContent a": "text-lf-accent [text-decoration:underline]",
+  "messageContent blockquote": "m-[0_0_var(--lf-space-2)] last:mb-0 pl-lf-3 [border-left:3px_solid_var(--lf-divider)]",
+  "messageContent code": "p-[1px_4px] rounded-lf-sm bg-lf-surface-3 font-mono text-[0.92em]",
+  "messageContent h1": "m-[0_0_var(--lf-space-2)] last:mb-0 text-lf-xl font-bold text-lf-text-primary",
+  "messageContent h2": "m-[0_0_var(--lf-space-2)] last:mb-0 text-lf-lg font-bold text-lf-text-primary",
+  "messageContent h3": "m-[0_0_var(--lf-space-2)] last:mb-0 text-lf-base font-semibold text-lf-text-primary",
+  "messageContent ol": "m-[0_0_var(--lf-space-2)] last:mb-0 pl-lf-5",
+  "messageContent p": "m-[0_0_var(--lf-space-2)] last:mb-0",
+  "messageContent ul": "m-[0_0_var(--lf-space-2)] last:mb-0 pl-lf-5",
+  messageHead: "flex items-baseline gap-lf-2 mb-lf-1",
+  messages: "p-[var(--lf-space-4)_var(--lf-space-5)] flex flex-col gap-lf-4",
+  messageSender: "font-semibold text-lf-text-primary text-lf-md",
+  messageTimestamp: "text-lf-xs text-lf-text-tertiary",
+  pane: "h-full flex flex-col min-h-0",
+  replyBar: "[flex-shrink:0] p-[var(--lf-space-3)_var(--lf-space-5)_var(--lf-space-4)] border-t border-lf-divider",
+  scroll: "flex-1",
+  subject: "text-lf-xl font-bold text-lf-text-primary m-[0_0_var(--lf-space-2)]",
+};
+export default styles;

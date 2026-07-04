@@ -84,22 +84,6 @@ export function ComposerNavSidebar({
         onClick: () => onViewChange(item.id),
       }))}
       sections={[]}
-      footer={
-        <div className={styles.navFooter}>
-          <button type="button" className={styles.footerLink}>
-            Earn Credits
-          </button>
-          <button type="button" className={styles.footerLink}>
-            Labs
-          </button>
-          <button type="button" className={styles.footerLink}>
-            Terms & Policies
-          </button>
-          <button type="button" className={styles.footerLink}>
-            More
-          </button>
-        </div>
-      }
     />
   );
 }

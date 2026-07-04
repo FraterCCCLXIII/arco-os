@@ -1,0 +1,13 @@
+@import "longformer-ui-tailwind/tailwind.css";
+
+@source "./**/*.{ts,tsx}";
+
+html,
+body,
+#root {
+  @apply h-full m-0;
+}
+
+.lf-app-root {
+  @apply h-full;
+}

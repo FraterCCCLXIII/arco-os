@@ -2,27 +2,54 @@ import { siteMeta } from "../content/site-content";
 import shared from "../styles/shared.module.css";
 import styles from "./CTASection.module.css";
 
-export function CTASection() {
+type CTAAction = {
+  label: string;
+  href: string;
+  variant?: "primary" | "secondary";
+  external?: boolean;
+};
+
+type CTASectionProps = {
+  title?: string;
+  body?: string;
+  actions?: readonly CTAAction[];
+};
+
+const defaultActions: readonly CTAAction[] = [
+  { label: "Launch longformer-demo", href: "http://localhost:5173", variant: "primary" },
+  {
+    label: "View matrix-os.com reference",
+    href: "https://matrix-os.com/",
+    variant: "secondary",
+    external: true,
+  },
+];
+
+export function CTASection({
+  title = "Build the integrated AI workspace",
+  body = "Start with the UI Experiments demo, then follow the integration path in Project-planning — OpenClaw plugin, OpenHands embed, OpenUI streaming.",
+  actions = defaultActions,
+}: CTASectionProps) {
   return (
     <section className={styles.section}>
       <div className={styles.card}>
-        <h2 className={styles.title}>Build the integrated AI workspace</h2>
-        <p className={styles.body}>
-          Start with the UI Experiments demo, then follow the integration path in
-          Project-planning — OpenClaw plugin, OpenHands embed, OpenUI streaming.
-        </p>
+        <h2 className={styles.title}>{title}</h2>
+        <p className={styles.body}>{body}</p>
         <div className={styles.actions}>
-          <a className={shared.buttonPrimary} href="http://localhost:5173">
-            Launch longformer-demo
-          </a>
-          <a
-            className={shared.buttonSecondary}
-            href="https://matrix-os.com/"
-            target="_blank"
-            rel="noreferrer"
-          >
-            View matrix-os.com reference
-          </a>
+          {actions.map((action) => (
+            <a
+              key={action.href}
+              className={
+                action.variant === "secondary"
+                  ? shared.buttonSecondary
+                  : shared.buttonPrimary
+              }
+              href={action.href}
+              {...(action.external ? { target: "_blank", rel: "noreferrer" } : {})}
+            >
+              {action.label}
+            </a>
+          ))}
         </div>
       </div>
     </section>

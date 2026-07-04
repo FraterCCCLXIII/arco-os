@@ -1,10 +1,17 @@
 import {
+  AgentActionBlock,
+  AgentFileChip,
+  AgentFileCreationBlock,
+  AgentStatusLine,
+  AgentThoughtBlock,
+  AgentTodoCard,
   ChatInlineSurface,
   type ChatMessage,
   type ComposerErrorItem,
   type ComposerFileChangeItem,
   type ComposerQueuedItem,
   type ComposerTaskItem,
+  type ComposerTypeaheadItem,
   type PromptChipItem,
   type UsageStats,
 } from "longformer-ui";
@@ -23,6 +30,17 @@ export const demoUsage: UsageStats = {
   fiveHourPercent: 0,
   weeklyPercent: 0,
 };
+
+const TYPEAHEAD_RESEARCH_BASE = "can you do some hard thinking on the most recent research";
+
+/** Demo query completions for the composer typeahead drawer. */
+export const composerTypeaheadItems: ComposerTypeaheadItem[] = [
+  { id: "ta-1", text: `${TYPEAHEAD_RESEARCH_BASE} in psychology` },
+  { id: "ta-2", text: `${TYPEAHEAD_RESEARCH_BASE} findings` },
+  { id: "ta-3", text: `${TYPEAHEAD_RESEARCH_BASE} issue` },
+  { id: "ta-4", text: `${TYPEAHEAD_RESEARCH_BASE} article` },
+  { id: "ta-5", text: `${TYPEAHEAD_RESEARCH_BASE} question` },
+];
 
 /** Agent task progress shown in the drawer docked above the chat composer. */
 export const agentTaskDrawerTitle = "Task 4 of 5 in progress";
@@ -168,15 +186,80 @@ export const officeAppConversation: ChatMessage[] = [
   {
     id: "c2-m2",
     role: "agent",
-    thinking: {
-      label: "Thinking",
-      steps: [
-        { id: "s1", text: "Filter suites by docs, sheets, calendar, and team size" },
-        { id: "s2", text: "Rank by feature fit and recent review scores" },
-      ],
-    },
     content: (
       <>
+        <AgentThoughtBlock duration="brief">
+          <p>
+            There&rsquo;s a <code>longformer-www</code> package which is likely &ldquo;our website&rdquo;. Let me
+            explore it.
+          </p>
+        </AgentThoughtBlock>
+        <AgentActionBlock
+          title="List www package structure"
+          command="ls, head"
+          output={[
+            "site-content.ts",
+            "packages/longformer-www/src/styles:",
+            "  global.css",
+            "  shared.module.css",
+          ]}
+        />
+        <AgentStatusLine>Explored 24 files</AgentStatusLine>
+        <AgentTodoCard
+          items={[
+            {
+              id: "todo-1",
+              status: "active",
+              label:
+                "Create spec-content.ts with condensed spec data (decisions, tiers, roadmap, scorecard, product, appendix)",
+            },
+            {
+              id: "todo-2",
+              status: "pending",
+              label:
+                "Build spec page sections (hero, foundation, decisions, architecture, roadmap, product, appendix) with CSS modules",
+            },
+            {
+              id: "todo-3",
+              status: "pending",
+              label: "Add spec.html entry, spec-main.tsx, vite multi-page config, header link from main site",
+            },
+            {
+              id: "todo-4",
+              status: "pending",
+              label: "Typecheck, run dev server, visually verify with screenshots",
+            },
+          ]}
+        />
+        <AgentThoughtBlock duration={67} defaultOpen={false}>
+          <p>Mapped spec sections to page components and identified shared token dependencies.</p>
+        </AgentThoughtBlock>
+        <p>
+          Now three example manifests, deliberately varied — including one you can improvise a fourth from live.
+        </p>
+        <AgentFileCreationBlock
+          files={[
+            {
+              id: "manifest-tasklist",
+              label: "Example manifest: task list app",
+              filename: "tasklist.json",
+              path: "manifests/tasklist.json",
+            },
+            {
+              id: "manifest-contact",
+              label: "Example manifest: contact card app",
+              filename: "contact.json",
+              path: "manifests/contact.json",
+            },
+            {
+              id: "manifest-habit",
+              label: "Example manifest: daily habit tracker",
+              filename: "habit.json",
+              path: "manifests/habit.json",
+            },
+          ]}
+        />
+        <AgentFileChip path="packages/longformer-www/src/content/spec-content.ts" kind="ts" />
         <p>
           I narrowed it to three strong fits for a 12-person team. Here&rsquo;s a shortlist with pricing and feature
           tags — Lark Suite leads on flexible docs, Harbor Office on spreadsheets, Summit 365 on shared calendars.

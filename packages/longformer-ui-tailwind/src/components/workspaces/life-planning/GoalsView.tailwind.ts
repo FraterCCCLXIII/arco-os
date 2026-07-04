@@ -1,0 +1,27 @@
+/** Tailwind class map — converted from GoalsView.module.css */
+const styles: Record<string, string> = {
+  empty: "p-lf-8 text-center text-lf-text-tertiary text-lf-sm",
+  filterChip: "p-[var(--lf-space-1)_var(--lf-space-3)] rounded-[var(--lf-radius-full)] text-lf-sm border border-solid border-lf-border-subtle bg-transparent text-lf-text-secondary cursor-pointer hover:border-lf-border-strong hover:text-lf-text-primary",
+  filterChipActive: "bg-lf-accent-muted border-lf-accent text-lf-accent",
+  filters: "flex flex-wrap gap-lf-2 mb-lf-4",
+  goalCard: "p-lf-4",
+  goalDescription: "text-lf-sm text-lf-text-secondary leading-[1.4]",
+  goalHead: "flex items-start justify-between gap-lf-3 mb-lf-2",
+  goalModule: "inline-flex items-center gap-[4px] p-[2px_8px] rounded-lf-sm text-lf-xs font-medium bg-lf-surface-sunken text-lf-text-secondary mb-lf-1",
+  goalProgress: "m-[var(--lf-space-3)_0]",
+  goalsList: "flex flex-col gap-lf-3",
+  goalTitle: "text-lf-md font-semibold",
+  header: "mb-lf-6",
+  milestone: "inline-flex items-center gap-lf-1 p-[var(--lf-space-1)_var(--lf-space-2)] rounded-lf-sm text-lf-xs bg-lf-surface-sunken",
+  milestoneDone: "opacity-[0.6] [text-decoration:line-through]",
+  milestones: "flex flex-wrap gap-lf-2 pt-lf-3 border-t border-lf-divider",
+  progressBar: "h-[6px] rounded-[var(--lf-radius-full)] bg-lf-surface-sunken overflow-hidden",
+  progressFill: "h-full rounded-[var(--lf-radius-full)] bg-lf-accent",
+  progressFillSuccess: "bg-lf-success",
+  progressFillWarning: "bg-lf-warning",
+  progressLabel: "flex justify-between mt-lf-1 text-lf-xs text-lf-text-tertiary",
+  subtitle: "m-0 text-lf-sm text-lf-text-secondary",
+  title: "m-[0_0_var(--lf-space-1)] text-lf-2xl font-bold [letter-spacing:-0.02em]",
+  view: "p-lf-6 max-w-[960px]",
+};
+export default styles;

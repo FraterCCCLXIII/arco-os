@@ -2,43 +2,48 @@
 
 > Consolidated design notes from architecture review (July 2026).  
 > Covers how UI Experiments workspaces fit together, how AI + shared data should permeate the integrated experience, recommended tech stack, **full runtime infrastructure** across Odysseus, OpenHands, and OpenClaw OS, **surgical single-product integration**, **OpenHands embed inside Longformer shell**, and **in-environment generated apps**.
+>
+> **Companion docs:** `DESIGN-SYSTEM-SPEC.md` owns the design-system + generation architecture (styling, standards, the Generation Contract/registry, adaptivity, execution ladder D9, security D10, standardization strategy, and the lean-product build strategy). Where the two docs conflict on gen-UI decisions, the spec is newer and wins — superseded sections here carry a pointer. `future-ideas.md` holds speculative paradigm candidates (graph-as-OS, capabilities-not-apps, model-as-shell, agent negotiation) that are deliberately **off** the roadmap.
 
 ---
 
 ## Table of contents
 
 1. [Executive summary](#executive-summary)
-2. [Current architecture](#current-architecture)
-3. [Workspace taxonomy](#workspace-taxonomy)
-4. [How workspaces fit together](#how-workspaces-fit-together)
-5. [What's working well](#whats-working-well)
-6. [Friction points](#friction-points)
-7. [Relationship to other repos](#relationship-to-other-repos)
-8. [Integration phases (shell)](#integration-phases-shell)
-9. [AI across all workspaces](#ai-across-all-workspaces)
-10. [Shared data between workspaces](#shared-data-between-workspaces)
-11. [Session model](#session-model)
-12. [Wiring OpenUI + OpenClaw + Longformer](#wiring-openui--openclaw--longformer)
-13. [Anti-patterns](#anti-patterns)
-14. [Phased rollout (AI + data)](#phased-rollout-ai--data)
-15. [Quick wins](#quick-wins)
-16. [Tech stack recommendations](#tech-stack-recommendations)
-17. [Full platform stack (Odysseus, OpenHands, OpenClaw)](#full-platform-stack-odysseus-openhands-openclaw)
-18. [Automations and memory (cross-platform)](#automations-and-memory-cross-platform)
-19. [Backend architecture](#backend-architecture)
-20. [What to take from each project](#what-to-take-from-each-project)
-21. [Gen UI strategy](#gen-ui-strategy)
-22. [Runtime architecture](#runtime-architecture)
-23. [Suggested monorepo shape](#suggested-monorepo-shape)
-24. [Dev & prod topologies](#dev--prod-topologies)
-25. [Prerequisites checklist](#prerequisites-checklist)
-26. [Phased tech decisions](#phased-tech-decisions)
-27. [Hard recommendations](#hard-recommendations)
-28. [Single integrated product (surgical integration)](#single-integrated-product-surgical-integration)
-29. [OpenHands inside the Longformer shell](#openhands-inside-the-longformer-shell)
-30. [Generated apps (create and use in-environment)](#generated-apps-create-and-use-in-environment)
-31. [Key file references](#key-file-references)
-32. [Next steps](#next-steps)
+2. [North star: AI-optimized work graph](#north-star-ai-optimized-work-graph)
+3. [Current architecture](#current-architecture)
+4. [Workspace taxonomy](#workspace-taxonomy)
+5. [Workspace viability matrix](#workspace-viability-matrix)
+6. [How workspaces fit together](#how-workspaces-fit-together)
+7. [What's working well](#whats-working-well)
+8. [Friction points](#friction-points)
+9. [Relationship to other repos](#relationship-to-other-repos)
+10. [Integration phases (shell)](#integration-phases-shell)
+11. [AI across all workspaces](#ai-across-all-workspaces)
+12. [Shared data between workspaces](#shared-data-between-workspaces)
+13. [Session model](#session-model)
+14. [Wiring OpenUI + OpenClaw + Longformer](#wiring-openui--openclaw--longformer)
+15. [Anti-patterns](#anti-patterns)
+16. [Phased rollout (AI + data)](#phased-rollout-ai--data)
+17. [Quick wins](#quick-wins)
+18. [Tech stack recommendations](#tech-stack-recommendations)
+19. [Full platform stack (Odysseus, OpenHands, OpenClaw)](#full-platform-stack-odysseus-openhands-openclaw)
+20. [Automations and memory (cross-platform)](#automations-and-memory-cross-platform)
+21. [Backend architecture](#backend-architecture)
+22. [What to take from each project](#what-to-take-from-each-project)
+23. [Gen UI strategy](#gen-ui-strategy)
+24. [Runtime architecture](#runtime-architecture)
+25. [Suggested monorepo shape](#suggested-monorepo-shape)
+26. [Dev & prod topologies](#dev--prod-topologies)
+27. [Prerequisites checklist](#prerequisites-checklist)
+28. [Phased tech decisions](#phased-tech-decisions)
+29. [Hard recommendations](#hard-recommendations)
+30. [Single integrated product (surgical integration)](#single-integrated-product-surgical-integration)
+31. [OpenHands inside the Longformer shell](#openhands-inside-the-longformer-shell)
+32. [Generated apps (create and use in-environment)](#generated-apps-create-and-use-in-environment)
+33. [Competitive landscape](#competitive-landscape)
+34. [Key file references](#key-file-references)
+35. [Next steps](#next-steps)
 
 ---
 
@@ -48,7 +53,7 @@ The UI Experiments repo (`longformer-ui` + `longformer-demo`) is not a collectio
 
 - A stable shell (`AppShell`: rail | sidebar | main | context panel)
 - A multi-form-factor composition layer (`SurfaceManager` + Desktop)
-- ~34 workspace views (productivity, comms, control plane, media)
+- 35 workspace views (productivity, comms, control plane, media — see the [viability matrix](#workspace-viability-matrix))
 - Proto agent UX (Chat, context panel, hover assistant, generated UI blocks)
 
 The integration story is already visible in the demo. The main product work is:
@@ -63,13 +68,64 @@ The integration story is already visible in the demo. The main product work is:
 
 ---
 
+## North star: AI-optimized work graph
+
+> **One sentence:** Longformer is the environment where all your work lives in one graph, and the agent continuously reorganizes that graph — triage, schedule, execute, remember, and build UI — so you spend capacity on decisions, not on being the glue between apps.
+
+### Workspaces are lenses, not silos
+
+The demo today is a catalog of surfaces. The integrated product is a **single operating graph** with many views:
+
+```
+Everything you touch → entities (notes, threads, tasks, files, runs, apps)
+                    → relationships (references, blocks, spawned-from, due-before)
+                    → events (created, completed, mentioned, failed, reminded)
+                    → one agent that reads the graph and acts on it
+```
+
+Chat is just the most general lens. The AI isn't a sidebar; it's the **optimizer** running across the graph.
+
+### What "AI optimizes work" means (six jobs)
+
+| Job humans do today | What the agent does in one environment |
+|---------------------|------------------------------------------|
+| **Triage** | Read inbox + Slack + tickets → one prioritized queue with "why now" |
+| **Context assembly** | `WorkspaceFocus` + memory → the user never re-explains what they're looking at |
+| **Scheduling** | Calendar + tasks + goals → propose blocks, move conflicts |
+| **Execution** | Draft email, patch code, update note, file PR — same session, same tools |
+| **Follow-through** | Crons + notifications → "you said you'd ship Friday" becomes a tracked run |
+| **Surface design** | Missing UI? `app_create` → dashboard on Desktop, fed by crons |
+
+Optimization is **cross-domain**: the agent doesn't optimize email *or* calendar — it optimizes **the user's week** using both.
+
+### Reference scenarios (design targets)
+
+- **Morning digest:** overnight crons scan email/calendar/GitHub/memory → Notifications opens a digest → "prep for 2pm" pulls Contacts + Email thread + Notes + Tickets into a brief, with extracted tasks. Same entity IDs everywhere; no export/import.
+- **Comms → code without context loss:** Slack thread "can we move the launch?" → agent checks Calendar, Orchestrator runs, deploy status → proposes reply, moves tasks, opens Code workspace on the right branch → merge triggers a trace → notification.
+- **The agent builds what's missing:** "launch war room" → `app_create` with live ticket count, deploy status, countdown → lives on Desktop; a cron refreshes its SQLite every 5 minutes; `app_update` when priorities change.
+
+### Non-negotiables for the north star
+
+1. **One assistant session** — not per-workspace coach bots (see Anti-patterns).
+2. **`WorkspaceFocus` on every workspace** — ambient awareness without user narration.
+3. **Unified entity model** — `Thread`, `Task`, `Event`, `Note`, `Run` link across comms/scheduling/code.
+4. **Agent can navigate and mutate** — `open_workspace`, `create_task`, `append_to_note`, not just answer.
+5. **Automations close the loop** — crons for personal rhythm; OpenHands automations for repo events; notifications restore context.
+6. **Generated UI for the long tail** — custom surfaces without waiting for native workspace #36.
+
+### Trust & governance (prerequisite, not afterthought)
+
+"AI optimizes all work" is only viable with guardrails — the full security architecture lives in `DESIGN-SYSTEM-SPEC.md` **D10** ("the AI is never the security boundary"): propose-vs-act separation with deterministic confirmation gates for irreversible actions (send, pay, delete, deploy), capability-scoped tools instead of ambient authority, user-visible audit + undo on every AI-initiated entity mutation, and per-scope encryption. Honest limits: judgment stays with the user; closed platforms (iMessage, banks) stay shallow unless bridged; optimization requires visibility ("why did you move my meeting?") or users will turn it off.
+
+---
+
 ## Current architecture
 
 ### Three-layer model
 
 | Layer | Package / component | Role |
 |-------|---------------------|------|
-| **UI kit** | `longformer-ui` | Tokens, primitives, ~34 workspaces, surface manager |
+| **UI kit** | `longformer-ui` | Tokens, primitives, 35 workspaces, surface manager |
 | **Integration shell** | `longformer-demo` | Wires mock data → layout → shell chrome |
 | **Shell frame** | `AppShell` | Stable `rail \| sidebar \| main \| contextPanel` |
 
@@ -95,13 +151,15 @@ Form factors: `desktop | tablet | phone | watch | widget`
 
 ## Workspace taxonomy
 
-Treat ~34 workspaces as **four product layers**, not 34 equal apps.
+Treat the 35 workspaces as **four product layers**, not 35 equal apps.
 
 ### Layer 1 — Shell & navigation (always on)
 
 - NavRail, AppShell, HoverNavRail / HoverAppTray / HoverAssistantBubble / HoverStatusBar
 - Desktop (form factors, windowing, widgets, custom apps)
 - Apps (marketplace + installed)
+- Extensions (MCP servers & skills marketplace — maps to gateway extensions model)
+- Passport (credentials, API keys, linked accounts — the identity/secrets vault)
 - Settings
 
 ### Layer 2 — Agent surface (the “brain”)
@@ -129,7 +187,88 @@ Layers 3–4 are mostly **reference UIs** (mock data). Layers 1–2 are where th
 
 ### Full workspace list (from `workspace-config.ts`)
 
-Chat, Messages, Slack (Groups), Social, Contacts, Notes, Email, Calendar, Schedule, Files, Sheets, Wallet, Bank/Crypto, Music, Vision, Reader, Maps, Camera, Weather, Calculator, Phone, Tasks, Notifications, Apps, Settings, Desktop, Server, Orchestrator, Tickets, Transcribe, Life Planning, Psyche, Generated (Design System).
+Chat, Messages, Slack (Groups), Social, Contacts, Notes, Email, Calendar, Schedule, Files, Sheets, Wallet, Bank/Crypto, Music, Vision, Reader, Maps, Camera, Weather, Calculator, Phone, Tasks, Notifications, Apps, **Extensions**, **Passport**, Settings, Desktop, Server, Orchestrator, Tickets, Transcribe, Life Planning, Psyche, Generated (Design System) — **35 total**.
+
+---
+
+## Workspace viability matrix
+
+> Answers "can we get all workspaces to actually work?" — yes, if "work" means **real behavior in the OS** (data, tools, or a generated app), not 35 equal native clients. Every workspace gets a strategy; none stays frozen mock state forever.
+
+### What "working" means (target depth levels)
+
+| Level | Meaning |
+|-------|---------|
+| **L1 — Interactive demo** | UI + local state (today's default) |
+| **L2 — Real data, read-only** | API/MCP fetch + display |
+| **L3 — Read/write product** | CRUD, sync, agent tools |
+| **L4 — Primary client** | User could live in it daily vs the incumbent |
+
+Target: **L3 on the core**, L2–L3 via bridges and generated apps for the rest, **L4 only where we intentionally invest** (Chat, Apps, Desktop, Code, Notes, Files).
+
+### Three ways a workspace "works" (strategies)
+
+1. **native** — plugin entity store + workspace UI; we own CRUD.
+2. **mcp-bridge** — UI shell stays; data via MCP / gateway tools / Odysseus HTTP (external system owns the data).
+3. **gen-app** — no native backend; Chat → `app_create` → Apps/Desktop. **The long tail defaults here** unless there's a clear reason for (1) or (2).
+   Plus two minor modes: **embed** (agent-canvas, maps) and **client-only** (calculator, camera).
+
+### Scope reconciliation with `DESIGN-SYSTEM-SPEC.md` §10.2
+
+The spec's **core seven** (Chat, Generated/Apps, Desktop, Notes, Tasks/Calendar, Files, Settings) is the **shipping product**; this matrix is the **catalog routing plan** for everything else — which strategy serves each workspace when a user asks for it. The demo's other workspaces are a design catalog, not a hand-build backlog; "P4/P5 + gen-app" rows ship as registry templates, not workspace code.
+
+### The matrix (all 35)
+
+| Workspace | Layer | Strategy | Backend owner | Target | Phase |
+|-----------|-------|----------|---------------|--------|-------|
+| Chat | 2 | native | OpenClaw gateway + OpenUI | L4 | P0 |
+| Apps | 1 | native | plugin `AppStore` | L4 | P0 |
+| Desktop | 1 | native | `SurfaceManager` (client) | L4 | P0 |
+| Notifications | 3 | native | plugin `NotificationStore` | L3 | P0 |
+| Settings | 1 | native | gateway config + plugin prefs | L3 | P0 |
+| Calculator | 4 | client-only | — | L3 | P0 |
+| Generated (Design System) | 2 | native | registry `examples` catalog | L3 | P0 |
+| Tasks | 3 | native | plugin entity store | L3 | P1 |
+| Schedule | 3 | native (merge data model w/ Tasks/Calendar) | plugin entity store | L3 | P1 |
+| Files | 3 | native | gateway FS tools / agent-server workspace | L3 | P1 |
+| Psyche | 2 | native | plugin `MemoryStore` → optional Odysseus Chroma | L3 | P1 |
+| Extensions | 1 | native | gateway MCP/skills registry | L3 | P1 |
+| Passport | 1 | native | plugin credentials vault | L3 | P1 |
+| Server | 2 | embed + mcp-bridge | deploy APIs (Docker/Coolify/Vercel) via tools | L2–L3 | P2 |
+| Orchestrator | 2 | native | OpenClaw crons + OpenHands automations + traces | L3 | P2 |
+| Tickets | 2 | mcp-bridge | Linear / GitHub / Jira MCP | L2–L3 | P2 |
+| Transcribe | 2 | native | Whisper (local or API) | L3 | P2 |
+| Notes | 3 | native | plugin entities **or** Joplin data API (spec §10.1; decide v0.2) | L3–L4 | P3 |
+| Calendar | 3 | mcp-bridge | Google Calendar MCP / Odysseus CalDAV | L3 | P3 |
+| Email | 4 | mcp-bridge | Gmail MCP / Odysseus IMAP | L2–L3 | P3 |
+| Reader | 3 | native-lite | Files + EPUB/markdown | L2 | P3 |
+| Contacts | 4 | native | entity store + CardDAV/Google sync | L3 | P4 |
+| Slack (Groups) | 4 | mcp-bridge | Slack MCP / OpenClaw channels | L2–L3 | P4 |
+| Messages | 4 | mcp-bridge (hard) | phone/gateway bridges; often stuck at L2 | L2 | P4 |
+| Weather | 4 | client + API | Open-Meteo | L3 | P4 |
+| Maps | 4 | embed + API | Mapbox / Google Maps | L2 | P4 |
+| Camera | 4 | client-only | `getUserMedia` + Files | L2 | P4 |
+| Life Planning | 3 | native-lite | entity aggregation + **global** assistant (no embedded coach) | L2 | P4 |
+| Social | 4 | connected-service | Mastodon / Bluesky adapters (spec §10.9) | L2 | P4–P5 |
+| Sheets | 3 | gen-app / embed | hard native — prefer generated spreadsheet app | L2 | P5 |
+| Music | 4 | gen-app / connected-service | Spotify SDK (licensing) or local-files gen app | L2 | P5 |
+| Vision | 4 | gen-app / embed | YouTube embed + agent summaries | L1–L2 | P5 |
+| Wallet | 4 | gen-app | budget app over CSV/manual; Plaid = heavy | L2 | P5 |
+| Bank/Crypto | 4 | gen-app | read-only crypto APIs; banking = compliance wall | L2 | P5 |
+| Phone | 4 | gen-app / integration | Twilio/VoIP — niche, high effort | L1–L2 | P5 |
+
+### P0–P5 roadmap (cross-cutting)
+
+| Phase | Outcome |
+|-------|---------|
+| **P0** | Chat, Apps, Desktop, Notifications, Settings, Calculator, Design System — **real** (≈ spec v0.1) |
+| **P1** | Tasks, Schedule, Files, Psyche, Extensions, Passport + crons wired |
+| **P2** | Code embed (agent-canvas); Orchestrator, Server, Tickets, Transcribe |
+| **P3** | Notes, Calendar, Email (plugin / Joplin / Odysseus decision) |
+| **P4** | Comms bridges (Slack MCP, Contacts sync), Weather, Maps, Camera, Life Planning |
+| **P5** | Long tail via **gen-app templates** in the marketplace (Sheets, Music, Wallet, …) |
+
+After P5 every rail item either has real data or opens a generated app — that is "all workspaces work" for an AI OS. The honest "no": 35 fully native best-in-class clients rivaling Slack/Spotify/Chase is not a sane scope; the Desktop + Apps + agent combination is what makes the long tail viable without 35 backends.
 
 ---
 
@@ -171,7 +310,7 @@ Chat, Messages, Slack (Groups), Social, Contacts, Notes, Email, Calendar, Schedu
 | Work | Notes, Files, Tasks, Calendar, Sheets |
 | Comms | Messages, Email, Slack (or unified Inbox) |
 | Control plane | Orchestrator, Server, Psyche |
-| System | Desktop, Apps, Settings |
+| System | Desktop, Apps, Extensions, Passport, Settings |
 
 Keep **8–10 pinned items**; push the rest to Desktop + Apps + command palette.
 
@@ -203,7 +342,7 @@ Keep **8–10 pinned items**; push the rest to Desktop + Apps + command palette.
 
 ### 2. Too many nav-rail peers
 
-34 workspaces in a flat list overwhelms even with overflow. Use grouped rail or short pin + Desktop/Apps/⌘K.
+35 workspaces in a flat list overwhelms even with overflow. Use grouped rail or short pin + Desktop/Apps/⌘K.
 
 ### 3. Comms fragmentation
 
@@ -1028,6 +1167,8 @@ Full-stack AI workspace (FastAPI, SQLite/Postgres, ChromaDB, email, notes, calen
 
 **Recommendation:** reference + optional MCP bridge.
 
+**License constraint:** Odysseus is **AGPL-3.0** — it must remain a separate process reached over HTTP/MCP; never link, vendor, or merge its code into our MIT-licensed codebase. (Same posture applies to Open WebUI's branding-preservation license if it's ever used as a RAG backend — see `DESIGN-SYSTEM-SPEC.md` §10.1.)
+
 ### Hermes WebUI — patterns only
 
 Useful for SSE streaming, workspace panel, session model — **not** a backend to build on.
@@ -1073,19 +1214,23 @@ Useful for SSE streaming, workspace panel, session model — **not** a backend t
 
 ## Gen UI strategy
 
+> **Superseded framing — see `DESIGN-SYSTEM-SPEC.md` D3/D5/D6.** The earlier "converge on OpenUI" decision is replaced by: the **Generation Registry** (one manifest per block) is the single source of truth, the payload layer is **spec-pluggable** (**A2UI-first**, OpenUI Lang as a first-class binding, own JSON retained) over **AG-UI transport**, and every payload renders into **Longformer components**. Blocks are the AI's generation vocabulary — not just a design catalog.
+
 Two rendering systems today:
 
 1. **OpenUI Lang** — streaming DSL, apps with Query/Mutation (production in OpenClaw OS)
 2. **Longformer `GeneratedSurfaceSchema` + 59 blocks** — static schema → React components
 
+Target state (per the spec): both resolve to the **same registry**.
+
 | Use case | Renderer |
 |----------|----------|
-| Chat streaming, forms, charts | **OpenUI** (`react-lang` + `react-ui`) |
-| Durable dashboards / apps | **OpenUI app surface** (`app_create` in plugin) |
-| Design system / Storybook | **Longformer blocks** |
-| Desktop widget tiles | Longformer primitives OR thin OpenUI apps |
+| Chat streaming, forms, charts | Streaming payload (OpenUI Lang today on the openclaw-os plugin path; A2UI emitter later) via shared registry |
+| Durable dashboards / apps | App surface (`app_create` in plugin) — manifest validated against the registry |
+| Design system / catalog | Registry `examples` rendered in the Design System workspace |
+| Desktop widget tiles | Registry blocks / primitives |
 
-Long-term: bridge OpenUI Lang ↔ Longformer blocks. Short-term: **OpenUI wins for agent output**; Longformer blocks stay token/layout source of truth.
+**Practical sequencing:** M1/M2 ship on the openclaw-os plugin path, which speaks **OpenUI Lang** — nothing changes short-term. The registry + emitters (spec §6–7) are what make the later A2UI adoption non-breaking. Generated-app logic follows the spec's **D9 execution ladder** (declarative-first; WASM for real code).
 
 ---
 
@@ -1261,18 +1406,20 @@ Agent tools bridge stacks (`call_odysseus_api`, MCP, `open_code_session`). **Not
 2. **Chat/gen UI = OpenUI**, not custom streaming from scratch
 3. **Shell/workspaces = Longformer UI kit**, gradually wrapping or replacing claw-client layout
 4. **Code = agent-canvas + agent-server**, embedded as one workspace
-5. **Odysseus = optional data plane** via tools, not main stack
+5. **Odysseus = optional data plane** via tools, not main stack (**AGPL-3.0** — keep at arm's length over HTTP/MCP; never link or vendor its code)
 6. **Hermes = UX reference only**
 7. **Client state:** Zustand (UI + focus) + TanStack Query (server entities)
 8. **Prod deploy:** plugin-served static UI (like openclaw-os), not separate Next server
 9. **Unify on pnpm + React 19** when combining repos
-10. **Converge gen UI** toward OpenUI; Longformer blocks = design-system source
+10. **Gen UI per `DESIGN-SYSTEM-SPEC.md` D3** — registry-driven, spec-pluggable payloads (A2UI-first; OpenUI Lang binding for the openclaw-os plugin path) rendered into Longformer components over AG-UI transport
 11. **Plan for multi-runtime dev:** Node (gateway/UI) + **uvx/Python** (OpenHands) + optional **Docker Compose** (Odysseus or agent-canvas sandbox)
 12. **Single-origin ingress** where possible when combining OpenHands with gateway UI
 13. **One LLM config story** for the main agent; document separate profiles only for Code workspace
 14. **Single product, composed runtime** — surgery on UI + plugin; don’t merge Odysseus/OpenHands/OpenClaw agent cores
 15. **Generated apps in-environment** — `app_create` → Apps + Desktop; inline openui-lang for ephemeral UI only
 16. **OpenHands = library embed** under Longformer shell for Code workspace; not a second standalone app
+17. **Converge at the shell/app layer, never kernel/OS** — no custom distro, kernel, or OS-fork work; a Tauri desktop wrapper (`DESIGN-SYSTEM-SPEC.md` §10.6) is the deepest we go down the stack
+18. **Security per `DESIGN-SYSTEM-SPEC.md` D10** — capability-scoped agent tools (no ambient authority), plan/execute separation, deterministic confirmation gates for irreversible actions, audit + undo on the entity store; enterprise = a policy profile (local-only routing + audit), never a fork. Generated-app logic follows the D9 execution ladder (declarative-first; WASM for real code; containers = engines only)
 
 ### Main risk
 
@@ -1283,6 +1430,17 @@ Agent tools bridge stacks (`call_odysseus_api`, MCP, `open_code_session`). **Not
 ## Single integrated product (surgical integration)
 
 “Single app” means **one product surface for the user**, not one process, one repo, or one agent runtime merged into a monolith.
+
+### Foundation decision (settled)
+
+Two foundations, two jobs — don't pick one repo and throw the other away:
+
+| Layer | Foundation | Why |
+|-------|------------|-----|
+| **Runtime & persistence** | **OpenClaw gateway + `claw-plugin` pattern** (openclaw-os) | Sessions, WebSocket, crons, MCP, tools, SQLite stores (`AppStore`, notifications, artifacts), plugin-served static UI, OpenUI prompt hook |
+| **Experience & workspaces** | **Longformer UI kit + `longformer-client`** | `AppShell`, workspaces, Desktop/`SurfaceManager`, tokens, cross-form-factor story |
+
+Repo home: **Option A (recommended)** — extend the openclaw-os monorepo: keep/extend `claw-plugin` (rename `longformer-plugin`), replace `claw-client` with `longformer-client` (evolved from `longformer-demo`), reuse `OpenClawEngine` + OpenUI wiring + session workspace (`linkedApp`). Option B — a new longformer monorepo depending on the published plugin — only if repo independence matters more than shared CI. Either way: **never reimplement the gateway or AppStore**, and don't make `longformer-demo` alone (no persistence), agent-canvas (code sandbox, duplicate shell), or Odysseus (data plane) the root.
 
 ### What “single app” can mean
 
@@ -1491,6 +1649,36 @@ Chat → agent app_create → AppStore
 
 ---
 
+## Competitive landscape
+
+> Snapshot July 2026. The "agent OS" category is real and crowded **in pieces**; almost nobody ships the full combination (agent-native runtime + generative persistent apps + broad workspace shell + coding embed + local-first).
+
+### Closest whole-product comps
+
+| Project | Overlap | Gap vs this plan |
+|---------|---------|------------------|
+| **openclaw-os** (our foundation) | Gateway workspace, OpenUI streaming, persistent apps, crons, plugin-served UI | Chat-centric sidebar, not a 35-workspace OS shell |
+| **Matrix OS** | Headless core / multi-shell, web desktop, apps generated from conversation, file-first | Claude-SDK-as-kernel, federation/Web4 vision — aligned architecturally, different ecosystem |
+| **Cognithor** | Local-first agent OS: many providers/channels, memory tiers, skills marketplace, desktop automation | Channels + autonomy heavy; no polished productivity shell or refinable OpenUI-style apps |
+| **Vellum** (and macOS "personal AI" apps) | Local-first assistant, persistent memory, credential isolation | Assistant-first, not a workspace OS with a gen-app marketplace |
+| **Puter** (cloud OS) + **Puter.js** | Shipped web desktop, 60k+ apps, app store, self-hostable; Puter.js = keyless serverless backend (fs/kv/ai) purpose-built for AI-generated apps | Cloud-native, no first-class agent runtime (no sessions/crons/MCP loop), AGPL. **Puter.js is a candidate optional runtime profile for shareable gen-apps** — complementary at the SDK layer, competitive at the "one desktop" layer |
+| **agiresearch/AIOS** | Research agent-OS kernel (scheduling, memory, tool mgmt) | Academic platform, not a consumer shell |
+
+### Strong single-dimension comps
+
+| Category | Projects | Relation |
+|----------|----------|----------|
+| **Gen-UI standards** | A2UI (Google), AG-UI (CopilotKit), MCP Apps/MCP-UI, OpenUI | We compose with these, not against them — see `DESIGN-SYSTEM-SPEC.md` D3/§9 |
+| **Spatial coding canvases** | OpenCove, Otto Canvas, Kairox, 1Code, STIRUAL | Better today at "many coding agents visible"; none do productivity + comms + gen-apps in one shell |
+| **Local LLM/RAG frontends** | Open WebUI, AnythingLLM, Jan, LibreChat | Backends/chat UIs, not a desktop OS |
+| **Enterprise agent orchestration** | PwC Agent OS, SmythOS, ANOLISA (Alibaba, infra) | Different buyer; ANOLISA is complementary infra |
+
+### Positioning takeaway
+
+Rare combination we hold: **(1)** persistent, refinable generated apps (openclaw-os pattern) + **(2)** broad workspace catalog with Desktop/windowing/form factors (Longformer) + **(3)** serious coding embed (agent-canvas) + **(4)** one agent optimizing across domains (north star). The risk isn't "someone already built it" — it's **breadth vs depth and integration debt** before a competitor ships a simpler wedge. Sensible wedge where comps are weakest: **local-first agent OS with persistent generated apps on a real desktop shell**.
+
+---
+
 ## Key file references
 
 | Path | Purpose |
@@ -1534,9 +1722,16 @@ Chat → agent app_create → AppStore
 - [ ] **Apps workspace** reads real **AppStore**; open generated app in **Desktop** window
 - [ ] **Crons** + **Notifications** ported from claw-client patterns
 
+### Design system / generation (precedes M1 — see `DESIGN-SYSTEM-SPEC.md` §6)
+
+- [ ] Generation Registry + Zod schemas for the 59 blocks; replace `GeneratedSurface`'s `switch`
+- [ ] Generate the system prompt from the registry
+- [ ] Runtime validation + repair on generated schemas
+- [ ] Adaptivity spike: container-query size classes on 2–3 blocks
+
 ### Architecture & data
 
-- [ ] Workspace-by-workspace matrix (backend owner, merge candidate, rail vs desktop-only)
+- [x] Workspace-by-workspace matrix — see [Workspace viability matrix](#workspace-viability-matrix)
 - [ ] TypeScript interfaces for `EntityStore`, `WorkspaceFocusProvider`, agent message envelope
 - [ ] Entity types → minimal v1 schema mapping
 - [ ] ADR: build-vs-buy per workspace (real API v1 vs mock)

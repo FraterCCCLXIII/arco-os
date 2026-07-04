@@ -1,0 +1,38 @@
+{
+  "app_id": "contacts",
+  "name": "Contacts",
+  "version": "0.1.0",
+  "description": "Personal contact directory.",
+  "entities": {
+    "contact": {
+      "fields": {
+        "full_name": { "type": "string", "label": "Name", "primary": true },
+        "relationship": { "type": "string", "label": "Relationship", "primary": true },
+        "phone": { "type": "string", "label": "Phone" },
+        "email": { "type": "string", "label": "Email" },
+        "medical_notes": { "type": "text", "label": "Medical notes", "sensitive": true }
+      }
+    }
+  },
+  "actions": [
+    {
+      "action_id": "call_contact",
+      "verb": "custom",
+      "entity": "contact",
+      "required_scope": "contacts:read"
+    },
+    {
+      "action_id": "edit_contact",
+      "verb": "update",
+      "entity": "contact",
+      "required_scope": "contacts:write"
+    },
+    {
+      "action_id": "delete_contact",
+      "verb": "delete",
+      "entity": "contact",
+      "required_scope": "contacts:write",
+      "destructive": true
+    }
+  ]
+}

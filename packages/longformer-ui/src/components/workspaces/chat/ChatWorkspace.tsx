@@ -9,6 +9,7 @@ import { PromptChips } from "./PromptChips";
 import { ConversationTabBar, type ConversationTabItem } from "./ConversationTabBar";
 import type { UsageStats } from "./UsagePopover";
 import type { ChatMessage, PromptChipItem } from "./types";
+import type { ComposerTypeaheadItem } from "./ComposerTypeahead.types";
 import styles from "./ChatWorkspace.module.css";
 
 export interface ChatWorkspaceProps {
@@ -42,6 +43,17 @@ export interface ChatWorkspaceProps {
   navItems?: TabItem[];
   activeNavId?: string;
   onNavChange?: (id: string) => void;
+  onMessageCopy?: (message: ChatMessage) => void;
+  onMessageEdit?: (message: ChatMessage) => void;
+  onMessageRestore?: (message: ChatMessage) => void;
+  onAgentMessageCopy?: (message: ChatMessage) => void;
+  onAgentRegenerate?: (message: ChatMessage) => void;
+  onAgentThumbsUp?: (message: ChatMessage) => void;
+  onAgentThumbsDown?: (message: ChatMessage) => void;
+  onAgentShare?: (message: ChatMessage) => void;
+  onAgentFork?: (message: ChatMessage) => void;
+  typeaheadItems?: ComposerTypeaheadItem[];
+  onTypeaheadSelect?: (item: ComposerTypeaheadItem) => void;
 }
 
 /**
@@ -77,6 +89,17 @@ export function ChatWorkspace({
   navItems,
   activeNavId,
   onNavChange,
+  onMessageCopy,
+  onMessageEdit,
+  onMessageRestore,
+  onAgentMessageCopy,
+  onAgentRegenerate,
+  onAgentThumbsUp,
+  onAgentThumbsDown,
+  onAgentShare,
+  onAgentFork,
+  typeaheadItems,
+  onTypeaheadSelect,
 }: ChatWorkspaceProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const hasTabBar = tabs && tabs.length > 0 && activeTabId && onTabChange;
@@ -122,6 +145,8 @@ export function ChatWorkspace({
               notice={composerNotice}
               usage={usage}
               onPlanUsageClick={onPlanUsageClick}
+              typeaheadItems={typeaheadItems}
+              onTypeaheadSelect={onTypeaheadSelect}
               {...composerModeProps}
             />
             {promptChips && promptChips.length > 0 && onPromptChipSelect && (
@@ -139,7 +164,19 @@ export function ChatWorkspace({
       <ScrollArea ref={scrollRef} className={styles.messages}>
         <div className={styles.messagesInner}>
           {messages.map((message) => (
-            <MessageBubble key={message.id} message={message} />
+            <MessageBubble
+              key={message.id}
+              message={message}
+              onCopy={onMessageCopy}
+              onEdit={onMessageEdit}
+              onRestore={onMessageRestore}
+              onAgentCopy={onAgentMessageCopy}
+              onAgentRegenerate={onAgentRegenerate}
+              onAgentThumbsUp={onAgentThumbsUp}
+              onAgentThumbsDown={onAgentThumbsDown}
+              onAgentShare={onAgentShare}
+              onAgentFork={onAgentFork}
+            />
           ))}
         </div>
       </ScrollArea>
@@ -158,6 +195,8 @@ export function ChatWorkspace({
             notice={composerNotice}
             usage={usage}
             onPlanUsageClick={onPlanUsageClick}
+            typeaheadItems={typeaheadItems}
+            onTypeaheadSelect={onTypeaheadSelect}
             {...composerModeProps}
           />
         </div>

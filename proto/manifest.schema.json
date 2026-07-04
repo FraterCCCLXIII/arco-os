@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AppManifest",
+  "description": "Declares an app's data shape and available actions. Deliberately contains NO layout information — that is the renderer's job, not the app author's. If you find yourself adding a 'layout_hint' field here, stop: that's the discipline this schema exists to enforce.",
+  "type": "object",
+  "required": ["app_id", "name", "version", "entities", "actions"],
+  "properties": {
+    "app_id": { "type": "string", "pattern": "^[a-z0-9_-]+$" },
+    "name": { "type": "string" },
+    "version": { "type": "string" },
+    "description": { "type": "string" },
+
+    "entities": {
+      "type": "object",
+      "description": "Named data shapes this app works with. Each entity is a flat record type.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["fields"],
+        "properties": {
+          "fields": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["type"],
+              "properties": {
+                "type": {
+                  "enum": ["string", "text", "number", "boolean", "date", "enum", "ref"]
+                },
+                "enum_values": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "ref_entity": { "type": "string" },
+                "label": { "type": "string" },
+                "primary": {
+                  "type": "boolean",
+                  "description": "True for the 1-2 fields that best identify a record (used as title/subtitle in list/glance templates)."
+                },
+                "sensitive": {
+                  "type": "boolean",
+                  "description": "Flags fields that should be scoped/redacted more conservatively (e.g. health, financial)."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "actions": {
+      "type": "array",
+      "description": "Every action a user (or the AI on their behalf) can invoke. This is the ONLY way the app's state can change.",
+      "items": {
+        "type": "object",
+        "required": ["action_id", "verb", "entity", "required_scope"],
+        "properties": {
+          "action_id": { "type": "string" },
+          "verb": {
+            "enum": ["create", "update", "delete", "complete", "read", "custom"]
+          },
+          "entity": { "type": "string", "description": "Which entity this action operates on." },
+          "required_scope": {
+            "type": "string",
+            "description": "Capability scope string required to invoke this action, e.g. 'tasklist:write' or 'contacts:read'."
+          },
+          "destructive": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, MUST pass through the deterministic confirmation gate regardless of caller."
+          },
+          "params": {
+            "type": "object",
+            "description": "Optional param schema for custom actions, keyed by param name -> field type."
+          }
+        }
+      }
+    }
+  }
+}

@@ -8,6 +8,7 @@ import { Composer } from "./Composer";
 import { MessageBubble } from "./MessageBubble";
 import { PromptChips } from "./PromptChips";
 import type { ChatMessage, PromptChipItem } from "./types";
+import type { ComposerTypeaheadItem } from "./ComposerTypeahead.types";
 import { ConversationTabBar, type ConversationTabItem } from "./ConversationTabBar";
 import type { TabItem } from "../../primitives/Tabs";
 import styles from "./ConversationPanel.module.css";
@@ -39,6 +40,17 @@ export interface ConversationPanelProps {
   activeNavId?: string;
   onNavChange?: (id: string) => void;
   className?: string;
+  onMessageCopy?: (message: ChatMessage) => void;
+  onMessageEdit?: (message: ChatMessage) => void;
+  onMessageRestore?: (message: ChatMessage) => void;
+  onAgentMessageCopy?: (message: ChatMessage) => void;
+  onAgentRegenerate?: (message: ChatMessage) => void;
+  onAgentThumbsUp?: (message: ChatMessage) => void;
+  onAgentThumbsDown?: (message: ChatMessage) => void;
+  onAgentShare?: (message: ChatMessage) => void;
+  onAgentFork?: (message: ChatMessage) => void;
+  typeaheadItems?: ComposerTypeaheadItem[];
+  onTypeaheadSelect?: (item: ComposerTypeaheadItem) => void;
 }
 
 /**
@@ -73,6 +85,17 @@ export function ConversationPanel({
   activeNavId,
   onNavChange,
   className,
+  onMessageCopy,
+  onMessageEdit,
+  onMessageRestore,
+  onAgentMessageCopy,
+  onAgentRegenerate,
+  onAgentThumbsUp,
+  onAgentThumbsDown,
+  onAgentShare,
+  onAgentFork,
+  typeaheadItems,
+  onTypeaheadSelect,
 }: ConversationPanelProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const hasTabBar = !chromeless && tabs && tabs.length > 0 && activeTabId && onTabChange;
@@ -128,6 +151,8 @@ export function ConversationPanel({
               model={model}
               modelOptions={modelOptions}
               surfaceClassName={chromeless ? styles.composerChromeless : undefined}
+              typeaheadItems={typeaheadItems}
+              onTypeaheadSelect={onTypeaheadSelect}
               {...composerModeProps}
             />
             {promptChips && promptChips.length > 0 && onPromptChipSelect && (
@@ -140,7 +165,19 @@ export function ConversationPanel({
           <ScrollArea ref={scrollRef} className={styles.messages}>
             <div className={styles.messagesInner}>
               {messages.map((message) => (
-                <MessageBubble key={message.id} message={message} />
+                <MessageBubble
+                  key={message.id}
+                  message={message}
+                  onCopy={onMessageCopy}
+                  onEdit={onMessageEdit}
+                  onRestore={onMessageRestore}
+                  onAgentCopy={onAgentMessageCopy}
+                  onAgentRegenerate={onAgentRegenerate}
+                  onAgentThumbsUp={onAgentThumbsUp}
+                  onAgentThumbsDown={onAgentThumbsDown}
+                  onAgentShare={onAgentShare}
+                  onAgentFork={onAgentFork}
+                />
               ))}
             </div>
           </ScrollArea>
@@ -154,6 +191,8 @@ export function ConversationPanel({
               model={model}
               modelOptions={modelOptions}
               surfaceClassName={chromeless ? styles.composerChromeless : undefined}
+              typeaheadItems={typeaheadItems}
+              onTypeaheadSelect={onTypeaheadSelect}
               {...composerModeProps}
             />
           </div>

@@ -17,6 +17,7 @@ import {
   ThemeProvider,
   useTheme,
   type ChatMessage,
+  chatMessageText,
   type TaskItem,
   type NotificationItem,
   type DirectMessage,
@@ -50,7 +51,7 @@ import {
   DEFAULT_DESKTOP_WALLPAPER_URL,
 } from "longformer-ui";
 import { primaryUser } from "./demo-personas";
-import { demoUsage, promptChips, assistantPromptChips, assistantConversationTabs, assistantConversationNavItems, chatConversationNavItems, chatConversationTabs, chatTabConversations } from "./mock-data/chat";
+import { demoUsage, promptChips, assistantPromptChips, assistantConversationTabs, assistantConversationNavItems, chatConversationNavItems, chatConversationTabs, chatTabConversations, composerTypeaheadItems } from "./mock-data/chat";
 import { demoDiffHunks } from "./mock-data/context-drawer";
 import {
   buildNotesVault,
@@ -478,6 +479,128 @@ function LongformerApp() {
         ],
       }));
     }, 400);
+  }
+
+  function handleChatMessageCopy(message: ChatMessage) {
+    const text = chatMessageText(message);
+    if (text) void navigator.clipboard?.writeText(text);
+  }
+
+  function handleChatMessageEdit(message: ChatMessage) {
+    setComposerValue(chatMessageText(message));
+  }
+
+  function handleChatMessageRestore(message: ChatMessage) {
+    setChatTabMessages((prev) => {
+      const messages = prev[activeChatTabId] ?? [];
+      const index = messages.findIndex((item) => item.id === message.id);
+      if (index === -1) return prev;
+      return { ...prev, [activeChatTabId]: messages.slice(0, index + 1) };
+    });
+  }
+
+  function handleAssistantMessageCopy(message: ChatMessage) {
+    const text = chatMessageText(message);
+    if (text) void navigator.clipboard?.writeText(text);
+  }
+
+  function handleAssistantMessageEdit(message: ChatMessage) {
+    setAssistantComposerValue(chatMessageText(message));
+  }
+
+  function handleAssistantMessageRestore(message: ChatMessage) {
+    setAssistantTabMessages((prev) => {
+      const messages = prev[activeAssistantTabId] ?? [];
+      const index = messages.findIndex((item) => item.id === message.id);
+      if (index === -1) return prev;
+      return { ...prev, [activeAssistantTabId]: messages.slice(0, index + 1) };
+    });
+  }
+
+  function handleChatAgentMessageCopy(message: ChatMessage) {
+    handleChatMessageCopy(message);
+  }
+
+  function handleChatAgentRegenerate(message: ChatMessage) {
+    setChatTabMessages((prev) => {
+      const messages = prev[activeChatTabId] ?? [];
+      const index = messages.findIndex((item) => item.id === message.id);
+      if (index === -1) return prev;
+      return { ...prev, [activeChatTabId]: messages.slice(0, index) };
+    });
+  }
+
+  function handleChatAgentFeedback(message: ChatMessage, feedback: "up" | "down") {
+    setChatTabMessages((prev) => ({
+      ...prev,
+      [activeChatTabId]: (prev[activeChatTabId] ?? []).map((item) =>
+        item.id === message.id
+          ? { ...item, feedback: item.feedback === feedback ? undefined : feedback }
+          : item,
+      ),
+    }));
+  }
+
+  function handleChatAgentShare(message: ChatMessage) {
+    const text = chatMessageText(message);
+    if (text) void navigator.clipboard?.writeText(text);
+  }
+
+  function handleChatAgentFork(message: ChatMessage) {
+    const id = `chat-tab-${Date.now()}`;
+    const messages = chatTabMessages[activeChatTabId] ?? [];
+    const index = messages.findIndex((item) => item.id === message.id);
+    const forked = index === -1 ? messages : messages.slice(0, index + 1);
+    setChatTabs((prev) => [...prev, { id, label: "Forked conversation", icon: "sparkles" as const, closable: true }]);
+    setChatTabMessages((prev) => ({ ...prev, [id]: forked }));
+    setActiveChatTabId(id);
+  }
+
+  function handleTypeaheadSelect(item: import("longformer-ui").ComposerTypeaheadItem) {
+    setComposerValue(item.text);
+  }
+
+  function handleAssistantTypeaheadSelect(item: import("longformer-ui").ComposerTypeaheadItem) {
+    setAssistantComposerValue(item.text);
+  }
+
+  function handleAssistantAgentMessageCopy(message: ChatMessage) {
+    handleAssistantMessageCopy(message);
+  }
+
+  function handleAssistantAgentRegenerate(message: ChatMessage) {
+    setAssistantTabMessages((prev) => {
+      const messages = prev[activeAssistantTabId] ?? [];
+      const index = messages.findIndex((item) => item.id === message.id);
+      if (index === -1) return prev;
+      return { ...prev, [activeAssistantTabId]: messages.slice(0, index) };
+    });
+  }
+
+  function handleAssistantAgentFeedback(message: ChatMessage, feedback: "up" | "down") {
+    setAssistantTabMessages((prev) => ({
+      ...prev,
+      [activeAssistantTabId]: (prev[activeAssistantTabId] ?? []).map((item) =>
+        item.id === message.id
+          ? { ...item, feedback: item.feedback === feedback ? undefined : feedback }
+          : item,
+      ),
+    }));
+  }
+
+  function handleAssistantAgentShare(message: ChatMessage) {
+    const text = chatMessageText(message);
+    if (text) void navigator.clipboard?.writeText(text);
+  }
+
+  function handleAssistantAgentFork(message: ChatMessage) {
+    const id = `assistant-tab-${Date.now()}`;
+    const messages = assistantTabMessages[activeAssistantTabId] ?? [];
+    const index = messages.findIndex((item) => item.id === message.id);
+    const forked = index === -1 ? messages : messages.slice(0, index + 1);
+    setAssistantTabs((prev) => [...prev, { id, label: "Forked conversation", icon: "sparkles" as const, closable: true }]);
+    setAssistantTabMessages((prev) => ({ ...prev, [id]: forked }));
+    setActiveAssistantTabId(id);
   }
 
   function handleChatNewTab() {
@@ -912,6 +1035,17 @@ function LongformerApp() {
       composerValue,
       setComposerValue,
       handleSubmit,
+      handleChatMessageCopy,
+      handleChatMessageEdit,
+      handleChatMessageRestore,
+      handleChatAgentMessageCopy,
+      handleChatAgentRegenerate,
+      handleChatAgentFeedback,
+      handleChatAgentShare,
+      handleChatAgentFork,
+      composerTypeaheadItems,
+      handleTypeaheadSelect,
+      handleAssistantTypeaheadSelect,
       promptChips,
       model,
       modelMenuItems,
@@ -1282,6 +1416,17 @@ function LongformerApp() {
               composerValue={assistantComposerValue}
               onComposerChange={setAssistantComposerValue}
               onSubmit={handleAssistantSubmit}
+              onMessageCopy={handleAssistantMessageCopy}
+              onMessageEdit={handleAssistantMessageEdit}
+              onMessageRestore={handleAssistantMessageRestore}
+              onAgentMessageCopy={handleAssistantAgentMessageCopy}
+              onAgentRegenerate={handleAssistantAgentRegenerate}
+              onAgentThumbsUp={(message) => handleAssistantAgentFeedback(message, "up")}
+              onAgentThumbsDown={(message) => handleAssistantAgentFeedback(message, "down")}
+              onAgentShare={handleAssistantAgentShare}
+              onAgentFork={handleAssistantAgentFork}
+              typeaheadItems={composerTypeaheadItems}
+              onTypeaheadSelect={handleAssistantTypeaheadSelect}
               onClose={() => setAssistantOpen(false)}
               onNewConversation={handleAssistantNewTab}
               promptChips={assistantPromptChips}
@@ -1363,6 +1508,17 @@ function LongformerApp() {
         composerValue={assistantComposerValue}
         onComposerChange={setAssistantComposerValue}
         onSubmit={handleAssistantSubmit}
+        onMessageCopy={handleAssistantMessageCopy}
+        onMessageEdit={handleAssistantMessageEdit}
+        onMessageRestore={handleAssistantMessageRestore}
+        onAgentMessageCopy={handleAssistantAgentMessageCopy}
+        onAgentRegenerate={handleAssistantAgentRegenerate}
+        onAgentThumbsUp={(message) => handleAssistantAgentFeedback(message, "up")}
+        onAgentThumbsDown={(message) => handleAssistantAgentFeedback(message, "down")}
+        onAgentShare={handleAssistantAgentShare}
+        onAgentFork={handleAssistantAgentFork}
+        typeaheadItems={composerTypeaheadItems}
+        onTypeaheadSelect={handleAssistantTypeaheadSelect}
         onNewConversation={handleAssistantNewTab}
         promptChips={assistantPromptChips}
         onPromptChipSelect={handleAssistantPromptChip}

@@ -1,0 +1,28 @@
+/** Tailwind class map — converted from CardCollection.module.css */
+const styles: Record<string, string> = {
+  carouselScroller: "min-w-0",
+  carouselWrap: "relative [--collection-fade-color:var(--lf-surface-1)]",
+  fade: "absolute top-0 bottom-[2px] w-[48px] pointer-events-none opacity-0 z-[1] transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-[var(--lf-duration-fast)] ease-[var(--lf-ease)]",
+  fadeLeft: "left-0 bg-[linear-gradient(to_right,_var(--collection-fade-color)_0%,_transparent_100%)]",
+  fadeRight: "right-0 bg-[linear-gradient(to_left,_var(--collection-fade-color)_0%,_transparent_100%)]",
+  fadeVisible: "opacity-100",
+  item: "min-h-[var(--collection-item-height,_240px)] h-[var(--collection-item-height,_240px)] overflow-hidden rounded-[20px]",
+  itemHero: "col-[span_2] row-[span_2] min-h-[calc(var(--collection-item-height,_240px)_*_2_+_var(--lf-space-3))] h-auto col-[span_2] col-[span_1] row-[span_1] min-h-[var(--collection-item-height,_240px)] h-[var(--collection-item-height,_240px)]",
+  itemTall: "row-[span_2] min-h-[calc(var(--collection-item-height,_240px)_*_2_+_var(--lf-space-3))] h-auto col-[span_1] row-[span_1] min-h-[var(--collection-item-height,_240px)] h-[var(--collection-item-height,_240px)]",
+  itemWide: "col-[span_2] col-[span_2] col-[span_1] row-[span_1] min-h-[var(--collection-item-height,_240px)] h-[var(--collection-item-height,_240px)]",
+  layoutBento: "grid grid-cols-[repeat(4,_minmax(0,_1fr))] gap-lf-3 grid-cols-[repeat(2,_minmax(0,_1fr))] grid-cols-[1fr]",
+  layoutCarousel: "flex gap-lf-3 pb-[2px]",
+  layoutCarousel_item: "[flex:0_0_min(320px,_78vw)]",
+  layoutDenseGrid: "grid grid-cols-[repeat(auto-fill,_minmax(220px,_1fr))] gap-lf-2",
+  layoutFeatured: "grid grid-cols-[repeat(auto-fill,_minmax(260px,_1fr))] gap-lf-3 grid-cols-[1fr]",
+  layoutFeatured_item: "first:col-[span_2] first:row-[span_2] first:min-h-[calc(var(--collection-item-height,_240px)_*_2_+_var(--lf-space-3))] first:h-auto first:col-[span_2] first:col-[span_1] first:row-[span_1] first:min-h-[var(--collection-item-height,_240px)] first:h-[var(--collection-item-height,_240px)]",
+  layoutGrid: "grid grid-cols-[repeat(auto-fill,_minmax(280px,_1fr))] gap-lf-3",
+  layoutSnapCarousel: "flex gap-lf-3 pb-[2px]",
+  layoutSnapCarousel_item: "[flex:0_0_min(320px,_78vw)]",
+  layoutStripInner: "flex gap-lf-3 pb-[2px]",
+  layoutStripInner_item: "[flex:0_0_220px]",
+  layoutWideGrid: "grid grid-cols-[repeat(auto-fill,_minmax(360px,_1fr))] gap-lf-4",
+  snapScroller: "[scroll-snap-type:x_mandatory]",
+  snapScroller_item: "[scroll-snap-align:start]",
+};
+export default styles;

@@ -1,0 +1,26 @@
+/** Tailwind class map — converted from TrayAppHoverCard.module.css */
+const styles: Record<string, string> = {
+  menu: "flex flex-col",
+  menuHeaderIcon: "inline-flex items-center justify-center [flex-shrink:0] w-[18px] h-[18px] rounded-[4px] text-lf-text-on-accent",
+  menuHeaderLabel: "inline-flex items-center gap-lf-2 font-semibold",
+  menuRow: "flex items-center gap-0 w-full min-h-[22px] p-[2px_10px_2px_6px] border-none bg-transparent text-[rgba(255,_255,_255,_0.92)] font-sans text-[inherit] leading-[inherit] text-left cursor-default hover:enabled:bg-[rgba(255,_255,_255,_0.08)]",
+  menuRowCheck: "inline-flex items-center justify-center [flex-shrink:0] w-[18px] h-[18px] text-[rgba(255,_255,_255,_0.85)]",
+  menuRowChevron: "[flex-shrink:0] ml-auto pl-lf-3 text-[rgba(255,_255,_255,_0.45)]",
+  menuRowDanger: "text-[#ff6b6b]",
+  menuRowLabel: "flex-1 min-w-0 whitespace-nowrap overflow-hidden text-ellipsis",
+  popover: "fixed z-lf-tooltip min-w-[220px] max-w-[280px] p-[var(--lf-space-1)_0] rounded-[10px] border border-solid border-[rgba(255,_255,_255,_0.08)] bg-[rgba(38,_38,_40,_0.96)] text-lf-text-primary font-sans text-[13px] leading-[1.35] shadow-[0_0_0_0.5px_rgba(0,_0,_0,_0.35),_0_12px_32px_rgba(0,_0,_0,_0.45)] pointer-events-auto opacity-0 [transform:translate(-50%,_calc(-100%_-_4px))_scale(0.98)] transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-[var(--lf-duration-fast)] ease-[var(--lf-ease)] [backdrop-filter:blur(24px)_saturate(1.4)] before:after:[content:\"\"] before:after:absolute before:after:bottom-[-5px] before:after:left-[50%] before:after:w-[10px] before:after:h-[10px] before:after:ml-[-5px] before:after:bg-[rgba(38,_38,_40,_0.96)] before:after:border border-solid border-[rgba(255,_255,_255,_0.08)] before:after:[border-top:none] before:after:[border-left:none] before:after:[transform:rotate(45deg)]",
+  popoverVisible: "opacity-100 [transform:translate(-50%,_calc(-100%_-_10px))_scale(1)]",
+  profileList: "max-h-[220px] overflow-y-auto",
+  sectionLabel: "p-[4px_14px_2px] text-[11px] font-semibold [letter-spacing:0.01em] text-[rgba(255,_255,_255,_0.45)]",
+  separator: "h-[1px] m-[4px_0] bg-[rgba(255,_255,_255,_0.1)]",
+  srOnly: "absolute w-[1px] h-[1px] p-0 m-[-1px] overflow-hidden [clip:rect(0,_0,_0,_0)] whitespace-nowrap [border:0]",
+  submenu: "absolute top-[-4px] left-[calc(100%_+_2px)] min-w-[180px] p-[var(--lf-space-1)_0] rounded-[10px] border border-solid border-[rgba(255,_255,_255,_0.08)] bg-[rgba(38,_38,_40,_0.96)] shadow-[0_0_0_0.5px_rgba(0,_0,_0,_0.35),_0_8px_24px_rgba(0,_0,_0,_0.4)] [backdrop-filter:blur(24px)_saturate(1.4)]",
+  submenuWrap: "relative",
+  toneAccent: "bg-lf-accent",
+  toneDanger: "bg-lf-danger",
+  toneNeutral: "bg-lf-surface-3 text-lf-text-primary",
+  toneSuccess: "bg-lf-success",
+  toneWarning: "bg-lf-warning",
+  wrapper: "relative inline-flex",
+};
+export default styles;

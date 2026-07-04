@@ -126,6 +126,17 @@ interface DemoChatWorkspaceProps {
   navItems?: { id: string; label: string }[];
   activeNavId?: string;
   onNavChange?: (id: string) => void;
+  onMessageCopy?: (message: ChatMessage) => void;
+  onMessageEdit?: (message: ChatMessage) => void;
+  onMessageRestore?: (message: ChatMessage) => void;
+  onAgentMessageCopy?: (message: ChatMessage) => void;
+  onAgentRegenerate?: (message: ChatMessage) => void;
+  onAgentThumbsUp?: (message: ChatMessage) => void;
+  onAgentThumbsDown?: (message: ChatMessage) => void;
+  onAgentShare?: (message: ChatMessage) => void;
+  onAgentFork?: (message: ChatMessage) => void;
+  typeaheadItems?: import("longformer-ui").ComposerTypeaheadItem[];
+  onTypeaheadSelect?: (item: import("longformer-ui").ComposerTypeaheadItem) => void;
 }
 
 /** Chat workspace demo shell — drawer visibility toggles live in the + attach menu. */
@@ -183,6 +194,17 @@ function DemoChatWorkspace(props: DemoChatWorkspaceProps) {
       navItems={props.navItems}
       activeNavId={props.activeNavId}
       onNavChange={props.onNavChange}
+      onMessageCopy={props.onMessageCopy}
+      onMessageEdit={props.onMessageEdit}
+      onMessageRestore={props.onMessageRestore}
+      onAgentMessageCopy={props.onAgentMessageCopy}
+      onAgentRegenerate={props.onAgentRegenerate}
+      onAgentThumbsUp={props.onAgentThumbsUp}
+      onAgentThumbsDown={props.onAgentThumbsDown}
+      onAgentShare={props.onAgentShare}
+      onAgentFork={props.onAgentFork}
+      typeaheadItems={props.typeaheadItems}
+      onTypeaheadSelect={props.onTypeaheadSelect}
       composerDrawer={
         <ComposerDrawerStack>
           {drawerVisibility.fileChanges ? (
@@ -243,6 +265,16 @@ export interface WorkspaceLayoutViewModel {
   composerValue: string;
   setComposerValue: (value: string) => void;
   handleSubmit: () => void;
+  handleChatMessageCopy: (message: ChatMessage) => void;
+  handleChatMessageEdit: (message: ChatMessage) => void;
+  handleChatMessageRestore: (message: ChatMessage) => void;
+  handleChatAgentMessageCopy: (message: ChatMessage) => void;
+  handleChatAgentRegenerate: (message: ChatMessage) => void;
+  handleChatAgentFeedback: (message: ChatMessage, feedback: "up" | "down") => void;
+  handleChatAgentShare: (message: ChatMessage) => void;
+  handleChatAgentFork: (message: ChatMessage) => void;
+  composerTypeaheadItems: import("longformer-ui").ComposerTypeaheadItem[];
+  handleTypeaheadSelect: (item: import("longformer-ui").ComposerTypeaheadItem) => void;
   promptChips: { id: string; label: string }[];
   model: string;
   modelMenuItems: { id: string; label: string; onSelect?: () => void }[];
@@ -487,6 +519,17 @@ export function buildWorkspaceLayout(
           navItems={vm.chatNavItems}
           activeNavId={vm.chatNavId}
           onNavChange={vm.setChatNavId}
+          onMessageCopy={vm.handleChatMessageCopy}
+          onMessageEdit={vm.handleChatMessageEdit}
+          onMessageRestore={vm.handleChatMessageRestore}
+          onAgentMessageCopy={vm.handleChatAgentMessageCopy}
+          onAgentRegenerate={vm.handleChatAgentRegenerate}
+          onAgentThumbsUp={(message) => vm.handleChatAgentFeedback(message, "up")}
+          onAgentThumbsDown={(message) => vm.handleChatAgentFeedback(message, "down")}
+          onAgentShare={vm.handleChatAgentShare}
+          onAgentFork={vm.handleChatAgentFork}
+          typeaheadItems={vm.composerTypeaheadItems}
+          onTypeaheadSelect={vm.handleTypeaheadSelect}
         />
       );
       break;

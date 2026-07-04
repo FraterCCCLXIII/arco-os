@@ -1,4 +1,4 @@
-import { useRef, type ReactNode } from "react";
+import { useMemo, useRef, useState, type ReactNode } from "react";
 import { cx } from "../../../utils/cx";
 import { Textarea } from "../../primitives/Textarea";
 import { type MenuItemDescriptor } from "../../primitives/Menu";
@@ -8,6 +8,8 @@ import { ComposerFormattingToolbar } from "./ComposerFormattingToolbar";
 import { insertTextAtCursor } from "./ComposerEmojiPicker";
 import { type ComposerDrawerToggle } from "./ComposerAttachMenu";
 import { ComposerControlsRow } from "./ComposerControlsRow";
+import { ComposerTypeahead } from "./ComposerTypeahead";
+import { filterTypeaheadItems, type ComposerTypeaheadItem } from "./ComposerTypeahead.types";
 import type { UsageStats } from "./UsagePopover";
 import { useComposerFormattingToolbar } from "./useComposerFormattingToolbar";
 import styles from "./Composer.module.css";
@@ -41,6 +43,10 @@ export interface ComposerProps {
   /** Plus-button menu: attach files and toggle composer drawer panels. */
   onAddFile?: () => void;
   drawerToggles?: ComposerDrawerToggle[];
+  /** Full-text suggestions shown in a bottom drawer while typing. */
+  typeaheadItems?: ComposerTypeaheadItem[];
+  typeaheadMinLength?: number;
+  onTypeaheadSelect?: (item: ComposerTypeaheadItem) => void;
 }
 
 /** The chat input bar: auto-resizing textarea + attach/model/mic/send controls. */
@@ -65,16 +71,74 @@ export function Composer({
   inputAriaLabel = "Message",
   onAddFile,
   drawerToggles,
+  typeaheadItems,
+  typeaheadMinLength = 12,
+  onTypeaheadSelect,
 }: ComposerProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [activeTypeaheadIndex, setActiveTypeaheadIndex] = useState(-1);
   const { visible: formattingToolbarVisible, toggle: toggleFormattingToolbar } =
     useComposerFormattingToolbar();
 
+  const visibleTypeaheadItems = useMemo(() => {
+    if (!typeaheadItems?.length || value.trim().length < typeaheadMinLength) return [];
+    return filterTypeaheadItems(value, typeaheadItems);
+  }, [typeaheadItems, typeaheadMinLength, value]);
+
+  const typeaheadOpen = visibleTypeaheadItems.length > 0;
+
+  function handleTypeaheadSelect(item: ComposerTypeaheadItem) {
+    if (onTypeaheadSelect) {
+      onTypeaheadSelect(item);
+    } else {
+      onChange(item.text);
+    }
+    setActiveTypeaheadIndex(-1);
+    textareaRef.current?.focus();
+  }
+
   function handleKeyDown(event: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (typeaheadOpen) {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        setActiveTypeaheadIndex((prev) => (prev + 1) % visibleTypeaheadItems.length);
+        return;
+      }
+      if (event.key === "ArrowUp") {
+        event.preventDefault();
+        setActiveTypeaheadIndex((prev) =>
+          prev <= 0 ? visibleTypeaheadItems.length - 1 : prev - 1,
+        );
+        return;
+      }
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setActiveTypeaheadIndex(-1);
+        return;
+      }
+      if (event.key === "Enter" && !event.shiftKey && activeTypeaheadIndex >= 0) {
+        event.preventDefault();
+        const item = visibleTypeaheadItems[activeTypeaheadIndex];
+        if (item) handleTypeaheadSelect(item);
+        return;
+      }
+      if (event.key === "Tab" && !event.shiftKey && activeTypeaheadIndex >= 0) {
+        event.preventDefault();
+        const item = visibleTypeaheadItems[activeTypeaheadIndex];
+        if (item) handleTypeaheadSelect(item);
+        return;
+      }
+    }
+
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault();
       if (value.trim().length > 0) onSubmit();
     }
+  }
+
+  function handleChange(nextValue: string) {
+    onChange(nextValue);
+    setActiveTypeaheadIndex(-1);
   }
 
   return (
@@ -90,7 +154,7 @@ export function Composer({
             ref={textareaRef}
             className={styles.textarea}
             value={value}
-            onChange={(event) => onChange(event.target.value)}
+            onChange={(event) => handleChange(event.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={placeholder}
             disabled={disabled}
@@ -113,6 +177,14 @@ export function Composer({
           onSubmit={onSubmit}
           canSubmit={value.trim().length > 0}
         />
+        {typeaheadOpen ? (
+          <ComposerTypeahead
+            value={value}
+            items={visibleTypeaheadItems}
+            activeIndex={activeTypeaheadIndex}
+            onSelect={handleTypeaheadSelect}
+          />
+        ) : null}
         {footer}
       </div>
       {notice && <div className={styles.noticeSlot}>{notice}</div>}

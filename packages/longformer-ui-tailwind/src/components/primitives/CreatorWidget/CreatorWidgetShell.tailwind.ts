@@ -1,0 +1,15 @@
+/** Tailwind class map — converted from CreatorWidgetShell.module.css */
+const styles: Record<string, string> = {
+  content: "relative z-[1] flex flex-col flex-1 gap-lf-3 min-h-0",
+  coral: "[--creator-bg:radial-gradient(circle_at_80%_20%,_rgba(251,_113,_133,_0.45),_transparent_45%),_linear-gradient(155deg,_#881337_0%,_#be123c_40%,_#4c0519_100%)] [--creator-overlay:linear-gradient(180deg,_rgba(0,_0,_0,_0.1)_0%,_rgba(0,_0,_0,_0.7)_100%)]",
+  emerald: "[--creator-bg:radial-gradient(circle_at_25%_30%,_rgba(52,_211,_153,_0.45),_transparent_45%),_linear-gradient(150deg,_#064e3b_0%,_#047857_45%,_#022c22_100%)] [--creator-overlay:linear-gradient(180deg,_rgba(0,_0,_0,_0.08)_0%,_rgba(0,_0,_0,_0.68)_100%)]",
+  frost: "[--creator-bg:linear-gradient(160deg,_#f8fafc_0%,_#e2e8f0_55%,_#f1f5f9_100%)] [--creator-overlay:linear-gradient(180deg,_rgba(255,_255,_255,_0.2)_0%,_rgba(255,_255,_255,_0.55)_100%)] text-[#111]",
+  lavender: "[--creator-bg:radial-gradient(circle_at_30%_40%,_rgba(167,_139,_250,_0.45),_transparent_50%),_linear-gradient(155deg,_#312e81_0%,_#4c1d95_35%,_#1e1b4b_100%)] [--creator-overlay:linear-gradient(180deg,_rgba(0,_0,_0,_0.08)_0%,_rgba(0,_0,_0,_0.65)_100%)]",
+  magenta: "[--creator-bg:radial-gradient(circle_at_20%_20%,_rgba(236,_72,_153,_0.55),_transparent_45%),_radial-gradient(circle_at_80%_80%,_rgba(124,_58,_237,_0.45),_transparent_50%),_linear-gradient(145deg,_#1a0a14_0%,_#2d1030_40%,_#0f0a12_100%)] [--creator-overlay:linear-gradient(180deg,_rgba(0,_0,_0,_0.15)_0%,_rgba(0,_0,_0,_0.72)_100%)]",
+  shell: "relative flex flex-col w-full min-w-0 min-h-[280px] p-lf-4 rounded-[28px] overflow-hidden text-[#fff] [isolation:isolate] before:before:[content:\"\"] before:before:absolute before:before:inset-0 before:before:z-[0] before:before:bg-[var(--creator-bg)] before:after:[content:\"\"] before:after:absolute before:after:inset-0 before:after:z-[0] before:after:bg-[var(--creator-overlay)]",
+  sky: "[--creator-bg:linear-gradient(145deg,_#dbeafe_0%,_#bfdbfe_45%,_#e0e7ff_100%)] [--creator-overlay:linear-gradient(180deg,_rgba(255,_255,_255,_0.15)_0%,_rgba(255,_255,_255,_0.45)_100%)] text-[#111]",
+  studio: "[--creator-bg:radial-gradient(circle_at_70%_30%,_rgba(59,_130,_246,_0.35),_transparent_45%),_radial-gradient(circle_at_20%_80%,_rgba(249,_115,_22,_0.35),_transparent_40%),_linear-gradient(160deg,_#0f172a_0%,_#1e293b_55%,_#0b1220_100%)] [--creator-overlay:linear-gradient(180deg,_rgba(0,_0,_0,_0.1)_0%,_rgba(0,_0,_0,_0.78)_100%)]",
+  sunset: "[--creator-bg:radial-gradient(circle_at_75%_25%,_rgba(251,_146,_60,_0.5),_transparent_45%),_radial-gradient(circle_at_15%_85%,_rgba(244,_63,_94,_0.4),_transparent_40%),_linear-gradient(155deg,_#431407_0%,_#7c2d12_45%,_#1c1917_100%)] [--creator-overlay:linear-gradient(180deg,_rgba(0,_0,_0,_0.1)_0%,_rgba(0,_0,_0,_0.72)_100%)]",
+  teal: "[--creator-bg:radial-gradient(circle_at_60%_20%,_rgba(45,_212,_191,_0.4),_transparent_45%),_linear-gradient(150deg,_#0e7490_0%,_#0891b2_40%,_#164e63_100%)] [--creator-overlay:linear-gradient(180deg,_rgba(0,_0,_0,_0.05)_0%,_rgba(0,_0,_0,_0.7)_100%)]",
+};
+export default styles;

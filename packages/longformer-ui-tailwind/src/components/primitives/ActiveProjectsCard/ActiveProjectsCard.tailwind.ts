@@ -1,0 +1,25 @@
+/** Tailwind class map — converted from ActiveProjectsCard.module.css */
+const styles: Record<string, string> = {
+  card: "flex flex-col gap-lf-4",
+  category: "text-lf-xs text-lf-text-tertiary",
+  fill: "block h-full rounded-[inherit] bg-lf-accent",
+  "fill-accent": "bg-lf-accent",
+  "fill-green": "bg-[#28c76f]",
+  "fill-orange": "bg-[#ff9f43]",
+  "fill-purple": "bg-[#7367f0]",
+  "fill-teal": "bg-[#00cfe8]",
+  icon: "inline-flex items-center justify-center w-[32px] h-[32px] rounded-lf-sm bg-lf-surface-2 text-lf-text-secondary",
+  item: "flex flex-col gap-lf-2",
+  list: "flex flex-col gap-lf-4 m-0 p-0 list-none",
+  meta: "min-w-0",
+  name: "text-lf-sm font-semibold text-lf-text-primary",
+  percent: "text-lf-sm font-bold text-lf-text-primary",
+  row: "grid grid-cols-[auto_1fr_auto] items-center gap-lf-2",
+  "tone-accent": "bg-lf-accent-muted text-lf-accent",
+  "tone-green": "bg-[rgba(40,_199,_111,_0.12)] text-[#28c76f]",
+  "tone-orange": "bg-[rgba(255,_159,_67,_0.12)] text-[#ff9f43]",
+  "tone-purple": "bg-[rgba(115,_103,_240,_0.12)] text-[#7367f0]",
+  "tone-teal": "bg-[rgba(0,_207,_232,_0.12)] text-[#00cfe8]",
+  track: "h-[6px] rounded-lf-pill bg-lf-surface-3 overflow-hidden",
+};
+export default styles;

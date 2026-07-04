@@ -1,0 +1,25 @@
+/** Tailwind class map — converted from WeekGrid.module.css */
+const styles: Record<string, string> = {
+  allDayColumn: "flex flex-col gap-[2px] min-w-0 p-lf-1 border-r border-lf-divider last:[border-right:none]",
+  allDayLabel: "p-[var(--lf-space-2)_var(--lf-space-1)] text-[10px] text-lf-text-tertiary text-right border-r border-lf-divider",
+  allDayRow: "col-[1_/_-1] grid grid-cols-[subgrid] border-b border-lf-divider",
+  body: "col-[1_/_-1] grid grid-cols-[subgrid] [align-content:start]",
+  dayColumn: "relative border-r border-lf-divider last:[border-right:none]",
+  dayColumns: "relative col-[2_/_-1] grid grid-cols-[repeat(7,_minmax(0,_1fr))] min-w-0 min-h-[calc(var(--hour-span,_24)_*_56px)]",
+  dayHeader: "flex flex-col items-center gap-[2px] p-[var(--lf-space-2)_var(--lf-space-1)] border-r border-lf-divider last:[border-right:none]",
+  dayHeaderToday: "",
+  dayHeaderToday_dayNumber: "inline-flex items-center justify-center w-[22px] h-[22px] rounded-lf-pill bg-lf-accent text-lf-text-on-accent",
+  dayLabel: "text-[10px] font-medium text-lf-text-tertiary uppercase [letter-spacing:0.04em]",
+  dayNumber: "text-lf-sm font-semibold text-lf-text-primary",
+  grid: "[--week-time-gutter:56px] grid grid-cols-[var(--week-time-gutter)_repeat(7,_minmax(0,_1fr))] h-full min-h-0 overflow-y-auto [align-content:start]",
+  headerRow: "col-[1_/_-1] grid grid-cols-[subgrid] border-b border-lf-divider",
+  hourCell: "[flex-shrink:0] h-[56px] border-b border-lf-divider",
+  itemSlot: "absolute z-[1] min-h-[28px]",
+  nowBadge: "absolute left-[-52px] top-[-10px] p-[2px_6px] rounded-lf-sm bg-lf-accent text-lf-text-on-accent text-[10px] font-semibold",
+  nowLine: "absolute left-0 right-0 z-[2] h-[2px] bg-lf-accent pointer-events-none before:before:[content:\"\"] before:before:absolute before:before:left-[-4px] before:before:top-[-4px] before:before:w-[10px] before:before:h-[10px] before:before:rounded-full before:before:bg-lf-accent",
+  stickyHead: "col-[1_/_-1] grid grid-cols-[subgrid] sticky top-0 z-[2] bg-lf-surface-1",
+  timeColumn: "min-h-[calc(var(--hour-span,_24)_*_56px)] border-r border-lf-divider",
+  timeGutter: "border-right border-lf-divider",
+  timeLabel: "[flex-shrink:0] h-[56px] p-[0_var(--lf-space-1)] text-[10px] text-lf-text-tertiary text-right [transform:translateY(-8px)]",
+};
+export default styles;

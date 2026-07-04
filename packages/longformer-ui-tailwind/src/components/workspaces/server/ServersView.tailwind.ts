@@ -1,0 +1,27 @@
+/** Tailwind class map — converted from ServersView.module.css */
+const styles: Record<string, string> = {
+  addBtn: "inline-flex items-center gap-lf-1 p-[var(--lf-space-2)_var(--lf-space-3)] border-none rounded-lf-lg bg-lf-text-primary text-lf-sm font-medium cursor-pointer text-lf-surface-canvas",
+  grid: "grid grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))] gap-lf-4",
+  header: "flex items-start justify-between gap-lf-4 mb-lf-6 flex-col",
+  metricFill: "block h-full rounded-[inherit]",
+  metricFill_accent: "bg-lf-accent",
+  metricFill_danger: "bg-lf-danger",
+  metricFill_warning: "bg-lf-warning",
+  metricHeader: "flex justify-between text-lf-xs text-lf-text-secondary mb-[4px]",
+  metrics: "flex flex-col gap-lf-3",
+  metricTrack: "h-[6px] rounded-[var(--lf-radius-full)] bg-lf-divider overflow-hidden",
+  page: "p-lf-6 max-w-[1100px] p-lf-4",
+  serverActions: "flex gap-lf-2 pt-lf-2 border-t border-lf-divider",
+  serverBtn: "flex-1 p-lf-2 border border-solid border-lf-border-subtle rounded-lf-md bg-transparent text-lf-xs font-medium cursor-pointer text-lf-text-secondary",
+  serverCard: "flex flex-col gap-lf-4",
+  serverDesc: "m-[2px_0_0] text-lf-xs text-lf-text-tertiary leading-[1.4]",
+  serverIcon: "inline-flex items-center justify-center w-[40px] h-[40px] rounded-lf-lg bg-lf-surface-sunken text-lf-text-secondary",
+  serverInfo: "flex-1 min-w-0",
+  serverMeta: "flex flex-wrap gap-lf-3 text-lf-xs text-lf-text-tertiary",
+  "serverMeta span": "inline-flex items-center gap-[4px]",
+  serverName: "m-0 text-lf-md font-semibold",
+  serverTop: "flex items-start gap-lf-3",
+  subtitle: "m-0 text-lf-sm text-lf-text-secondary",
+  title: "m-[0_0_var(--lf-space-1)] text-lf-2xl font-semibold [letter-spacing:-0.02em]",
+};
+export default styles;

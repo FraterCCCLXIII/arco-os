@@ -1,0 +1,28 @@
+/** Tailwind class map — converted from PhoneWorkspace.module.css */
+const styles: Record<string, string> = {
+  actionAccept: "bg-[var(--phone-green)] hover:enabled:bg-[var(--phone-green-hover)]",
+  actionButton: "appearance-none inline-flex items-center justify-center w-[64px] h-[64px] border-none rounded-full text-[#ffffff] cursor-pointer shadow-[0_10px_20px_rgba(0,_0,_0,_0.12),_inset_0_1px_0_rgba(255,_255,_255,_0.25)] transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-[var(--lf-duration-fast)] ease-[var(--lf-ease)] hover:[transform:translateY(-1px)] active:[transform:translateY(1px)] disabled:opacity-[0.45] disabled:cursor-not-allowed disabled:[transform:none]",
+  actionDecline: "bg-[var(--phone-red)] hover:enabled:bg-[var(--phone-red-hover)]",
+  actionEnd: "bg-[var(--phone-red)] hover:bg-[var(--phone-red-hover)]",
+  actionIcon: "inline-flex",
+  actionIconDecline: "[transform:rotate(135deg)]",
+  avatar: "shadow-[var(--phone-neu-soft)]",
+  avatarWrap: "flex justify-center mb-lf-4",
+  body: "flex-1 w-[min(100%,_320px)] flex flex-col justify-center min-h-0",
+  controlButton: "appearance-none inline-flex items-center justify-center w-[56px] h-[56px] border-none rounded-full bg-[var(--phone-surface)] shadow-[var(--phone-neu-soft)] text-[var(--phone-text-muted)] cursor-pointer transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-[var(--lf-duration-fast)] ease-[var(--lf-ease)] hover:text-[var(--phone-text)] hover:[transform:translateY(-1px)] active:shadow-[var(--phone-neu-pressed)] active:[transform:translateY(0)]",
+  controlButtonActive: "text-[var(--phone-green)]",
+  controlsGrid: "grid grid-cols-[repeat(3,_1fr)] gap-lf-4 [justify-items:center] [align-content:center]",
+  footer: "[flex-shrink:0] w-[min(100%,_320px)] flex items-center justify-center gap-lf-8 pt-lf-6",
+  footerSingle: "justify-center",
+  header: "[flex-shrink:0] w-[min(100%,_320px)] text-center p-[var(--lf-space-2)_0_var(--lf-space-6)]",
+  inlineControls: "flex items-center justify-center gap-lf-6",
+  key: "appearance-none flex flex-col items-center justify-center gap-[2px] aspect-[1] max-h-[72px] border-none rounded-full bg-[var(--phone-surface)] shadow-[var(--phone-neu-raised)] cursor-pointer transition-[background-color,border-color,color,box-shadow,opacity,transform] duration-[var(--lf-duration-fast)] ease-[var(--lf-ease)] hover:[transform:translateY(-1px)] active:shadow-[var(--phone-neu-pressed)] active:[transform:translateY(0)]",
+  keyDigit: "text-[1.35rem] font-medium leading-none text-[var(--phone-text)]",
+  keyLetters: "text-[9px] font-semibold [letter-spacing:0.12em] text-[var(--phone-text-muted)] leading-none",
+  keypad: "grid grid-cols-[repeat(3,_1fr)] gap-lf-3 [align-content:center]",
+  keySpacer: "block",
+  primaryLabel: "text-[clamp(1.35rem,_4vw,_1.75rem)] font-medium [letter-spacing:0.01em] text-[var(--phone-text)] overflow-hidden text-ellipsis whitespace-nowrap",
+  secondaryLabel: "mt-lf-2 text-lf-md text-[var(--phone-text-muted)]",
+  workspace: "[--phone-bg:#ececf1] [--phone-surface:#ececf1] [--phone-shadow-light:#ffffff] [--phone-shadow-dark:#c8c8cf] [--phone-text:#2f2f33] [--phone-text-muted:#9a9aa3] [--phone-green:#4caf7a] [--phone-green-hover:#43a06f] [--phone-red:#e85858] [--phone-red-hover:#d94f4f] [--phone-neu-raised:8px_8px_16px_var(--phone-shadow-dark),_-8px_-8px_16px_var(--phone-shadow-light)] [--phone-neu-pressed:inset_5px_5px_10px_var(--phone-shadow-dark),_inset_-5px_-5px_10px_var(--phone-shadow-light)] [--phone-neu-soft:4px_4px_10px_var(--phone-shadow-dark),_-4px_-4px_10px_var(--phone-shadow-light)] h-full min-h-0 flex flex-col items-center p-[var(--lf-space-6)_var(--lf-space-5)_var(--lf-space-5)] bg-[var(--phone-bg)] text-[var(--phone-text)] font-sans",
+};
+export default styles;

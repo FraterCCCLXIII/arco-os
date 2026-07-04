@@ -1,0 +1,471 @@
+.agentBlock {
+  margin-bottom: var(--lf-space-3);
+}
+
+.thought {
+  composes: agentBlock;
+}
+
+.action {
+  composes: agentBlock;
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-1);
+  overflow: hidden;
+}
+
+.status {
+  composes: agentBlock;
+  margin-top: calc(-1 * var(--lf-space-1));
+  margin-bottom: var(--lf-space-3);
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+}
+
+.todoCard {
+  composes: agentBlock;
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-lg);
+  background: var(--lf-surface-1);
+  overflow: hidden;
+}
+
+.fileChip {
+  composes: agentBlock;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  max-width: 100%;
+  padding: var(--lf-space-1) var(--lf-space-2);
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-md);
+  background: var(--lf-surface-2);
+  color: var(--lf-text-primary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-sm);
+  text-align: left;
+  cursor: default;
+}
+
+.fileChipInteractive {
+  cursor: pointer;
+}
+
+.fileChipInteractive:hover {
+  background: var(--lf-surface-3);
+  border-color: var(--lf-border-default);
+}
+
+/* ── Thought block ── */
+
+.thoughtTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.thoughtTrigger:hover {
+  color: var(--lf-text-secondary);
+}
+
+.thoughtChevron {
+  display: flex;
+  transition: transform var(--lf-duration-fast) var(--lf-ease);
+}
+
+.thoughtChevronOpen {
+  transform: rotate(0deg);
+}
+
+.thoughtChevronClosed {
+  transform: rotate(-90deg);
+}
+
+.thoughtContent {
+  margin-top: var(--lf-space-2);
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-md);
+  line-height: var(--lf-line-height-normal);
+}
+
+.thoughtContent p {
+  margin: 0;
+}
+
+/* ── Action block ── */
+
+.actionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  width: 100%;
+  padding: var(--lf-space-2) var(--lf-space-3);
+  background: var(--lf-surface-sunken);
+  border: none;
+  color: var(--lf-text-secondary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-sm);
+  text-align: left;
+  cursor: pointer;
+}
+
+.actionHeader:hover {
+  color: var(--lf-text-primary);
+}
+
+.actionHeaderStatic {
+  cursor: default;
+}
+
+.actionHeaderStatic:hover {
+  color: var(--lf-text-secondary);
+}
+
+.actionIcon {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--lf-text-tertiary);
+}
+
+.actionTitle {
+  flex: 1;
+  min-width: 0;
+}
+
+.actionCommand {
+  flex-shrink: 0;
+  padding: 1px var(--lf-space-1);
+  border-radius: var(--lf-radius-sm);
+  background: var(--lf-surface-2);
+  color: var(--lf-text-tertiary);
+  font-family: var(--lf-font-family-mono, ui-monospace, monospace);
+  font-size: var(--lf-font-size-xs);
+}
+
+.actionChevron {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--lf-text-tertiary);
+  transition: transform var(--lf-duration-fast) var(--lf-ease);
+}
+
+.actionChevronOpen {
+  transform: rotate(0deg);
+}
+
+.actionChevronClosed {
+  transform: rotate(-90deg);
+}
+
+.actionBody {
+  padding: var(--lf-space-3);
+  border-top: 1px solid var(--lf-divider);
+  background: var(--lf-surface-sunken);
+}
+
+.actionOutput {
+  margin: 0;
+  color: var(--lf-text-secondary);
+  font-family: var(--lf-font-family-mono, ui-monospace, monospace);
+  font-size: var(--lf-font-size-sm);
+  line-height: var(--lf-line-height-relaxed);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ── Todo card ── */
+
+.todoHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-bottom: 1px solid var(--lf-divider);
+  background: var(--lf-surface-sunken);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  color: var(--lf-text-secondary);
+}
+
+.todoHeaderIcon {
+  display: inline-flex;
+  color: var(--lf-text-tertiary);
+}
+
+.todoCount {
+  color: var(--lf-text-tertiary);
+  font-weight: 400;
+}
+
+.todoList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-3);
+  margin: 0;
+  padding: var(--lf-space-3);
+  list-style: none;
+}
+
+.todoRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--lf-space-2);
+  min-width: 0;
+  font-size: var(--lf-font-size-md);
+  color: var(--lf-text-primary);
+  line-height: var(--lf-line-height-normal);
+}
+
+.todoRowPending {
+  color: var(--lf-text-secondary);
+}
+
+.todoRowCompleted {
+  color: var(--lf-text-tertiary);
+  text-decoration: line-through;
+}
+
+.todoIndicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--lf-text-tertiary);
+}
+
+.todoIndicatorActive {
+  color: var(--lf-text-secondary);
+}
+
+.todoIndicatorPending {
+  width: 14px;
+  height: 14px;
+  margin: 3px 1px 0;
+  border: 1.5px dashed var(--lf-border-strong);
+  border-radius: 50%;
+}
+
+.todoIndicatorCompleted {
+  width: 14px;
+  height: 14px;
+  margin: 3px 1px 0;
+  border-radius: 50%;
+  background: var(--lf-success-muted);
+  color: var(--lf-success);
+}
+
+.todoLabel {
+  min-width: 0;
+}
+
+/* ── File chip ── */
+
+.fileBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--lf-radius-xs);
+  font-family: var(--lf-font-family-mono, ui-monospace, monospace);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.fileBadgeTs {
+  background: var(--lf-info-muted);
+  color: var(--lf-info);
+}
+
+.fileBadgeTsx {
+  background: var(--lf-info-muted);
+  color: var(--lf-info);
+}
+
+.fileBadgeCss {
+  background: rgba(86, 156, 214, 0.14);
+  color: #569cd6;
+}
+
+.fileBadgeOther {
+  background: var(--lf-surface-3);
+  color: var(--lf-text-tertiary);
+}
+
+.fileName {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--lf-font-family-mono, ui-monospace, monospace);
+  font-size: var(--lf-font-size-sm);
+}
+
+/* ── File creation block ── */
+
+.fileCreation {
+  composes: agentBlock;
+}
+
+.fileCreationHeader {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--lf-space-1);
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--lf-text-secondary);
+  font-family: var(--lf-font-family);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.fileCreationHeader:hover {
+  color: var(--lf-text-primary);
+}
+
+.fileCreationTitle {
+  min-width: 0;
+}
+
+.fileCreationChevron {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--lf-text-tertiary);
+  transition: transform var(--lf-duration-fast) var(--lf-ease);
+}
+
+.fileCreationChevronOpen {
+  transform: rotate(90deg);
+}
+
+.fileCreationChevronClosed {
+  transform: rotate(0deg);
+}
+
+.fileCreationBody {
+  margin-top: var(--lf-space-2);
+}
+
+.fileCreationList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fileCreationRow {
+  display: flex;
+  align-items: stretch;
+  gap: var(--lf-space-2);
+  min-width: 0;
+}
+
+.fileCreationRail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 18px;
+}
+
+.fileCreationRowWithConnector .fileCreationRail::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  bottom: -6px;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: var(--lf-border-subtle);
+}
+
+.fileCreationIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: var(--lf-text-tertiary);
+}
+
+.fileCreationContent {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lf-space-2);
+  min-width: 0;
+  padding: var(--lf-space-1) 0 var(--lf-space-2);
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.fileCreationRowInteractive {
+  cursor: pointer;
+  border-radius: var(--lf-radius-sm);
+}
+
+.fileCreationRowInteractive:hover .fileCreationLabel {
+  color: var(--lf-text-primary);
+}
+
+.fileCreationLabel {
+  min-width: 0;
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-sm);
+  line-height: var(--lf-line-height-normal);
+}
+
+.fileCreationFilename {
+  flex-shrink: 0;
+  padding: 2px var(--lf-space-2);
+  border-radius: var(--lf-radius-pill, 999px);
+  background: var(--lf-surface-2);
+  color: var(--lf-text-tertiary);
+  font-family: var(--lf-font-family-mono, ui-monospace, monospace);
+  font-size: var(--lf-font-size-xs);
+  line-height: 1.3;
+}
+
+.fileCreationDone {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  margin-top: var(--lf-space-1);
+  padding-left: calc(18px + var(--lf-space-2));
+  color: var(--lf-text-tertiary);
+  font-size: var(--lf-font-size-sm);
+}
+
+.fileCreationDoneIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--lf-success-muted);
+  color: var(--lf-success);
+}

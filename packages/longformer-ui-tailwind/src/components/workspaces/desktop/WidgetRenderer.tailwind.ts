@@ -1,0 +1,28 @@
+/** Tailwind class map — converted from WidgetRenderer.module.css */
+const styles: Record<string, string> = {
+  activityFeed: "flex flex-col gap-lf-2 w-full h-full min-h-0 overflow-auto",
+  cta: "flex flex-col items-center justify-center gap-lf-2 h-full text-center",
+  ctaButton: "mt-lf-1 p-[var(--lf-space-2)_var(--lf-space-4)] border-none rounded-lf-pill bg-lf-accent text-lf-text-on-accent text-lf-sm font-semibold cursor-pointer",
+  ctaDescription: "text-lf-xs text-lf-text-tertiary leading-[1.4] max-w-[18ch]",
+  ctaIcon: "flex items-center justify-center w-[44px] h-[44px] rounded-lf-md bg-lf-accent-muted text-lf-accent",
+  ctaTitle: "text-lf-md font-semibold text-lf-text-primary",
+  designCardEmbed: "w-full h-full min-h-0 flex-1 flex items-center justify-center",
+  fill: "w-full h-full min-h-0 flex-1",
+  kpi: "flex flex-col justify-center gap-lf-2 h-full",
+  kpiHead: "flex items-center gap-lf-2 text-lf-text-tertiary text-lf-sm font-medium",
+  kpiIcon: "flex items-center justify-center w-[28px] h-[28px] rounded-lf-sm bg-lf-surface-3 text-lf-accent",
+  kpiMeta: "text-lf-xs text-lf-text-tertiary",
+  kpiValue: "text-[clamp(1.25rem,_2.2vw,_1.75rem)] font-bold text-lf-text-primary leading-[1.1]",
+  menuChevron: "ml-auto text-lf-text-tertiary",
+  menuList: "flex flex-col gap-[2px] h-full justify-center",
+  menuRow: "flex items-center gap-lf-2 p-[var(--lf-space-2)_0] border-none bg-transparent text-lf-text-primary text-lf-sm font-medium cursor-pointer text-left",
+  menuRowIcon: "flex items-center justify-center w-[28px] h-[28px] rounded-lf-sm bg-lf-surface-3 text-lf-text-secondary [flex-shrink:0]",
+  plainSurface: "w-full h-full min-h-0 flex-1 flex flex-col rounded-lf-lg bg-lf-surface-1 border border-solid border-lf-border-subtle shadow-lf-sm p-lf-4 overflow-hidden",
+  stockChangeDown: "text-lf-xs font-semibold text-lf-danger",
+  stockChangeUp: "text-lf-xs font-semibold text-lf-success",
+  stockList: "flex flex-col gap-lf-2 h-full justify-center",
+  stockName: "text-lf-sm font-semibold text-lf-text-primary whitespace-nowrap overflow-hidden text-ellipsis",
+  stockRow: "grid grid-cols-[auto_1fr_auto_auto] items-center gap-lf-2",
+  stockValue: "text-lf-sm font-semibold text-lf-text-primary text-right",
+};
+export default styles;

@@ -19,6 +19,13 @@
   line-height: var(--lf-line-height-normal);
 }
 
+.userColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  max-width: 560px;
+}
+
 .bubble {
   max-width: 560px;
   padding: var(--lf-space-2) var(--lf-space-3);
@@ -28,6 +35,67 @@
   font-size: var(--lf-font-size-base);
   line-height: var(--lf-line-height-normal);
   white-space: pre-wrap;
+}
+
+.userActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--lf-space-2);
+  margin-top: var(--lf-space-1);
+  opacity: 0;
+  transition: opacity var(--lf-duration-fast) var(--lf-ease);
+}
+
+.rowUser:hover .userActions,
+.rowUser:focus-within .userActions {
+  opacity: 1;
+}
+
+.bubbleAction {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--lf-text-tertiary);
+  cursor: pointer;
+}
+
+.bubbleAction:hover {
+  color: var(--lf-text-secondary);
+}
+
+.bubbleActionActive {
+  color: var(--lf-text-primary);
+}
+
+.agentFooter {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-3);
+  margin-top: var(--lf-space-2);
+  min-height: 18px;
+}
+
+.agentTimestamp {
+  flex-shrink: 0;
+  font-size: var(--lf-font-size-xs);
+  color: var(--lf-text-tertiary);
+}
+
+.agentActions {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  opacity: 0;
+  transition: opacity var(--lf-duration-fast) var(--lf-ease);
+}
+
+.rowAgent:hover .agentActions,
+.rowAgent:focus-within .agentActions {
+  opacity: 1;
 }
 
 .agentContent {
@@ -56,22 +124,17 @@
   font-weight: 600;
 }
 
-.meta {
-  display: flex;
-  align-items: center;
-  gap: var(--lf-space-2);
-  margin-top: var(--lf-space-2);
-  font-size: var(--lf-font-size-xs);
-  color: var(--lf-text-tertiary);
+.agentContent code {
+  padding: 0 0.2em;
+  border-radius: var(--lf-radius-xs);
+  background: var(--lf-surface-2);
+  font-family: var(--lf-font-family-mono, ui-monospace, monospace);
+  font-size: 0.92em;
 }
 
-.metaAction {
-  display: inline-flex;
-  align-items: center;
-  color: var(--lf-text-tertiary);
-  cursor: pointer;
-}
-
-.metaAction:hover {
-  color: var(--lf-text-secondary);
+@media (prefers-reduced-motion: reduce) {
+  .userActions,
+  .agentActions {
+    transition: none;
+  }
 }
