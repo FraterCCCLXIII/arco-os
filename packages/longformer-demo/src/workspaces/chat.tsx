@@ -41,11 +41,13 @@ type DemoDrawerVisibility = {
   tasks: boolean;
 };
 
+// Hidden by default: these drawers show mock agent-run content until a real
+// run feeds them. They can be previewed via the composer's + attach menu.
 const defaultDrawerVisibility: DemoDrawerVisibility = {
-  fileChanges: true,
-  errors: true,
-  queued: true,
-  tasks: true,
+  fileChanges: false,
+  errors: false,
+  queued: false,
+  tasks: false,
 };
 
 interface DemoChatWorkspaceProps {
