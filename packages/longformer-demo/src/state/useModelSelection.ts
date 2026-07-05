@@ -1,32 +1,64 @@
 /**
- * Model picker state shared by every composer surface (chat workspace,
- * assistant panel, floating chat). Kept outside the chat hook so all
- * surfaces reflect the same active model without prop threading.
+ * Model/engine state shared by every composer surface (chat workspace,
+ * assistant panel, floating chat).
+ *
+ * The composer's model chip now reflects the real generation engine: the
+ * connected API model when one is configured, otherwise the offline local
+ * composer. The menu's "Connect model API…" entry opens the ConnectApiModal;
+ * saving there updates the chip and the next prompt immediately.
  */
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { getStoredConnection, type LlmConnection } from "../agent/connection";
 
-const MODEL_OPTIONS = [
-  { id: "gpt-5.5", label: "GPT-5.5 Medium" },
-  { id: "claude-4.6", label: "Claude 4.6 Sonnet" },
-  { id: "sonnet-5", label: "Sonnet 5" },
-  { id: "composer-2.5", label: "Composer 2.5 Fast" },
-];
+const LOCAL_ENGINE_LABEL = "Local engine";
 
 export function useModelSelection() {
-  const [model, setModel] = useState("Sonnet 5");
+  const [llmConnection, setLlmConnection] = useState<LlmConnection | null>(() => getStoredConnection());
+  const [connectApiOpen, setConnectApiOpen] = useState(false);
 
-  // Menu items are stable for the app lifetime; each item closes over setModel only.
+  const handleConnectionChange = useCallback((connection: LlmConnection | null) => {
+    setLlmConnection(connection);
+  }, []);
+
+  // The chip label is truthful: it names whatever engine will actually
+  // handle the next prompt.
+  const model = llmConnection ? llmConnection.model : LOCAL_ENGINE_LABEL;
+
   const modelMenuItems = useMemo(
-    () =>
-      MODEL_OPTIONS.map((option) => ({
-        id: option.id,
-        label: option.label,
-        onSelect: () => setModel(option.label),
-      })),
-    [],
+    () => [
+      ...(llmConnection
+        ? [
+            {
+              id: "connected-model",
+              label: `${llmConnection.model} · connected`,
+            },
+          ]
+        : [
+            {
+              id: "local-engine",
+              label: `${LOCAL_ENGINE_LABEL} · offline composer`,
+            },
+          ]),
+      {
+        id: "connect-api",
+        label: llmConnection ? "Manage API connection…" : "Connect model API…",
+        onSelect: () => setConnectApiOpen(true),
+      },
+    ],
+    [llmConnection],
   );
 
-  return useMemo(() => ({ model, modelMenuItems }), [model, modelMenuItems]);
+  return useMemo(
+    () => ({
+      model,
+      modelMenuItems,
+      llmConnection,
+      connectApiOpen,
+      setConnectApiOpen,
+      handleConnectionChange,
+    }),
+    [model, modelMenuItems, llmConnection, connectApiOpen, handleConnectionChange],
+  );
 }
 
 export type ModelSelectionSlice = ReturnType<typeof useModelSelection>;

@@ -28,6 +28,7 @@ import {
   formFactorToAppPortViewport,
   type SurfaceWindow,
 } from "longformer-ui";
+import { ConnectApiModal } from "./components/ConnectApiModal";
 import { primaryUser } from "./demo-personas";
 import { demoDiffHunks } from "./mock-data/context-drawer";
 import { desktopIcons } from "./mock-data/desktop";
@@ -393,6 +394,12 @@ function LongformerApp() {
         open={desktop.createAppOpen}
         onClose={() => desktop.setCreateAppOpen(false)}
         onCreate={desktop.handleCreateApp}
+      />
+      <ConnectApiModal
+        open={modelSelection.connectApiOpen}
+        onClose={() => modelSelection.setConnectApiOpen(false)}
+        connection={modelSelection.llmConnection}
+        onConnectionChange={modelSelection.handleConnectionChange}
       />
       <FloatingChat
         open={floatingChatOpen}

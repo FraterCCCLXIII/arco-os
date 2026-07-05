@@ -1,0 +1,85 @@
+.panel {
+  max-width: 560px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-5);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lf-space-2);
+}
+
+.label {
+  font-size: var(--lf-font-size-sm);
+  font-weight: 500;
+  color: var(--lf-text-primary);
+}
+
+.hint {
+  margin: 0;
+  font-size: var(--lf-font-size-sm);
+  color: var(--lf-text-tertiary);
+  line-height: var(--lf-line-height-normal);
+}
+
+.presetRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lf-space-2);
+}
+
+.presetChip {
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border: 1px solid var(--lf-border-subtle);
+  border-radius: var(--lf-radius-full);
+  background: var(--lf-surface-2);
+  color: var(--lf-text-primary);
+  font-size: var(--lf-font-size-sm);
+  cursor: pointer;
+  transition:
+    border-color var(--lf-duration-fast) var(--lf-ease),
+    background var(--lf-duration-fast) var(--lf-ease);
+}
+
+.presetChip:hover {
+  border-color: var(--lf-border-default);
+  background: var(--lf-surface-3);
+}
+
+.presetChipSelected {
+  border-color: var(--lf-accent-border);
+  background: var(--lf-accent-muted);
+  box-shadow: 0 0 0 1px var(--lf-accent-border);
+}
+
+/* Test-result banner: tone communicated by border + text color tokens. */
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--lf-space-2);
+  margin: 0;
+  padding: var(--lf-space-2) var(--lf-space-3);
+  border-radius: var(--lf-radius-md);
+  border: 1px solid var(--lf-border-subtle);
+  font-size: var(--lf-font-size-sm);
+  line-height: var(--lf-line-height-normal);
+}
+
+.statusOk {
+  border-color: var(--lf-success-muted);
+  color: var(--lf-success);
+}
+
+.statusError {
+  border-color: var(--lf-danger-muted);
+  color: var(--lf-danger);
+}
+
+.footerLeft {
+  margin-right: auto;
+}

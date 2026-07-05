@@ -91,7 +91,7 @@ export function useChatState() {
             <p>{result.summary}</p>
             {result.surface && result.surface.blocks.length > 0 && (
               <ChatInlineSurface
-                label={result.engine === "llm" ? "Generated UI" : "Generated UI · local engine"}
+                label={result.engine === "llm" ? `Generated UI · ${result.model}` : "Generated UI · local engine"}
                 schema={result.surface}
               />
             )}

@@ -4,9 +4,10 @@
  * Given a chat prompt, produce a validated `GeneratedSurfaceSchema` plus a
  * conversational summary. Two engines, one contract:
  *
- * 1. **LLM engine** — used when `VITE_LLM_API_KEY` is set. Calls any
- *    OpenAI-compatible chat-completions endpoint with a system prompt built
- *    from the block registry (`describeBlockCatalog`), asks for JSON only.
+ * 1. **LLM engine** — used when a connection is configured (Connect API
+ *    modal, persisted in localStorage; `VITE_LLM_*` env vars as fallback).
+ *    Calls any OpenAI-compatible chat-completions endpoint with a system
+ *    prompt built from the block registry (`describeBlockCatalog`).
  * 2. **Local engine** — deterministic keyword composer, always available, so
  *    the prototype works offline with zero configuration.
  *
@@ -19,6 +20,7 @@ import {
   parseGeneratedSurface,
   type GeneratedSurfaceSchema,
 } from "longformer-ui";
+import { getStoredConnection, isConnectionUsable, type LlmConnection } from "./connection";
 import { composeLocalSurface } from "./localComposer";
 
 export interface SurfaceGenerationResult {
@@ -28,17 +30,11 @@ export interface SurfaceGenerationResult {
   summary: string;
   /** Which engine produced the surface — surfaced in the UI label. */
   engine: "llm" | "local";
+  /** Model that generated the surface, when the LLM engine was used. */
+  model?: string;
   /** Validation messages for blocks the boundary rejected (logged, not fatal). */
   warnings: string[];
 }
-
-// ---------------------------------------------------------------------------
-// LLM engine configuration (all optional; absence selects the local engine)
-// ---------------------------------------------------------------------------
-
-const LLM_API_KEY = import.meta.env.VITE_LLM_API_KEY;
-const LLM_BASE_URL = import.meta.env.VITE_LLM_BASE_URL ?? "https://api.openai.com/v1";
-const LLM_MODEL = import.meta.env.VITE_LLM_MODEL ?? "gpt-4o-mini";
 
 /** System prompt: the registry's block vocabulary plus strict output rules. */
 function buildSystemPrompt(): string {
@@ -61,15 +57,18 @@ function extractJson(text: string): string {
  * Ask the configured LLM for a surface. Throws on transport/parse failure;
  * the caller falls back to the local engine.
  */
-async function generateWithLlm(prompt: string): Promise<{ summary: string; surfaceJson: unknown }> {
-  const response = await fetch(`${LLM_BASE_URL}/chat/completions`, {
+async function generateWithLlm(
+  prompt: string,
+  connection: LlmConnection,
+): Promise<{ summary: string; surfaceJson: unknown }> {
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (connection.apiKey.trim()) headers.Authorization = `Bearer ${connection.apiKey.trim()}`;
+
+  const response = await fetch(`${connection.baseUrl.replace(/\/$/, "")}/chat/completions`, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${LLM_API_KEY}`,
-    },
+    headers,
     body: JSON.stringify({
-      model: LLM_MODEL,
+      model: connection.model,
       temperature: 0.4,
       messages: [
         { role: "system", content: buildSystemPrompt() },
@@ -103,15 +102,18 @@ async function generateWithLlm(prompt: string): Promise<{ summary: string; surfa
  * whatever blocks survived (with warnings for the rest).
  */
 export async function generateSurface(prompt: string): Promise<SurfaceGenerationResult> {
-  if (LLM_API_KEY) {
+  // Read the connection per request so a save in the Connect API modal
+  // applies to the very next prompt without a reload.
+  const connection = getStoredConnection();
+  if (isConnectionUsable(connection)) {
     try {
-      const { summary, surfaceJson } = await generateWithLlm(prompt);
+      const { summary, surfaceJson } = await generateWithLlm(prompt, connection);
       const { surface, issues } = parseGeneratedSurface(surfaceJson);
       const warnings = issues.map((issue) => `Block ${issue.index} (${issue.type ?? "?"}): ${issue.messages.join("; ")}`);
       // A surface with zero valid blocks is worse than the offline composer,
       // so only accept the LLM result when something actually validated.
       if (surface && surface.blocks.length > 0) {
-        return { surface, summary, engine: "llm", warnings };
+        return { surface, summary, engine: "llm", model: connection.model, warnings };
       }
       console.warn("LLM surface failed validation, falling back to local composer", issues);
     } catch (error) {
