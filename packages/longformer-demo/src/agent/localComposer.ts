@@ -33,6 +33,15 @@ function display(topic: string): string {
 
 const INTENTS: Intent[] = [
   {
+    // Small talk gets a conversational reply with no generated surface —
+    // building a dashboard for "hi" reads as ignoring the user.
+    id: "chat",
+    keywords: /^\s*(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening)|who are you\??|what (are|can) you( do)?\??|help)\s*[.?!]*\s*$/i,
+    summary: () =>
+      "Hi! I'm Longformer — describe something you want to build or organize and I'll generate an interface for it. Try \"plan a weekend trip to Lisbon\" or \"track my monthly budget\".",
+    compose: () => [],
+  },
+  {
     id: "tasks",
     keywords: /\b(task|todo|to-do|checklist|chores?|errands?)\b/i,
     summary: () => "Here's a task checklist to track that — check items off as you go.",

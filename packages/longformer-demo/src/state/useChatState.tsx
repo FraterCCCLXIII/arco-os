@@ -88,6 +88,11 @@ export function useChatState() {
         role: "agent",
         content: (
           <>
+            {result.fallbackReason && (
+              <p>
+                <em>{result.fallbackReason} Showing the offline composer instead.</em>
+              </p>
+            )}
             <p>{result.summary}</p>
             {result.surface && result.surface.blocks.length > 0 && (
               <ChatInlineSurface

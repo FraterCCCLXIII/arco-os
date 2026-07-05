@@ -32,6 +32,11 @@ export interface SurfaceGenerationResult {
   engine: "llm" | "local";
   /** Model that generated the surface, when the LLM engine was used. */
   model?: string;
+  /**
+   * Set when a configured API connection failed and the local engine answered
+   * instead — shown in the reply so failures are never silent.
+   */
+  fallbackReason?: string;
   /** Validation messages for blocks the boundary rejected (logged, not fatal). */
   warnings: string[];
 }
@@ -105,6 +110,8 @@ export async function generateSurface(prompt: string): Promise<SurfaceGeneration
   // Read the connection per request so a save in the Connect API modal
   // applies to the very next prompt without a reload.
   const connection = getStoredConnection();
+  let fallbackReason: string | undefined;
+
   if (isConnectionUsable(connection)) {
     try {
       const { summary, surfaceJson } = await generateWithLlm(prompt, connection);
@@ -116,8 +123,10 @@ export async function generateSurface(prompt: string): Promise<SurfaceGeneration
         return { surface, summary, engine: "llm", model: connection.model, warnings };
       }
       console.warn("LLM surface failed validation, falling back to local composer", issues);
+      fallbackReason = `${connection.model} replied, but none of its blocks passed validation.`;
     } catch (error) {
       console.warn("LLM generation failed, falling back to local composer", error);
+      fallbackReason = `Couldn't get a reply from ${connection.model} (${error instanceof Error ? error.message : String(error)}).`;
     }
   }
 
@@ -127,6 +136,7 @@ export async function generateSurface(prompt: string): Promise<SurfaceGeneration
     surface,
     summary: local.summary,
     engine: "local",
+    fallbackReason,
     warnings: issues.map((issue) => `Block ${issue.index} (${issue.type ?? "?"}): ${issue.messages.join("; ")}`),
   };
 }
