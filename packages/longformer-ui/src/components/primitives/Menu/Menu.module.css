@@ -3,8 +3,8 @@
   display: inline-flex;
 }
 
+/* Positioned via inline fixed coordinates (portal escapes overflow clipping). */
 .panel {
-  position: absolute;
   min-width: 200px;
   max-width: 320px;
   background: var(--lf-surface-2);
@@ -16,22 +16,6 @@
   display: flex;
   flex-direction: column;
   gap: 1px;
-}
-
-.panelBottom {
-  top: calc(100% + var(--lf-space-1));
-}
-
-.panelTop {
-  bottom: calc(100% + var(--lf-space-1));
-}
-
-.alignStart {
-  left: 0;
-}
-
-.alignEnd {
-  right: 0;
 }
 
 .item {
