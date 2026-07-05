@@ -188,15 +188,24 @@ export function useChatState() {
     setActiveChatTabId(id);
   }, []);
 
+  /**
+   * Close a tab. Closing the last one swaps in a fresh empty conversation so
+   * demo content can be fully cleared without stranding the workspace.
+   */
   const handleChatTabClose = useCallback(
     (id: string) => {
       setChatTabs((prev) => {
-        const next = prev.filter((tab) => tab.id !== id);
-        if (next.length === 0) return prev;
-        if (activeChatTabId === id) {
-          setActiveChatTabId(next[next.length - 1].id);
+        const remaining = prev.filter((tab) => tab.id !== id);
+        if (remaining.length === 0) {
+          const freshId = `chat-tab-${Date.now()}`;
+          setChatTabMessages((messages) => ({ ...messages, [freshId]: [] }));
+          setActiveChatTabId(freshId);
+          return [{ id: freshId, label: "New conversation", icon: "sparkles" as const, closable: true }];
         }
-        return next;
+        if (activeChatTabId === id) {
+          setActiveChatTabId(remaining[remaining.length - 1].id);
+        }
+        return remaining;
       });
       setChatTabMessages((prev) => {
         const next = { ...prev };

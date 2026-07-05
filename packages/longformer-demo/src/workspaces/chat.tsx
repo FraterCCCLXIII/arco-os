@@ -201,7 +201,7 @@ export const buildChatLayout: WorkspaceLayoutBuilder = (vm, { includeSidebar }) 
       activeConversationId={vm.activeChatTabId}
       onConversationSelect={vm.setActiveChatTabId}
       openConversationIds={vm.chatTabs.map((tab) => tab.id)}
-      onNewChat={() => vm.setComposerValue("")}
+      onNewChat={vm.handleChatNewTab}
       footerName={primaryUser.name}
       footerMeta="Longformer · Plus"
     />
