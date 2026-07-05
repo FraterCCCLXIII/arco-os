@@ -7,7 +7,12 @@
  * returns untyped JSON (`unknown`), not `GeneratedBlock[]`: the output flows
  * through the same `parseGeneratedSurface` validation boundary as real agent
  * output, so the prototype exercises the production path end to end.
+ *
+ * When a research `EvidencePack` is supplied, exploratory prompts compose
+ * from the evidence instead of canned data — real photos and real links,
+ * even with no LLM connected.
  */
+import type { EvidencePack } from "./research";
 
 // ---------------------------------------------------------------------------
 // Intent matching
@@ -31,12 +36,22 @@ function display(topic: string): string {
   return trimmed.charAt(0).toUpperCase() + trimmed.slice(1);
 }
 
+/**
+ * Small talk gets a conversational reply with no generated surface (and no
+ * research round-trip) — building a dashboard for "hi" reads as ignoring
+ * the user. Exported so the orchestrator can skip the research step too.
+ */
+const SMALL_TALK =
+  /^\s*(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening)|who are you\??|what (are|can) you( do)?\??|help)\s*[.?!]*\s*$/i;
+
+export function isSmallTalk(prompt: string): boolean {
+  return SMALL_TALK.test(prompt);
+}
+
 const INTENTS: Intent[] = [
   {
-    // Small talk gets a conversational reply with no generated surface —
-    // building a dashboard for "hi" reads as ignoring the user.
     id: "chat",
-    keywords: /^\s*(hi|hey|hello|yo|sup|howdy|good (morning|afternoon|evening)|who are you\??|what (are|can) you( do)?\??|help)\s*[.?!]*\s*$/i,
+    keywords: SMALL_TALK,
     summary: () =>
       "Hi! I'm Longformer — describe something you want to build or organize and I'll generate an interface for it. Try \"plan a weekend trip to Lisbon\" or \"track my monthly budget\".",
     compose: () => [],
@@ -254,9 +269,75 @@ export interface LocalComposition {
   summary: string;
 }
 
-/** Compose a surface for a prompt using the first matching intent. */
-export function composeLocalSurface(prompt: string): LocalComposition {
+/** Trim a snippet to card length without cutting mid-word. */
+function cardText(text: string | undefined, max = 140): string | undefined {
+  if (!text) return undefined;
+  if (text.length <= max) return text;
+  const cut = text.slice(0, max);
+  return `${cut.slice(0, cut.lastIndexOf(" "))}…`;
+}
+
+/**
+ * Compose a surface directly from research evidence: photo cards for the
+ * sources that have images, link callouts for the rest. Every URL and image
+ * comes from the pack — nothing is invented.
+ */
+function composeFromEvidence(prompt: string, evidence: EvidencePack): LocalComposition {
+  const withImage = evidence.sources.filter((source) => source.image).slice(0, 3);
+  const linkOnly = evidence.sources.filter((source) => !withImage.includes(source)).slice(0, 3);
+
+  const blocks: unknown[] = [
+    { id: "re-heading", type: "text", text: display(prompt), tone: "heading" },
+  ];
+  if (withImage.length > 0) {
+    blocks.push({
+      id: "re-media",
+      type: "mediaCards",
+      cards: withImage.map((source, index) => ({
+        id: `rm${index}`,
+        title: source.title,
+        description: cardText(source.description ?? source.snippet),
+        image: source.image,
+        imageAlt: source.title,
+        badges: [{ icon: "search", label: "Researched" }],
+        actionLabel: "Read more",
+        href: source.url,
+      })),
+    });
+  }
+  if (linkOnly.length > 0) {
+    blocks.push({
+      id: "re-sources",
+      type: "insightCards",
+      title: "Sources",
+      cards: linkOnly.map((source, index) => ({
+        id: `rs${index}`,
+        label: "Source",
+        title: source.title,
+        description: cardText(source.snippet ?? source.description, 120),
+        href: source.url,
+      })),
+    });
+  }
+  return {
+    surfaceJson: { id: `research-${Date.now()}`, blocks },
+    summary: `I researched "${evidence.query}" and pulled together ${evidence.sources.length} real sources — the cards link out to each one.`,
+  };
+}
+
+/** Intents whose canned data is worse than real research when we have it. */
+const EVIDENCE_PREFERRED = new Set(["dashboard", "trip"]);
+
+/**
+ * Compose a surface for a prompt using the first matching intent. When
+ * evidence is available and the matched intent is exploratory (the generic
+ * dashboard or the canned trip planner), compose from evidence instead.
+ */
+export function composeLocalSurface(prompt: string, evidence?: EvidencePack | null): LocalComposition {
   const intent = INTENTS.find((candidate) => candidate.keywords.test(prompt)) ?? INTENTS[INTENTS.length - 1];
+  if (evidence && evidence.sources.length > 0 && EVIDENCE_PREFERRED.has(intent.id)) {
+    return composeFromEvidence(prompt, evidence);
+  }
   return {
     surfaceJson: {
       id: `local-${intent.id}-${Date.now()}`,

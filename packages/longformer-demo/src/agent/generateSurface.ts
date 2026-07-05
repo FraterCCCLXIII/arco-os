@@ -2,7 +2,9 @@
  * Surface generator — the demo's minimal agent loop.
  *
  * Given a chat prompt, produce a validated `GeneratedSurfaceSchema` plus a
- * conversational summary. Two engines, one contract:
+ * conversational summary. A research step (`researchTopic`) runs first and
+ * hands both engines an evidence pack of real pages, photos, and links to
+ * ground the surface in. Two engines, one contract:
  *
  * 1. **LLM engine** — used when a connection is configured (Connect API
  *    modal, persisted in localStorage; `VITE_LLM_*` env vars as fallback).
@@ -21,7 +23,8 @@ import {
   type GeneratedSurfaceSchema,
 } from "longformer-ui";
 import { getStoredConnection, isConnectionUsable, type LlmConnection } from "./connection";
-import { composeLocalSurface } from "./localComposer";
+import { composeLocalSurface, isSmallTalk } from "./localComposer";
+import { researchTopic, type EvidencePack } from "./research";
 
 export interface SurfaceGenerationResult {
   /** Validated surface; null when even the fallback failed (never in practice). */
@@ -37,6 +40,8 @@ export interface SurfaceGenerationResult {
    * instead — shown in the reply so failures are never silent.
    */
   fallbackReason?: string;
+  /** Research evidence the surface was grounded in, when the lookup succeeded. */
+  evidence?: EvidencePack;
   /** Validation messages for blocks the boundary rejected (logged, not fatal). */
   warnings: string[];
 }
@@ -49,6 +54,17 @@ function buildSystemPrompt(): string {
     "`summary` is one short conversational sentence. Every block needs a unique `id` and a `type` from this catalog:",
     describeBlockCatalog(),
     "Each card/item inside a block also needs a unique `id`. Use 1-3 blocks. Prefer statCards, cardGrid, taskChecklistCards, eventCards, insightCards, mediaCards, timelineSteps, selectionTiles, form.",
+    "URL rule: `image` and `href` fields may ONLY contain https URLs copied verbatim from the research evidence in the user message. Never invent, guess, or modify a URL. If no evidence is provided, omit image and href entirely.",
+  ].join("\n\n");
+}
+
+/** Append the evidence pack to the prompt so the model grounds URLs in it. */
+function buildUserMessage(prompt: string, evidence: EvidencePack | null): string {
+  if (!evidence) return prompt;
+  return [
+    prompt,
+    "Research evidence (real pages — use these titles, snippets, image URLs, and page URLs to fill blocks like mediaCards and insightCards):",
+    JSON.stringify(evidence.sources, null, 2),
   ].join("\n\n");
 }
 
@@ -65,6 +81,7 @@ function extractJson(text: string): string {
 async function generateWithLlm(
   prompt: string,
   connection: LlmConnection,
+  evidence: EvidencePack | null,
 ): Promise<{ summary: string; surfaceJson: unknown }> {
   const headers: Record<string, string> = { "Content-Type": "application/json" };
   if (connection.apiKey.trim()) headers.Authorization = `Bearer ${connection.apiKey.trim()}`;
@@ -77,7 +94,7 @@ async function generateWithLlm(
       temperature: 0.4,
       messages: [
         { role: "system", content: buildSystemPrompt() },
-        { role: "user", content: prompt },
+        { role: "user", content: buildUserMessage(prompt, evidence) },
       ],
     }),
   });
@@ -112,15 +129,19 @@ export async function generateSurface(prompt: string): Promise<SurfaceGeneration
   const connection = getStoredConnection();
   let fallbackReason: string | undefined;
 
+  // Research runs first, for both engines — small talk skips the round-trip.
+  // A null pack simply means both engines generate ungrounded, as before.
+  const evidence = isSmallTalk(prompt) ? null : await researchTopic(prompt);
+
   if (isConnectionUsable(connection)) {
     try {
-      const { summary, surfaceJson } = await generateWithLlm(prompt, connection);
+      const { summary, surfaceJson } = await generateWithLlm(prompt, connection, evidence);
       const { surface, issues } = parseGeneratedSurface(surfaceJson);
       const warnings = issues.map((issue) => `Block ${issue.index} (${issue.type ?? "?"}): ${issue.messages.join("; ")}`);
       // A surface with zero valid blocks is worse than the offline composer,
       // so only accept the LLM result when something actually validated.
       if (surface && surface.blocks.length > 0) {
-        return { surface, summary, engine: "llm", model: connection.model, warnings };
+        return { surface, summary, engine: "llm", model: connection.model, evidence: evidence ?? undefined, warnings };
       }
       console.warn("LLM surface failed validation, falling back to local composer", issues);
       fallbackReason = `${connection.model} replied, but none of its blocks passed validation.`;
@@ -130,13 +151,14 @@ export async function generateSurface(prompt: string): Promise<SurfaceGeneration
     }
   }
 
-  const local = composeLocalSurface(prompt);
+  const local = composeLocalSurface(prompt, evidence);
   const { surface, issues } = parseGeneratedSurface(local.surfaceJson);
   return {
     surface,
     summary: local.summary,
     engine: "local",
     fallbackReason,
+    evidence: evidence ?? undefined,
     warnings: issues.map((issue) => `Block ${issue.index} (${issue.type ?? "?"}): ${issue.messages.join("; ")}`),
   };
 }

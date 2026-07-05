@@ -48,6 +48,14 @@ const statCardVisualizationSchema: z.ZodType<StatCardVisualization> = z.discrimi
 
 const mediaCardToneSchema: z.ZodType<MediaCardTone> = z.enum(["accent", "success", "warning"]);
 
+/**
+ * URLs in generated blocks must be https — agents are untrusted, so this
+ * rules out `javascript:`, `data:`, and mixed-content http at the boundary.
+ */
+export const httpsUrlSchema = z
+  .string()
+  .refine((value) => /^https:\/\/\S+$/i.test(value), { message: "URL must be https" });
+
 const selectionTileSizeSchema: z.ZodType<SelectionTileSize> = z.enum(["sm", "md", "lg", "wide", "tall"]);
 
 const scheduleSlotToneSchema: z.ZodType<ScheduleSlotTone> = z.enum(["success", "warning", "accent"]);
@@ -90,9 +98,12 @@ export const mediaCardsBlockSchema: z.ZodType<BlockOf<"mediaCards">> = z.object(
       id: z.string(),
       title: z.string(),
       description: z.string().optional(),
+      image: httpsUrlSchema.optional(),
+      imageAlt: z.string().optional(),
       tone: mediaCardToneSchema.optional(),
       badges: z.array(z.object({ icon: iconNameSchema.optional(), label: z.string() })).optional(),
       actionLabel: z.string().optional(),
+      href: httpsUrlSchema.optional(),
     }),
   ),
 });
@@ -172,6 +183,7 @@ export const insightCardsBlockSchema: z.ZodType<BlockOf<"insightCards">> = z.obj
       label: z.string().optional(),
       title: z.string(),
       description: z.string().optional(),
+      href: httpsUrlSchema.optional(),
     }),
   ),
 });

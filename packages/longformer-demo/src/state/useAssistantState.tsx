@@ -121,7 +121,7 @@ export function useAssistantState() {
     const pendingMessage: ChatMessage = {
       id: pendingId,
       role: "agent",
-      content: "Designing a surface for that…",
+      content: "Researching and designing a surface for that…",
       timestamp: "Just now",
     };
     setAssistantTabMessages((prev) => ({
@@ -144,9 +144,30 @@ export function useAssistantState() {
             <p>{result.summary}</p>
             {result.surface && result.surface.blocks.length > 0 && (
               <ChatInlineSurface
-                label={result.engine === "llm" ? `Generated UI · ${result.model}` : "Generated UI · local engine"}
+                label={[
+                  "Generated UI",
+                  result.engine === "llm" ? result.model : "local engine",
+                  result.evidence ? "researched" : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · ")}
                 schema={result.surface}
               />
+            )}
+            {result.evidence && (
+              <p>
+                <small>
+                  Sources:{" "}
+                  {result.evidence.sources.slice(0, 4).map((source, index) => (
+                    <span key={source.url}>
+                      {index > 0 && " · "}
+                      <a href={source.url} target="_blank" rel="noreferrer">
+                        {source.title}
+                      </a>
+                    </span>
+                  ))}
+                </small>
+              </p>
             )}
           </>
         ),

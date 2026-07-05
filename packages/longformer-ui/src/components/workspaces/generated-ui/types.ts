@@ -16,10 +16,15 @@ export interface GeneratedMediaCard {
   id: string;
   title: string;
   description?: string;
-  /** Gradient tone used since agent-generated schemas carry no real photo assets. */
+  /** https photo URL (e.g. from agent research); falls back to the gradient tone. */
+  image?: string;
+  imageAlt?: string;
+  /** Gradient tone used when no real photo is available. */
   tone?: import("../../primitives/MediaCard").MediaCardTone;
   badges?: { icon?: import("../../../icons").IconName; label: string }[];
   actionLabel?: string;
+  /** https link the card's action opens (a real place online). */
+  href?: string;
 }
 
 export interface GeneratedListingCard {
@@ -134,6 +139,8 @@ export interface GeneratedInsightCard {
   label?: string;
   title: string;
   description?: string;
+  /** https link — renders the card as a clickable source reference. */
+  href?: string;
 }
 
 export interface GeneratedTimezoneCard {

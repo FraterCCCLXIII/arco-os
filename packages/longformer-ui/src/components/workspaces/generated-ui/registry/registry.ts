@@ -230,7 +230,8 @@ export const BLOCK_REGISTRY = {
   }),
   mediaCards: defineBlock({
     type: "mediaCards",
-    description: "Media/product cards with a gradient hero, badges, and an action button.",
+    description:
+      "Media/product cards with a photo hero (optional https `image` + `href` link per card), badges, and an action button.",
     family: "commerce",
     schema: mediaCardsBlockSchema,
     strict: true,
@@ -452,7 +453,8 @@ export const BLOCK_REGISTRY = {
   }),
   insightCards: defineBlock({
     type: "insightCards",
-    description: "Short labeled insight callouts with title and description.",
+    description:
+      "Short labeled insight callouts with title and description; optional https `href` makes a card a clickable source link.",
     family: "social",
     schema: insightCardsBlockSchema,
     strict: true,

@@ -10,11 +10,14 @@ export function MediaCardsBlock({ block }: { block: Extract<GeneratedBlock, { ty
         {block.cards.map((card) => (
           <MediaCard
             key={card.id}
+            image={card.image}
+            imageAlt={card.imageAlt ?? card.title}
             tone={card.tone}
             title={card.title}
             description={card.description}
             badges={card.badges}
-            actionLabel={card.actionLabel}
+            actionLabel={card.actionLabel ?? (card.href ? "Open" : undefined)}
+            onAction={card.href ? () => window.open(card.href, "_blank", "noreferrer") : undefined}
           />
         ))}
       </div>

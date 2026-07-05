@@ -8,6 +8,17 @@
   border: 1px solid var(--lf-border-subtle);
 }
 
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color var(--lf-duration-fast) var(--lf-ease);
+}
+
+.cardLink:hover {
+  border-color: var(--lf-border-strong);
+}
+
 .label {
   font-size: var(--lf-font-size-xs);
   font-weight: 600;
