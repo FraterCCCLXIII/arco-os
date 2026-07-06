@@ -18,8 +18,8 @@ Local shallow clones of open-source projects we study while designing Longformer
 | [`adaptive-ui/`](adaptive-ui/) | [androidx/androidx](https://github.com/androidx/androidx) + [android/adaptive-apps-samples](https://github.com/android/adaptive-apps-samples) | Material 3 Adaptive Compose — `adaptive`, `adaptive-layout`, `adaptive-navigation` source + canonical layout samples |
 | [`generative-ui/`](generative-ui/) | Papers + [ag-ui-protocol/ag-ui](https://github.com/ag-ui-protocol/ag-ui) + saved docs | Generative UI research (Chen 2025, Macaron-A2UI), AG-UI protocol source, AI SDK + Google A2UI v0.9 snapshots |
 | [`crewai/`](crewai/) | [crewaiinc/crewai](https://github.com/crewaiinc/crewai) | Multi-agent orchestration framework — crews, flows, tasks, tools, role-based agent collaboration |
-| [`vscode/`](vscode/) | [microsoft/vscode](https://github.com/microsoft/vscode) | Workbench shell architecture — parts/grid layout, view registries, chat content parts, commands/context keys, color registry (see [`vscode.guide.md`](vscode.guide.md)) |
 | [`vscode/`](vscode/) | [microsoft/vscode](https://github.com/microsoft/vscode) | Workbench shell (activity bar, sidebar, editor, panel, auxiliary bar), views/contribution model, command palette & quick pick, Monaco host, chat & inline AI UI — see [`vscode.guide.md`](vscode.guide.md) |
+| [`joplin/`](joplin/) | [laurent22/joplin](https://github.com/laurent22/joplin) | Privacy-focused note-taking — notebook/sidebar organization, Markdown editor, offline-first sync, plugin system, Electron + React Native cross-platform apps |
 
 ## Refresh a clone
 
