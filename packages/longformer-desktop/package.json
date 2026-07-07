@@ -1,0 +1,14 @@
+{
+  "name": "longformer-desktop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Thin Electron shell for the Longformer demo — loads the Vite app in a native window.",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^35.0.0"
+  }
+}

@@ -12,3 +12,9 @@ body,
 .lf-app-root {
   height: 100%;
 }
+
+/* Electron shell — reserve space for the fixed in-app title bar. */
+html[data-electron] .lf-app-root {
+  box-sizing: border-box;
+  padding-top: var(--lf-electron-titlebar-height, 38px);
+}

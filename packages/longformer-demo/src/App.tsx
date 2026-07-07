@@ -8,7 +8,7 @@
  * When the real agent backend lands, it replaces slices — not this shell.
  */
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
   AppShell,
   NavRail,
@@ -29,6 +29,8 @@ import {
   type SurfaceWindow,
 } from "longformer-ui";
 import { ConnectApiModal } from "./components/ConnectApiModal";
+import { ElectronTitleBar } from "./components/ElectronTitleBar";
+import { isLongformerDesktop } from "./lib/desktopBridge";
 import { primaryUser } from "./demo-personas";
 import { demoDiffHunks } from "./mock-data/context-drawer";
 import { desktopIcons } from "./mock-data/desktop";
@@ -63,6 +65,9 @@ import {
 function LongformerApp() {
   const { setTheme, theme } = useTheme();
   const { workspaceId, setWorkspaceId } = useWorkspaceNavigation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isDesktopHost = isLongformerDesktop();
 
   // -------------------------------------------------------------------------
   // Domain state slices
@@ -87,6 +92,7 @@ function LongformerApp() {
   // enough to stay here: it belongs to the shell itself, not to a workspace.
   // -------------------------------------------------------------------------
   const [navRailExpanded, setNavRailExpanded] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [contextDrawerOpen, setContextDrawerOpen] = useState(true);
   const [contextDrawerTab, setContextDrawerTab] = useState<ChatContextDrawerTab>("browser");
   const [contextPanelWidth, setContextPanelWidth] = useState(400);
@@ -284,12 +290,32 @@ function LongformerApp() {
 
   const hideInlineRail = workspaceId === "desktop" && desktop.desktopFullscreen;
 
+  const canGoBack = useMemo(() => (window.history.state?.idx ?? 0) > 0, [location.key]);
+  const activeWorkspaceLabel = WORKSPACES.find((item) => item.id === workspaceId)?.label ?? "Untitled";
+  const activeChatTab = chat.chatTabs.find((tab) => tab.id === chat.activeChatTabId);
+  const electronTitle =
+    workspaceId === "chat" && activeChatTab
+      ? `${activeChatTab.label} (Workspace)`
+      : `${activeWorkspaceLabel} (Workspace)`;
+
   return (
     <>
+      {isDesktopHost && (
+        <ElectronTitleBar
+          title={electronTitle}
+          sidebarVisible={Boolean(sidebar) && !sidebarCollapsed}
+          onToggleSidebar={() => setSidebarCollapsed((value) => !value)}
+          canGoBack={canGoBack}
+          canGoForward
+          onBack={() => navigate(-1)}
+          onForward={() => navigate(1)}
+        />
+      )}
       <AppShell
         rail={hideInlineRail ? undefined : rail}
         railResizable={navRailExpanded}
         sidebar={sidebar}
+        sidebarCollapsed={sidebarCollapsed}
         main={main}
         contextPanel={
           contextPanelOpen ? (
@@ -348,7 +374,7 @@ function LongformerApp() {
         {rail}
       </HoverNavRail>
       <HoverStatusBar
-        enabled={workspaceId !== "desktop"}
+        enabled={!isDesktopHost && workspaceId !== "desktop"}
         shell={desktop.surface.shell}
         status={{
           wifi: true,

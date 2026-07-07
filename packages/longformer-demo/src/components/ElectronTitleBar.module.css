@@ -1,0 +1,125 @@
+.bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10000;
+  height: var(--lf-electron-titlebar-height, 38px);
+  min-height: var(--lf-electron-titlebar-height, 38px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--lf-space-3);
+  background: var(--lf-surface-2);
+  border-bottom: 1px solid var(--lf-border-subtle);
+  color: var(--lf-text-secondary);
+  font-size: var(--lf-font-size-sm);
+  font-weight: 600;
+  user-select: none;
+  -webkit-app-region: drag;
+  app-region: drag;
+}
+
+.darwin {
+  padding-left: 78px;
+  justify-content: flex-start;
+}
+
+.leading {
+  position: absolute;
+  left: 78px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+.darwin .leading {
+  left: 78px;
+}
+
+.win32 .leading,
+.linux .leading {
+  left: var(--lf-space-2);
+}
+
+.title {
+  flex: 1;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: min(480px, calc(100vw - 220px));
+  pointer-events: none;
+  color: var(--lf-text-tertiary);
+}
+
+.darwin .title {
+  text-align: center;
+  margin-right: 78px;
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: var(--lf-radius-md);
+  background: transparent;
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}
+
+.iconButton:hover {
+  background: var(--lf-surface-hover);
+  color: var(--lf-text-primary);
+}
+
+.iconButton:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.iconButton:disabled:hover {
+  background: transparent;
+  color: var(--lf-text-secondary);
+}
+
+.sidebarIcon {
+  transform: scaleX(-1);
+}
+
+.controls {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: stretch;
+  height: 100%;
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+.control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 100%;
+  border: none;
+  background: transparent;
+  color: var(--lf-text-secondary);
+  cursor: pointer;
+}
+
+.control:hover {
+  background: var(--lf-surface-hover);
+}
+
+.controlClose:hover {
+  background: var(--lf-danger);
+  color: #fff;
+}
