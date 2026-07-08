@@ -2,7 +2,7 @@
 
 > Synthesis of a full review of every reference in this folder (July 2026), mapped to Longformer's architecture (`DESIGN-SYSTEM-SPEC.md` decisions D1–D10, `Project-planning.md` north star). Organized by product area, not by repo. Each area ends with the concrete things to adopt.
 
-**Repos reviewed:** agent-canvas, hermes-webui, openclaw-os, openui, nemoclaw, nanoclaw, puter, matrix-os, adaptive-ui (AndroidX + samples), shadcn-ui, generative-ui (AG-UI + papers + docs), crewai, vscode (§15 addendum).
+**Repos reviewed:** agent-canvas, hermes-webui, openclaw-os, openui, nemoclaw, nanoclaw, puter, matrix-os, adaptive-ui (AndroidX + samples), shadcn-ui, generative-ui (AG-UI + papers + docs), crewai, vscode (§15 addendum), openscience (§16 addendum).
 
 ---
 
@@ -23,6 +23,7 @@
 13. [Anti-patterns catalog](#13-anti-patterns-catalog)
 14. [Priority roadmap](#14-priority-roadmap)
 15. [VS Code addendum](#15-vs-code-addendum)
+16. [OpenScience addendum](#16-openscience-addendum)
 
 ---
 
@@ -350,6 +351,142 @@ Central command registry with `when` expressions + keybinding weights + quick-in
 ### 15.8 Do not import
 
 Custom grid engine, imperative DOM widget system, `createDecorator` DI (use React context/hooks), the extension-host process model (Workers only when sandboxing demands), Monaco-coupled chat input, 30 content kinds on day one.
+
+---
+
+---
+
+## 16. OpenScience addendum
+
+Reviewed July 2026 (`openscience/`, [synthetic-sciences/openscience](https://github.com/synthetic-sciences/openscience)). OpenScience is a **local-first Bun monolith** — CLI embeds a SolidJS workspace, runs the agent loop in-process, and ships a deep scientific domain layer. It is **not** a substitute for the Longformer shell or OpenClaw gateway; it is the strongest reference for **research-grade tooling** to extract surgically.
+
+### 16.1 What it is
+
+```
+openscience (CLI binary)
+  └── Hono server @ 127.0.0.1
+        ├── Agent runtime (sessions, tool loop, compaction, provenance)
+        ├── 43 scientific DB connectors via 2 stable tools
+        ├── 292 bundled skills (biology, ml-training, physics, writing, …)
+        ├── MCP client + plugin hooks
+        └── SolidJS workspace (file tree, terminal, chat, science renderers)
+```
+
+Apache-2.0. Model-agnostic BYOK (75+ providers via models.dev) with optional Atlas managed billing. **Not sandboxed** — permissions are awareness, not isolation (`SECURITY.md`).
+
+### 16.2 Overlap with Longformer
+
+| Longformer pillar | OpenScience | Verdict |
+|---|---|---|
+| Shell / workspaces | Single research session page (sidebar \| chat \| right pane) | Pattern reference only — SolidJS, not React; one surface, not 35 workspaces |
+| Agent UX | Chat + composer + permission prompts + subagents | Strong overlap with Hermes/Agent Canvas patterns |
+| Generative UI | Inline science artifact renderers in tool output | **Different axis** — specialized viewers, not OpenUI `app_create` |
+| MCP | Full client (stdio/SSE/HTTP) + settings UI | Direct overlap — already on Longformer roadmap |
+| Skills | 292 research `SKILL.md` bundles + on-demand `skill` tool | Same concept as Extensions workspace; different catalog |
+| Entity graph | Provenance DAG (`artifact`/`run`/`source`/`claim`) + optional Atlas ThesisCanvas | Complements (not replaces) the work-graph entity model |
+| Automations | RSI skill learning; no first-class cron inbox | Longformer keeps OpenClaw crons + CrewAI-style flows |
+
+### 16.3 Seriously integrate (P1–P2)
+
+**1. Scientific connector layer** — highest leverage, lowest coupling.
+
+OpenScience registers 43 DBs (UniProt, PDB, Ensembl, ChEMBL, PubChem, arXiv, OpenAlex, Semantic Scholar, …) behind a flat tool surface: only `science_list_dbs` + `science_search` (`backend/cli/src/tool/science.ts`, `science/connectors/`). The connector registry pattern keeps tool count constant as sources grow.
+
+**Action:** Port connectors as an **OpenClaw MCP server** or gateway plugin (`openscience-science-mcp`). Expose the same two-tool API so any agent can query literature and databases without importing the full OpenScience runtime.
+
+**2. Provenance DAG** — fills a gap in the work graph for research/code artifacts.
+
+Content-addressed lineage graph: nodes (`artifact`, `run`, `source`, `claim`), edges (`produced`, `consumed`, `derived-from`, `supports`, `refutes`) in `science/provenance/store.ts`. Agent tools: `provenance_record`, `provenance_query`, `provenance_review` (`tool/provenance.ts`).
+
+**Action:** Adopt the schema for **Orchestrator / Code / Research** workspaces. Map Longformer entities (`Run`, `Note`, `File`) onto provenance nodes so agent actions leave an auditable trail — aligns with D10 audit stream.
+
+**3. Curated skills pack** — not all 292.
+
+High-value subsets: `research/` (literature-review, hypothesis-generation, peer-review), `writing/` (scientific-writing, citation-management), `visualization/` (matplotlib, plotly), selected `ml-training/` (peft, deepspeed, lm-evaluation-harness). Resolution order in `docs/notes/skills.md` mirrors Longformer's Extensions model.
+
+**Action:** Import ~20–40 skills into `.openscience/skills/` or OpenClaw skill paths; gate cloud-compute skills (Modal, Tinker) behind capability tokens.
+
+**4. Science renderers as Generated UI blocks** — if/when a Research workspace ships.
+
+Inline viewers in `frontend/workspace/src/science/renderers/`: molstar (protein), RDKit (2D chem), igv.js (genomics), KaTeX (LaTeX), pdfjs. Registry pattern in `science/renderers/registry.ts`.
+
+**Action:** Port as **Tier-2 generated blocks** in the Longformer registry (D5) — `ScienceArtifact` dispatcher → block components keyed by artifact kind. Do not port the SolidJS shell.
+
+**5. Credential hygiene for bash/subprocess tools.**
+
+`OpenScience.subprocessEnv()` strips managed secrets from subprocess env; `redactSecrets()` masks keys in bash output (`openscience/index.ts`, `tool/bash.ts`).
+
+**Action:** Port to OpenHands/bash tool path in Code workspace — cheap D10 win.
+
+**6. Blind reviewer gate** — optional post-turn audit.
+
+`session/review.ts`: on finalize, spawns a blind child session (`reviewer` / `physics-critique` / `critique`), appends markdown footer. Off by default (`experimental.reviewGate`). Non-blocking — annotate-only, not a hard gate.
+
+**Action:** Offer as an **optional agent profile hook** for research-heavy sessions; distinct from D10 confirmation gates (propose-vs-act).
+
+**7. Compaction + tool-output pruning** — reference for long tool-heavy sessions.
+
+`session/compaction.ts` auto-compacts on context overflow; prunes old tool outputs while protecting `skill`/`artifact` results. Plugin hook: `experimental.session.compacting`.
+
+**Action:** Study pruning rules when implementing OpenClaw session compaction — especially preserving structured tool metadata.
+
+### 16.4 Reference only (patterns, don't merge runtime)
+
+| Asset | Why reference | Key paths |
+|---|---|---|
+| SolidJS workspace UI | Longformer is React; full rewrite | `frontend/workspace/src/pages/session.tsx` |
+| Full agent runtime | Conflicts with OpenClaw as system of record | `session/prompt.ts` |
+| Provider routing / models.dev | Duplicate OpenClaw provider config | `provider/provider.ts` |
+| Atlas billing / ThesisCanvas | Tied to Synthetic Sciences cloud | `thesis/ThesisCanvas.tsx`, `session/billing-gate.ts` |
+| Monolithic Bun server | Longformer composes engines, not one binary | `ARCHITECTURE.md` |
+| Plan mode agent | Read-only agent writing `.openscience/plans/*.md` | `agent/agent.ts` — good UX pattern for Longformer "plan" profile |
+
+### 16.5 Avoid
+
+| Asset | Why |
+|---|---|
+| Replace OpenClaw with OpenScience backend | Different session model, no multi-channel, no `app_create`/crons |
+| Swap Longformer shell for OpenScience UI | Loses 35 workspaces, Desktop, SurfaceManager |
+| Import all 292 skills wholesale | Maintenance + many need Atlas/GPU credentials |
+| Treat permissions as security boundary | Both projects agree: run in container/VM for isolation |
+| Adopt SSE-only client as primary transport | Longformer standardizes on OpenClaw WebSocket |
+
+### 16.6 Suggested integration topology
+
+```
+Longformer shell (React)
+  └── OpenClaw gateway
+        ├── openscience-science-mcp     ← 43 DB connectors (2-tool API)
+        ├── openscience-skills-pack     ← curated SKILL.md subset
+        ├── provenance-plugin           ← DAG record/query tools
+        └── optional reviewer-hook      ← post-turn blind audit
+
+Code workspace (OpenHands embed)  ← keep for sandboxed coding
+Science notebook/bash             ← reference only; host shell unsafe OS-wide
+```
+
+### 16.7 Priority spike files
+
+1. `backend/cli/src/science/connectors/index.ts` — registry entry
+2. `backend/cli/src/tool/science.ts` — minimal tool API to replicate
+3. `backend/cli/src/science/provenance/store.ts` — DAG persistence
+4. `backend/cli/src/session/review.ts` — reviewer gate
+5. `backend/cli/skills/research/` + `writing/` + `visualization/` — skill subsets
+6. `frontend/workspace/src/science/renderers/` — block port candidates
+7. `tooling/plugin/src/index.ts` — hook surface if wrapping as plugin
+8. `docs/notes/skills.md` — skill resolution semantics
+
+### 16.8 Roadmap placement
+
+| Item | Priority | Depends on |
+|---|---|---|
+| Science MCP server (connectors) | **P1** | OpenClaw MCP config |
+| Credential subprocess filtering | **P1** | Code workspace bash tool |
+| Provenance DAG in entity store | **P2** | Unified entity model |
+| Curated skills pack | **P2** | Extensions workspace |
+| Science renderer blocks | **P2** | Registry v0 (D5) |
+| Blind reviewer hook | **P3** | Agent profile system |
+| Compaction pruning rules | **P3** | Session compaction |
 
 ---
 

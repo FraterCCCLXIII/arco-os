@@ -20,6 +20,7 @@ Local shallow clones of open-source projects we study while designing Longformer
 | [`crewai/`](crewai/) | [crewaiinc/crewai](https://github.com/crewaiinc/crewai) | Multi-agent orchestration framework — crews, flows, tasks, tools, role-based agent collaboration |
 | [`vscode/`](vscode/) | [microsoft/vscode](https://github.com/microsoft/vscode) | Workbench shell (activity bar, sidebar, editor, panel, auxiliary bar), views/contribution model, command palette & quick pick, Monaco host, chat & inline AI UI — see [`vscode.guide.md`](vscode.guide.md) |
 | [`joplin/`](joplin/) | [laurent22/joplin](https://github.com/laurent22/joplin) | Privacy-focused note-taking — notebook/sidebar organization, Markdown editor, offline-first sync, plugin system, Electron + React Native cross-platform apps |
+| [`openscience/`](openscience/) | [synthetic-sciences/openscience](https://github.com/synthetic-sciences/openscience) | Open-source AI research workbench — 43 scientific DB connectors, 290+ skills, provenance DAG, inline science renderers (molstar/RDKit/igv), domain agents (research/biology/physics/ml), MCP + plugin runtime |
 
 ## Refresh a clone
 
